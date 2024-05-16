@@ -1,6 +1,12 @@
 import express from "express";
 
+// Config imports
+import expressConfig from "./config/express.config";
+
 const app: express.Application = express();
+
+// Express Configs
+expressConfig(app);
 
 app.get("/", (req: express.Request, res: express.Response) => {
     res.status(200).json({

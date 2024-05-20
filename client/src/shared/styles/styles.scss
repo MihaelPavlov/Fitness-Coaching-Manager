@@ -1,0 +1,37 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@use "./palette";
+
+@import "./palette";
+@import './utilities';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $main-background-color;
+  color: $main-font-black-color;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #0060B6;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #00A0C6;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}

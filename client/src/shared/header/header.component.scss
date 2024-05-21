@@ -1,0 +1,32 @@
+@import "../styles/palette";
+@import "../styles/utilities";
+
+h1 {
+    color: $main-blue-darker-color;
+    margin-left: $spacing-6;
+    font-size: 2rem;
+}
+
+div {
+    a {
+        color: $main-blue-darker-color;
+        margin: 0 $spacing-3;
+        font-size: 1.2rem;
+    }
+
+    a:nth-child(2) {
+        margin-right: $spacing-6;
+    }
+}
+
+@media (min-width: 500px) {
+    .mobile {
+        display: none;
+    }
+}
+
+@media (max-width: 500px) {
+    .desktop {
+        display: none;
+    }
+}

@@ -1,17 +1,25 @@
-<nav class="d-flex align-items-center justify-content-between">
-    <ng-container>
-        <!-- If not authenticated -->
+<nav class="d-flex align-items-center justify-content-between"> 
+
+    <ng-container *ngIf="!isAuth">
         <h1 class="uppercase mobile">ath</h1>
         <h1 class="uppercase desktop">athleans | fit</h1>
 
-        <div>
+        <section class="authenticated">
             <a href="">Register</a>
             <a href="">Login</a>
-        </div>
+        </section>
     </ng-container>
 
-    <ng-container>
-        <!-- TODO: If authenticated -->
+    <ng-container *ngIf="isAuth">
+        <h1 class="uppercase mobile">ath</h1>
+        <h1 class="uppercase desktop">athleans | fit</h1>
+
+        <h3 class="mobile">page name</h3>
+        <h3 class="menu mobile">...</h3>
+
+   
+        <h2 class="username desktop ml-auto">Username</h2>
+        <h3 class="menu desktop">|||</h3>
     </ng-container>
 
 </nav>

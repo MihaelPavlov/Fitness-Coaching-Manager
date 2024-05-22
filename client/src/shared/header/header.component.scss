@@ -7,7 +7,7 @@ h1 {
     font-size: 2rem;
 }
 
-div {
+.authenticated {
     a {
         color: $main-blue-darker-color;
         margin: 0 $spacing-3;
@@ -19,14 +19,37 @@ div {
     }
 }
 
-@media (min-width: 500px) {
+@media (min-width: 601px) {
     .mobile {
         display: none;
     }
+
+    nav {
+        background-color: $main-blue-color;
+
+        h1, h2, h3 {
+            color: $main-font-white-color;
+        }
+    }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
     .desktop {
         display: none;
     }
+    
+    .menu {
+        color: $main-blue-darker-color;
+    }
+}
+
+// auth user
+.menu {
+    margin-right: $spacing-6;
+    transform: rotate(90deg);
+    font-size: 2rem;
+}
+
+.username {
+    margin-right: $spacing-5;
 }

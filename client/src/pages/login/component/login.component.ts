@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { InputType } from '../../../shared/enums/input-types.enum';
 
 @Component({
   selector: 'app-login',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  public InputType = InputType;
 }

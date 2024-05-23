@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { InputType } from '../../../shared/enums/input-types.enum';
 
 @Component({
   selector: 'app-input',
@@ -8,5 +9,6 @@ import { Component, Input } from '@angular/core';
 export class InputComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
-  @Input() type: string = '';
+  @Input() type: InputType = InputType.Text;
+  @Input() name: string = '';
 }

@@ -1,5 +1,5 @@
-require("ts-node/register")
-const configs = require("./../config/db-config");
+require("ts-node/register");
+const configs = require("../config/db.config");
 
 module.exports = {
   username: configs.DB_USERNAME,
@@ -7,5 +7,5 @@ module.exports = {
   database: configs.DB_NAME,
   host: configs.DB_HOST,
   dialect: "mysql",
-  port: 3306
-}
+  port: 3306,
+};

@@ -4,10 +4,13 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc",
-    "prestart": "npm run build",
-    "start": "node ."
+    "start": "ts-node src/index.ts",
+    "create-db": "ts-node src/createDatabase.ts",
+    "model:create": "npx sequelize-cli model:generate",
+    "migrate": "npx sequelize-cli db:migrate",
+    "migrate:undo": "npx sequelize-cli db:migrate:undo",
+    "migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+    "migration:generate": "npx sequelize-cli migration:generate"
   },
   "keywords": [],
   "author": "",

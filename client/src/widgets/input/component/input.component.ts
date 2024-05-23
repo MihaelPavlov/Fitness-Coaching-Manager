@@ -9,4 +9,7 @@ export class InputComponent {
   @Input() label: string = '';
   @Input() placeholder: string = '';
   @Input() type: string = '';
+  //Style Decorators
+  @Input() textColor: string = '';
+  @Input() backgroundColor: string = '';
 }

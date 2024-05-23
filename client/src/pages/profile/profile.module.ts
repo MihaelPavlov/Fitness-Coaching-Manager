@@ -2,21 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from '../../widgets/button/button.module';
 import { InputModule } from '../../widgets/input/input.module';
-import { LoginComponent } from './component/login.component';
-import { LinkModule } from '../../widgets/link/link.module';
+import { ProfileComponent } from './component/profile.component';
+import { TagModule } from '../../widgets/tag/tag.module';
 
 @NgModule({
     declarations: [
-        LoginComponent
+        ProfileComponent
     ],
     imports: [
         CommonModule,
         ButtonModule,
         InputModule,
-        LinkModule
+        TagModule
     ],
     exports:[
-        LoginComponent
+        ProfileComponent
     ]
 })
-export class LoginModule { }
+export class ProfileModule { }

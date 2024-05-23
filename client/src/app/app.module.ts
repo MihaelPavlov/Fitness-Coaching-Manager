@@ -6,12 +6,13 @@ import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
 import { LoginModule } from '../pages/login/login.module';
+import { ProfileModule } from '../pages/profile/profile.module';
 
 @NgModule({
     declarations: [AppComponent],
     exports: [BrowserModule, BrowserAnimationsModule],
     providers: [],
     bootstrap: [AppComponent],
-    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LoginModule]
+    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LoginModule,ProfileModule]
 })
 export class AppModule { }

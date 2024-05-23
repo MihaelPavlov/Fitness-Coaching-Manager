@@ -1,0 +1,69 @@
+<div class="profile-container">
+
+    <h1 class="profile-container__main-heading">Profile</h1>
+
+    <div class="profile-container__img-container">
+        <img class="profile-container__img-container-img"
+            src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            alt="Img">
+    </div>
+
+    <p class="profile-container__profile-name">Mihael Pavlov</p>
+
+    <div class="profile-container__tags">
+        <app-tag text="Gym"></app-tag>
+        <app-tag text="Back"></app-tag>
+        <app-tag text="Legs"></app-tag>
+    </div>
+
+    <div class="profile-container__inforamtion-container">
+        <div class="profile-container__inforamtion-container-box">
+            <p class="profile-container__inforamtion-container-box-data">18</p>
+            <p class="profile-container__inforamtion-container-box-label">BMI</p>
+        </div>
+        <div class="profile-container__inforamtion-container-box">
+            <p class="profile-container__inforamtion-container-box-data">100</p>
+            <p class="profile-container__inforamtion-container-box-label">Total Workouts</p>
+        </div>
+        <div class="profile-container__inforamtion-container-box">
+            <p class="profile-container__inforamtion-container-box-data">90</p>
+            <p class="profile-container__inforamtion-container-box-label">Weight</p>
+        </div>
+        <div class="profile-container__inforamtion-container-box">
+            <p class="profile-container__inforamtion-container-box-data">100</p>
+            <p class="profile-container__inforamtion-container-box-label">Weight Goal</p>
+        </div>
+    </div>
+
+    <div class="profile-container__level-container">
+        <p class="profile-container__level-container-level">Intermediate</p>
+        <p class="profile-container__level-container-label">Fitness Level</p>
+    </div>
+
+    <div class="profile-container__inputs-grid-container">
+        <div class="profile-container__inputs-grid-container-first-item">
+            <h2>Personal Information</h2>
+        </div>
+
+        <div class="profile-container__inputs-grid-container-input-item">
+            <app-input label="Last Name" type="text" placeholder="Last Name" [textColor]="'#475f93'" [backgroundColor]="'#ffffff'"></app-input>
+            <app-input label="First Name" type="text" placeholder="First Name" [textColor]="'#475f93'" [backgroundColor]="'#ffffff'"></app-input>
+        </div>
+
+
+        <div class="profile-container__inputs-grid-container-input-item">
+            <app-input label="Date of Birth" type="password" placeholder="Date of Birth" [textColor]="'#475f93'" [backgroundColor]="'#ffffff'"></app-input>
+            <app-input label="Email" type="password" placeholder="Email" [textColor]="'#475f93'" [backgroundColor]="'#ffffff'"></app-input>
+        </div>
+
+
+        <div class="profile-container__inputs-grid-container-input-item">
+            <app-input label="Weight Goal" type="text" placeholder="Weight Goal" [textColor]="'#475f93'" [backgroundColor]="'#ffffff'"></app-input>
+            <app-input label="Weight" type="password" placeholder="Weight" [textColor]="'#475f93'" [backgroundColor]="'#ffffff'"></app-input>
+        </div>
+
+        <div class="profile-container__inputs-grid-container-last-item">
+            <app-button text="Edit" padding=".5rem 5.5rem" hoverTextColor="#475f93" hoverBackgroundColor="#ffffff"></app-button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+.link {
+    transition: all .4s;
+    display: inline-block;
+    
+    &:link,
+    &:visited {
+        color: #475f93;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: .8rem;
+    }
+
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    &:active {
+        transform: translate(0);
+    }
+}

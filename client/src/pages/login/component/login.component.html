@@ -18,13 +18,13 @@
             </div>
 
             <div class="login-form__elements__buttons">
-                <app-button></app-button>
+                <app-button text="Sign In" [fullWidth]="true" hoverBackgroundColor="#eceef3" hoverTextColor="#475f93"></app-button>
             </div>
         </div>
 
         <div class="login-form__links">
-            <a class="login-form__links-text" href="#">Forgot Username / Password?</a>
-            <a class="login-form__links-text" href="#">Don't have an account? Sign up</a>
+            <app-link text="Forgot Username / Password?"></app-link>
+            <app-link text="Don't have an account? Sign up"></app-link>
         </div>
     </form>
 </div>

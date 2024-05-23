@@ -1,6 +1,6 @@
 .button {
     display: inline-block;
-    width: 100%;
+    width: width;
     background-color: #475f93;
     color: #eceef3;
     text-transform: uppercase;
@@ -14,8 +14,8 @@
 
     &:hover {
         cursor: pointer;
-        color: #475f93;
-        background-color: #eceef3;
+        color: var(--hoverTextColor);
+        background-color: var(--hoverBackgroundColor);
         transform: scale(1.1);
     }
 }

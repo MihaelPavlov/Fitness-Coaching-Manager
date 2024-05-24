@@ -7,5 +7,5 @@ module.exports = {
   database: configs.DB_NAME,
   host: configs.DB_HOST,
   dialect: "mysql",
-  port: 3306,
+  port: configs.DB_PORT,
 };

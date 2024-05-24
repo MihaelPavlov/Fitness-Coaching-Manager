@@ -8,3 +8,5 @@ export const DB_PASSWORD = "admin56Mn7=33Zz";
 export const DB_NAME = "athleans-app";
 
 export const DB_HOST = "localhost";
+
+export const PORT = 3306;

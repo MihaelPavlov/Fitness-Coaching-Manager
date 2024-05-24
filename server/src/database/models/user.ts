@@ -2,16 +2,16 @@ import { DataTypes, Model } from "sequelize";
 import connection from "./../connection";
 
 class User extends Model {
-  public id!: number;
-  public first_name!: string;
-  public last_name!: string;
+  public readonly id!: number;
+  public first_name!: string | null;
+  public last_name!: string | null;
   public username!: string;
   public email!: string;
   public password!: string;
-  public profile_picture_url!: string;
-  public country!: string;
+  public profile_picture_url!: string | null;
+  public country!: string | null;
   public languages!: string;
-  public phone_number!: string;
+  public phone_number!: string | null;
   public user_role!: number;
   public visible!: number;
   public date_created!: Date;
@@ -48,7 +48,7 @@ User.init({
   profile_picture_url: {
     type: DataTypes.STRING(255),
     allowNull: true,
-    defaultValue: true
+    defaultValue: null
   },
   country: {
     type: DataTypes.STRING(45),

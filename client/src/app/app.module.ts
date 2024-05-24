@@ -6,6 +6,7 @@ import { RouterOutlet } from '@angular/router';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
 import { HeaderComponent } from '../shared/header/header.component';
+import { FooterComponent } from '../shared/footer/footer.component';
 
 @NgModule({
     declarations: [AppComponent],
@@ -19,7 +20,8 @@ import { HeaderComponent } from '../shared/header/header.component';
         HttpClientModule, 
         BrowserModule, 
         RouterOutlet,
-        HeaderComponent
+        HeaderComponent,
+        FooterComponent
     ]
 })
 export class AppModule {}

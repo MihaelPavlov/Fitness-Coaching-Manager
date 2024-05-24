@@ -1,0 +1,73 @@
+@import "../styles/_palette";
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    padding: 1rem;
+    list-style-type: none;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+footer {
+    width: 100%;
+    position: fixed;
+    background-color: $main-background-color;
+}
+
+.workouts span {
+    transform: rotate(45deg);
+}
+
+.builders span {
+    transform: rotate(270deg)
+}
+
+@media (max-width: 600px) {
+    footer {
+        bottom: 0;
+        left: 0;
+    }
+
+    span {
+        display: block;
+        text-align: center;
+    }
+
+    // .workouts::before {
+    //     display: block;
+    //     text-rendering: auto;
+    //     -webkit-font-smoothing: antialiased;
+    //     font: var(--fa-font-solid);
+    //     content: '\f4bb';
+    //     font-size: 2.5rem;
+    // }
+}
+
+@media (min-width: 601px) {
+    footer {
+        width: fit-content;
+        right: 0;
+    }
+
+    ul {
+        flex-direction: column;
+        height: 100%;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    li span {
+        font-size: 1.5rem;
+    }
+}

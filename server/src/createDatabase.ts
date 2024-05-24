@@ -4,7 +4,7 @@ import * as configs from "./config/db.config";
 async function createDatabase() {
   const connection = await createConnection({
     host: configs.DB_HOST,
-    port: configs.PORT,
+    port: configs.DB_PORT,
     user: configs.DB_USERNAME,
     password: configs.DB_PASSWORD,
   });

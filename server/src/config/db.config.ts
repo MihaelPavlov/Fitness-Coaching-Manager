@@ -9,4 +9,4 @@ export const DB_NAME = "athleans-app";
 
 export const DB_HOST = "localhost";
 
-export const PORT = 3306;
+export const DB_PORT = 3306;

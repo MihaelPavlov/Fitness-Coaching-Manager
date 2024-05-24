@@ -7,6 +7,10 @@ h1 {
     font-size: 2rem;
 }
 
+.auth {
+    color: $main-font-white-color;
+}
+
 .authenticated {
     a {
         color: $main-blue-darker-color;
@@ -17,6 +21,10 @@ h1 {
     a:nth-child(2) {
         margin-right: $spacing-6;
     }
+
+    h1 {
+        color: $main-blue-darker-color;
+    }
 }
 
 @media (min-width: 601px) {
@@ -24,10 +32,17 @@ h1 {
         display: none;
     }
 
-    nav {
-        background-color: $main-blue-color;
+    // nav {
+    //     background-color: $main-blue-color;
+    //     .desktop-white {
+    //         color: $main-font-white-color;
+    //     }
 
-        h1, h2, h3 {
+    // }
+
+    .isAuth {
+        background-color: $main-blue-color;
+        .desktop-white {
             color: $main-font-white-color;
         }
     }
@@ -37,7 +52,7 @@ h1 {
     .desktop {
         display: none;
     }
-    
+
     .menu {
         color: $main-blue-darker-color;
     }

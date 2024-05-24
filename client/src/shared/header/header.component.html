@@ -1,6 +1,7 @@
-<nav class="d-flex align-items-center justify-content-between"> 
+<nav class="d-flex align-items-center justify-content-between isNotAuth"> 
 
-    <ng-container *ngIf="!isAuth">
+    <!-- TODO: navigation background color (blue) for desktop needs to be removed when user is not logged in -->
+    <ng-container *ngIf="!isAuth" class="unauth">
         <h1 class="uppercase mobile">ath</h1>
         <h1 class="uppercase desktop">athleans | fit</h1>
 
@@ -9,17 +10,20 @@
             <a href="">Login</a>
         </section>
     </ng-container>
+</nav>
+
+<nav class="d-flex align-items-center justify-content-between isAuth"> 
 
     <ng-container *ngIf="isAuth">
         <h1 class="uppercase mobile">ath</h1>
-        <h1 class="uppercase desktop">athleans | fit</h1>
+        <h1 class="uppercase desktop desktop-white">athleans | fit</h1>
 
         <h3 class="mobile">page name</h3>
         <h3 class="menu mobile">...</h3>
 
    
-        <h2 class="username desktop ml-auto">Username</h2>
-        <h3 class="menu desktop">|||</h3>
+        <h2 class="username desktop ml-auto desktop-white">Username</h2>
+        <h3 class="menu desktop desktop-white">|||</h3>
     </ng-container>
-
+    
 </nav>

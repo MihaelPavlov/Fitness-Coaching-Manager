@@ -1,28 +1,27 @@
-<div class="login-container">
-    <form class="login-form" action="">
+<div class="login-container d-flex align-items-center justify-content-center">
+    <form class="login-form d-flex flex-direction-column">
         <div class="login-form__heading-box">
             <h1 class="login-form__heading-box-text">Log in</h1>
             <div class="login-form__heading-box-border"></div>
         </div>
-
         <div class="login-form__elements">
-
-            <div class="login-form__elements__inputs">
-                <app-input label="Email" type="email" placeholder="Email"></app-input>
-                <app-input label="Password" type="password" placeholder="Password"></app-input>
+            <div class="login-form__elements__inputs d-flex flex-direction-column">
+                <app-input label="Email" [type]="InputType.Text" placeholder="Email" name="email"></app-input>
+                <app-input label="Password" [type]="InputType.Password" placeholder="Password"
+                    name="password"></app-input>
             </div>
 
-            <div class="login-form__elements__checkbox-field">
+            <div class="login-form__elements__checkbox-field d-flex">
                 <input class="login-form__elements__checkbox-field-box" type="checkbox" id="scales" name="scales" />
                 <label class="login-form__elements__checkbox-field-text" for="scales">Show Password</label>
             </div>
 
             <div class="login-form__elements__buttons">
-                <app-button text="Sign In" [fullWidth]="true" hoverBackgroundColor="#eceef3" hoverTextColor="#475f93"></app-button>
+                <app-button text="Sign In" [fullWidth]="true" hoverBackgroundColor="#eceef3"
+                    hoverTextColor="#475f93"></app-button>
             </div>
         </div>
-
-        <div class="login-form__links">
+        <div class="login-form__links d-flex flex-direction-column">
             <app-link text="Forgot Username / Password?"></app-link>
             <app-link text="Don't have an account? Sign up"></app-link>
         </div>

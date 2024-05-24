@@ -3,23 +3,19 @@
     &__text {
         color: #475f93;
         font-weight: 650;
-        margin-bottom: .2rem;
+        margin-bottom: 0.2rem;
     }
 
     &__input {
         background-color: #eceef3;
-        border-bottom: #475f93 .3rem solid;
+        border-bottom: #475f93 0.3rem solid;
         border-top: transparent;
         border-left: transparent;
         border-right: transparent;
         box-sizing: border-box;
         height: 2.5rem;
-        font-size: .8rem;
-        padding: 0 6rem 0 .4rem;
-        width: 100%;
-        display: block;
-        align-items: start;
+        font-size: 0.8rem;
+        padding: 0 6rem 0 0.4rem;
         color: #475f93;
     }
-
 }

@@ -9,7 +9,7 @@
     }
 
     &__input {
-        background-color: #eceef3;
+        background-color: palette.$main-background-color;
         border-bottom: palette.$main-blue-darker-color 0.3rem solid;
         border-top: transparent;
         border-left: transparent;

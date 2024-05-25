@@ -10,14 +10,16 @@ li {
     list-style-type: none;
 }
 
-h3 {
+a {
     font-size: 1.25rem;
+    font-weight: 100;
+    margin-top: .2rem;
 }
 
 footer {
     width: 100%;
     position: fixed;
-    background-color: $main-background-color;
+    background-color: #fff;
 }
 
 .workouts span {
@@ -37,33 +39,28 @@ footer {
     span {
         display: block;
         text-align: center;
+        font-size: 1.5rem;
     }
-
-    // .workouts::before {
-    //     display: block;
-    //     text-rendering: auto;
-    //     -webkit-font-smoothing: antialiased;
-    //     font: var(--fa-font-solid);
-    //     content: '\f4bb';
-    //     font-size: 2.5rem;
-    // }
 }
 
 @media (min-width: 601px) {
     footer {
         width: fit-content;
+        position: absolute;
+        top: 0;
         right: 0;
+        z-index: -1;
     }
 
     ul {
         flex-direction: column;
-        height: 100%;
+        justify-content: flex-start;
+        height: 100vh;
+        padding-top: 7rem;
     }
 
     li {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
         gap: 1.25rem;
     }
 

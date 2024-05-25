@@ -1,3 +1,5 @@
+@use "../../../shared/styles/palette";
+
 .login-container {
     height: 100vh;
     font-family: 'Open Sans', sans-serif
@@ -6,43 +8,33 @@
 .login-form {
     background-color: rgb(255, 255, 255);
     padding: 5rem 6rem 8rem 6rem;
-    border-bottom: 0.5rem solid #475f93;
+    border-bottom: 0.5rem solid palette.$main-blue-darker-color;
     box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
 
     &__heading-box {
         text-align: center;
-        margin-bottom: 1.5rem;
 
         &-text {
-            color: #475f93;
+            color: palette.$main-blue-darker-color;
             font-size: 2.8rem;
             margin-bottom: -0.6rem;
-            margin-top: 0;
         }
 
         &-border {
             display: inline-block;
-            border-bottom: #475f93 0.3rem solid;
+            border-bottom: palette.$main-blue-darker-color 0.3rem solid;
             width: 3rem;
         }
     }
 
     &__elements {
 
-        &__inputs {
-            gap: 0.5rem;
-        }
-
         &__checkbox-field {
-            margin-top: 0.5rem;
             margin-bottom: 0.9rem;
-            align-items: center;
-            gap: 0.5rem;
-
+            
             &-box {
-                margin-left: 0;
-                width: .9rem;
-                height: .9rem;
+                width: 0.9rem;
+                height: 0.9rem;
             }
 
             &-text {

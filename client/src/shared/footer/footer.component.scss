@@ -1,5 +1,7 @@
 @import "../styles/_palette";
 
+//We do not have any CSS reset styles yet (I think it is a good idea to apply such)
+//this is why I am resetting margin and padding for footer here
 * {
     margin: 0;
     padding: 0;
@@ -14,6 +16,11 @@ a {
     font-size: 1.25rem;
     font-weight: 100;
     margin-top: .2rem;
+    color: grey;
+}
+
+span {
+    color: grey;
 }
 
 footer {
@@ -56,12 +63,15 @@ footer {
         flex-direction: column;
         justify-content: flex-start;
         height: 100vh;
-        padding-top: 7rem;
+        padding-top: 8rem;
     }
 
     li {
         display: flex;
         gap: 1.25rem;
+        background-color: rgb(191, 204, 216);
+        width: 100%;
+        margin-bottom: 1rem;
     }
 
     li span {

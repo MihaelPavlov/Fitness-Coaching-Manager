@@ -1,17 +1,17 @@
 <div class="login-container d-flex align-items-center justify-content-center">
     <form class="login-form d-flex flex-direction-column">
-        <div class="login-form__heading-box">
-            <h1 class="login-form__heading-box-text">Log in</h1>
+        <div class="login-form__heading-box mb-5">
+            <h1 class="login-form__heading-box-text mt-0">Log in</h1>
             <div class="login-form__heading-box-border"></div>
         </div>
         <div class="login-form__elements">
-            <div class="login-form__elements__inputs d-flex flex-direction-column">
+            <div class="login-form__elements__inputs d-flex flex-direction-column g-2">
                 <app-input label="Email" [type]="InputType.Text" placeholder="Email" name="email"></app-input>
                 <app-input label="Password" [type]="InputType.Password" placeholder="Password" name="password"></app-input>
             </div>
 
-            <div class="login-form__elements__checkbox-field d-flex">
-                <input class="login-form__elements__checkbox-field-box" type="checkbox" id="scales" name="scales" />
+            <div class="login-form__elements__checkbox-field d-flex mt-2 g-2 align-items-center">
+                <input class="login-form__elements__checkbox-field-box ml-0" type="checkbox" id="scales" name="scales" />
                 <label class="login-form__elements__checkbox-field-text" for="scales">Show Password</label>
             </div>
 

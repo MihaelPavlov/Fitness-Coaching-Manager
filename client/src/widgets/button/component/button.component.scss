@@ -1,19 +1,20 @@
+@use "../../../shared/styles/palette";
+
 .button {
     display: inline-block;
-    background-color: #475f93;
-    color: #eceef3;
+    background-color: palette.$main-blue-darker-color;
+    color: palette.$main-background-color;
     text-align: center;
     border: none;
     padding: 0.6rem;
     font-size: 0.9rem;
-    margin-bottom: 0.5rem;
     font-weight: 600;
     transition: all 0.4s;
 
     &:hover {
         cursor: pointer;
-        color: #475f93;
-        background-color: #eceef3;
+        color: palette.$main-blue-darker-color;
+        background-color: palette.$main-background-color;
         transform: scale(1.1);
     }
 }

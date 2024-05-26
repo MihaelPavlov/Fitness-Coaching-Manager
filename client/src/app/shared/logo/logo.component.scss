@@ -1,0 +1,17 @@
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 3em;
+    height: 3em;
+    background-color: rgba(54, 53, 53, 0.836);
+    padding: 0.5em;
+    border-radius: 0.5em;
+    margin: 1em 1em;
+
+    & img {
+        width: 100%;
+        height: auto;
+    }
+}

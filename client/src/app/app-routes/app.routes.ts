@@ -1,21 +1,17 @@
 import { Routes } from '@angular/router';
 
+import { AppComponent } from '../app-component/app.component';
+import { RegisterComponent } from '../pages/register/register.component';
+
 export const ROUTES: Routes = [
-//   {
-//     path: '',
-//     component: LayoutComponent,
-//     children: [
-//       {
-//         path: 'patient',
-//         loadChildren: () =>
-//           import('../../pages/patients/patients.module').then(
-//             (m) => m.PatientsModule
-//           ),
-//       },
-//     ],
-//   },
-//   {
-//     path: 'login',
-//     component: LoginComponent,
-//   },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: AppComponent,
+   
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
+  }
 ];

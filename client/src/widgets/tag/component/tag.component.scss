@@ -1,5 +1,7 @@
+@use "../../../shared/styles/palette";
+
 .tag {
-    background-color: rgba(71, 95, 147, 0.646);
+    background-color: rgba(palette.$main-blue-darker-color, 0.646);
     color: #fff;
     padding: 0.08rem 0.8rem;
     font-size: 1.2rem;

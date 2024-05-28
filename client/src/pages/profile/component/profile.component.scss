@@ -172,3 +172,13 @@
         }
     }
 }
+
+@media (max-width: 25.75em) {
+    .profile-container {
+        &__img-container {
+            &-icon {
+                left: 62%;
+            }
+        }
+    }
+}

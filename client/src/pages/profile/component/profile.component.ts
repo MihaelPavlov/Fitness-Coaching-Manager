@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { InputType } from '../../../shared/enums/input-types.enum';
 
 @Component({
   selector: 'app-profile',
@@ -7,5 +6,4 @@ import { InputType } from '../../../shared/enums/input-types.enum';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent {
-  public InputType = InputType;
 }

@@ -32,6 +32,11 @@
             border-radius: 50%;
             padding: 0.15rem;
             cursor: pointer;
+            transition: all 0.5s;
+
+            &:hover{
+                transform: scale(1.2);
+            }
         }
     }
 
@@ -81,25 +86,6 @@
             margin-bottom: -1rem;
         }
     }
-
-    &__inputs-grid-container {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(5, 1fr);
-        row-gap: 0.1rem;
-        column-gap: 0.2rem;
-        margin-top: -1rem;
-
-        &-first-item {
-            text-align: center;
-            color: palette.$main-blue-darker-color;
-            align-self: end;
-        }
-
-        &-last-item {
-            text-align: center;
-        }
-    }
 }
 
 @media (max-width: 53em) {
@@ -128,26 +114,10 @@
     }
 
     .profile-container {
-
         &__img-container {
             &-icon {
                 left: 59%
             }
-        }
-
-        &__inputs-grid-container {
-
-            &-last-item {
-                margin-top: -3.8rem;
-            }
-
-            margin-top: -7rem;
-        }
-
-        &__inputs-grid-container-input-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.2rem;
         }
 
         &__inforamtion-container {
@@ -163,7 +133,6 @@
 
             &-level {
                 font-size: 1.6rem;
-
             }
 
             &-label {

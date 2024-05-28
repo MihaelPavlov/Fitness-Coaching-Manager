@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from '../../pages/login/component/login.component';
-import { ProfileComponent } from '../../pages/profile/component/profile.component';
+import { ProfileComponent } from '../../pages/privateProfile/component/profile.component';
 
 export const ROUTES: Routes = [
     /* {

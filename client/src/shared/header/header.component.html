@@ -1,29 +1,30 @@
-<nav class="d-flex align-items-center justify-content-between isNotAuth"> 
+<!-- TODO: optimize nav layout, so as to not repeat nav tag, but keep both ng-containers inside one nav -->
 
-    <!-- TODO: navigation background color (blue) for desktop needs to be removed when user is not logged in -->
-    <ng-container *ngIf="!isAuth" class="unauth">
-        <h1 class="uppercase mobile">ath</h1>
-        <h1 class="uppercase desktop">athleans | fit</h1>
+<nav class="d-flex align-items-center justify-content-between nav__guest"> 
 
-        <section class="authenticated">
-            <a href="">Register</a>
-            <a href="">Login</a>
+    <ng-container *ngIf="!isAuth">
+        <h1 class="uppercase nav__guest__mobile nav__guest__logo ml-6">ath</h1>
+        <h1 class="uppercase nav__guest__desktop nav__guest__logo ml-6">athleans | fit</h1>
+
+        <section class="nav__guest__btn mr-6">
+            <a class="nav__guest__btn__link" href="">Register</a>
+            <a class="nav__guest__btn__link ml-4" href="">Login</a>
         </section>
     </ng-container>
 </nav>
 
-<nav class="d-flex align-items-center justify-content-between isAuth"> 
+<nav class="d-flex align-items-center justify-content-between nav__user"> 
 
     <ng-container *ngIf="isAuth">
-        <h1 class="uppercase mobile">ath</h1>
-        <h1 class="uppercase desktop desktop-white">athleans | fit</h1>
+        <h1 class="uppercase nav__user__mobile nav__user__logo ml-6">ath</h1>
+        <h1 class="uppercase nav__user__desktop nav__user__desktop-white nav__user__logo ml-6">athleans | fit</h1>
 
-        <h3 class="mobile">page name</h3>
-        <h3 class="menu mobile">...</h3>
+        <h3 class="nav__user__mobile">page name</h3>
+        <h3 class="nav__user__menu__btn nav__user__mobile">...</h3>
 
    
-        <h2 class="username desktop ml-auto desktop-white">Username</h2>
-        <h3 class="menu desktop desktop-white">|||</h3>
+        <h2 class="mr-5 nav__user__desktop ml-auto nav__user__desktop-white">Username</h2>
+        <h3 class="nav__user__menu__btn nav__user__desktop nav__user__desktop-white mr-6">|||</h3>
     </ng-container>
     
 </nav>

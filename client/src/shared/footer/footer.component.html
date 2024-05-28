@@ -1,19 +1,21 @@
-<footer>
-    <ul *ngIf="isAuth" class="d-flex justify-content-between align-items-center">
+<footer class="footer">
+    <ul *ngIf="isAuth" class="d-flex justify-content-between align-items-center footer__navigation">
 
-        <li class="workouts">
-            <span><i class="fa-solid fa-dumbbell"></i></span>
-            <a href="">Workouts</a>
+        <!-- TODO: we can later on wrap the span inside the a tag just so the icon in footer is clickable too -->
+
+        <li class="workouts footer__navigation__item p-4 g-5">
+            <span class="footer__navigation__icon workouts__icon"><i class="fa-solid fa-dumbbell"></i></span>
+            <a class="footer__navigation__link" href="">Workouts</a>
         </li>
 
-        <li class="exercises">
-            <span><i class="fa-regular fa-newspaper"></i></span>
-            <a href="">Exercises</a>
+        <li class="exercises footer__navigation__item p-4 g-5">
+            <span class="footer__navigation__icon"><i class="fa-regular fa-newspaper"></i></span>
+            <a class="footer__navigation__link" href="">Exercises</a>
         </li>
 
-        <li class="builders">
-            <span><i class="fa-solid fa-wrench"></i></span>
-            <a href="">Builders</a>
+        <li class="builders footer__navigation__item p-4 g-5">
+            <span class="footer__navigation__icon builders__icon"><i class="fa-solid fa-wrench"></i></span>
+            <a class="footer__navigation__link" href="">Builders</a>
         </li>
 
     </ul>

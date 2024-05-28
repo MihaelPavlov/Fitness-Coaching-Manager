@@ -1,57 +1,54 @@
 @import "../styles/_palette";
+@import "../styles/utilities";
 
-//We do not have any CSS reset styles yet (I think it is a good idea to apply such)
-//this is why I am resetting margin and padding for footer here
 * {
     margin: 0;
     padding: 0;
 }
 
-li {
-    padding: 1rem;
+.footer__navigation__item {
     list-style-type: none;
 }
 
-a {
+.footer__navigation__link {
     font-size: 1.25rem;
     font-weight: 100;
-    margin-top: .2rem;
-    color: grey;
+    color: $footer-icon-color;
 }
 
-span {
-    color: grey;
+.footer__navigation__icon {
+    color: $footer-icon-color;
 }
 
-footer {
+.footer {
     width: 100%;
     position: fixed;
-    background-color: #fff;
+    background-color: $footer-background-color;
 }
 
-.workouts span {
+.workouts__icon {
     transform: rotate(45deg);
 }
 
-.builders span {
+.builders__icon {
     transform: rotate(270deg)
 }
 
 @media (max-width: 600px) {
-    footer {
+    .footer {
         bottom: 0;
         left: 0;
     }
 
-    span {
+    .footer__navigation__icon {
         display: block;
         text-align: center;
         font-size: 1.5rem;
-    }
+    }   
 }
 
 @media (min-width: 601px) {
-    footer {
+    .footer {
         width: fit-content;
         position: absolute;
         top: 0;
@@ -59,22 +56,21 @@ footer {
         z-index: -1;
     }
 
-    ul {
+    .footer__navigation {
         flex-direction: column;
         justify-content: flex-start;
         height: 100vh;
         padding-top: 8rem;
     }
 
-    li {
+    .footer__navigation__item {
         display: flex;
-        gap: 1.25rem;
-        background-color: rgb(191, 204, 216);
+        background-color: $footer-navigation-item-background-color;
         width: 100%;
         margin-bottom: 1rem;
     }
 
-    li span {
+    .footer__navigation__icon {
         font-size: 1.5rem;
     }
 }

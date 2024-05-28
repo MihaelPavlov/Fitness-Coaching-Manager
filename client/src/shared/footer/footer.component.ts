@@ -9,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './footer.component.scss'
 })
 export class FooterComponent {
-  isAuth = true;
+  isAuth = false;
 }

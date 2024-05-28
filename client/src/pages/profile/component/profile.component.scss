@@ -15,12 +15,23 @@
 
     &__img-container {
         text-align: center;
+        position: relative;
 
         &-img {
             width: 10rem;
             height: 10rem;
             border-radius: 50%;
             box-shadow: 0 0.1rem 0.1rem rgba($color: palette.$main-font-black-color, $alpha: 0.5);
+        }
+
+        &-icon {
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            top: 75%;
+            left: 54%;
+            border-radius: 50%;
+            padding: 0.15rem;
+            cursor: pointer;
         }
     }
 
@@ -91,14 +102,41 @@
     }
 }
 
+@media (max-width: 53em) {
+    .profile-container {
+        &__img-container {
+            &-icon {
+                left: 55%;
+            }
+        }
+    }
+}
+
+@media (max-width: 37.5em) {
+    .profile-container {
+        &__img-container {
+            &-icon {
+                left: 58%;
+            }
+        }
+    }
+}
+
 @media (max-width:34em) {
     html {
         font-size: 95%;
     }
 
     .profile-container {
+
+        &__img-container {
+            &-icon {
+                left: 59%
+            }
+        }
+
         &__inputs-grid-container {
-            
+
             &-last-item {
                 margin-top: -3.8rem;
             }
@@ -125,9 +163,9 @@
 
             &-level {
                 font-size: 1.6rem;
-    
+
             }
-    
+
             &-label {
                 font-size: 1rem;
             }

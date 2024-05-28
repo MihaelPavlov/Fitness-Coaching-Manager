@@ -4,6 +4,7 @@ import { ButtonModule } from '../../widgets/button/button.module';
 import { InputModule } from '../../widgets/input/input.module';
 import { ProfileComponent } from './component/profile.component';
 import { TagModule } from '../../widgets/tag/tag.module';
+import { ProfileFormModule } from '../../features/profile/profile-form/profile-forms.module';
 
 @NgModule({
     declarations: [
@@ -13,7 +14,8 @@ import { TagModule } from '../../widgets/tag/tag.module';
         CommonModule,
         ButtonModule,
         InputModule,
-        TagModule
+        TagModule,
+        ProfileFormModule
     ],
     exports:[
         ProfileComponent

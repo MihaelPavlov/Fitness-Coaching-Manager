@@ -1,0 +1,40 @@
+@use "../../../../shared/styles/palette";
+
+.profile-container {
+    &__inputs-grid-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(5, 1fr);
+        row-gap: 0.1rem;
+        column-gap: 0.2rem;
+        margin-top: -1rem;
+
+        &-first-item {
+            text-align: center;
+            color: palette.$main-blue-darker-color;
+            align-self: end;
+        }
+
+        &-last-item {
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width:34em) {
+    .profile-container {
+        &__inputs-grid-container {
+
+            &-last-item {
+                margin-top: -3.8rem;
+            }
+            margin-top: -7rem;
+        }
+
+        &__inputs-grid-container-input-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+    }
+}

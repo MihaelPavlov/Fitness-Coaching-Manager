@@ -1,0 +1,12 @@
+.profile-container {
+    text-align: center;
+
+    &__cards-grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        row-gap: 2rem;
+        column-gap: 2rem;
+        margin-top: -1rem;
+        box-sizing: border-box;
+    }
+}

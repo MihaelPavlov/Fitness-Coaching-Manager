@@ -5,6 +5,7 @@ import { InputModule } from '../../widgets/input/input.module';
 import { ProfileComponent } from './component/profile.component';
 import { TagModule } from '../../widgets/tag/tag.module';
 import { ProfileFormModule } from '../../features/profile/profile-form/profile-forms.module';
+import { ProfileCardsModule } from '../../features/profile/profile-cards/profile-cards.module';
 
 @NgModule({
     declarations: [
@@ -15,7 +16,8 @@ import { ProfileFormModule } from '../../features/profile/profile-form/profile-f
         ButtonModule,
         InputModule,
         TagModule,
-        ProfileFormModule
+        ProfileFormModule,
+        ProfileCardsModule
     ],
     exports:[
         ProfileComponent

@@ -13,5 +13,4 @@ export class ButtonComponent {
   //Style Decorators
   @Input() hoverTextColor: string = ''; // Default hover text color
   @Input() hoverBackgroundColor: string = ''; // Default hover background color
-
 }

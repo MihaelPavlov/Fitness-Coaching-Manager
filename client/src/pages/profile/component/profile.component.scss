@@ -66,26 +66,6 @@
             }
         }
     }
-
-    &__level-container {
-        padding-top: 1.2rem;
-
-        &-level {
-            font-size: 1.6rem;
-            color: palette.$main-blue-darker-color;
-            font-weight: 700;
-            margin-top: -1.2rem;
-
-        }
-
-        &-label {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: palette.$main-font-black-color;
-            margin-top: -1rem;
-            margin-bottom: -1rem;
-        }
-    }
 }
 
 @media (max-width: 53em) {

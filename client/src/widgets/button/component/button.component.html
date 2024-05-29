@@ -2,5 +2,6 @@
     'padding': padding,
     'width': fullWidth ? '100%' : 'auto',
     '--hoverTextColor': hoverTextColor,
-    '--hoverBackgroundColor': hoverBackgroundColor
-}">{{text}}</button>
+    '--hoverBackgroundColor': hoverBackgroundColor,
+    '--hoverBorderColor': hoverBorderColor,}"
+     [class.border-hover]="showBorderOnHover">{{text}}</button>

@@ -13,4 +13,6 @@ export class ButtonComponent {
   //Style Decorators
   @Input() hoverTextColor: string = ''; // Default hover text color
   @Input() hoverBackgroundColor: string = ''; // Default hover background color
+  @Input() hoverBorderColor: string = ''; // Input for border color on hover
+  @Input() showBorderOnHover: boolean = false; // Input to control border-hover class
 }

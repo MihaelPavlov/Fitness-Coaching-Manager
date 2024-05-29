@@ -1,6 +1,4 @@
-@import '../../styles/palette';
-@import '../../styles/utilities';
-@import '../../styles/styles';
+@use '../../styles/styles' as *;
 
 .menu__container {
     width: 100%;

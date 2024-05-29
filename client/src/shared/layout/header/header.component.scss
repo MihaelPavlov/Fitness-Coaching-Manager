@@ -1,5 +1,4 @@
-@import "../../styles/palette";
-@import "../../styles/utilities";
+@use '../../styles/styles.scss' as *;
 
 .nav__guest__logo,
 .nav__user__logo {

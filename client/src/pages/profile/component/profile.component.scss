@@ -13,7 +13,8 @@
 
     &__main-heading {
         color: palette.$main-font-black-color;
-        text-align: center;
+        text-align: start;
+        margin-bottom: -2rem;
         padding-top: 5rem;
     }
 
@@ -28,7 +29,7 @@
             box-shadow: 0 0.1rem 0.1rem rgba($color: palette.$main-font-black-color, $alpha: 0.5);
         }
 
-        &-icon {
+        &-icon-private {
             background-color: rgb(255, 255, 255);
             position: absolute;
             top: 75%;
@@ -40,6 +41,22 @@
 
             &:hover{
                 transform: scale(1.2);
+            }
+        }
+
+        &-icon-public {
+            color: palette.$main-blue-darker-color;
+            position: absolute;
+            top: 111%;
+            left: 57.5%;
+            border-radius: 50%;
+            padding: 0.5rem;
+            cursor: pointer;
+            transition: all 0.5s;
+            transform: scale(1.4);
+        
+            &:hover{
+                transform: scale(1.6);
             }
         }
     }

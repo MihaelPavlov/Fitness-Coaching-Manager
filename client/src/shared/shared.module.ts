@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HeaderComponent } from './layout/header/header.component';
-import { MenuContainerComponent } from './layout/menu-container/menu-container.component';
 
 @NgModule({
-  declarations: [HeaderComponent, MenuContainerComponent],
+  declarations: [],
   imports: [CommonModule],
-  exports: [CommonModule, HeaderComponent, MenuContainerComponent],
+  exports: [CommonModule],
   providers: [],
 })
 export class SharedModule {}

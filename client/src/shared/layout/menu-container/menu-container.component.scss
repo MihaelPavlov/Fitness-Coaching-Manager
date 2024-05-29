@@ -19,10 +19,12 @@
         font-size: 1.25rem;
         font-weight: 100;
         color: $menu-container-icon-color;
+
     }
 
     &__navigation__icon {
         color: $menu-container-icon-color;
+        font-size: 2.9rem;
     }
 }
 
@@ -62,7 +64,11 @@
         }
 
         &__navigation__icon {
-            font-size: 1.5rem;
+            font-size: 1.9rem;
+        }
+
+        &__navigation__link {
+            display: flex;
         }
     }
 }

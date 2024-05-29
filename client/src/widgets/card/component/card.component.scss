@@ -89,3 +89,21 @@
         }
     }
 }
+
+@media (max-width: 75em) {
+    .card-container {
+        &__workout-name {
+            text-align: start;
+        }
+
+        &__workout-trainer {
+            text-align: start;
+        }
+    }
+}
+
+@media (max-width: 26.875em) {
+    .card-container {
+        width: 20rem;
+    }
+}

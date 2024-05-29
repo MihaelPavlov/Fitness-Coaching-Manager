@@ -14,7 +14,7 @@
     &__main-heading {
         color: palette.$main-font-black-color;
         text-align: start;
-        margin-bottom: -2rem;
+        margin-bottom: -2.4rem;
         padding-top: 5rem;
     }
 
@@ -39,7 +39,7 @@
             cursor: pointer;
             transition: all 0.5s;
 
-            &:hover{
+            &:hover {
                 transform: scale(1.2);
             }
         }
@@ -54,8 +54,8 @@
             cursor: pointer;
             transition: all 0.5s;
             transform: scale(1.4);
-        
-            &:hover{
+
+            &:hover {
                 transform: scale(1.6);
             }
         }
@@ -89,34 +89,51 @@
     }
 }
 
-@media (max-width: 53em) {
+//Smaller Laptops
+@media (max-width: 62.5em) {
     .profile-container {
         &__img-container {
-            &-icon {
-                left: 55%;
+            &-icon-public {
+                left: 60%;
             }
         }
     }
 }
 
+//Tablets
+@media (max-width: 53em) {
+    .profile-container {
+        &__img-container {
+            &-icon-private {
+                left: 55%;
+            }
+
+            &-icon-public {
+                left: 61%;
+            }
+        }
+    }
+}
+
+
 @media (max-width: 37.5em) {
     .profile-container {
         &__img-container {
-            &-icon {
+            &-icon-private {
                 left: 58%;
+            }
+
+            &-icon-public {
+                left: 66%;
             }
         }
     }
 }
 
 @media (max-width:34em) {
-    html {
-        font-size: 95%;
-    }
-
     .profile-container {
         &__img-container {
-            &-icon {
+            &-icon-private {
                 left: 59%
             }
         }
@@ -143,11 +160,44 @@
     }
 }
 
-@media (max-width: 25.75em) {
+//Bigger Phones
+@media (max-width: 28.75em) {
     .profile-container {
         &__img-container {
-            &-icon {
-                left: 62%;
+            &-icon-private {
+                left: 65%;
+            }
+
+            &-icon-public {
+                left: 73%;
+            }
+        }
+
+        &__main-heading {
+            margin-bottom: 1.3rem;
+            text-align: center;
+        }
+
+        &__public-btn {
+            text-align: center;
+        }
+    }
+}
+
+//Smaller Phones
+@media (max-width: 28.75em) {
+    .profile-container {
+        &__img-container {
+            &-icon-public {
+                left: 76%;
+            }
+        }
+
+        &__inforamtion-container {
+            &-box {
+                &-label {
+                    font-size: 0.7rem;
+                }
             }
         }
     }

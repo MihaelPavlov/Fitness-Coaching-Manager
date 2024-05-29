@@ -69,12 +69,18 @@
             margin-bottom: variables.$spacing-4;
         }
 
+        &__navigation__item:hover {
+            background-color: palette.$main-blue-darker-color;
+        }
+
         &__navigation__icon {
             font-size: 1.9rem;
         }
 
         &__navigation__link {
             display: flex;
+            align-items: center;
+            padding-right: 0.5rem;
         }
     }
 }

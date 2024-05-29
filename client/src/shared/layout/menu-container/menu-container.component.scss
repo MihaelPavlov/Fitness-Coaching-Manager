@@ -1,10 +1,6 @@
 @import '../../styles/palette';
 @import '../../styles/utilities';
-
-* {
-    margin: 0;
-    padding: 0;
-}
+@import '../../styles/styles';
 
 .menu__container {
     width: 100%;
@@ -53,14 +49,16 @@
             flex-direction: column;
             justify-content: flex-start;
             height: 100vh;
-            padding-top: 8rem;
+            // there is no such spacing class, so I decided to hard code the padding
+            //if not suitable, then we may add more spacing classes with bigger units
+            padding-top: 6rem;
         }
 
         &__navigation__item {
             display: flex;
             background-color: $menu-container-navigation-item-background-color;
             width: 100%;
-            margin-bottom: 1rem;
+            margin-bottom: $spacing-4;
         }
 
         &__navigation__icon {

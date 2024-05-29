@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -7,4 +8,6 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isAuth = true;
+
+  @Input() pageName: string = 'Exercises'
 }

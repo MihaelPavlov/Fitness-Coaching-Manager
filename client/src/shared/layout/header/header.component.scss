@@ -21,7 +21,7 @@
     }
     
     .nav__user {
-        background-color: $main-blue-color;
+        background-color: $main-blue-color !important;
         &__desktop-white {
             color: $main-font-white-color;
         }

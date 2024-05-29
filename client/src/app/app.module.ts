@@ -5,8 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
-import { HeaderComponent } from '../shared/layout/header/header.component';
-import { MenuContainerComponent } from '../shared/layout/menu-container/menu-container.component';
+import { HeaderComponent } from '../features/layout/header/header.component';
+import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
+import { LoginModule } from '../pages/login/login.module';
 
 @NgModule({
     declarations: [AppComponent, HeaderComponent, MenuContainerComponent],
@@ -20,8 +21,7 @@ import { MenuContainerComponent } from '../shared/layout/menu-container/menu-con
         HttpClientModule,
         BrowserModule,
         RouterOutlet,
-        HeaderComponent,
-        MenuContainerComponent
+        LoginModule
     ],
 })
 export class AppModule { }

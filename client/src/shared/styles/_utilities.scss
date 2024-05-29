@@ -1,14 +1,4 @@
-$spacing-0: 0;
-$spacing-1: 0.25rem; //4px
-$spacing-2: 0.5rem; //8px
-$spacing-3: 0.75rem; //12px
-$spacing-4: 1rem; //16px
-$spacing-5: 1.5rem;
-$spacing-6: 2rem;
-$spacing-7: 2.5rem;
-$spacing-8: 3rem;
-$spacing-9: 3.5rem;
-$spacing-10: 4rem;
+@use './variables' as *;
 
 $spacing-map: (
     0: $spacing-0,

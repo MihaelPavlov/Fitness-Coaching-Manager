@@ -1,14 +1,15 @@
-@use '../../styles/styles.scss' as *;
+@use '../../../shared/styles/palette';
+@use '../../../shared/styles/variables';
 
 .nav__guest__logo,
 .nav__user__logo {
-    color: $main-blue-darker-color;
+    color: palette.$main-blue-darker-color;
     font-size: 2rem;
 }
 
 .nav__guest__btn {
     &__link {
-        color: $main-blue-darker-color;
+        color: palette.$main-blue-darker-color;
         font-size: 1.2rem;
     }
 }
@@ -20,9 +21,9 @@
     }
     
     .nav__user {
-        background-color: $main-blue-color !important;
+        background-color: palette.$main-blue-color !important;
         &__desktop-white {
-            color: $main-font-white-color;
+            color: palette.$main-font-white-color;
         }
     }
 }
@@ -34,8 +35,8 @@
     }
 
     .nav__user__menu__btn {
-        color: $main-blue-darker-color;
-        margin-right: $spacing-6;
+        color: palette.$main-blue-darker-color;
+        margin-right: variables.$spacing-6;
     }
 }
 

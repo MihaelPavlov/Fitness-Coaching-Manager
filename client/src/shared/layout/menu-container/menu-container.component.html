@@ -1,0 +1,22 @@
+<footer class="menu__container">
+    <ul *ngIf="isAuth" class="d-flex justify-content-between align-items-center menu__container__navigation">
+
+        <!-- TODO: we can later on wrap the span inside the a tag just so the icon in footer is clickable too -->
+
+        <li class="menu__container__navigation__item p-4 g-5">
+            <span class="material-symbols-outlined menu__container__navigation__icon">fitness_center</span>
+            <a class="menu__container__navigation__link" href="">Workouts</a>
+        </li>
+
+        <li class="menu__container__navigation__item p-4 g-5">
+            <span class="material-symbols-outlined menu__container__navigation__icon">article</span>
+            <a class="menu__container__navigation__link" href="">Exercises</a>
+        </li>
+
+        <li class="menu__container__navigation__item p-4 g-5">
+            <span class="material-symbols-outlined menu__container__navigation__icon">build</span>
+            <a class="menu__container__navigation__link" href="">Builders</a>
+        </li>
+
+    </ul>
+</footer>

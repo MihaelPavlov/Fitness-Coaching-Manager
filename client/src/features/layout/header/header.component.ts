@@ -7,7 +7,7 @@ import { Input } from '@angular/core';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-  isAuth = true;
+  isAuth = false;
 
   @Input() pageName: string = 'Exercises'
 }

@@ -2,7 +2,6 @@
 @use '../../../shared/styles/variables';
 
 .menu__container {
-    // width: 100%;
     position: fixed;
     background-color: palette.$menu-container-background-color;
 
@@ -14,7 +13,6 @@
         font-size: 1.25rem;
         font-weight: 100;
         color: palette.$menu-container-icon-color;
-
     }
 
     &__navigation__icon {

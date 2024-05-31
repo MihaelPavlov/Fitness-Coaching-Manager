@@ -1,0 +1,28 @@
+.search__feature {
+    width: fit-content;
+    justify-content: space-between;
+
+    &__container {
+        position: relative;
+        width: 20rem;
+    }
+
+    &__input {
+        all: unset;
+        
+        background-color: #fff;
+        border-radius: .3rem;
+        width: 95%;
+        padding: 0.4rem;
+    }
+
+    &__search__icon {
+        position: absolute;
+        font-size: 1.3rem;
+        right: 5%;
+    }
+
+    &__filter__icon {
+        font-size: 1.8rem;
+    }
+}

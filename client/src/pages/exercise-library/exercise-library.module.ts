@@ -11,4 +11,5 @@ import { ExerciseLibraryComponent } from './component/exercise-library.component
     ExerciseLibraryComponent
   ]
 })
+
 export class ExerciseLibraryModule { }

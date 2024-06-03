@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LogoComponent } from './logo/logo.component';
 
 @NgModule({
-  declarations: [LogoComponent],
+  declarations: [],
   imports: [CommonModule],
-  exports: [CommonModule, LogoComponent],
+  exports: [CommonModule],
   providers: [],
 })
 export class SharedModule {}

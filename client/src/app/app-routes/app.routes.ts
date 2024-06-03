@@ -7,8 +7,7 @@ export const ROUTES: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: LandingComponent,
-   
+    component: LandingComponent   
   }
 ];
 

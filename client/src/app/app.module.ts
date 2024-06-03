@@ -5,13 +5,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
-import { LogoComponent } from './shared/logo/logo.component';
+import { LandingModule } from '../pages/landing/landing.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     declarations: [AppComponent],
     exports: [BrowserModule,BrowserAnimationsModule],
     providers: [],
     bootstrap: [AppComponent],
-    imports: [BrowserModule,BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LogoComponent]
+    imports: [BrowserModule,BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, SharedModule, LandingModule]
 })
 export class AppModule { }

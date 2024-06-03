@@ -1,5 +1,15 @@
 .wrapper {
     padding: 2rem;
     margin: auto;
+    height: 100vh;
+}
+
+@media(min-width: 601px) {
+    app-exercise-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: space-between;
+    }
 }
 

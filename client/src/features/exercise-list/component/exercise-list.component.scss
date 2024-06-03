@@ -8,6 +8,8 @@
     background-size: cover;
     background-position: center;
     background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('./cropped-img.png');
+    
+    min-width: 17rem;
 
     &__tag {
         background-color: rgba(105, 105, 105, 0.6);
@@ -28,7 +30,11 @@
         &__text {
             font-size: 1.5rem;
         }
-    }
+    }  
+}
 
-    
+@media(min-width: 601px) {
+    .exercise__list__card {
+
+    }
 }

@@ -1,0 +1,15 @@
+.logo-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(54, 53, 53, 0.836);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    margin: 1rem 1rem;
+
+    &-image {
+        height: auto;
+    }
+}

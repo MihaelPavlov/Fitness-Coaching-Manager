@@ -7,4 +7,18 @@ import { InputType } from '../../../shared/enums/input-types.enum';
   styleUrl: './register-user.component.scss'
 })
 export class RegisterUserComponent {
+  public InputType = InputType;
+
+  showGeneralDetails = true;
+
+  showAdditionalDetails = false;
+
+  generalDetailsVisibility() {
+    this.showGeneralDetails = !this.showGeneralDetails
+  }
+
+  additionalDetailsVisibility() {
+    this.showAdditionalDetails = !this.showAdditionalDetails
+  }
+
 }

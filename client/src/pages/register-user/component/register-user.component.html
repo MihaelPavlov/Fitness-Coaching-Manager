@@ -1,1 +1,61 @@
-<p>register-user works!</p>
+<app-logo />
+<div class="register-container d-flex align-items-center justify-content-center">
+    <form class="register-form w-100 d-flex flex-direction-column">
+        <div class="register-form__heading-box mb-5">
+            <h1 class="register-form__heading-box-text mt-0">Register as User</h1>
+            <div class="register-form__heading-box-border"></div>
+        </div>
+
+        <div class="register-form__details-container">
+            <div class="register-form__details-container__heading-container d-flex justify-content-between pb-5"
+                (click)="generalDetailsVisibility()">
+                <div class="register-form__details-container__heading-container__label d-flex">
+                    <app-background-square label="1" />
+                    <div class="name pl-4">General Details</div>
+                </div>
+                <app-background-square label="{{showGeneralDetails ?  '⬇' :  '➡'}}" />
+            </div>
+            <ng-container *ngIf="showGeneralDetails">
+                <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
+                    <app-input class="register-form__general-details__input-field" label="Username"
+                        [type]="InputType.Text" placeholder="Username" name="username"></app-input>
+                    <app-input class="register-form__general-details__input-field" label="Email" [type]="InputType.Text"
+                        placeholder="Email" name="email"></app-input>
+                    <app-input class="register-form__general-details__input-field" label="Password"
+                        [type]="InputType.Password" placeholder="Password" name="password"></app-input>
+                    <app-input class="register-form__general-details__input-field" label="Repeat Password"
+                        [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword"></app-input>
+                </div>
+            </ng-container>
+
+            <div class="register-form__details-container__heading-container d-flex justify-content-between pb-5"
+            (click)="additionalDetailsVisibility()" >
+            <div class="register-form__details-container__heading-container__label d-flex">
+                <app-background-square label="2" />
+                <div class="name pl-4">Additional Details</div>
+            </div>
+            <app-background-square label="{{showAdditionalDetails ?  '⬇' :  '➡'}}" />
+        </div>
+        <ng-container *ngIf="showAdditionalDetails">
+            <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
+                <app-input class="register-form__general-details__input-field" label="Fitness Level"
+                    [type]="InputType.Text" placeholder="Fitness Level" name="fitnessLevel"></app-input>
+                <app-input class="register-form__general-details__input-field" label="Country" [type]="InputType.Text"
+                    placeholder="Country" name="country"></app-input>
+                <app-input class="register-form__general-details__input-field" label="Sex"
+                    [type]="InputType.Password" placeholder="Sex" name="sex"></app-input>
+                <app-input class="register-form__general-details__input-field" label="Preferred Language"
+                    [type]="InputType.Password" placeholder="Preferred Language" name="preferredLanguage"></app-input>
+            </div>
+        </ng-container>
+        </div>
+
+        <div class="register-form__elements__buttons">
+            <app-button label="Sign Up"></app-button>
+        </div>
+
+        <div class="register-form__links d-flex flex-direction-column">
+            <a class="register-form__links-text" href="/login">Already have an an account? Log in</a>
+        </div>
+    </form>
+</div>

@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class ExerciseLibrarySearchComponent {
 
+  filterHandler() {
+    console.log('Hello World!')
+  }
 }

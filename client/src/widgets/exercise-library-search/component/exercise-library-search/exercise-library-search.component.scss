@@ -3,6 +3,7 @@
 .search__feature {
     // width: fit-content;
     justify-content: space-between;
+    position: relative;
 
     &__container {
         position: relative;
@@ -29,6 +30,14 @@
     &__filter__icon {
         font-size: 1.8rem;
         color: $main-blue-color;
+        cursor: pointer;
+    }
+
+    &__filter__form {
+        position: absolute;
+        right: 2rem;;
+        top: 3rem;
+        
     }
 }
 
@@ -38,7 +47,7 @@
     }
 }
 
-@media(min-width: 601px) {
+@media(min-width: 671px) {
     .search__feature {
         width: 15rem;
     }

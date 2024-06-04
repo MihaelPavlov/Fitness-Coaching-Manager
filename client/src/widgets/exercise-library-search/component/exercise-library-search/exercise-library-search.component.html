@@ -5,5 +5,18 @@
         <span class="material-symbols-outlined search__feature__search__icon align-self-center">search</span>
     </section>
 
-    <span class="material-symbols-outlined search__feature__filter__icon">filter_alt</span>
+    <span (click)=filterHandler() class="material-symbols-outlined search__feature__filter__icon">filter_alt</span>
+
+    <form class="search__feature__filter__form">
+        <div class="search__feature__filter__form__option d-flex">
+            <input type="checkbox">
+            <label>Gym</label>
+        </div>
+
+        <div class="search__feature__filter__form__option d-flex">
+            <input type="checkbox">
+            <label for="">Back</label>
+        </div>
+    </form>
+
 </section>

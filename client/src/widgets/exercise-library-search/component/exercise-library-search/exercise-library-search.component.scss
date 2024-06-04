@@ -1,3 +1,5 @@
+@import '../../../../shared/styles/palette';
+
 .search__feature {
     // width: fit-content;
     justify-content: space-between;
@@ -21,10 +23,12 @@
         position: absolute;
         font-size: 1.3rem;
         right: 5%;
+        color: $main-blue-color;
     }
 
     &__filter__icon {
         font-size: 1.8rem;
+        color: $main-blue-color;
     }
 }
 

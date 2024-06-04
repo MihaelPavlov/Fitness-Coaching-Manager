@@ -1,30 +1,16 @@
+import { QueryParams } from "../builders/types/types";
 import { UserBuilder } from "../builders/user.builder";
 import db from "./../database/db";
 
-export const getUsers = async (payload: any) => {
-    let builder = new UserBuilder;
-    if (payload.limit !== undefined) {
-        builder.limit = payload.limit;
-    }
-    if (payload.offset !== undefined) {
-        builder.offset = payload.offset;
-    }
-    if (payload.what !== undefined) {
-        builder.fields = payload.what;
-    }
-    if (payload.condition !== undefined) {
-        builder.condition = payload.condition;
-    }
+export const getUsers = async (payload: QueryParams) => {
+    let builder = new UserBuilder(payload);
 
     return builder.executeQuery();
 };
 
-export const getUser = async (payload: any) => {
-    let builder = new UserBuilder;
-    if (payload.what !== undefined) {
-        builder.fields = payload.what;
-    }
-    builder.id = payload.id;
+export const getUser = async (payload: QueryParams) => {
+    let builder = new UserBuilder(payload);
+    builder.entityById = payload.id;
 
     return builder.executeQuery();
 };

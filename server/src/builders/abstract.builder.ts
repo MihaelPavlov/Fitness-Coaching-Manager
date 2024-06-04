@@ -1,30 +1,24 @@
-import { associationsObj, fieldsMap } from "./utils/fields";
-import { AssociationItem, Condition } from "./types/types";
+import { associationsObj } from "./utils/fields";
+import { AssociationItem, Condition, OPERATIONS, OPERATION_TYPES, OrderItem } from "./types/types";
 import knex from "./../database/db";
-
-const OPERATIONS: any = {
-  EQ: "=",
-  NE: "!=",
-  LT: "<",
-  GT: ">",
-};
 
 export abstract class AbstractBuilder {
   // Class properties for overriding
-  protected table: string;
-  protected fieldMapObj: any;
-  protected limit: number | null | undefined;
-  protected offset: number | null | undefined;
-  protected fields: any;
-  protected condition: Condition;
-  protected id: number | null;
+  protected abstract fieldsMap: any;
+  protected mainTable: string;
+  protected defaultLimit: number | null | undefined = 20;
+  protected defaultOffset: number | null | undefined = 0;
+  protected defaultSelect: Record<string, number> | null | undefined;
+  protected defaultCondition: Condition;
+  protected defaultOrder: Array<OrderItem> | null | undefined;
+  protected entityById: number | null | undefined;
   protected associations: Array<AssociationItem>;
 
   // Helper functions
   private mapAssociatedField(field: string, table: string) {
     const associationsTables = associationsObj[table];
     for (const associationTable of associationsTables) {
-      const fieldsMapObj = fieldsMap[associationTable];
+      const fieldsMapObj = this.fieldsMap[associationTable];
       if (fieldsMapObj.hasOwnProperty(field)) {
         return { [fieldsMapObj[field]]: associationTable };
       }
@@ -85,16 +79,16 @@ export abstract class AbstractBuilder {
  
     query = query.where(
       this.generateFieldString(condition.items[0].field, fieldMapObj, table),
-      OPERATIONS[condition.items[0].operation],
+      OPERATIONS[condition.items[0].operation as keyof typeof OPERATIONS],
       condition.items[0].value
     );
  
     for (let i = 1; i < condition.items.length; i++) {
       const { field, operation, value } = condition.items[i];
-      const method = condition.type === "AND" ? "andWhere" : "orWhere";
+      const method = condition.type === OPERATION_TYPES.AND ? "andWhere" : "orWhere";
       query = query[method](
         this.generateFieldString(field, fieldMapObj, table),
-        OPERATIONS[operation],
+        OPERATIONS[operation as keyof typeof OPERATIONS],
         value
       );
     }
@@ -112,7 +106,7 @@ export abstract class AbstractBuilder {
     for (let associationItem of this.associations) {
       query = query.leftJoin(
         associationItem.relatedTable,
-        `${this.table}.${associationItem.mainField}`,
+        `${this.mainTable}.${associationItem.mainField}`,
         `${associationItem.relatedTable}.${associationItem.relatedField}`
       );
     }
@@ -122,7 +116,7 @@ export abstract class AbstractBuilder {
 
   // Builder main function
   public executeQuery() {
-    let query = knex(this.table);
+    let query = knex(this.mainTable);
 
     // Connect to association tables
     query = this.makeAssociations(query);
@@ -130,31 +124,31 @@ export abstract class AbstractBuilder {
     // Make the select statement
     query = this.makeSelectQuery(
       query,
-      this.fields,
-      this.fieldMapObj,
-      this.table
+      this.defaultSelect,
+      this.fieldsMap[this.mainTable],
+      this.mainTable
     );
 
     // Check for id, if there is id set it and end the function
-    if (this.id !== null) {
-      query = query.where("users.id", this.id);
+    if (this.entityById !== null) {
+      query = query.where(`${this.mainTable}.id`, this.entityById);
       return query;
     }
 
     // Make the where clause
     query = this.makeWhereClause(
       query,
-      this.condition,
-      this.fieldMapObj,
-      this.table
+      this.defaultCondition,
+      this.fieldsMap[this.mainTable],
+      this.mainTable
     );
 
     // Set limit and offset
-    if (this.limit !== null && this.limit !== undefined) {
-      query = query.limit(this.limit);
+    if (this.defaultLimit !== null && this.defaultLimit !== undefined) {
+      query = query.limit(this.defaultLimit);
     }
-    if (this.offset !== null && this.offset !== undefined) {
-      query = query.offset(this.offset);
+    if (this.defaultOffset !== null && this.defaultOffset !== undefined) {
+      query = query.offset(this.defaultOffset);
     }
 
     return query;

@@ -1,10 +1,11 @@
 .search__feature {
-    width: fit-content;
+    // width: fit-content;
     justify-content: space-between;
 
     &__container {
         position: relative;
-        width: 20rem;
+        // width: 20rem;
+        width: 100%;
     }
 
     &__input {
@@ -24,5 +25,17 @@
 
     &__filter__icon {
         font-size: 1.8rem;
+    }
+}
+
+@media(max-width: 600px) {
+    .search__feature {
+        width: 100%;
+    }
+}
+
+@media(min-width: 601px) {
+    .search__feature {
+        width: 15rem;
     }
 }

@@ -1,5 +1,5 @@
+import { UserBuilder } from "../builders/user.builder";
 import db from "./../database/db";
-import UserBuilder from "./../builders/user.builder";
 
 export const getUsers = async (payload: any) => {
     let builder = new UserBuilder;

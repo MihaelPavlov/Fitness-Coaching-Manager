@@ -9,7 +9,7 @@ const OPERATIONS: any = {
   GT: ">",
 };
 
-abstract class AbstractBuilder {
+export abstract class AbstractBuilder {
   // Class properties for overriding
   protected table: string;
   protected fieldMapObj: any;
@@ -22,38 +22,23 @@ abstract class AbstractBuilder {
 
   // Helper functions
   private mapAssociatedField(field: string, table: string) {
-    let associationsTables = associationsObj[table];
-    let resultObj: any = {};
-
-    for (let associationTable of associationsTables) {
-      let fieldsMapObj = fieldsMap[associationTable];
-
-      for (let [key, value] of Object.entries(fieldsMapObj)) {
-        if (field === key) {
-          resultObj[fieldsMapObj[key]] = associationTable;
-        }
+    const associationsTables = associationsObj[table];
+    for (const associationTable of associationsTables) {
+      const fieldsMapObj = fieldsMap[associationTable];
+      if (fieldsMapObj.hasOwnProperty(field)) {
+        return { [fieldsMapObj[field]]: associationTable };
       }
     }
-
-    return resultObj;
+    return {};
   }
 
   private generateFieldString(field: string, fieldMapObj: any, table: string) {
-    let resultObj: any = {};
-
     if (!fieldMapObj.hasOwnProperty(field)) {
-      resultObj = this.mapAssociatedField(field, table);
-
-      let [fieldName, tableName] = Object.entries(resultObj)[0];
-
+      const associatedField = this.mapAssociatedField(field, table);
+      const [fieldName, tableName] = Object.entries(associatedField)[0];
       return `${tableName}.${fieldName}`;
     }
-
-    resultObj[fieldMapObj[field]] = table;
-
-    let [fieldName, tableName] = Object.entries(resultObj)[0];
-
-    return `${tableName}.${fieldName}`;
+    return `${table}.${fieldMapObj[field]}`;
   }
 
   // Statement functions
@@ -61,41 +46,28 @@ abstract class AbstractBuilder {
   // Select query builder
   private makeSelectQuery(
     query: any,
-    fields: any,
-    fieldMapObj: any,
+    fields: Record<string, any>,
+    fieldMapObj: Record<string, any>,
     table: string
-  ) {
-    if (fields === undefined) {
+  ): any {
+    if (!fields) {
       return query.select("*");
     }
-
-    let fieldsInTables = [];
-
-    // Find fields
-    for (let [key, value] of Object.entries(fields)) {
-      if (value !== 1) continue;
-
-      let resultObj: any = {};
-
-      if (!fieldMapObj.hasOwnProperty(key)) {
-        // Field from another table
-        if (this.associations.length === 0) continue
-        
-        resultObj = this.mapAssociatedField(key, table);
-        fieldsInTables.push(resultObj);
-        continue;
-      }
-
-      resultObj[fieldMapObj[key]] = table;
-      fieldsInTables.push(resultObj);
+ 
+    const fieldsInTables = Object.entries(fields)
+      .filter(([_, value]) => value === 1)
+      .map(([key]) => {
+        if (!fieldMapObj.hasOwnProperty(key)) {
+          return this.mapAssociatedField(key, table);
+        }
+        return { [fieldMapObj[key]]: table };
+      });
+ 
+    for (const fieldEntry of fieldsInTables) {
+      const [fieldName, tableName] = Object.entries(fieldEntry)[0];
+      query = query.select(`${tableName}.${fieldName}`);
     }
-
-    for (let fieldEntry of fieldsInTables) {
-      let [fieldName, tableName] = Object.entries(fieldEntry)[0];
-      let fieldString = `${tableName}.${fieldName}`;
-      query = query.select(fieldString);
-    }
-
+ 
     return query;
   }
 
@@ -104,44 +76,29 @@ abstract class AbstractBuilder {
   private makeWhereClause(
     query: any,
     condition: Condition,
-    fieldMapObj: any,
+    fieldMapObj: Record<string, any>,
     table: string
-  ) {
-    if (condition === undefined) {
+  ): any {
+    if (!condition) {
       return query;
     }
-
-    const conditionType = condition.type;
-
-    // Make where clause for first field
+ 
     query = query.where(
       this.generateFieldString(condition.items[0].field, fieldMapObj, table),
       OPERATIONS[condition.items[0].operation],
       condition.items[0].value
     );
-
-    // Loop through every left item with the correct operation
+ 
     for (let i = 1; i < condition.items.length; i++) {
-      let conditionItem = condition.items[i];
-      let itemField = conditionItem["field"];
-      let itemOperation = conditionItem["operation"];
-      let itemValue = conditionItem["value"];
-
-      if (conditionType === "AND") {
-        query = query.andWhere(
-          this.generateFieldString(itemField, fieldMapObj, table),
-          OPERATIONS[itemOperation],
-          itemValue
-        );
-      } else if (conditionType === "OR") {
-        query = query.orWhere(
-          this.generateFieldString(itemField, fieldMapObj, table),
-          OPERATIONS[itemOperation],
-          itemValue
-        );
-      }
+      const { field, operation, value } = condition.items[i];
+      const method = condition.type === "AND" ? "andWhere" : "orWhere";
+      query = query[method](
+        this.generateFieldString(field, fieldMapObj, table),
+        OPERATIONS[operation],
+        value
+      );
     }
-
+ 
     return query;
   }
 
@@ -203,5 +160,3 @@ abstract class AbstractBuilder {
     return query;
   }
 }
-
-export default AbstractBuilder;

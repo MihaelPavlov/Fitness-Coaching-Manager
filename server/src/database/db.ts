@@ -1,10 +1,11 @@
 import Knex from "knex";
-import knexFile from "./../../knexfile";
+import knexConfig from "./../../knexfile";
 
-const environment = "development";
+// Create a Knex instance using the configuration for the current environment
+const knex = Knex(knexConfig[process.env.NODE_ENV || "development"]);
 
-const knex = Knex(knexFile[environment]);
 
+// Helper function to format the SQL with bindings
 function formatSQL(sql: string, bindings: any[]): string {
   return bindings.reduce((prev, curr) => prev.replace("?", `'${curr}'`), sql);
 }
@@ -14,5 +15,4 @@ knex.on("query", (queryData) => {
   const formattedSQL = formatSQL(queryData.sql, queryData.bindings);
   console.log("Generated SQL:", formattedSQL);
 });
-
 export default knex;

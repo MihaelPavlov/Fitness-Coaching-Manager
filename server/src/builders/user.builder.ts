@@ -1,8 +1,8 @@
-import AbstractBuilder from "./abstract.builder";
 import { fieldsMap } from "./utils/fields";
 import { AssociationItem, Condition } from "./types/types";
+import { AbstractBuilder } from "./abstract.builder";
 
-class UserBuilder extends AbstractBuilder {
+export class UserBuilder extends AbstractBuilder {
   override table: string = "users";
   override fieldMapObj: any = fieldsMap[this.table];
   override limit: number | null | undefined = 20; // Specify default limit here, otherwise it will not be reflected on the query
@@ -18,5 +18,3 @@ class UserBuilder extends AbstractBuilder {
     }
   ]
 }
-
-export default UserBuilder;

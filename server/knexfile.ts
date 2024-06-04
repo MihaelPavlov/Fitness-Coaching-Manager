@@ -1,10 +1,7 @@
-// Update with your config settings.
+import { Knex } from "knex";
 import * as configs from "./src/config/db.config";
 
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
-const config = {
+const knexConfig: { [key: string]: Knex.Config } = {
   development: {
     client: "mysql2",
     connection: {
@@ -16,8 +13,28 @@ const config = {
     },
     migrations: {
       directory: "./src/database/migrations",
-    }
+    },
+    seeds: {
+      directory: './seeds'
+    },
+    debug: true // Enable debugging
   },
+  production: {
+    client: 'mysql',
+    connection: {
+      host: 'your_production_database_host',
+      user: 'your_database_user',
+      password: 'your_database_password',
+      database: 'your_database_name'
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: './migrations'
+    },
+    seeds: {
+      directory: './seeds'
+    }
+  }
 };
 
-export default config;
+export default knexConfig;

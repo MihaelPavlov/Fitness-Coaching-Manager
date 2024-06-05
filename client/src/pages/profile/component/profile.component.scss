@@ -9,8 +9,8 @@
 
     &__main-heading {
         color: palette.$main-font-black-color;
-        text-align: center;
-        padding-top: 5rem;
+        text-align: start;
+        padding-top: 3rem;
     }
 
     &__img-container {
@@ -34,7 +34,7 @@
             cursor: pointer;
             transition: all 0.5s;
 
-            &:hover{
+            &:hover {
                 transform: scale(1.2);
             }
         }
@@ -57,7 +57,6 @@
                 font-size: 1.1rem;
                 color: palette.$main-blue-darker-color;
                 font-weight: 700;
-                margin-bottom: -1rem;
             }
 
             &-label {
@@ -74,15 +73,12 @@
             font-size: 1.6rem;
             color: palette.$main-blue-darker-color;
             font-weight: 700;
-            margin-top: -1.2rem;
         }
 
         &-label {
             font-weight: 700;
             font-size: 1.2rem;
             color: palette.$main-font-black-color;
-            margin-top: -1rem;
-            margin-bottom: -1rem;
         }
     }
 }
@@ -99,6 +95,11 @@
 
 @media (max-width: 37.5em) {
     .profile-container {
+        &__main-heading {
+            text-align: center;
+            padding-top: 1.5rem;
+        }
+
         &__img-container {
             &-icon {
                 left: 58%;

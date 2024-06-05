@@ -1,5 +1,6 @@
-import { AssociationItem, Condition, Operations, OperationTypes, OrderItem } from "./types/types";
+import { AssociationItem, Condition, Operations, OperationTypes, OrderItem, QueryParams } from "./types/types";
 import knex from "./../database/db";
+import { Knex } from "knex";
 
 export abstract class AbstractBuilder {
   // Class properties for overriding
@@ -66,11 +67,11 @@ export abstract class AbstractBuilder {
 
   // Select query builder
   private buildSelectClause(
-    query: any,
+    query: Knex.QueryBuilder,
     fields: Record<string, any>,
     fieldsMap: Record<string, any>,
     table: string
-  ): any {
+  ): Knex.QueryBuilder {
     if (!fields) {
       return query.select("*");
     }
@@ -95,10 +96,10 @@ export abstract class AbstractBuilder {
 
   // Where clause builder
   private buildWhereClause(
-    query: any,
+    query: Knex.QueryBuilder,
     condition: Condition,
     table: string
-  ): any {
+  ): Knex.QueryBuilder {
     if (!condition) {
       return query;
     }
@@ -123,7 +124,7 @@ export abstract class AbstractBuilder {
   }
 
   // Association (join) query builder
-  private buildAssociations(query: any) {
+  private buildAssociations(query: Knex.QueryBuilder): Knex.QueryBuilder {
     // If there are not any association tables
     if (this.associations.length === 0) {
       return query;
@@ -139,7 +140,7 @@ export abstract class AbstractBuilder {
     return query;
   }
 
-  private buildLimitClause(query: any) {
+  private buildLimitClause(query: Knex.QueryBuilder): Knex.QueryBuilder {
     if (this.defaultLimit) {
       query = query.limit(this.defaultLimit);
     }
@@ -147,7 +148,7 @@ export abstract class AbstractBuilder {
     return query;
   }
 
-  private buildOffsetClause(query: any) {
+  private buildOffsetClause(query: Knex.QueryBuilder): Knex.QueryBuilder {
     if (this.defaultOffset !== null && this.defaultOffset !== undefined) {
       query = query.offset(this.defaultOffset);
     }
@@ -155,14 +156,14 @@ export abstract class AbstractBuilder {
     return query;
   }
 
-  private getEntityById(query: any) {
+  private getEntityById(query: Knex.QueryBuilder): Knex.QueryBuilder {
     query = query.where(`${this.mainTable}.id`, this.entityById);
       return query;
   }
 
 
   // Preparing query
-  private prepareQuery() {
+  private prepareQuery(): Knex.QueryBuilder {
     let query = knex(this.mainTable);
     
     // Connect to association tables

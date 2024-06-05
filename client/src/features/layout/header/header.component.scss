@@ -1,0 +1,52 @@
+@use '../../../shared/styles/palette';
+@use '../../../shared/styles/variables';
+
+.nav__guest__logo,
+.nav__user__logo {
+    color: palette.$main-blue-darker-color;
+    font-size: 2rem;
+}
+
+.nav__guest__btn {
+
+    &__link {
+        color: palette.$menu-container-icon-color;
+        font-size: 1.2rem;
+
+        &:hover,
+        &:active {
+            color: palette.$main-blue-darker-color;
+        }
+    }
+}
+
+@media (min-width: 601px) {
+    .nav__user__mobile,
+    .nav__guest__mobile {
+        display: none;
+    }
+    
+    .nav__user {
+        background-color: palette.$main-blue-color !important;
+        &__desktop-white {
+            color: palette.$main-font-white-color;
+        }
+    }
+}
+
+@media (max-width: 600px) {
+    .nav__user__desktop,
+    .nav__guest__desktop {
+        display: none;
+    }
+
+    .nav__user__menu__btn {
+        color: palette.$main-blue-darker-color;
+        margin-right: variables.$spacing-6;
+    }
+}
+
+.nav__user__menu__btn {
+    transform: rotate(90deg);
+    font-size: 2rem;
+}

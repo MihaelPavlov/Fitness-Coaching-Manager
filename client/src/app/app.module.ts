@@ -5,20 +5,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
+import { HeaderComponent } from '../features/layout/header/header.component';
+import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
 import { LandingModule } from '../pages/landing/landing.module';
+import { LoginModule } from '../pages/login/login.module';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, HeaderComponent, MenuContainerComponent],
     exports: [BrowserModule, BrowserAnimationsModule],
     providers: [],
     bootstrap: [AppComponent],
-    imports: [BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        BrowserModule,
-        RouterOutlet,
-        LandingModule
-        ]
+    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LoginModule, LandingModule]
 })
 export class AppModule { }

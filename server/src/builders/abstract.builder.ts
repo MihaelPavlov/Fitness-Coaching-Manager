@@ -14,6 +14,14 @@ export abstract class AbstractBuilder {
   protected entityById: number | null;
   protected associations: Array<AssociationItem>;
 
+
+  constructor(queryParams: QueryParams | null = null) {
+    this.defaultLimit = queryParams.limit ?? this.defaultLimit;
+    this.defaultOffset = queryParams.offset ?? this.defaultOffset;
+    this.defaultSelect = queryParams.what ?? this.defaultSelect;
+    this.defaultCondition = queryParams.condition ?? this.defaultCondition;
+  }
+
   // Helper functions
 
   private getAssociationTables() {
@@ -47,16 +55,13 @@ export abstract class AbstractBuilder {
   }
 
   private reverseFieldsMap() {
-    let reversedFieldsMap: any = {}
+    let reversedFieldsMap: Record<string, Record<string, string>> = {}
 
     for (let table of Object.keys(this.fieldsMap)) {
       reversedFieldsMap[table] = {}
-    }
 
-    for (let table of Object.keys(this.fieldsMap)) {
-      
-      for (let [key, _] of Object.entries(this.fieldsMap[table])) {
-        reversedFieldsMap[table][this.fieldsMap[table][key]] = key;
+      for (let [key, value] of Object.entries(this.fieldsMap[table])) {
+        reversedFieldsMap[table][value as string] = key;
       }
     }
 
@@ -196,25 +201,23 @@ export abstract class AbstractBuilder {
     return query;
   }
 
-  private mapResponseFields(response: Array<any>) {
-    let reversedFieldsMap = this.reverseFieldsMap();
-    let mappedResponse = [];
+  private mapResponseFields(response: Array<Record<string, string>>) {
+    const reversedFieldsMap = this.reverseFieldsMap();
+    const mappedResponse = response.map(row => {
+      const resultRow: Record<string, string> = {};
 
-    for (let row of response) {
-      let resultRow: any = {};
+      for (const [fieldName, fieldValue] of Object.entries(row)) {
 
-      for (let [fieldName, fieldValue] of Object.entries(row)) {
-
-        for (let table of Object.keys(reversedFieldsMap)) {
-          if (reversedFieldsMap[table].hasOwnProperty(fieldName)) {
+        for (const table in reversedFieldsMap) {
+          if (reversedFieldsMap[table][fieldName]) {
             resultRow[reversedFieldsMap[table][fieldName]] = fieldValue;
           }
         }
       }
 
-      mappedResponse.push(resultRow);
-    }
-
+      return resultRow;
+    });
+    
     return mappedResponse;
   }
 

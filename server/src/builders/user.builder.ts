@@ -38,10 +38,6 @@ export class UserBuilder extends AbstractBuilder {
   ]
 
   constructor(queryParams: QueryParams | null = null) {
-    super();
-    this.defaultLimit = queryParams.limit ?? this.defaultLimit;
-    this.defaultOffset = queryParams.offset ?? this.defaultOffset;
-    this.defaultSelect = queryParams.what ?? this.defaultSelect;
-    this.defaultCondition = queryParams.condition ?? this.defaultCondition;
+    super(queryParams);
   }
 }

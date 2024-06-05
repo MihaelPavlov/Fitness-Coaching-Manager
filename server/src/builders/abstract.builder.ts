@@ -23,17 +23,11 @@ export abstract class AbstractBuilder {
 
   // Helper functions
 
-  private getAssociationTables() {
-    let associationTables = []
-
-    for (let associationObj of this.associations) {
-      associationTables.push(associationObj.relatedTable);
-    }
-
-    return associationTables;
+  private getAssociationTables(): Array<string> {
+    return this.associations.map(x => x.relatedTable);
   }
 
-  private getRelatedTableField(field: string) {
+  private getRelatedTableField(field: string): Record<string, string> {
     const associationsTables = this.getAssociationTables();
     for (const associationTable of associationsTables) {
       const fieldsMapObj = this.fieldsMap[associationTable];
@@ -44,7 +38,7 @@ export abstract class AbstractBuilder {
     return {};
   }
 
-  private resolveFieldReference(field: string, table: string) {
+  private resolveFieldReference(field: string, table: string): string {
     if (!(field in this.fieldsMap[table])) {
       const associatedField = this.getRelatedTableField(field);
       const [fieldName, tableName] = Object.entries(associatedField)[0];
@@ -53,7 +47,7 @@ export abstract class AbstractBuilder {
     return `${table}.${this.fieldsMap[table][field]}`;
   }
 
-  private reverseFieldsMap() {
+  private reverseFieldsMap(): Record<string, Record<string, string>> {
     let reversedFieldsMap: Record<string, Record<string, string>> = {}
 
     for (let table of Object.keys(this.fieldsMap)) {
@@ -145,24 +139,15 @@ export abstract class AbstractBuilder {
   }
 
   private buildLimitClause(query: Knex.QueryBuilder): Knex.QueryBuilder {
-    if (this.defaultLimit) {
-      query = query.limit(this.defaultLimit);
-    }
-
-    return query;
+    return this.defaultLimit ? query.limit(this.defaultLimit) : query;
   }
 
   private buildOffsetClause(query: Knex.QueryBuilder): Knex.QueryBuilder {
-    if (this.defaultOffset !== null && this.defaultOffset !== undefined) {
-      query = query.offset(this.defaultOffset);
-    }
-
-    return query;
+    return this.defaultOffset ? query.offset(this.defaultOffset) : query;
   }
 
   private getEntityById(query: Knex.QueryBuilder): Knex.QueryBuilder {
-    query = query.where(`${this.mainTable}.id`, this.entityById);
-      return query;
+    return query.where(`${this.mainTable}.id`, this.entityById);
   }
 
 

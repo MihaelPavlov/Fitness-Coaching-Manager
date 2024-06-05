@@ -38,7 +38,7 @@ export abstract class AbstractBuilder {
     const associationsTables = this.getAssociationTables();
     for (const associationTable of associationsTables) {
       const fieldsMapObj = this.fieldsMap[associationTable];
-      if (fieldsMapObj.hasOwnProperty(field)) {
+      if (field in fieldsMapObj) {
         return { [fieldsMapObj[field]]: associationTable };
       }
     }
@@ -46,7 +46,7 @@ export abstract class AbstractBuilder {
   }
 
   private resolveFieldReference(field: string, table: string) {
-    if (!this.fieldsMap[table].hasOwnProperty(field)) {
+    if (!(field in this.fieldsMap[table])) {
       const associatedField = this.getRelatedTableField(field);
       const [fieldName, tableName] = Object.entries(associatedField)[0];
       return `${tableName}.${fieldName}`;
@@ -84,7 +84,7 @@ export abstract class AbstractBuilder {
     const fieldsInTables = Object.entries(fields)
       .filter(([_, value]) => value === 1)
       .map(([key]) => {
-        if (!fieldsMap.hasOwnProperty(key)) {
+        if (!(key in fieldsMap)) {
           return this.getRelatedTableField(key);
         }
         return { [fieldsMap[key]]: table };
@@ -217,7 +217,7 @@ export abstract class AbstractBuilder {
 
       return resultRow;
     });
-    
+
     return mappedResponse;
   }
 

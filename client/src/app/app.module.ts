@@ -6,15 +6,18 @@ import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
 import { LandingModule } from '../pages/landing/landing.module';
+import { HeaderComponent } from '../features/layout/header/header.component';
+import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
 import { LoginModule } from '../pages/login/login.module';
 import { RegisterUserModule } from '../pages/register-user/register-user.module';
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, HeaderComponent, MenuContainerComponent],
     exports: [BrowserModule, BrowserAnimationsModule],
     providers: [],
     bootstrap: [AppComponent],
-    imports: [BrowserModule,
+    imports: [
+        BrowserModule,
         BrowserAnimationsModule,
         AppRoutingModule,
         HttpClientModule,
@@ -24,5 +27,6 @@ import { RegisterUserModule } from '../pages/register-user/register-user.module'
         LoginModule,
         RegisterUserModule
         ]
+    ,
 })
 export class AppModule { }

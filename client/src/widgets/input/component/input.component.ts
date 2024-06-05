@@ -13,6 +13,19 @@ export class InputComponent {
   @Input() name: string = '';
 
   //Style Decorators
-  @Input() textColor: string = '';
-  @Input() backgroundColor: string = '';
+  @Input() textColor: 'white' | 'main-background-color' = 'main-background-color';
+  @Input() backgroundColor: 'white' | 'main-background-color' = 'main-background-color';
+
+  get getColorHex(): string {
+    switch (this.backgroundColor) {
+      case 'white': {
+        return '#ffffff' 
+      }
+
+
+      default:{
+        return ''
+      }
+    }
+  }
 }

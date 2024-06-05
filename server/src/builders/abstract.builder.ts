@@ -185,7 +185,7 @@ export abstract class AbstractBuilder {
     return query;
   }
 
-  private mapResponseFields(response: Array<Record<string, string>>) {
+  private mapResponseFields(response: Array<Record<string, string>>): Array<Record<string, any>> {
     const reversedFieldsMap = this.reverseFieldsMap();
     const mappedResponse = response.map(row => {
       const resultRow: Record<string, string> = {};
@@ -206,7 +206,7 @@ export abstract class AbstractBuilder {
   }
 
   // Builder main function
-  public async buildQuery() {
+  public async buildQuery(): Promise<Array<Record<string, any>>> {
     return this.mapResponseFields(await this.prepareQuery());
   }
 }

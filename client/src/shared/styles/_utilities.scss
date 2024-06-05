@@ -12,6 +12,7 @@ $spacing-map: (
     8: $spacing-8,
     9: $spacing-9,
     10: $spacing-10,
+    20: $spacing-20
 );
 
 .text-center {
@@ -157,7 +158,6 @@ $spacing-map: (
 .flex-wrap {
     flex-wrap: wrap;
 }
-
 
 .position-relative {
     position: relative;

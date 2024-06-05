@@ -1,0 +1,28 @@
+.landing-page-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../../shared/assets/images/background.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+@media (width <=700px) {
+    .landing-page-container__buttons-container {
+        margin-top: 50vh;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0rem;
+
+        &__button{
+            margin-bottom: 3rem;           
+        }
+    }
+}

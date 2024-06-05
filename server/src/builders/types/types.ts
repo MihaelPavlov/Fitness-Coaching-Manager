@@ -1,9 +1,9 @@
 export interface QueryParams {
-  limit: number | null | undefined;
-  offset: number | null | undefined;
+  limit: number | null;
+  offset: number | null;
   what: Record<string, number>;
   condition: Condition,
-  id: number | null | undefined
+  id: number | null
 }
 
 export interface Condition {
@@ -25,22 +25,22 @@ export interface AssociationItem {
 
 export interface OrderItem {
   field: string;
-  direction: ORDER_DIRECTION
+  direction: OrderDirection
 }
 
-export enum ORDER_DIRECTION {
+export enum OrderDirection {
   ASC = "ASC",
   DESC = "DESC"
 }
 
-export enum OPERATIONS {
+export enum Operations {
   EQ = "=",
   NE = "!=",
   LT = "<",
   GT = ">",
 }
 
-export enum OPERATION_TYPES {
+export enum OperationTypes {
   AND = "AND",
   OR = "OR"
 }

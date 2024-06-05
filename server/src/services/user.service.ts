@@ -5,14 +5,14 @@ import db from "./../database/db";
 export const getUsers = async (payload: QueryParams) => {
     let builder = new UserBuilder(payload);
 
-    return builder.executeQuery();
+    return builder.buildQuery();
 };
 
 export const getUser = async (payload: QueryParams) => {
     let builder = new UserBuilder(payload);
     builder.entityById = payload.id;
 
-    return builder.executeQuery();
+    return builder.buildQuery();
 };
 
 export const createUser = async (data: any) => db("users").insert(data);

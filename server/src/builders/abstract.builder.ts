@@ -1,22 +1,32 @@
-import { associationsObj } from "./utils/fields";
-import { AssociationItem, Condition, OPERATIONS, OPERATION_TYPES, OrderItem } from "./types/types";
+import { AssociationItem, Condition, Operations, OperationTypes, OrderItem } from "./types/types";
 import knex from "./../database/db";
 
 export abstract class AbstractBuilder {
   // Class properties for overriding
   protected abstract fieldsMap: any;
   protected mainTable: string;
-  protected defaultLimit: number | null | undefined = 20;
-  protected defaultOffset: number | null | undefined = 0;
-  protected defaultSelect: Record<string, number> | null | undefined;
+  protected defaultLimit: number | null = 20;
+  protected defaultOffset: number | null = 0;
+  protected defaultSelect: Record<string, number> | null;
   protected defaultCondition: Condition;
-  protected defaultOrder: Array<OrderItem> | null | undefined;
-  protected entityById: number | null | undefined;
+  protected defaultOrder: Array<OrderItem> | null;
+  protected entityById: number | null;
   protected associations: Array<AssociationItem>;
 
   // Helper functions
-  private mapAssociatedField(field: string, table: string) {
-    const associationsTables = associationsObj[table];
+
+  private getAssociationTables() {
+    let associationTables = []
+
+    for (let associationObj of this.associations) {
+      associationTables.push(associationObj.relatedTable);
+    }
+
+    return associationTables;
+  }
+
+  private getRelatedTableField(field: string) {
+    const associationsTables = this.getAssociationTables();
     for (const associationTable of associationsTables) {
       const fieldsMapObj = this.fieldsMap[associationTable];
       if (fieldsMapObj.hasOwnProperty(field)) {
@@ -26,22 +36,39 @@ export abstract class AbstractBuilder {
     return {};
   }
 
-  private generateFieldString(field: string, fieldMapObj: any, table: string) {
-    if (!fieldMapObj.hasOwnProperty(field)) {
-      const associatedField = this.mapAssociatedField(field, table);
+  private resolveFieldReference(field: string, table: string) {
+    if (!this.fieldsMap[table].hasOwnProperty(field)) {
+      const associatedField = this.getRelatedTableField(field);
       const [fieldName, tableName] = Object.entries(associatedField)[0];
       return `${tableName}.${fieldName}`;
     }
-    return `${table}.${fieldMapObj[field]}`;
+    return `${table}.${this.fieldsMap[table][field]}`;
+  }
+
+  private reverseFieldsMap() {
+    let reversedFieldsMap: any = {}
+
+    for (let table of Object.keys(this.fieldsMap)) {
+      reversedFieldsMap[table] = {}
+    }
+
+    for (let table of Object.keys(this.fieldsMap)) {
+      
+      for (let [key, _] of Object.entries(this.fieldsMap[table])) {
+        reversedFieldsMap[table][this.fieldsMap[table][key]] = key;
+      }
+    }
+
+    return reversedFieldsMap;
   }
 
   // Statement functions
 
   // Select query builder
-  private makeSelectQuery(
+  private buildSelectClause(
     query: any,
     fields: Record<string, any>,
-    fieldMapObj: Record<string, any>,
+    fieldsMap: Record<string, any>,
     table: string
   ): any {
     if (!fields) {
@@ -51,10 +78,10 @@ export abstract class AbstractBuilder {
     const fieldsInTables = Object.entries(fields)
       .filter(([_, value]) => value === 1)
       .map(([key]) => {
-        if (!fieldMapObj.hasOwnProperty(key)) {
-          return this.mapAssociatedField(key, table);
+        if (!fieldsMap.hasOwnProperty(key)) {
+          return this.getRelatedTableField(key);
         }
-        return { [fieldMapObj[key]]: table };
+        return { [fieldsMap[key]]: table };
       });
  
     for (const fieldEntry of fieldsInTables) {
@@ -67,10 +94,9 @@ export abstract class AbstractBuilder {
 
 
   // Where clause builder
-  private makeWhereClause(
+  private buildWhereClause(
     query: any,
     condition: Condition,
-    fieldMapObj: Record<string, any>,
     table: string
   ): any {
     if (!condition) {
@@ -78,17 +104,17 @@ export abstract class AbstractBuilder {
     }
  
     query = query.where(
-      this.generateFieldString(condition.items[0].field, fieldMapObj, table),
-      OPERATIONS[condition.items[0].operation as keyof typeof OPERATIONS],
+      this.resolveFieldReference(condition.items[0].field, table),
+      Operations[condition.items[0].operation as keyof typeof Operations],
       condition.items[0].value
     );
  
     for (let i = 1; i < condition.items.length; i++) {
       const { field, operation, value } = condition.items[i];
-      const method = condition.type === OPERATION_TYPES.AND ? "andWhere" : "orWhere";
+      const method = condition.type === OperationTypes.AND ? "andWhere" : "orWhere";
       query = query[method](
-        this.generateFieldString(field, fieldMapObj, table),
-        OPERATIONS[operation as keyof typeof OPERATIONS],
+        this.resolveFieldReference(field, table),
+        Operations[operation as keyof typeof Operations],
         value
       );
     }
@@ -97,7 +123,7 @@ export abstract class AbstractBuilder {
   }
 
   // Association (join) query builder
-  private makeAssociations(query: any) {
+  private buildAssociations(query: any) {
     // If there are not any association tables
     if (this.associations.length === 0) {
       return query;
@@ -113,16 +139,37 @@ export abstract class AbstractBuilder {
     return query;
   }
 
+  private buildLimitClause(query: any) {
+    if (this.defaultLimit) {
+      query = query.limit(this.defaultLimit);
+    }
 
-  // Builder main function
-  public executeQuery() {
+    return query;
+  }
+
+  private buildOffsetClause(query: any) {
+    if (this.defaultOffset !== null && this.defaultOffset !== undefined) {
+      query = query.offset(this.defaultOffset);
+    }
+
+    return query;
+  }
+
+  private getEntityById(query: any) {
+    query = query.where(`${this.mainTable}.id`, this.entityById);
+      return query;
+  }
+
+
+  // Preparing query
+  private prepareQuery() {
     let query = knex(this.mainTable);
-
+    
     // Connect to association tables
-    query = this.makeAssociations(query);
+    query = this.buildAssociations(query);
 
     // Make the select statement
-    query = this.makeSelectQuery(
+    query = this.buildSelectClause(
       query,
       this.defaultSelect,
       this.fieldsMap[this.mainTable],
@@ -130,27 +177,48 @@ export abstract class AbstractBuilder {
     );
 
     // Check for id, if there is id set it and end the function
-    if (this.entityById !== null) {
-      query = query.where(`${this.mainTable}.id`, this.entityById);
-      return query;
+    if (this.entityById) {
+      return this.getEntityById(query);
     }
 
     // Make the where clause
-    query = this.makeWhereClause(
+    query = this.buildWhereClause(
       query,
       this.defaultCondition,
-      this.fieldsMap[this.mainTable],
       this.mainTable
     );
 
     // Set limit and offset
-    if (this.defaultLimit !== null && this.defaultLimit !== undefined) {
-      query = query.limit(this.defaultLimit);
-    }
-    if (this.defaultOffset !== null && this.defaultOffset !== undefined) {
-      query = query.offset(this.defaultOffset);
-    }
+    query = this.buildLimitClause(query);
+    query = this.buildOffsetClause(query);
 
     return query;
+  }
+
+  private mapResponseFields(response: Array<any>) {
+    let reversedFieldsMap = this.reverseFieldsMap();
+    let mappedResponse = [];
+
+    for (let row of response) {
+      let resultRow: any = {};
+
+      for (let [fieldName, fieldValue] of Object.entries(row)) {
+
+        for (let table of Object.keys(reversedFieldsMap)) {
+          if (reversedFieldsMap[table].hasOwnProperty(fieldName)) {
+            resultRow[reversedFieldsMap[table][fieldName]] = fieldValue;
+          }
+        }
+      }
+
+      mappedResponse.push(resultRow);
+    }
+
+    return mappedResponse;
+  }
+
+  // Builder main function
+  public async buildQuery() {
+    return this.mapResponseFields(await this.prepareQuery());
   }
 }

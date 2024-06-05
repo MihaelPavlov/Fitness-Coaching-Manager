@@ -24,12 +24,12 @@ export class UserBuilder extends AbstractBuilder {
     }
   };
   override mainTable: string = "users";
-  override defaultLimit: number | null | undefined = 20; // Specify default limit here, otherwise it will not be reflected on the query
-  override defaultOffset: number | null | undefined = 0; // Specify default offset here, otherwise it will not be reflected on the query
-  override defaultSelect: Record<string, number> | null | undefined; // Specify Default fields for selection here, Otherwise it will select all
+  override defaultLimit: number | null = 20; // Specify default limit here, otherwise it will not be reflected on the query
+  override defaultOffset: number | null = 0; // Specify default offset here, otherwise it will not be reflected on the query
+  override defaultSelect: Record<string, number> | null; // Specify Default fields for selection here, Otherwise it will select all
   override defaultCondition: Condition; // Specify Default Condition for where clause here, otherwise there will be no condition
-  override entityById: number | null | undefined = null;
-  override associations: Array<AssociationItem | undefined> = [ // Specify associations here, otherwise there will be no join tables
+  override entityById: number | null = null;
+  override associations: Array<AssociationItem> = [ // Specify associations here, otherwise there will be no join tables
     {
       mainField: "id",
       relatedTable: "user_specs",
@@ -39,9 +39,9 @@ export class UserBuilder extends AbstractBuilder {
 
   constructor(queryParams: QueryParams | null = null) {
     super();
-    this.defaultLimit = queryParams.limit;
-    this.defaultOffset = queryParams.offset;
-    this.defaultSelect = queryParams.what;
-    this.defaultCondition = queryParams.condition;
+    this.defaultLimit = queryParams.limit ?? this.defaultLimit;
+    this.defaultOffset = queryParams.offset ?? this.defaultOffset;
+    this.defaultSelect = queryParams.what ?? this.defaultSelect;
+    this.defaultCondition = queryParams.condition ?? this.defaultCondition;
   }
 }

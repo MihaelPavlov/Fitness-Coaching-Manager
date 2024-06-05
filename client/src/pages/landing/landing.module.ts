@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputModule } from '../../widgets/input/input.module';
 import { LandingComponent } from './component/landing.component';
-import { LogoModule } from '../../widgets/logo/logo.module';
+import { ButtonModule } from '../../widgets/button/button.module';
 
 @NgModule({
     declarations: [
@@ -11,7 +11,7 @@ import { LogoModule } from '../../widgets/logo/logo.module';
     imports: [
         CommonModule,
         InputModule,
-        LogoModule
+        ButtonModule
     ],
     exports:[
         LandingComponent

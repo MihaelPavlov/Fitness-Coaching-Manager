@@ -9,6 +9,7 @@ $spacing-7: 2.5rem;
 $spacing-8: 3rem;
 $spacing-9: 3.5rem;
 $spacing-10: 4rem;
+$spacing-20: 9rem;
 
 $spacing-map: (
     0: $spacing-0,
@@ -22,6 +23,7 @@ $spacing-map: (
     8: $spacing-8,
     9: $spacing-9,
     10: $spacing-10,
+    20: $spacing-20
 );
 
 .text-center {

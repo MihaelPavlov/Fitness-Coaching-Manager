@@ -2,7 +2,7 @@ import { AssociationItem, Condition, QueryParams } from "./types/types";
 import { AbstractBuilder } from "./abstract.builder";
 
 export class UserBuilder extends AbstractBuilder {
-  protected fieldsMap: any = {
+  protected fieldsMap: Record<string, Record<string, string>> = {
     users: {
       uid: "id",
       firstName: "first_name",

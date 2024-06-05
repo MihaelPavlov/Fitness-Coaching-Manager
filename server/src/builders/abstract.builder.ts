@@ -4,7 +4,7 @@ import { Knex } from "knex";
 
 export abstract class AbstractBuilder {
   // Class properties for overriding
-  protected abstract fieldsMap: any;
+  protected abstract fieldsMap: Record<string, Record<string, string>>;
   protected mainTable: string;
   protected defaultLimit: number | null = 20;
   protected defaultOffset: number | null = 0;
@@ -13,7 +13,6 @@ export abstract class AbstractBuilder {
   protected defaultOrder: Array<OrderItem> | null;
   protected entityById: number | null;
   protected associations: Array<AssociationItem>;
-
 
   constructor(queryParams: QueryParams | null = null) {
     this.defaultLimit = queryParams.limit ?? this.defaultLimit;

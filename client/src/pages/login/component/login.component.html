@@ -12,13 +12,15 @@
             </div>
 
             <div class="login-form__elements__checkbox-field d-flex mt-2 g-2 align-items-center">
-                <input class="login-form__elements__checkbox-field-box ml-0" type="checkbox" id="scales" name="scales" />
+                <input class="login-form__elements__checkbox-field-box ml-0" type="checkbox" id="scales"
+                    name="scales" />
                 <label class="login-form__elements__checkbox-field-text" for="scales">Show Password</label>
             </div>
 
             <div class="login-form__elements__buttons">
-                <app-button text="Sign In" [fullWidth]="true" hoverBackgroundColor="#eceef3"
-                    hoverTextColor="#475f93"></app-button>
+                <app-button text="Sign In" [width]="'100%'" [hoverBackgroundColor]="'main-background-color'"
+                    [hoverTextColor]="'main-blue-darker-color'">
+                </app-button>
             </div>
         </div>
         <div class="login-form__links d-flex flex-direction-column">

@@ -91,7 +91,7 @@ export abstract class AbstractBuilder {
       return query.select("*");
     }
  
-    // Loop through each fields
+    // Loop through each field
     const fieldsInTables = Object.entries(fields)
       .filter(([_, value]) => value === 1) // Leave only the fields that has value '1' - true
       .map(([key]) => { // Map each field and make an object containing the field as key and table from where is the field as value
@@ -136,7 +136,7 @@ export abstract class AbstractBuilder {
         this.resolveFieldReference(field, table), // `table`.`field`
         Operations[operation as keyof typeof Operations], // e.g (GT = >)
         value
-      ); // Update the query
+      ); // Update the query - stack the method
     }
  
     return query;

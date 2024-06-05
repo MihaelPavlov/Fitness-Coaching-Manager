@@ -1,0 +1,84 @@
+@use '../../../shared/styles/palette';
+@use '../../../shared/styles/variables';
+
+.menu__container {
+    position: fixed;
+    background-color: palette.$menu-container-background-color;
+
+    &__navigation__item {
+        list-style-type: none;
+    }
+
+    &__navigation__link {
+        font-size: 1.25rem;
+        font-weight: 100;
+        color: palette.$menu-container-icon-color;
+    }
+
+    &__navigation__icon {
+        color: palette.$menu-container-icon-color;
+        font-size: 2.9rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .menu__container {
+        bottom: 0;
+        left: 0;
+
+        &__navigation {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        &__navigation__icon {
+            display: block;
+            text-align: center;
+            font-size: 1.9rem;
+        }
+
+        &__navigation__link {
+            font-size: .9rem;
+        }
+    }
+}
+
+@media (min-width: 601px) {
+    .menu__container {
+        width: fit-content;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: -1;
+
+        &__navigation {
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100vh;
+            // there is no such spacing class, so I decided to hard code the padding
+            //if not suitable, then we may add more spacing classes with bigger units
+            padding-top: 4rem;
+        }
+
+        &__navigation__item {
+            display: flex;
+            background-color: palette.$menu-container-navigation-item-background-color;
+            width: 100%;
+            margin-bottom: variables.$spacing-4;
+        }
+
+        &__navigation__item:hover {
+            background-color: palette.$main-blue-darker-color;
+        }
+
+        &__navigation__icon {
+            font-size: 1.9rem;
+        }
+
+        &__navigation__link {
+            display: flex;
+            align-items: center;
+            padding-right: 0.5rem;
+        }
+    }
+}

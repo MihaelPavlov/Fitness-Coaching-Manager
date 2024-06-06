@@ -2,7 +2,7 @@
 @use '../../../shared/styles/variables';
 
 .menu__container {
-    position: fixed;
+    // position: fixed;
     background-color: palette.$menu-container-background-color;
 
     &__navigation__item {
@@ -21,8 +21,9 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 670px) {
     .menu__container {
+        position: fixed;
         bottom: 0;
         left: 0;
 
@@ -43,7 +44,7 @@
     }
 }
 
-@media (min-width: 601px) {
+@media (min-width: 671px) {
     .menu__container {
         width: fit-content;
         position: absolute;

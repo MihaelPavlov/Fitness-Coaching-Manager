@@ -33,25 +33,4 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
 
 });
 
-router.post("/createSpecs", async (req: express.Request, res: express.Response) => {
-  try {
-    const createdUserSpecs = await userService.createUserSpecs(req.body);
-
-    res.status(201).json({
-      status: "success",
-      data: {
-        message: "Successfully created user specs!",
-        user: createdUserSpecs,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "error",
-      data: {
-        message: err.message,
-      },
-    });
-  }
-});
-
 export default router;

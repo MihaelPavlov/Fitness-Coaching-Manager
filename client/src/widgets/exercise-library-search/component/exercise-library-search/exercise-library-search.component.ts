@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-exercise-library-search',
@@ -7,7 +7,9 @@ import { Component } from '@angular/core';
 })
 export class ExerciseLibrarySearchComponent {
 
+  @Input() toggleFilterForm: boolean = false;
+
   filterHandler() {
-    console.log('Hello World!')
+    this.toggleFilterForm = !this.toggleFilterForm;
   }
 }

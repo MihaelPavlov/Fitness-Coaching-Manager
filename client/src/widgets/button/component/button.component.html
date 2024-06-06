@@ -1,7 +1,10 @@
-<button class="button w-100 uppercase mb-2" [ngStyle]="{
-    'padding': padding,
-    'width': fullWidth ? '100%' : 'auto',
-    '--hoverTextColor': hoverTextColor,
-    '--hoverBackgroundColor': hoverBackgroundColor,
-    '--hoverBorderColor': hoverBorderColor,}"
-     [class.border-hover]="showBorderOnHover">{{text}}</button>
+<div 
+  class="button"
+  [ngClass]="{'border-hover': showBorderOnHover}"
+  [style.padding]="padding"
+  [style.width]="widthStyle"
+  [style.--hoverTextColor]="hoverTextColorStyle"
+  [style.--hoverBackgroundColor]="hoverBackgroundColorStyle"
+  [style.--hoverBorderColor]="hoverBorderColorStyle">
+  {{ text }}
+</div>

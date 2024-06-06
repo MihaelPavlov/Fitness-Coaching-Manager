@@ -14,8 +14,7 @@
     &__main-heading {
         color: palette.$main-font-black-color;
         text-align: start;
-        margin-bottom: -2.4rem;
-        padding-top: 5rem;
+        padding-top: 3rem;
     }
 
     &__img-container {
@@ -78,7 +77,13 @@
                 font-size: 1.1rem;
                 color: palette.$main-blue-darker-color;
                 font-weight: 700;
-                margin-bottom: -1rem;
+
+                &-level {
+                    font-size: 1.1rem;
+                    color: palette.$main-blue-darker-color;
+                    font-weight: 700;
+                    margin: 0 1rem;
+                }
             }
 
             &-label {
@@ -118,6 +123,11 @@
 
 @media (max-width: 37.5em) {
     .profile-container {
+        &__main-heading {
+            text-align: center;
+            padding-top: 1.5rem;
+        }
+
         &__img-container {
             &-icon-private {
                 left: 58%;
@@ -125,6 +135,25 @@
 
             &-icon-public {
                 left: 66%;
+            }
+        }
+
+        &__inforamtion-container {
+            &-box {
+                &-data {
+                    text-align: center;
+                    font-size: 1rem;
+
+                    &-level {
+                        font-size: 1rem;
+                        margin: 0 0.2rem;
+                    }
+                }
+
+                &-label {
+                    font-size: 1rem;
+                    text-align: center;
+                }
             }
         }
     }
@@ -140,21 +169,20 @@
 
         &__inforamtion-container {
             &-box {
-                &-label {
-                    font-size: 0.9rem;
+                &-data {
+                    text-align: center;
+                    font-size: 0.8rem;
+
+                    &-level {
+                        font-size: 0.8rem;
+                        margin: 0 0.2rem;
+                    }
                 }
-            }
-        }
 
-        &__level-container {
-            margin-top: 0.25rem;
-
-            &-level {
-                font-size: 1.6rem;
-            }
-
-            &-label {
-                font-size: 1rem;
+                &-label {
+                    font-size: 0.8rem;
+                    text-align: center;
+                }
             }
         }
     }

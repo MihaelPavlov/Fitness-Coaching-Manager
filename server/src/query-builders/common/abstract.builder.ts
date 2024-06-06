@@ -6,7 +6,7 @@ import {
   OrderItem,
   QueryParams,
 } from "../models/builder.models";
-import knex from "../../database/db";
+import knex from "../../database/database-connector";
 import { Knex } from "knex";
 
 /**

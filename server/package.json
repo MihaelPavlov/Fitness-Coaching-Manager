@@ -6,7 +6,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "start:dev": "nodemon",
-    "create-db": "ts-node src/createDatabase.ts",
+    "create-db": "ts-node src/database/create-database.ts",
     "migrate": "knex migrate:latest",
     "migrate:undo": "knex migrate:rollback",
     "migrate:up": "knex migrate:up"

@@ -1,4 +1,4 @@
-import * as configs from "./config/db.config";
+import * as configs from "./../config/db.config";
 
 const customConnection = {
     host: configs.DB_HOST,

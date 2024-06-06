@@ -1,0 +1,30 @@
+@use "../../../../shared/styles/palette";
+
+.profile-container {
+    &__inputs-flex-container {
+        row-gap: 0.5rem;
+
+        &-first-item {
+            text-align: center;
+            color: palette.$main-blue-darker-color;
+        }
+
+        &-last-item {
+            text-align: center;
+            margin-top: 1rem;
+        }
+    }
+}
+
+@media (max-width:34em) {
+    .profile-container {
+        &__inputs-flex-container {
+            gap: 1rem;
+        }
+
+        &__inputs-flex-container-input-item {
+            flex-direction: column;
+            gap: 1rem;
+        }
+    }
+}

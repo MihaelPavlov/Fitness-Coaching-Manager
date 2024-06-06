@@ -13,8 +13,11 @@
 
     &:hover {
         cursor: pointer;
-        color: palette.$main-blue-darker-color;
-        background-color: palette.$main-background-color;
+        color: var(--hoverTextColor);
+        background-color: var(--hoverBackgroundColor);
         transform: scale(1.1);
     }
+}
+.border-hover:hover {
+    outline: 0.1rem solid var(--hoverBorderColor);
 }

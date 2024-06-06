@@ -57,28 +57,19 @@
                 font-size: 1.1rem;
                 color: palette.$main-blue-darker-color;
                 font-weight: 700;
+
+                &-level {
+                    font-size: 1.1rem;
+                    color: palette.$main-blue-darker-color;
+                    font-weight: 700;
+                    margin: 0 1rem;
+                }
             }
 
             &-label {
                 color: palette.$main-font-black-color;
                 font-weight: 700;
             }
-        }
-    }
-
-    &__level-container {
-        padding-top: 1.2rem;
-
-        &-level {
-            font-size: 1.6rem;
-            color: palette.$main-blue-darker-color;
-            font-weight: 700;
-        }
-
-        &-label {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: palette.$main-font-black-color;
         }
     }
 }
@@ -105,14 +96,29 @@
                 left: 58%;
             }
         }
+
+        &__inforamtion-container {
+            &-box {
+                &-data {
+                    text-align: center;
+                    font-size: 1rem;
+
+                    &-level {
+                        font-size: 1rem;
+                        margin: 0 0.2rem;
+                    }
+                }
+
+                &-label {
+                    font-size: 1rem;
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 
 @media (max-width:34em) {
-    html {
-        font-size: 95%;
-    }
-
     .profile-container {
         &__img-container {
             &-icon {
@@ -122,21 +128,20 @@
 
         &__inforamtion-container {
             &-box {
-                &-label {
-                    font-size: 0.9rem;
+                &-data {
+                    text-align: center;
+                    font-size: 0.8rem;
+
+                    &-level {
+                        font-size: 0.8rem;
+                        margin: 0 0.2rem;
+                    }
                 }
-            }
-        }
 
-        &__level-container {
-            margin-top: 0.25rem;
-
-            &-level {
-                font-size: 1.6rem;
-            }
-
-            &-label {
-                font-size: 1rem;
+                &-label {
+                    font-size: 0.8rem;
+                    text-align: center;
+                }
             }
         }
     }

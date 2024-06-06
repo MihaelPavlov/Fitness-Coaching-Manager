@@ -11,7 +11,8 @@ const app = express();
 // Express configs
 expressConfig(app);
 
-app.use(router);
+// API Version 1
+app.use("/api/v1", router);
 
 const port = 3000;
 

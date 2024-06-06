@@ -25,16 +25,15 @@ router.get("/getDetail", async (req: express.Request, res: express.Response) => 
   });
 });
 
-router.post("/create", async (req: express.Request, res: express.Response) => {
+router.post("/register", async (req: express.Request, res: express.Response) => {
   try {
     const createdUser = await userService.createUser(req.body);
 
-    res.status(201).json({
+    res.status(200).json({
       status: "success",
       data: {
-        message: "Successfully created user!",
-        user: createdUser,
-      },
+        message: "Register!"
+      }
     });
   } catch (err) {
     res.status(500).json({
@@ -44,6 +43,10 @@ router.post("/create", async (req: express.Request, res: express.Response) => {
       },
     });
   }
+});
+
+router.post("/login", async (req: express.Request, res: express.Response) => {
+
 });
 
 router.post("/createSpecs", async (req: express.Request, res: express.Response) => {

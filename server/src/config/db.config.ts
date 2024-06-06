@@ -1,5 +1,4 @@
-//TODO: Create environmental variables config
-// TODO: Change this variables according to your machine!
+// Change this variables according to your machine!
 
 export const DB_USERNAME = "root";
 

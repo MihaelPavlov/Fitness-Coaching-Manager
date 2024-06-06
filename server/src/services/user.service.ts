@@ -1,5 +1,5 @@
-import { QueryParams } from "../builders/types/types";
-import { UserBuilder } from "../builders/user.builder";
+import { QueryParams } from "../query-builders/models/builder.models";
+import { UserBuilder } from "../query-builders/user.builder";
 import db from "./../database/db";
 
 export const getUsers = async (payload: QueryParams) => {

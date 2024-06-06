@@ -7,14 +7,17 @@
     height: 100vh;
     font-family: 'Open Sans', sans-serif;
 
-    &__public-btn {
-        text-align: end;
-    }
+
 
     &__main-heading {
         color: palette.$main-font-black-color;
         text-align: start;
         padding-top: 3rem;
+        margin-bottom: -2.2rem;
+    }
+
+    &__public-btn {
+        text-align: end;
     }
 
     &__img-container {
@@ -46,7 +49,7 @@
         &-icon-public {
             color: palette.$main-blue-darker-color;
             position: absolute;
-            top: 111%;
+            top: 100%;
             left: 57.5%;
             border-radius: 50%;
             padding: 0.5rem;
@@ -117,6 +120,10 @@
                 left: 61%;
             }
         }
+
+        &__main-heading {
+            margin-bottom: -2.4rem;
+        }
     }
 }
 
@@ -124,8 +131,12 @@
 @media (max-width: 37.5em) {
     .profile-container {
         &__main-heading {
+            margin-bottom: 1.3rem;
             text-align: center;
-            padding-top: 1.5rem;
+        }
+
+        &__public-btn {
+            text-align: center;
         }
 
         &__img-container {
@@ -161,6 +172,16 @@
 
 @media (max-width:34em) {
     .profile-container {
+
+        &__main-heading {
+            margin-bottom: 1.3rem;
+            text-align: center;
+        }
+
+        &__public-btn {
+            text-align: center;
+        }
+
         &__img-container {
             &-icon-private {
                 left: 59%
@@ -184,6 +205,7 @@
                     text-align: center;
                 }
             }
+
         }
     }
 }

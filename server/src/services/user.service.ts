@@ -4,11 +4,12 @@ import { Secret } from "jsonwebtoken";
 import db from "../database/database-connector";
 import * as jwt from "./../lib/jwt";
 import { ACCESS_SECRET, REFRESH_SECRET } from "./../config/secret";
+import { createSession } from "./../database/user.sessions";
 
 const generateAccessToken = async (user: any, sessionId: string, secret: Secret, expiresIn: string) => {
   const payload = {
       id: user.id,
-      role: user.role,
+      role: user.user_role,
       sessionId
   };
 
@@ -38,16 +39,38 @@ export const getUser = async (payload: QueryParams) => {
   return await builder.buildQuery();
 };
 
-const createUser = async (data: any) => db("users").insert(data);
+const createUser = async (data: any): Promise<Array<number>> => db("users").insert(data, ['username']);
 
 const createUserSpecs = async (data: any) => db("user_specs").insert(data);
 
 export const registerUser = async (data: any) => {
-  const user = await db("users").select("*").where('email', data.email);
-
-  if (user) {
+  const user = await db("users").select("*").where('email', "=", data.email);
+  
+  if (user.length > 0) {
     throw new Error("User already exsist!");
   }
 
+  // Create new user
+  const createdUserID = await createUser({
+    user_role: data?.user_role || -1,
+    username: data.username,
+    email: data.email,
+    password: data.password,
+    country: data.country,
+    languages: data.languages
+  });
+  const createdUser = (await db("users").select("*").where("id", "=", createdUserID[0])).at(0);
   
+  // Create user specs from created user
+  await createUserSpecs({
+    user_id: createdUser.id,
+    sex: data.sex,
+    fitness_level: data.fitness_level
+  });
+
+  const session = createSession(createdUser.id, createdUser.role);
+
+  const accessToken = await generateAccessToken(createdUser, session.sessionId, ACCESS_SECRET, "2m");
+  const refreshToken = await generateRefreshToken(session.sessionId, REFRESH_SECRET, "10m");
+  return [accessToken, refreshToken, session];
 }

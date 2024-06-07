@@ -1,16 +1,27 @@
 import { QueryParams } from "../query-builders/models/builder.models";
 import { UserBuilder } from "../query-builders/user.builder";
+import { Secret } from "jsonwebtoken";
 import db from "../database/database-connector";
 import * as jwt from "./../lib/jwt";
-import SECRET from "./../config/secret";
+import { ACCESS_SECRET, REFRESH_SECRET } from "./../config/secret";
 
-const generateToken = async (createdUser: any) => {
+const generateAccessToken = async (user: any, sessionId: string, secret: Secret, expiresIn: string) => {
   const payload = {
-    id: createdUser.id,
-    username: createdUser.username
+      id: user.id,
+      role: user.role,
+      sessionId
   };
 
-  const token = await jwt.sign(payload, SECRET, {});
+  const token = await jwt.sign(payload, secret, { expiresIn });
+  return token;
+}
+
+const generateRefreshToken = async (sessionId: string, secret: Secret, expiresIn: string) => {
+  const payload = {
+      sessionId
+  };
+
+  const token = await jwt.sign(payload, secret, { expiresIn });
   return token;
 }
 

@@ -1,6 +1,6 @@
 export interface Session {
     sessionId: string,
-    id: Number,
-    role: String,
+    id: number,
+    role: number,
     valid: boolean
 }

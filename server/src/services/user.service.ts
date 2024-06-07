@@ -24,7 +24,7 @@ export const registerUser = async (data: Record<string, any>) => {
   const user = await db("users").select("*").where('email', "=", data.email);
   
   if (user.length > 0) {
-    throw new Error("User already exsist!");
+    throw new Error("User already exsists!");
   }
 
   // Create new user

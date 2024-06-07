@@ -68,9 +68,23 @@ export const registerUser = async (data: Record<string, any>) => {
   return [accessToken, refreshToken, session];
 }
 
+export const loginUser = async (data: Record<string, any>) => {
+  const user = (await db("users").select("*").where('email', "=", data.email)).at(0);
+  
+  if (!user) {
+    throw new Error("Invalid email or password!");
+  }
 
+  if (!await matchPasswords(data.password, user.password)) {
+    throw new Error("Invalid email or password!");
+  }
 
+  const session = createSession(user.id, user.role);
 
+  const accessToken = await generateAccessToken(user, session.sessionId, ACCESS_SECRET, "2m");
+  const refreshToken = await generateRefreshToken(session.sessionId, REFRESH_SECRET, "10m");
+  return [accessToken, refreshToken, session];
+}
 
 /******************/
 // Helper functions
@@ -78,6 +92,10 @@ export const registerUser = async (data: Record<string, any>) => {
 
 const hashPassword = async (password: string) => {
   return bcrypt.hash(password, 12);
+}
+
+const matchPasswords = async (password: string, hash: string) => {
+  return bcrypt.compare(password, hash);
 }
 
 const createUser = async (data: Record<string, any>): Promise<Array<number>> => db("users").insert(data, ['username']);

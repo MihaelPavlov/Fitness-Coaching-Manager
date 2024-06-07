@@ -1,4 +1,5 @@
 @use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
 
 .profile-container {
     max-width: 75rem;
@@ -10,7 +11,11 @@
     &__main-heading {
         color: palette.$main-font-black-color;
         text-align: start;
-        padding-top: 3rem;
+
+        @include mixins.respond(Phone) {
+            text-align: center;
+            padding-top: 1.5rem;
+        }
     }
 
     &__img-container {
@@ -37,6 +42,22 @@
             &:hover {
                 transform: scale(1.2);
             }
+
+            @include mixins.respond(53rem) {
+                left: 55%;
+            }
+
+            @include mixins.respond(Phone) {
+                left: 58%;
+            }
+
+            @include mixins.respond(34rem) {
+                left: 59%
+            }
+
+            @include mixins.respond(25.75rem) {
+                left: 62%;
+            }
         }
     }
 
@@ -58,100 +79,47 @@
                 color: palette.$main-blue-darker-color;
                 font-weight: 700;
 
+                @include mixins.respond(Phone) {
+                    text-align: center;
+                    font-size: 1rem;
+                }
+
+                @include mixins.respond(34rem) {
+                    text-align: center;
+                    font-size: 0.8rem;
+                }
+
                 &-level {
                     font-size: 1.1rem;
                     color: palette.$main-blue-darker-color;
                     font-weight: 700;
                     margin: 0 1rem;
+
+                    @include mixins.respond(Phone) {
+                        font-size: 1rem;
+                        margin: 0 0.2rem;
+                    }
+
+                    @include mixins.respond(34rem) {
+                        font-size: 0.8rem;
+                        margin: 0 0.2rem;
+                    }
                 }
             }
 
             &-label {
                 color: palette.$main-font-black-color;
                 font-weight: 700;
-            }
-        }
-    }
-}
 
-@media (max-width: 53em) {
-    .profile-container {
-        &__img-container {
-            &-icon {
-                left: 55%;
-            }
-        }
-    }
-}
-
-@media (max-width: 37.5em) {
-    .profile-container {
-        &__main-heading {
-            text-align: center;
-            padding-top: 1.5rem;
-        }
-
-        &__img-container {
-            &-icon {
-                left: 58%;
-            }
-        }
-
-        &__inforamtion-container {
-            &-box {
-                &-data {
-                    text-align: center;
-                    font-size: 1rem;
-
-                    &-level {
-                        font-size: 1rem;
-                        margin: 0 0.2rem;
-                    }
-                }
-
-                &-label {
+                @include mixins.respond(Phone) {
                     font-size: 1rem;
                     text-align: center;
                 }
-            }
-        }
-    }
-}
 
-@media (max-width:34em) {
-    .profile-container {
-        &__img-container {
-            &-icon {
-                left: 59%
-            }
-        }
-
-        &__inforamtion-container {
-            &-box {
-                &-data {
-                    text-align: center;
-                    font-size: 0.8rem;
-
-                    &-level {
-                        font-size: 0.8rem;
-                        margin: 0 0.2rem;
-                    }
-                }
-
-                &-label {
+                @include mixins.respond(34rem) {
                     font-size: 0.8rem;
                     text-align: center;
                 }
-            }
-        }
-    }
-}
-
-@media (max-width: 25.75em) {
-    .profile-container {
-        &__img-container {
-            &-icon {
-                left: 62%;
             }
         }
     }

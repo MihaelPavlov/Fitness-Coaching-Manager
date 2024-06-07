@@ -28,7 +28,6 @@ router.get("/getDetail", async (req: express.Request, res: express.Response) => 
 router.post("/register", async (req: express.Request, res: express.Response) => {
   try {
     const [accessToken, refreshToken, session] = await userService.registerUser(req.body);
-    console.log("accessToken")
 
     res.cookie("accessToken", accessToken, {
       maxAge: 2 * 60 * 100,

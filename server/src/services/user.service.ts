@@ -39,15 +39,15 @@ export const getUser = async (payload: QueryParams) => {
   return await builder.buildQuery();
 };
 
-const createUser = async (data: any): Promise<Array<number>> => db("users").insert(data, ['username']);
+const createUser = async (data: Record<string, any>): Promise<Array<number>> => db("users").insert(data, ['username']);
 
-const createUserSpecs = async (data: any) => db("user_specs").insert(data);
+const createUserSpecs = async (data: Record<string, any>) => db("user_specs").insert(data);
 
-const createContributor = async (data: any) => db("contributors").insert(data);
+const createContributor = async (data: Record<string, any>) => db("contributors").insert(data);
 
-const createContributorApplication = async (data: any) => db("contributor_applications").insert(data);
+const createContributorApplication = async (data: Record<string, any>) => db("contributor_applications").insert(data);
 
-export const registerUser = async (data: any) => {
+export const registerUser = async (data: Record<string, any>) => {
   const user = await db("users").select("*").where('email', "=", data.email);
   
   if (user.length > 0) {

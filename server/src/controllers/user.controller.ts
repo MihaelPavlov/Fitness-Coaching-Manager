@@ -28,26 +28,27 @@ router.get("/getDetail", async (req: express.Request, res: express.Response) => 
 router.post("/register", async (req: express.Request, res: express.Response) => {
   try {
     const [accessToken, refreshToken, session] = await userService.registerUser(req.body);
+    console.log("accessToken")
 
     res.cookie("accessToken", accessToken, {
       maxAge: 2 * 60 * 100,
       httpOnly: true
     });
     res.cookie("refreshToken", refreshToken, {
-        httpOnly: true,
-        sameSite: "none",
-        secure: true,
-        maxAge: 10 * 60 * 100
+      httpOnly: true,
+      sameSite: "none",
+      secure: true,
+      maxAge: 10 * 60 * 100
     });
     res.status(200).json({
-        status: "success",
-        data: {
-            session
-        }
+      status: "success",
+      data: {
+          session
+      }
     });
-    
+
   } catch (err) {
-    res.status(400).json({
+    return res.status(400).json({
       status: "fail",
       data: {
           error: err.message

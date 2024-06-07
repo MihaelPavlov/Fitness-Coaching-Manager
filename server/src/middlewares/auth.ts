@@ -17,7 +17,7 @@ const generateToken = async (session: Session) => {
   );
 };
 
-const checkAccessToken = async (req: any, res: Response, next: NextFunction) => {
+export const checkAccessToken = async (req: any, res: Response, next: NextFunction) => {
   const { accessToken } = req.cookies;
 
   if (!accessToken) {
@@ -27,7 +27,7 @@ const checkAccessToken = async (req: any, res: Response, next: NextFunction) => 
   try {
     req.user = await verifyToken(accessToken, ACCESS_SECRET);
 
-    return next();
+    next();
   } catch (err) {
     if (err.name === "TokenExpiredError") {
       req.expiredAccessToken = true;
@@ -39,7 +39,7 @@ const checkAccessToken = async (req: any, res: Response, next: NextFunction) => 
   }
 }
 
-const checkRefreshToken = async (req: any, res: Response, next: NextFunction) => {
+export const checkRefreshToken = async (req: any, res: Response, next: NextFunction) => {
   if (!req.expiredAccessToken) return next();
 
   const { refreshToken } = req.cookies;
@@ -73,15 +73,6 @@ const checkRefreshToken = async (req: any, res: Response, next: NextFunction) =>
     next();
   }
 }
-
-export const authMiddleware = async (
-  req: any,
-  res: Response,
-  next: NextFunction
-) => {
-  await checkAccessToken(req, res, next);
-  await checkRefreshToken(req, res, next);
-};
 
 export const isAuth = (req: any, res: Response, next: NextFunction) => {
   if (!req.user) {

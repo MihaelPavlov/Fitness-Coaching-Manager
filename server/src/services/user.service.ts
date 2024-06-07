@@ -56,25 +56,36 @@ export const registerUser = async (data: Record<string, any>) => {
 
   // Create new user
   const createdUserID = await createUser({
+    first_name: data?.first_name || null,
+    last_name: data?.last_name || null,
     user_role: data?.user_role || -1,
     username: data.username,
     email: data.email,
     password: data.password,
     country: data.country,
+    phone_number: data?.phone_number || null,
     languages: data.languages
   });
   const createdUser = (await db("users").select("*").where("id", "=", createdUserID[0])).at(0);
-  
+
   // Create user specs from created user
   await createUserSpecs({
     user_id: createdUser.id,
     sex: data.sex,
-    fitness_level: data.fitness_level
+    fitness_level: data?.fitness_level || null
   });
-
+  
   // Coach user
   if (data.user_role == 1) {
     // Insert data into contributors and applications
+    const createdContributorID = (await createContributor({
+      user_id: createdUser.id
+    })).at(0);
+
+    await createContributorApplication({
+      contributor_id: createdContributorID,
+      item_uri: data.item_uri
+    });
   }
 
   const session = createSession(createdUser.id, createdUser.role);

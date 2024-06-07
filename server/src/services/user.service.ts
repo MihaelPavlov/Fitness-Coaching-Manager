@@ -5,6 +5,8 @@ import db from "../database/database-connector";
 import * as jwt from "./../lib/jwt";
 import { ACCESS_SECRET, REFRESH_SECRET } from "./../config/secret";
 import { createSession } from "./../database/user.sessions";
+import * as bcrypt from "bcrypt";
+
 
 const generateAccessToken = async (user: any, sessionId: string, secret: Secret, expiresIn: string) => {
   const payload = {
@@ -39,6 +41,10 @@ export const getUser = async (payload: QueryParams) => {
   return await builder.buildQuery();
 };
 
+const hashPassword = async (password: string) => {
+  return bcrypt.hash(password, 12);
+}
+
 const createUser = async (data: Record<string, any>): Promise<Array<number>> => db("users").insert(data, ['username']);
 
 const createUserSpecs = async (data: Record<string, any>) => db("user_specs").insert(data);
@@ -61,7 +67,7 @@ export const registerUser = async (data: Record<string, any>) => {
     user_role: data?.user_role || -1,
     username: data.username,
     email: data.email,
-    password: data.password,
+    password: await hashPassword(data.password),
     country: data.country,
     phone_number: data?.phone_number || null,
     languages: data.languages

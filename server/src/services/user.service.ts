@@ -43,6 +43,10 @@ const createUser = async (data: any): Promise<Array<number>> => db("users").inse
 
 const createUserSpecs = async (data: any) => db("user_specs").insert(data);
 
+const createContributor = async (data: any) => db("contributors").insert(data);
+
+const createContributorApplication = async (data: any) => db("contributor_applications").insert(data);
+
 export const registerUser = async (data: any) => {
   const user = await db("users").select("*").where('email', "=", data.email);
   
@@ -67,6 +71,11 @@ export const registerUser = async (data: any) => {
     sex: data.sex,
     fitness_level: data.fitness_level
   });
+
+  // Coach user
+  if (data.user_role == 1) {
+    // Insert data into contributors and applications
+  }
 
   const session = createSession(createdUser.id, createdUser.role);
 

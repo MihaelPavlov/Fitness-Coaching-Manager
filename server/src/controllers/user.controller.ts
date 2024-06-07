@@ -29,16 +29,7 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
   try {
     const [accessToken, refreshToken, session] = await userService.registerUser(req.body);
 
-    res.cookie("accessToken", accessToken, {
-      maxAge: 2 * 60 * 100,
-      httpOnly: true
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      maxAge: 10 * 60 * 100
-    });
+    setAuthenticationCookies(res, accessToken, refreshToken);
     res.status(200).json({
       status: "success",
       data: {
@@ -60,16 +51,7 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
   try {
     const [accessToken, refreshToken, session] = await userService.loginUser(req.body);
 
-    res.cookie("accessToken", accessToken, {
-      maxAge: 2 * 60 * 100,
-      httpOnly: true
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      maxAge: 10 * 60 * 100
-    });
+    setAuthenticationCookies(res, accessToken, refreshToken);
     res.status(200).json({
       status: "success",
       data: {
@@ -86,5 +68,18 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
     })
   }
 });
+
+const setAuthenticationCookies = (res: express.Response, accessToken: any, refreshToken: any) => {
+  res.cookie("accessToken", accessToken, {
+    maxAge: 2 * 60 * 100,
+    httpOnly: true
+  });
+  res.cookie("refreshToken", refreshToken, {
+    httpOnly: true,
+    sameSite: "none",
+    secure: true,
+    maxAge: 10 * 60 * 100
+  });
+}
 
 export default router;

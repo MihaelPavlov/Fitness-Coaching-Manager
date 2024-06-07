@@ -1,3 +1,3 @@
-const SECRET = "jflkdasj;lk";
+export const ACCESS_SECRET = "fjlkdasjflk;";
 
-export default SECRET;
+export const REFRESH_SECRET = "jflkads;jflk";

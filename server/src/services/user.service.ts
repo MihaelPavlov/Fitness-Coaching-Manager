@@ -21,3 +21,5 @@ export const createUser = async (data: any) => {
 
 export const createUserSpecs = async (data: any) =>
   db("user_specs").insert(data);
+
+export const registerUser = async (data: any) => {}

@@ -15,7 +15,9 @@ export const getUser = async (payload: QueryParams) => {
   return await builder.buildQuery();
 };
 
-export const createUser = async (data: any) => db("users").insert(data);
+export const createUser = async (data: any) => {
+  db("users").insert(data)
+};
 
 export const createUserSpecs = async (data: any) =>
   db("user_specs").insert(data);

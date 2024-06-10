@@ -42,21 +42,8 @@
             &:hover {
                 transform: scale(1.2);
             }
-
-            @include mixins.respond(53rem) {
-                left: 55%;
-            }
-
             @include mixins.respond(Phone) {
                 left: 58%;
-            }
-
-            @include mixins.respond(34rem) {
-                left: 59%
-            }
-
-            @include mixins.respond(25.75rem) {
-                left: 62%;
             }
         }
     }
@@ -84,11 +71,6 @@
                     font-size: 1rem;
                 }
 
-                @include mixins.respond(34rem) {
-                    text-align: center;
-                    font-size: 0.8rem;
-                }
-
                 &-level {
                     font-size: 1.1rem;
                     color: palette.$main-blue-darker-color;
@@ -97,11 +79,6 @@
 
                     @include mixins.respond(Phone) {
                         font-size: 1rem;
-                        margin: 0 0.2rem;
-                    }
-
-                    @include mixins.respond(34rem) {
-                        font-size: 0.8rem;
                         margin: 0 0.2rem;
                     }
                 }
@@ -113,11 +90,6 @@
 
                 @include mixins.respond(Phone) {
                     font-size: 1rem;
-                    text-align: center;
-                }
-
-                @include mixins.respond(34rem) {
-                    font-size: 0.8rem;
                     text-align: center;
                 }
             }

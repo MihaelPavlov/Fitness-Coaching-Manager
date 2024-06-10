@@ -5,7 +5,7 @@
     &__inputs-flex-container {
         row-gap: 0.5rem;
 
-        @include mixins.respond(34rem) {
+        @include mixins.respond(Phone) {
             gap: 1rem;
         }
 
@@ -20,7 +20,7 @@
         }
 
         &-input-item {
-            @include mixins.respond(34rem) {
+            @include mixins.respond(Phone) {
                 flex-direction: column;
                 gap: 1rem;
             }

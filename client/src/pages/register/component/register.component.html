@@ -20,9 +20,9 @@
             <ng-container *ngIf="showGeneralDetails">
                 <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
                     <app-input class="register-form__general-details__input-field" label="Username"
-                        [type]="InputType.Text" placeholder="Username" name="username"
-                        (valueChange)="handleInputChange('username', $event)"
-                        ></app-input>    
+                    [type]="InputType.Text" placeholder="Username" name="username"
+                    (valueChange)="handleInputChange('username', $event)"
+                    ></app-input>  
                     <app-input class="register-form__general-details__input-field"
                         (valueChange)="handleInputChange('email', $event)" label="Email" [type]="InputType.Text"
                         placeholder="Email" name="email"></app-input>
@@ -130,7 +130,10 @@
         </div>
 
         <div class="register-form__elements__buttons">
-            <app-button label="Sign Up" type="submit"></app-button>
+            <app-button routerLink="/register" class="landing-page-container__buttons-container__button mb-20" text="Sing In"
+            [width]="'100%'"  [hoverBackgroundColor]="'main-background-color'"
+            [hoverTextColor]="'main-blue-darker-color'"></app-button>
+
         </div>
 
         <div class="register-form__links d-flex flex-direction-column">

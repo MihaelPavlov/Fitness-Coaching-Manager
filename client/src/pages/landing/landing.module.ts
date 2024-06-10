@@ -11,8 +11,11 @@ import { RouterModule } from '@angular/router';
     ],
     imports: [
         CommonModule,
-        InputModule,    ],
-    exports:[
+        InputModule,
+        ButtonModule,
+        RouterModule
+    ],
+    exports: [
         LandingComponent
     ]
 })

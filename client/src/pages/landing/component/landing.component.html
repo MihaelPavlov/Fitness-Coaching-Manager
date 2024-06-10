@@ -1,8 +1,8 @@
 <div class="landing-page-container d-flex justify-content-center flex-wrap">
-    <div class="landing-page-container__buttons-container d-flex align-items-end g-10 ">
+    <div class="landing-page-container__buttons-container d-flex align-items-end g-10" >
         <app-button routerLink="/register"  class="landing-page-container__buttons-container__button mb-20" text="I want to be a contributor"
             [width]="'100%'" [fontSize]="'1.5rem'" [padding]="'1rem'" [hoverBackgroundColor]="'main-background-color'"
-            [hoverTextColor]="'main-blue-darker-color'">
+            [hoverTextColor]="'main-blue-darker-color'" (click)="registerAsTrainer()">
         </app-button>
         <app-button routerLink="/register" class="landing-page-container__buttons-container__button mb-20" text="I want to do workouts"
             [width]="'100%'" [fontSize]="'1.5rem'" [padding]="'1rem'" [hoverBackgroundColor]="'main-background-color'"
@@ -10,3 +10,4 @@
         </app-button>
     </div>
 </div>
+

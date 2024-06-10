@@ -16,7 +16,7 @@ export class RegisterUserComponent {
   optionArrays = optionArrays;
 
   constructor() {
-    this.isRegisteringAsTrainer = registeringAsTrainer
+    this.isRegisteringAsTrainer = true
   }
 
 
@@ -24,7 +24,7 @@ export class RegisterUserComponent {
 
   showAdditionalDetails = false;
 
-  showProofOfRightsDetails = false;
+  showProofOfRightsDetails = true;
 
   showDropDownMenu = false;
 

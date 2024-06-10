@@ -30,11 +30,8 @@ export const ROUTES: Routes = [
     // We still do not have a layout component as it's set up above, so that's why I am creating a new set up of the lazy loading module here;
     {   
         path: 'exercise-library',
-        component: ExerciseLibraryComponent,
-        children: [
-            {path: 'exercise-library', loadChildren: () =>
-                import('../../pages/exercise-library/exercise-library.module').then((m) => m.ExerciseLibraryModule)},
-        ]  
+        loadChildren: () =>
+            import('../../pages/exercise-library/exercise-library.module').then((m) => m.ExerciseLibraryModule)
     },
 ]
 

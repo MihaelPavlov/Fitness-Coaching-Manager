@@ -1,15 +1,27 @@
+@import '../../../shared/styles/palette';
+
 .wrapper {
-    padding: 2rem;
-    margin: auto;
     height: 100vh;
+
+    &__page__name {
+        display: none;
+    }
 }
 
 @media(min-width: 671px) {
     app-exercise-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-        justify-content: space-between;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        height: 400px;
+        gap: 0.5rem;
+        overflow-x: scroll;
+        overflow-y: hidden;  
+    }
+
+    .wrapper__page__name {
+        display: block;
+        padding-bottom: 0.5rem;
     }
 }
 

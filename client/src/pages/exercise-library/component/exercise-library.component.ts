@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-exercise-library',
@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrl: './exercise-library.component.scss'
 })
 export class ExerciseLibraryComponent {
-
+  @Input() pageName: string = 'Exercises'
 }

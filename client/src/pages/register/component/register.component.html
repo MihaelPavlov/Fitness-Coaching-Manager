@@ -1,0 +1,141 @@
+<div class="register-container d-flex align-items-center justify-content-center">
+    <form (ngSubmit)="submitHandler()" class="register-form w-100 d-flex flex-direction-column">
+        <div class="register-form__heading-box mb-5">
+            <h1 *ngIf="!isRegisteringAsTrainer" class="register-form__heading-box-text mt-0">Register as User</h1>
+            <h1 *ngIf="isRegisteringAsTrainer" class="register-form__heading-box-text mt-0">Register as Trainer</h1>
+            <div class="register-form__heading-box-border"></div>
+        </div>
+
+
+        <div class="register-form__details-container">
+            <div class="register-form__details-container__heading-container d-flex justify-content-between pb-5"
+                (click)="generalDetailsVisibility() ">
+                <div class="register-form__details-container__heading-container__label d-flex">
+                    <app-background-square label="1" />
+                    <div>General Details</div>
+                </div>
+                <app-background-square label="{{showGeneralDetails ?  '⬇' :  '➡'}}" />
+            </div>
+            
+            <ng-container *ngIf="showGeneralDetails">
+                <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
+                    <app-input class="register-form__general-details__input-field" label="Username"
+                        [type]="InputType.Text" placeholder="Username" name="username"
+                        (valueChange)="handleInputChange('username', $event)"
+                        formControlName="username"
+                        ></app-input>    
+                    <app-input class="register-form__general-details__input-field"
+                        (valueChange)="handleInputChange('email', $event)" label="Email" [type]="InputType.Text"
+                        placeholder="Email" name="email"></app-input>
+                    <app-input class="register-form__general-details__input-field" label="Password"
+                        [type]="InputType.Password" placeholder="Password" name="password"></app-input>
+                    <app-input class="register-form__general-details__input-field" label="Repeat Password"
+                        [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword"></app-input>
+                </div>
+            </ng-container>
+
+
+            <div class="register-form__details-container__heading-container d-flex justify-content-between pb-5"
+                (click)="additionalDetailsVisibility()">
+                <div class="register-form__details-container__heading-container__label d-flex">
+                    <app-background-square label="2" />
+                    <div>Additional Details</div> 
+                </div>
+                <app-background-square label="{{showAdditionalDetails ?    '⬇' :  '➡'}}" /> 
+            </div>
+
+            <ng-container *ngIf="showAdditionalDetails && !isRegisteringAsTrainer">
+                <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
+                    <app-select class="register-form__general-details__input-field"
+                        [options]="optionArrays.fitnessLevel" label="Fitness Level" name="fitnessLevel"
+                        (valueChange)="handleInputChange('fitnessLevel', $event)" />
+                    <app-select class="register-form__general-details__input-field" [options]="optionArrays.countryList"
+                        label="Country" name="country" />
+                    <app-select class="register-form__general-details__input-field" [options]="optionArrays.genderList"
+                        label="Sex" name="sex" />
+                    <app-select class="register-form__general-details__input-field"
+                        [options]="optionArrays.preferredLanguage" label="Preferred Language"
+                        name="preferredLanguage" />
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="showAdditionalDetails && isRegisteringAsTrainer">
+                <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
+                    <app-input class="register-form__general-details__input-field" label="First Name"
+                        [type]="InputType.Text" placeholder="First Name" name="firstName"></app-input>
+                    <app-input class="register-form__general-details__input-field" label="Last Name"
+                        [type]="InputType.Text" placeholder="Last Name" name="lastName"></app-input>
+                    <app-select class="register-form__general-details__input-field" [options]="optionArrays.countryList"
+                        label="Country" name="country" />
+                    <app-select class="register-form__general-details__input-field"
+                        [options]="optionArrays.preferredLanguage" label="Preferred Language"
+                        name="preferredLanguage" />
+                    <app-input class="register-form__general-details__input-field" label="Phone Number"
+                        [type]="InputType.Text" placeholder="Phone Number" name="phoneNumber"></app-input>
+                    <app-select class="register-form__general-details__input-field" [options]="optionArrays.genderList"
+                        label="Sex" name="sex" />
+                </div>
+            </ng-container>
+
+
+            <ng-container *ngIf="isRegisteringAsTrainer">
+                <div class="register-form__details-container__heading-container d-flex justify-content-between pb-5"
+                    (click)="proofOfRightsDetailsVisibility()">
+                    <div class="register-form__details-container__heading-container__label d-flex">
+                        <app-background-square label="3" />
+                        <div>Proof of rights to do coaching</div>
+                    </div>
+                    <app-background-square label="{{showProofOfRightsDetails ?  '⬇' :  '➡'}}" />
+                </div>
+
+                <ng-container *ngIf="showProofOfRightsDetails">
+                    <div class="register-form__general-details d-flex flex-wrap justify-content-center g-5 pb-5">
+                        <div class="register-form__general-details__inform-message-container d-flex">
+                            <div class="register-form__general-details__inform-message-container__message">
+                                <p>As a trainer, provide proof of qualifications, certifications or licenses via
+                                    documents or social media links.</p>
+                                <p><strong> Press the plus button to add your documents or links</strong></p>
+                            </div>
+
+                            <div class="register-form__general-details__inform-message-container__button-container align-self-center"
+                                (click)="toggleDropDownMenu()">
+                                <div>+</div>
+                                <div class="register-form__general-details__inform-message-container__button-container__menu"
+                                    *ngIf="showDropDownMenu">
+                                    <div (click)="attachLink = true"
+                                        class="register-form__general-details__inform-message-container__button-container__menu__item">
+                                        Link</div>
+                                    <div (click)="attachDocument = true"
+                                        class="register-form__general-details__inform-message-container__button-container__menu__item">
+                                        Document</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ng-container *ngIf="attachDocument"> <app-input
+                                class="register-form__general-details__input-field" label="Attach Document"
+                                [type]="InputType.File" placeholder="Attach Document" name="attachDocument"></app-input>
+                        </ng-container>
+
+                        <ng-container *ngIf="attachLink">
+                            <app-input class="register-form__general-details__input-field" label="Link Url"
+                                [type]="InputType.Url" placeholder="Link Url" name="linkUrl"></app-input>
+                            <app-input class="register-form__general-details__input-field" label="Link Url 2"
+                                [type]="InputType.Url" placeholder="Link Url 2" name="linkUrl2"></app-input>
+                        </ng-container>
+
+                    </div>
+                </ng-container>
+            </ng-container>
+
+        </div>
+
+        <div class="register-form__elements__buttons">
+            <app-button label="Sign Up" type="submit"></app-button>
+        </div>
+
+        <div class="register-form__links d-flex flex-direction-column">
+            <a class="register-form__links-text" href="/login">Already have an an account? Log in</a>
+        </div>
+    </form>
+</div>

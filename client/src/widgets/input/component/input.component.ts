@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { } from '@angular/forms';
+
 import { InputType } from '../../../shared/enums/input-types.enum';
 
 @Component({
@@ -11,4 +13,10 @@ export class InputComponent {
   @Input() placeholder: string = '';
   @Input() type: InputType = InputType.Text;
   @Input() name: string = '';
+
+  @Output() valueChange = new EventEmitter<string>();
+
+  onInputChange(eventTarget: any) {    
+    this.valueChange.emit(eventTarget.value);
+  }
 }

@@ -21,14 +21,11 @@
     }
 }
 
+
 @media (width < 700px) {
 
     .input-container__input {
         background-color: white;
         font-size: 0.6rem;
     }
-}
-
-::-webkit-file-upload-button {
-    display: none;
 }

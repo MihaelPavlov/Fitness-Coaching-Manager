@@ -9,7 +9,8 @@ import { LandingModule } from '../pages/landing/landing.module';
 import { HeaderComponent } from '../features/layout/header/header.component';
 import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
 import { LoginModule } from '../pages/login/login.module';
-import { RegisterUserModule } from '../pages/register-user/register-user.module';
+import { RegisterUserModule } from '../pages/register/register.module';
+import { RegisterUserComponent } from '../pages/register/component/register.component';
 
 @NgModule({
     declarations: [AppComponent, HeaderComponent, MenuContainerComponent],

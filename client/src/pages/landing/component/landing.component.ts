@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+export let registeringAsTrainer: boolean
+
 @Component({
   selector: 'app-landing',
   templateUrl: './landing.component.html',
@@ -7,4 +9,9 @@ import { Component } from '@angular/core';
 })
 export class LandingComponent {
 
+  registerAsTrainer() {
+    registeringAsTrainer = true
+  }
 }
+
+

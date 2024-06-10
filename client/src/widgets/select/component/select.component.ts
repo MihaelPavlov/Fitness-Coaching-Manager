@@ -9,7 +9,6 @@ export class SelectComponent {
   @Input() label: string = '';
   @Input() name!: string;
   @Input() options!: string[];
-  @Input() formControlName: string = '';
 
   @Output() valueChange = new EventEmitter<string>();
 

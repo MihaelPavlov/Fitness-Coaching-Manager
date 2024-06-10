@@ -12,7 +12,8 @@
     &__link {
         color: palette.$menu-container-icon-color;
         font-size: 1.2rem;
-
+        transition: all 0.4s;
+        
         &:hover,
         &:active {
             color: palette.$main-blue-darker-color;

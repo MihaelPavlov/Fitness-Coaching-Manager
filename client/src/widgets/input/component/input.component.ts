@@ -19,4 +19,27 @@ export class InputComponent {
   onInputChange(eventTarget: any) {    
     this.valueChange.emit(eventTarget.value);
   }
+  
+  //Style Decorators
+  @Input() textColor: 'main-text-color' = 'main-text-color';
+  @Input() backgroundColor: 'white' | 'main-background-color' = 'main-background-color';
+
+  get getBackgroundColor(): string {
+    switch (this.backgroundColor) {
+      case 'white': {
+        return '#ffffff'
+      }
+      default: {
+        return 'eceef3'
+      }
+    }
+  }
+
+  get getTextColor(): string {
+    switch (this.textColor) {
+      default: {
+        return '#475f93'
+      }
+    }
+  }
 }

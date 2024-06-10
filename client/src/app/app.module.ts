@@ -5,12 +5,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterOutlet } from '@angular/router';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations"
 import { AppComponent } from './app-component/app.component';
-import { LandingModule } from '../pages/landing/landing.module';
 import { HeaderComponent } from '../features/layout/header/header.component';
 import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
+import { LandingModule } from '../pages/landing/landing.module';
 import { LoginModule } from '../pages/login/login.module';
 import { RegisterUserModule } from '../pages/register/register.module';
-import { RegisterUserComponent } from '../pages/register/component/register.component';
 
 @NgModule({
     declarations: [AppComponent, HeaderComponent, MenuContainerComponent],

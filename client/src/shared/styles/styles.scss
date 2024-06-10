@@ -6,7 +6,7 @@
 @import './utilities';
 @import './variables';
 
-* {
+html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -45,10 +45,4 @@ a:focus,
 a:active {
   text-decoration: none;
   color: inherit;
-}
-
-.landing-page-container{
-  font-size: 1.5rem;
-  font-family: 'Courier New';
-  font-weight: bold;
 }

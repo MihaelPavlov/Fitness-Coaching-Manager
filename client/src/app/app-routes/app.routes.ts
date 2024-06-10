@@ -6,10 +6,10 @@ import { RegisterUserComponent } from '../../pages/register/component/register.c
 
 
 export const ROUTES: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: LandingComponent   
+    {
+        path: '',
+        pathMatch: 'full',
+        component: LandingComponent
   },
   {
     path: 'login',
@@ -18,6 +18,13 @@ export const ROUTES: Routes = [
   {
     path: 'register',
     component: RegisterUserComponent
-  }
+    },
+    {
+        path: 'profile',
+        loadChildren: () =>
+            import('../../pages/profile/profile.module').then(
+                (m) => m.ProfileModule
+            ),
+    },
 ];
 

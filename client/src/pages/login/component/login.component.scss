@@ -46,25 +46,5 @@
     &__links {
         gap: 0.1rem;
         text-align: center;
-
-        &-text {
-            transition: all 0.4s;
-
-            &:link,
-            &:visited {
-                color: palette.$main-blue-darker-color;
-                text-decoration: none;
-                font-weight: 700;
-                font-size: 0.8rem;
-            }
-
-            &:hover {
-                transform: scale(1.03);
-            }
-
-            &:active {
-                transform: translate(0);
-            }
-        }
     }
 }

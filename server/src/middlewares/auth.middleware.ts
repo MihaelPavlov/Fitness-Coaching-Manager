@@ -1,6 +1,6 @@
 import { NextFunction, Response } from "express";
 import * as jwt from "./../lib/jwt";
-import { ACCESS_SECRET, REFRESH_SECRET } from "./../config/secret";
+import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../config/secret.config";
 import { getSession } from "./../database/user.sessions";
 import { Secret } from "jsonwebtoken";
 import { Session } from "./../types/session";
@@ -12,12 +12,16 @@ const verifyToken = async (token: string, secret: Secret) => {
 const generateToken = async (session: Session) => {
   return await jwt.sign(
     { id: session.id, role: session.role, sessionId: session.sessionId },
-    ACCESS_SECRET,
+    ACCESS_TOKEN_SECRET_KEY,
     { expiresIn: "2m" }
   );
 };
 
-export const checkAccessToken = async (req: any, res: Response, next: NextFunction) => {
+export const checkAccessToken = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
   const { accessToken } = req.cookies;
 
   if (!accessToken) {
@@ -25,7 +29,7 @@ export const checkAccessToken = async (req: any, res: Response, next: NextFuncti
   }
 
   try {
-    req.user = await verifyToken(accessToken, ACCESS_SECRET);
+    req.user = await verifyToken(accessToken, ACCESS_TOKEN_SECRET_KEY);
 
     next();
   } catch (err) {
@@ -37,9 +41,13 @@ export const checkAccessToken = async (req: any, res: Response, next: NextFuncti
 
     next();
   }
-}
+};
 
-export const checkRefreshToken = async (req: any, res: Response, next: NextFunction) => {
+export const checkRefreshToken = async (
+  req: any,
+  res: Response,
+  next: NextFunction
+) => {
   if (!req.expiredAccessToken) return next();
 
   const { refreshToken } = req.cookies;
@@ -49,7 +57,7 @@ export const checkRefreshToken = async (req: any, res: Response, next: NextFunct
   }
 
   try {
-    const refreshPayload = await verifyToken(refreshToken, REFRESH_SECRET);
+    const refreshPayload = await verifyToken(refreshToken, REFRESH_TOKEN_SECRET_KEY);
 
     // @ts-ignore
     const session = getSession(refreshPayload.sessionId);
@@ -65,14 +73,14 @@ export const checkRefreshToken = async (req: any, res: Response, next: NextFunct
     });
 
     // @ts-ignore
-    req.user = await verifyToken(newAccessToken, ACCESS_SECRET);
+    req.user = await verifyToken(newAccessToken, ACCESS_TOKEN_SECRET_KEY);
 
     next();
   } catch (err) {
     console.error(err.message, "- REFRESH TOKEN");
     next();
   }
-}
+};
 
 export const isAuth = (req: any, res: Response, next: NextFunction) => {
   if (!req.user) {

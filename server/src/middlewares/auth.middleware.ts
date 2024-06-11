@@ -1,6 +1,9 @@
 import { NextFunction, Response } from "express";
-import * as jwt from "./../lib/jwt";
-import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../config/secret.config";
+import * as jwt from "../lib/jwt.lib";
+import {
+  ACCESS_TOKEN_SECRET_KEY,
+  REFRESH_TOKEN_SECRET_KEY,
+} from "../config/secret.config";
 import { getSession } from "./../database/user.sessions";
 import { Secret } from "jsonwebtoken";
 import { Session } from "../models/session.model";
@@ -58,7 +61,10 @@ export const checkRefreshToken = async (
   }
 
   try {
-    const refreshPayload = await verifyToken(refreshToken, REFRESH_TOKEN_SECRET_KEY);
+    const refreshPayload = await verifyToken(
+      refreshToken,
+      REFRESH_TOKEN_SECRET_KEY
+    );
 
     // @ts-ignore
     const session = getSession(refreshPayload.sessionId);

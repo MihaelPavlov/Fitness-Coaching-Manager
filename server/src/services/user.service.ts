@@ -90,7 +90,7 @@ export const loginUser = async (data: Record<string, any>) => {
   }
 
   const session = createSession(user.id, user.user_role);
-  console.log(user)
+
   const accessToken = await generateAccessToken(
     user,
     session.sessionId,

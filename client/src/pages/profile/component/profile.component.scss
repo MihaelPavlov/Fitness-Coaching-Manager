@@ -1,97 +1,86 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared/styles/mixins";
 
-.profile-container {
-    max-width: 75rem;
-    margin: 0 auto;
-    padding: 0 2rem;
-    height: 100vh;
-    font-family: 'Open Sans', sans-serif;
+.profile-heading {
+    @include mixins.respond(Phone) {
+        text-align: center;
+    }
+}
 
-    &__main-heading {
-        color: palette.$main-font-black-color;
-        text-align: start;
+.profile-img-container {
+    text-align: center;
+    position: relative;
+
+    img {
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        box-shadow: 0 0.1rem 0.1rem rgba($color: palette.$main-font-black-color, $alpha: 0.5);
+    }
+
+    &-icon {
+        background-color: rgb(255, 255, 255);
+        position: absolute;
+        top: 75%;
+        left: 57%;
+        border-radius: 50%;
+        padding: 0.5rem;
+        cursor: pointer;
+        transition: all 0.5s;
+
+        &:hover {
+            transform: scale(1.2);
+        }
 
         @include mixins.respond(Phone) {
+            left: 58%;
+        }
+    }
+}
+
+.profile-name {
+    text-align: center;
+    font-size: 1.4rem;
+    color: palette.$main-blue-darker-color;
+    font-weight: 600;
+    padding-top: 0.2rem;
+}
+
+.profile-information-container {
+    padding-top: 0.4rem;
+
+    &-box {
+        &-data {
             text-align: center;
-            padding-top: 1.5rem;
-        }
-    }
+            font-size: 1.1rem;
+            color: palette.$main-blue-darker-color;
+            font-weight: 700;
 
-    &__img-container {
-        text-align: center;
-        position: relative;
-
-        &-img {
-            width: 10rem;
-            height: 10rem;
-            border-radius: 50%;
-            box-shadow: 0 0.1rem 0.1rem rgba($color: palette.$main-font-black-color, $alpha: 0.5);
-        }
-
-        &-icon {
-            background-color: rgb(255, 255, 255);
-            position: absolute;
-            top: 75%;
-            left: 53%;
-            border-radius: 50%;
-            padding: 0.5rem;
-            cursor: pointer;
-            transition: all 0.5s;
-
-            &:hover {
-                transform: scale(1.2);
-            }
             @include mixins.respond(Phone) {
-                left: 58%;
-            }
-        }
-    }
-
-    &__profile-name {
-        text-align: center;
-        font-size: 1.4rem;
-        color: palette.$main-blue-darker-color;
-        font-weight: 600;
-        padding-top: 0.2rem;
-    }
-
-    &__inforamtion-container {
-        padding-top: 0.4rem;
-
-        &-box {
-            &-data {
                 text-align: center;
+                font-size: 1rem;
+            }
+
+            &-level {
                 font-size: 1.1rem;
                 color: palette.$main-blue-darker-color;
                 font-weight: 700;
+                margin: 0 1rem;
 
                 @include mixins.respond(Phone) {
-                    text-align: center;
                     font-size: 1rem;
-                }
-
-                &-level {
-                    font-size: 1.1rem;
-                    color: palette.$main-blue-darker-color;
-                    font-weight: 700;
-                    margin: 0 1rem;
-
-                    @include mixins.respond(Phone) {
-                        font-size: 1rem;
-                        margin: 0 0.2rem;
-                    }
+                    margin: 0 0.2rem;
                 }
             }
+        }
 
-            &-label {
-                color: palette.$main-font-black-color;
-                font-weight: 700;
+        &-label {
+            color: palette.$main-font-black-color;
+            font-weight: 700;
 
-                @include mixins.respond(Phone) {
-                    font-size: 1rem;
-                    text-align: center;
-                }
+            @include mixins.respond(Phone) {
+                font-size: 1rem;
+                text-align: center;
             }
         }
     }

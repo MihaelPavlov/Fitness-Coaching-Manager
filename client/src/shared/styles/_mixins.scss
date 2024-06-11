@@ -1,0 +1,20 @@
+$breakpoints: (
+  Phone: 37.5rem,
+  Big-Desktop: 112.5rem
+);
+
+@mixin respond($breakpoint) {
+    $query: null;
+
+    @if map-has-key($breakpoints, $breakpoint) {
+        $query: map-get($breakpoints, $breakpoint);
+    }
+
+    @else {
+        $query: $breakpoint;
+    }
+
+    @media (max-width: $query) {
+        @content;
+    }
+}

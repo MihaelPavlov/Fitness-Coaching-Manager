@@ -26,7 +26,7 @@ export const registerUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTIONS.USER_ALREADY_EXIST);
   }
 
-  const newUser = await db("users").insert({
+  const createdUserID = (await db("users").insert({
     first_name: data?.first_name || null,
     last_name: data?.last_name || null,
     user_role: data?.user_role || -1,
@@ -36,16 +36,11 @@ export const registerUser = async (data: Record<string, any>) => {
     country: data.country,
     phone_number: data?.phone_number || null,
     languages: data.languages,
-  });
-  const newUserID: number = newUser[0];
-  
-  const createdUser = (
-    await db("users").select("*").where("id", "=", newUserID)
-  ).at(0);
+  })).at(0);
 
   // Create user specs from created user
   await db("user_specs").insert({
-    user_id: createdUser.id,
+    user_id: createdUserID,
     sex: data.sex,
     fitness_level: data?.fitness_level || null,
   });
@@ -55,7 +50,7 @@ export const registerUser = async (data: Record<string, any>) => {
     // Insert data into contributors and applications
     const createdContributorID = (
       await db("contributors").insert({
-        user_id: createdUser.id,
+        user_id: createdUserID,
       })
     ).at(0);
 
@@ -65,10 +60,10 @@ export const registerUser = async (data: Record<string, any>) => {
     });
   }
 
-  const session = createSession(createdUser.id, createdUser.role);
+  const session = createSession(createdUserID, data?.user_role || -1);
 
   const accessToken = await generateAccessToken(
-    createdUser,
+    {id: createdUserID, role: data?.user_role || -1},
     session.sessionId,
     ACCESS_TOKEN_SECRET_KEY,
     "2m"
@@ -94,8 +89,8 @@ export const loginUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTIONS.INVALID_LOGIN);
   }
 
-  const session = createSession(user.id, user.role);
-
+  const session = createSession(user.id, user.user_role);
+  console.log(user)
   const accessToken = await generateAccessToken(
     user,
     session.sessionId,

@@ -1,7 +1,8 @@
 $breakpoints: (
   Phone: 37.5rem,
   Tablet: 75rem,
-  Big-Desktop: 112.5rem
+  Big-Desktop: 112.5rem,
+  Landscape: 58rem
 );
 
 @mixin respond($breakpoint) {
@@ -15,7 +16,15 @@ $breakpoints: (
         $query: $breakpoint;
     }
 
-    @media (max-width: $query) {
-        @content;
+    @if ($breakpoint == 'Landscape') {
+        @media (max-height: $query) {
+            @content;
+        }
+    }
+
+    @else {
+        @media (max-width: $query) {
+            @content;
+        }
     }
 }

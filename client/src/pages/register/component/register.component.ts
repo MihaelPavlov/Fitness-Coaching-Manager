@@ -26,15 +26,10 @@ export class RegisterComponent {
 
 
   showGeneralDetails = false;
-
   showAdditionalDetails = false;
-
   showProofOfRightsDetails = false;
-
   showDropDownMenu = false;
-
   attachDocument = false;
-
   attachLink = false;
 
   generalDetailsVisibility() {

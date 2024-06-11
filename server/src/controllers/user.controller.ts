@@ -1,5 +1,6 @@
 import express from "express";
 import * as userService from "./../services/user.service";
+import { setAuthenticationCookies } from "./../helpers/authentication.helper";
 
 const router = express.Router();
 
@@ -68,18 +69,5 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
     })
   }
 });
-
-const setAuthenticationCookies = (res: express.Response, accessToken: any, refreshToken: any) => {
-  res.cookie("accessToken", accessToken, {
-    maxAge: 2 * 60 * 100,
-    httpOnly: true
-  });
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-    maxAge: 10 * 60 * 100
-  });
-}
 
 export default router;

@@ -1,90 +1,24 @@
+@use "../../../../shared/styles/mixins";
+
 .profile-container {
     text-align: center;
 
     &__cards-heading {
         margin-bottom: 1.8rem;
+
+        @include mixins.respond(Phone) {
+            text-align: center;
+        }
     }
 
     &__cards-flex-container {
-        display: flex;
-        flex-direction: column;
+        max-width: 100%;
+        flex-wrap: wrap;
         gap: 1rem;
 
-        &-row {
-            display: flex;
-            gap: 1rem;
+        @include mixins.respond(Phone) {
             justify-content: center;
         }
     }
 }
 
-@media (max-width:75em) {
-    .profile-container {
-        &__cards-heading {
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        &__cards-flex-container {
-            &-row {
-                flex-direction: row;
-            }
-        }
-
-        &-item {
-            flex: 1 1 calc(50% - 1rem);
-        }
-    }
-}
-
-@media (max-width:52em) {
-    .profile-container {
-        &__cards-heading {
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        &__cards-flex-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-            flex: 2;
-
-            &-row {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-    }
-}
-
-@media (max-width:37.5em) {
-    .profile-container {
-        &__cards-heading {
-            text-align: center;
-        }
-
-        &__cards-flex-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-
-            &-row {
-                display: flex;
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-        }
-    }
-}
-
-@media (max-width: 25.75em) {
-    .profile-container {
-        &__cards-grid-container {
-            grid-template-columns: 1fr;
-        }
-    }
-}

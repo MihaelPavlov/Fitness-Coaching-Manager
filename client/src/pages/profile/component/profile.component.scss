@@ -8,11 +8,19 @@
     height: 100vh;
     font-family: 'Open Sans', sans-serif;
 
+    &__public-btn {
+        text-align: end;
 
+        @include mixins.respond(Phone) {
+            text-align: center;
+            margin-top: 3.5rem;
+        }
+    }
 
     &__main-heading {
         color: palette.$main-font-black-color;
         text-align: start;
+        margin-bottom: -2.6rem;
 
         @include mixins.respond(Phone) {
             text-align: center;
@@ -44,6 +52,7 @@
             &:hover {
                 transform: scale(1.2);
             }
+
             @include mixins.respond(Phone) {
                 left: 58%;
             }
@@ -62,6 +71,10 @@
 
             &:hover {
                 transform: scale(1.6);
+            }
+
+            @include mixins.respond(Phone) {
+                left: 73%;
             }
         }
     }
@@ -93,7 +106,6 @@
                     font-size: 1.1rem;
                     color: palette.$main-blue-darker-color;
                     font-weight: 700;
-                    margin: 0 1rem;
 
                     @include mixins.respond(Phone) {
                         font-size: 1rem;

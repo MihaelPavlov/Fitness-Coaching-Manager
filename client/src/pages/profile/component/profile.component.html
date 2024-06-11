@@ -48,6 +48,11 @@
         </div>
     </div>
 
-    <!-- <app-profile-form></app-profile-form> -->
-    <app-profile-cards></app-profile-cards>
+    <ng-template [ngIf]="profileState === 'public'">
+        <app-profile-cards></app-profile-cards>
+    </ng-template>
+
+    <ng-template [ngIf]="profileState === 'private'">
+        <app-profile-form></app-profile-form>
+    </ng-template>
 </div>

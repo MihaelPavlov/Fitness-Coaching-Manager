@@ -1,8 +1,14 @@
 @use "../../../shared/styles/palette";
+@use "../../../shared//styles/mixins";
 
 .register-container {
     height: 90vh;
     font-family: 'Open Sans', sans-serif;
+
+    @include mixins.respond(Phone) {
+        height: 100%;
+        margin-top: 2.2rem;
+    }
 }
 
 .register-form {
@@ -12,6 +18,30 @@
     box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
     max-width: 28vw;
     max-height: fit-content;
+
+    @include mixins.respond(Phone) {
+        max-width: 90vw;
+        background-color: transparent;
+        box-shadow: none;
+        font-size: 0.7rem;
+        padding-left: 0;
+        padding-right: 0;
+
+        &__heading-box {
+            text-align: center;
+            margin-bottom: 3rem;
+
+            &-text {
+                font-size: 2.2rem;
+            }
+        }
+    }
+
+    @include mixins.respond(Tablet) {
+        position: absolute;
+        top: 7rem;
+        max-width: 50vw;
+    }
 
     &__heading-box {
         text-align: center;
@@ -29,13 +59,34 @@
         }
     }
 
-    &__details-container__heading-container__label {
-        align-items: center;
-        gap: 1rem;
-        color: palette.$main-blue-darker-color;
-        font-size: 1.2rem;
-        font-weight: bold;
+    &__details-container {
+        @include mixins.respond(Phone) {
+            width: 100%;
+            align-self: center;
+        }
+
+        &__heading-container {
+            @include mixins.respond(Phone) {
+                align-items: center;
+            }
+
+            &__label {
+                align-items: center;
+                gap: 1rem;
+                color: palette.$main-blue-darker-color;
+                font-size: 1.2rem;
+                font-weight: bold;
+
+                @include mixins.respond(Phone) {
+                    font-size: 0.9rem;
+                    align-items: center;
+                    overflow: hidden;
+                    gap: 0.5rem;
+                }
+            }
+        }
     }
+
 
 
     &__general-details {
@@ -44,9 +95,19 @@
         transition: all 0.5s ease-in-out;
         justify-content: space-between;
 
+        @include mixins.respond(Phone) {
+            flex-wrap: nowrap;
+            flex-direction: column;
+        }
+
         &__input-field {
             min-width: 35%;
             flex: 1 0;
+
+            @include mixins.respond(Phone) {
+                text-align: center;
+            }
+
         }
 
         &__inform-message-container {
@@ -55,6 +116,10 @@
             font-size: 0.8rem;
             width: 100%;
 
+            @include mixins.respond(Phone) {
+                font-size: 0.6rem;
+                gap: 0.5rem;
+            }
 
             &__button-container {
                 position: relative;
@@ -70,6 +135,14 @@
                 color: palette.$main-blue-darker-color;
                 background-color: white;
 
+                @include mixins.respond(Phone) {
+                    width: 1.7rem;
+                    height: 1.7rem;
+                    font-size: 1.5rem;
+                    font-weight: lighter;
+                    background-color: transparent;
+                }
+
                 &__menu {
                     text-align: start;
                     display: block;
@@ -84,6 +157,12 @@
                     width: 14rem;
                     gap: 1rem;
                     z-index: 1000;
+
+                    @include mixins.respond(Phone) {
+                        background-color: white;
+                        font-size: 1rem;
+                        width: 8rem;
+                    }
 
                     &__item {
                         padding: 0.5rem;
@@ -126,10 +205,26 @@
 
 .expand {
     height: 11rem;
+
+    @include mixins.respond(Phone) {
+        height: 19rem;
+    }
+
+    @include mixins.respond(Tablet) {
+        height: 14rem;
+    }
 }
 
-.expandDropdown{
+.expandDropdown {
     height: 15rem;
+
+    @include mixins.respond(Tablet) {
+        height: 19rem;
+    }
+
+    @include mixins.respond(Phone) {
+        height: 27rem;
+    }
 }
 
 .background-square-container {
@@ -138,110 +233,12 @@
     background-color: palette.$main-blue-darker-color;
     color: white;
     font-size: 1.2rem;
-}
+    flex-shrink: 0;
+    align-self: center;
 
-@media (width < 1400px) {
-    .register-form {
-        max-width: 50vw;
-    }
-
-    .expandDropdown{
-        height: 19rem;
-    }
-}
-
-@media (width < 700px) {
-    .background-square-container {
+    @include mixins.respond(Phone) {
         width: 1.5rem;
         height: 1.5rem;
-        background-color: palette.$main-blue-darker-color;
-        color: white;
         font-size: 0.8rem;
     }
-    .register-container {
-        height: 100%;
-        margin-top: 2.2rem;
-    }
-
-    .register-form {
-        max-width: 90vw;
-        background-color: transparent;
-        box-shadow: none;
-        font-size: 0.7rem;
-        padding-left: 0;
-        padding-right: 0;
-
-        &__heading-box {
-            text-align: center;
-            margin-bottom: 3rem;
-
-
-            &-text {
-                font-size: 2.2rem;
-            }
-        }
-
-        &__details-container {
-            width: 60%;
-            align-self: center;
-
-            &__heading-container {
-                align-items: center;
-
-                &__label {
-                    font-size: 0.9rem;
-                    align-items: center;
-                    overflow: hidden;
-                    gap: 0.5rem;
-                }
-            }
-        }
-
-        &__general-details {
-            flex-wrap: nowrap;
-            flex-direction: column;
-
-            &__input-field {
-                text-align: center;
-            }
-
-            &__inform-message-container {
-                font-size: 0.6rem;
-                gap: 0.5rem;
-
-
-                &__button-container {
-                    width: 1.7rem;
-                    height: 1.7rem;
-                    font-size: 1.5rem;
-                    font-weight: lighter;
-                    background-color: transparent;
-
-
-                    &__menu {
-                        background-color: white;
-                        font-size: 1rem;
-                        width: 8rem;
-
-                    }
-                }
-            }
-        }
-
-        &__elements__buttons {
-            width: 50%;
-            margin-top: 5rem;
-            align-self: center;
-            font-size: 0.5rem;
-        }
-    }
-
-    .expand {
-        height: 19rem;
-    }
-    
-    .expandDropdown{
-        height: 27rem;
-    }
 }
-

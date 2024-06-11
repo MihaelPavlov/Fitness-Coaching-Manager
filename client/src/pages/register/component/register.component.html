@@ -204,7 +204,7 @@
       ></ng-container>
     </div>
     <div
-      [class.expand]="showAdditionalDetails"
+      [class.expand]="showAdditionalDetails" [class.expandDropdown]="showAdditionalDetails"
       class="register-form__general-details d-flex flex-wrap justify-content-center gc-5 gr-2"
     >
       <app-input
@@ -258,6 +258,7 @@
 
 <!-- Proof of rights details template -->
 <ng-template #proofOfRightsDetails>
+  <div class="register-form__details-container">
   <div
     class="register-form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
     (click)="proofOfRightsDetailsVisibility()"
@@ -349,10 +350,13 @@
       </app-input>
     </ng-container>
   </div>
+</div>
+
 </ng-template>
 
 <!-- Form footer template -->
 <ng-template #formFooter>
+    <div >
   <div class="register-form__elements__buttons">
     <app-button
       routerLink="/register"
@@ -369,6 +373,7 @@
       >Already have an account? Log in</a
     >
   </div>
+</div>
 </ng-template>
 
 <ng-template #backgroundSquare let-label="label">

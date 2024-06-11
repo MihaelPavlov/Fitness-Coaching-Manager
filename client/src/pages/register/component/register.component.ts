@@ -39,14 +39,20 @@ export class RegisterComponent {
 
   generalDetailsVisibility() {
     this.showGeneralDetails = !this.showGeneralDetails
+    this.showAdditionalDetails = false;
+    this.showProofOfRightsDetails = false
   }
 
   additionalDetailsVisibility() {
     this.showAdditionalDetails = !this.showAdditionalDetails
+    this.showGeneralDetails = false
+    this.showProofOfRightsDetails = false
   }
 
   proofOfRightsDetailsVisibility() {
     this.showProofOfRightsDetails = !this.showProofOfRightsDetails
+    this.showGeneralDetails = false;
+    this.showAdditionalDetails = false;
   }
 
   toggleDropDownMenu() {

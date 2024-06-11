@@ -26,7 +26,7 @@ export const registerUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTIONS.USER_ALREADY_EXIST);
   }
 
-  const newUser = await createUser({
+  const newUser = await db("users").insert({
     first_name: data?.first_name || null,
     last_name: data?.last_name || null,
     user_role: data?.user_role || -1,
@@ -44,7 +44,7 @@ export const registerUser = async (data: Record<string, any>) => {
   ).at(0);
 
   // Create user specs from created user
-  await createUserSpecs({
+  await db("user_specs").insert({
     user_id: createdUser.id,
     sex: data.sex,
     fitness_level: data?.fitness_level || null,
@@ -54,12 +54,12 @@ export const registerUser = async (data: Record<string, any>) => {
   if (data.user_role == 1) {
     // Insert data into contributors and applications
     const createdContributorID = (
-      await createContributor({
+      await db("contributors").insert({
         user_id: createdUser.id,
       })
     ).at(0);
 
-    await createContributorApplication({
+    await db("contributor_applications").insert({
       contributor_id: createdContributorID,
       item_uri: data.item_uri,
     });
@@ -109,19 +109,3 @@ export const loginUser = async (data: Record<string, any>) => {
   );
   return [accessToken, refreshToken, session];
 };
-
-/******************/
-// Helper functions
-/******************/
-
-const createUser = async (data: Record<string, any>): Promise<Array<number>> =>
-  db("users").insert(data);
-
-const createUserSpecs = async (data: Record<string, any>) =>
-  db("user_specs").insert(data);
-
-const createContributor = async (data: Record<string, any>) =>
-  db("contributors").insert(data);
-
-const createContributorApplication = async (data: Record<string, any>) =>
-  db("contributor_applications").insert(data);

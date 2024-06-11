@@ -4,6 +4,7 @@ import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../config/sec
 import { getSession } from "./../database/user.sessions";
 import { Secret } from "jsonwebtoken";
 import { Session } from "./../types/session";
+import EXCEPTIONS from "./../constants/exceptions.constants";
 
 const verifyToken = async (token: string, secret: Secret) => {
   return await jwt.verify(token, secret);
@@ -87,7 +88,7 @@ export const isAuth = (req: any, res: Response, next: NextFunction) => {
     return res.status(401).json({
       status: "fail",
       data: {
-        error: "You must login!",
+        error: EXCEPTIONS.UNAUTHENTICATED,
       },
     });
   }
@@ -100,7 +101,7 @@ export const isCoach = (req: any, res: Response, next: NextFunction) => {
     return res.status(401).json({
       status: "fail",
       data: {
-        error: "You are unauthorized for this action - not a coach!",
+        error: EXCEPTIONS.UNAUTHORIZED,
       },
     });
   }

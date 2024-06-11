@@ -1,6 +1,6 @@
 import express from "express";
 import * as userService from "./../services/user.service";
-import { setAuthenticationCookies } from "./../helpers/authentication.helper";
+import { setAuthenticationCookies } from "../helpers/auth.helper";
 
 const router = express.Router();
 

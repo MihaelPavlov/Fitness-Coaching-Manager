@@ -1,11 +1,10 @@
 import { QueryParams } from "../query-builders/models/builder.models";
 import { UserBuilder } from "../query-builders/user.builder";
-import { Secret } from "jsonwebtoken";
 import db from "../database/database-connector";
-import * as jwt from "./../lib/jwt";
-import { ACCESS_SECRET, REFRESH_SECRET } from "./../config/secret";
+import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../config/secret.config";
 import { createSession } from "./../database/user.sessions";
-import * as bcrypt from "bcrypt";
+import { verifyPassword, generatePasswordHash, generateAccessToken, generateRefreshToken } from "./../helpers/auth.helper";
+import EXCEPTIONS from "./../constants/exceptions.constants";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -21,107 +20,108 @@ export const getUser = async (payload: QueryParams) => {
 };
 
 export const registerUser = async (data: Record<string, any>) => {
-  const user = await db("users").select("*").where('email', "=", data.email);
-  
+  const user = await db("users").select("*").where("email", "=", data.email);
+
   if (user.length > 0) {
-    throw new Error("User already exsists!");
+    throw new Error(EXCEPTIONS.USER_ALREADY_EXIST);
   }
 
-  // Create new user
-  const createdUserID = await createUser({
+  const newUser = await createUser({
     first_name: data?.first_name || null,
     last_name: data?.last_name || null,
     user_role: data?.user_role || -1,
     username: data.username,
     email: data.email,
-    password: await hashPassword(data.password),
+    password: await generatePasswordHash(data.password),
     country: data.country,
     phone_number: data?.phone_number || null,
-    languages: data.languages
+    languages: data.languages,
   });
-  const createdUser = (await db("users").select("*").where("id", "=", createdUserID[0])).at(0);
+  const newUserID: number = newUser[0];
+  
+  const createdUser = (
+    await db("users").select("*").where("id", "=", newUserID)
+  ).at(0);
 
   // Create user specs from created user
   await createUserSpecs({
     user_id: createdUser.id,
     sex: data.sex,
-    fitness_level: data?.fitness_level || null
+    fitness_level: data?.fitness_level || null,
   });
-  
+
   // Coach user
   if (data.user_role == 1) {
     // Insert data into contributors and applications
-    const createdContributorID = (await createContributor({
-      user_id: createdUser.id
-    })).at(0);
+    const createdContributorID = (
+      await createContributor({
+        user_id: createdUser.id,
+      })
+    ).at(0);
 
     await createContributorApplication({
       contributor_id: createdContributorID,
-      item_uri: data.item_uri
+      item_uri: data.item_uri,
     });
   }
 
   const session = createSession(createdUser.id, createdUser.role);
 
-  const accessToken = await generateAccessToken(createdUser, session.sessionId, ACCESS_SECRET, "2m");
-  const refreshToken = await generateRefreshToken(session.sessionId, REFRESH_SECRET, "10m");
+  const accessToken = await generateAccessToken(
+    createdUser,
+    session.sessionId,
+    ACCESS_TOKEN_SECRET_KEY,
+    "2m"
+  );
+  const refreshToken = await generateRefreshToken(
+    session.sessionId,
+    REFRESH_TOKEN_SECRET_KEY,
+    "10m"
+  );
   return [accessToken, refreshToken, session];
-}
+};
 
 export const loginUser = async (data: Record<string, any>) => {
-  const user = (await db("users").select("*").where('email', "=", data.email)).at(0);
-  
+  const user = (
+    await db("users").select("*").where("email", "=", data.email)
+  ).at(0);
+
   if (!user) {
-    throw new Error("Invalid email or password!");
+    throw new Error(EXCEPTIONS.INVALID_LOGIN);
   }
 
-  if (!await matchPasswords(data.password, user.password)) {
-    throw new Error("Invalid email or password!");
+  if (!(await verifyPassword(data.password, user.password))) {
+    throw new Error(EXCEPTIONS.INVALID_LOGIN);
   }
 
   const session = createSession(user.id, user.role);
 
-  const accessToken = await generateAccessToken(user, session.sessionId, ACCESS_SECRET, "2m");
-  const refreshToken = await generateRefreshToken(session.sessionId, REFRESH_SECRET, "10m");
+  const accessToken = await generateAccessToken(
+    user,
+    session.sessionId,
+    ACCESS_TOKEN_SECRET_KEY,
+    "2m"
+  );
+  const refreshToken = await generateRefreshToken(
+    session.sessionId,
+    REFRESH_TOKEN_SECRET_KEY,
+    "10m"
+  );
   return [accessToken, refreshToken, session];
-}
+};
 
 /******************/
 // Helper functions
 /******************/
 
-const hashPassword = async (password: string) => {
-  return bcrypt.hash(password, 12);
-}
+const createUser = async (data: Record<string, any>): Promise<Array<number>> =>
+  db("users").insert(data);
 
-const matchPasswords = async (password: string, hash: string) => {
-  return bcrypt.compare(password, hash);
-}
+const createUserSpecs = async (data: Record<string, any>) =>
+  db("user_specs").insert(data);
 
-const createUser = async (data: Record<string, any>): Promise<Array<number>> => db("users").insert(data, ['username']);
+const createContributor = async (data: Record<string, any>) =>
+  db("contributors").insert(data);
 
-const createUserSpecs = async (data: Record<string, any>) => db("user_specs").insert(data);
-
-const createContributor = async (data: Record<string, any>) => db("contributors").insert(data);
-
-const createContributorApplication = async (data: Record<string, any>) => db("contributor_applications").insert(data);
-
-const generateAccessToken = async (user: any, sessionId: string, secret: Secret, expiresIn: string) => {
-  const payload = {
-      id: user.id,
-      role: user.user_role,
-      sessionId
-  };
-
-  const token = await jwt.sign(payload, secret, { expiresIn });
-  return token;
-}
-
-const generateRefreshToken = async (sessionId: string, secret: Secret, expiresIn: string) => {
-  const payload = {
-      sessionId
-  };
-
-  const token = await jwt.sign(payload, secret, { expiresIn });
-  return token;
-}
+const createContributorApplication = async (data: Record<string, any>) =>
+  db("contributor_applications").insert(data);

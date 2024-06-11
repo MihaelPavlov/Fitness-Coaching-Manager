@@ -37,10 +37,19 @@
         }
     }
 
+    @include mixins.respond(Landscape) {
+        position: absolute;
+        top: 10vh;
+        margin: 0 auto;
+        margin-top: 3rem;
+    }
+
     @include mixins.respond(Tablet) {
         position: absolute;
-        top: 7rem;
+        margin: 0 auto;
+        top: 20%;
         max-width: 50vw;
+
     }
 
     &__heading-box {

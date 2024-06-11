@@ -1,15 +1,11 @@
-<ng-container class="wrapper" *ngFor="let card of exerciseCount">
-    <!-- TODO: consider if class naming can be improved -->
-    <section class="exercise__list__card mb-4">
-        <section class="exercise__list__content__wrapper pt-6 pl-5 pb-4 pr-5 d-flex flex-direction-column justify-content-end g-2">
-            
-            <div class="exercise__list__card__tags__container d-flex g-2">
-                <span class="exercise__list__card__tag">GYM</span>
-                <span class="exercise__list__card__tag">BACK</span>
-            </div>
-            <h1 class="exercise__list__card__text">{{cardText}}</h1>
-
-        </section>
-    </section>
-
-</ng-container>
+<section class="exercise__list__card m-3" *ngFor="let card of exerciseCount">
+  <section
+    class="exercise__list__content__wrapper pt-6 pl-5 pb-4 pr-5 d-flex flex-direction-column justify-content-end g-2"
+  >
+    <div class="exercise__list__card__tags__container d-flex g-2">
+      <span class="exercise__list__card__tag">GYM</span>
+      <span class="exercise__list__card__tag">BACK</span>
+    </div>
+    <h1 class="exercise__list__card__text">{{ cardText }}</h1>
+  </section>
+</section>

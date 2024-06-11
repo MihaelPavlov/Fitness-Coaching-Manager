@@ -10,13 +10,16 @@
 
 @media(min-width: 671px) {
     app-exercise-list {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: repeat(2, 1fr);
-        height: 400px;
+        display: flex;
+        flex-wrap: wrap;
+        height: 30rem;
         gap: 0.5rem;
-        overflow-x: scroll;
-        overflow-y: hidden;  
+        max-width: 90%;
+        overflow-y: scroll;  
+    }
+
+    app-exercise-library-search{
+        max-width: 85%;
     }
 
     .wrapper__page__name {

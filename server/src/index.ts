@@ -4,7 +4,7 @@ import express from "express";
 import expressConfig from "./config/express.config";
 
 // Auth middleware import
-import { checkAccessToken, checkRefreshToken } from "./middlewares/auth";
+import { checkAccessToken, checkRefreshToken } from "./middlewares/auth.middleware";
 
 // Main router import
 import router from "./routes";

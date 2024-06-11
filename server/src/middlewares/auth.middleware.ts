@@ -4,7 +4,7 @@ import {
   ACCESS_TOKEN_SECRET_KEY,
   REFRESH_TOKEN_SECRET_KEY,
 } from "../config/secret.config";
-import { getSession } from "./../database/user.sessions";
+import { getSession } from "../services/user.sessions";
 import { Secret } from "jsonwebtoken";
 import { Session } from "../models/session.model";
 import EXCEPTIONS from "./../constants/exceptions.constants";

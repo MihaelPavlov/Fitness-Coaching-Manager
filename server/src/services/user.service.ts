@@ -1,9 +1,17 @@
 import { QueryParams } from "../query-builders/models/builder.models";
 import { UserBuilder } from "../query-builders/user.builder";
 import db from "../database/database-connector";
-import { ACCESS_TOKEN_SECRET_KEY, REFRESH_TOKEN_SECRET_KEY } from "../config/secret.config";
-import { createSession } from "./../database/user.sessions";
-import { verifyPassword, generatePasswordHash, generateAccessToken, generateRefreshToken } from "./../helpers/auth.helper";
+import {
+  ACCESS_TOKEN_SECRET_KEY,
+  REFRESH_TOKEN_SECRET_KEY,
+} from "../config/secret.config";
+import { createSession } from "./user.sessions";
+import {
+  verifyPassword,
+  generatePasswordHash,
+  generateAccessToken,
+  generateRefreshToken,
+} from "./../helpers/auth.helper";
 import EXCEPTIONS from "./../constants/exceptions.constants";
 
 export const getUsers = async (payload: QueryParams) => {
@@ -26,17 +34,19 @@ export const registerUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTIONS.USER_ALREADY_EXIST);
   }
 
-  const createdUserID = (await db("users").insert({
-    first_name: data?.first_name || null,
-    last_name: data?.last_name || null,
-    user_role: data?.user_role || -1,
-    username: data.username,
-    email: data.email,
-    password: await generatePasswordHash(data.password),
-    country: data.country,
-    phone_number: data?.phone_number || null,
-    languages: data.languages,
-  })).at(0);
+  const createdUserID = (
+    await db("users").insert({
+      first_name: data?.first_name || null,
+      last_name: data?.last_name || null,
+      user_role: data?.user_role || -1,
+      username: data.username,
+      email: data.email,
+      password: await generatePasswordHash(data.password),
+      country: data.country,
+      phone_number: data?.phone_number || null,
+      languages: data.languages,
+    })
+  ).at(0);
 
   // Create user specs from created user
   await db("user_specs").insert({
@@ -63,7 +73,7 @@ export const registerUser = async (data: Record<string, any>) => {
   const session = createSession(createdUserID, data?.user_role || -1);
 
   const accessToken = await generateAccessToken(
-    {id: createdUserID, role: data?.user_role || -1},
+    { id: createdUserID, role: data?.user_role || -1 },
     session.sessionId,
     ACCESS_TOKEN_SECRET_KEY,
     "2m"

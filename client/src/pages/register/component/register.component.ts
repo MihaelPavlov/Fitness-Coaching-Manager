@@ -1,30 +1,35 @@
 import { Component, } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
-import { registeringAsTrainer } from '../../landing/component/landing.component';
+import { ActivatedRoute } from '@angular/router';
+import { RegistrationType } from '../../../shared/enums/registration-type.enum';
+// import { registeringAsTrainer } from '../../landing/component/landing.component';
 
 @Component({
-  selector: 'app-register-user',
+  selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
-export class RegisterUserComponent {
+export class RegisterComponent {
+  public RegistrationType = RegistrationType
   public InputType = InputType;
 
-  isRegisteringAsTrainer!: boolean
-
   optionArrays = optionArrays;
+  public selectedRegistrationType!: RegistrationType
 
-  constructor() {
-    this.isRegisteringAsTrainer = true
+  isRegisteringAsTrainer = false
+
+  constructor(private route: ActivatedRoute) {    
+    const { registrationType } = route.snapshot.params
+    this.selectedRegistrationType = registrationType    
   }
 
 
-  showGeneralDetails = true;
+  showGeneralDetails = false;
 
   showAdditionalDetails = false;
 
-  showProofOfRightsDetails = true;
+  showProofOfRightsDetails = false;
 
   showDropDownMenu = false;
 
@@ -58,7 +63,5 @@ export class RegisterUserComponent {
   submitHandler() {
     console.log(this.formData);
   }
-
-
 
 }

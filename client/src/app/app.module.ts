@@ -9,7 +9,6 @@ import { HeaderComponent } from '../features/layout/header/header.component';
 import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
 import { LandingModule } from '../pages/landing/landing.module';
 import { LoginModule } from '../pages/login/login.module';
-import { RegisterUserModule } from '../pages/register/register.module';
 
 @NgModule({
     declarations: [AppComponent, HeaderComponent, MenuContainerComponent],
@@ -25,7 +24,6 @@ import { RegisterUserModule } from '../pages/register/register.module';
         RouterOutlet,
         LandingModule,
         LoginModule,
-        RegisterUserModule
         ]
     ,
 })

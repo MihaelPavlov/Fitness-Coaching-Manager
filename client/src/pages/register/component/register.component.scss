@@ -38,7 +38,6 @@
     }
 
 
-
     &__general-details {
         height: 0px;
         overflow: hidden;
@@ -155,6 +154,8 @@
         background-color: transparent;
         box-shadow: none;
         font-size: 0.7rem;
+        padding-left: 0;
+        padding-right: 0;
 
         &__heading-box {
             text-align: center;
@@ -229,3 +230,4 @@
         height: 27rem;
     }
 }
+

@@ -1,0 +1,37 @@
+@import '../../../shared/styles/palette';
+
+.exercise__list__card {
+    min-width: 19rem;
+    border: 1px solid $main-blue-color;
+    border-radius: 0.5rem;
+    height: 10rem;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('../component/cropped-img.png');
+
+    &__tag {
+        background-color: rgba(105, 105, 105, 0.6);
+        padding: 0.2rem 1rem;
+        border-radius: 0.2rem;
+        font-weight: bold;
+    }
+}
+
+.exercise__list__content__wrapper {
+    height: 100%;
+}
+
+@media(max-width: 600px) {
+    .exercise__list__card {
+        width: 100%;
+
+        &__text {
+            font-size: 1.5rem;
+        }
+
+        &:last-child {
+            margin-bottom: 5rem;
+        }
+    }
+}

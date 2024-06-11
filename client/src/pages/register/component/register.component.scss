@@ -10,7 +10,7 @@
     padding: 5rem 6rem 8rem 6rem;
     border-bottom: 0.5rem solid palette.$main-blue-darker-color;
     box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
-    max-width: 40vw;
+    max-width: 28vw;
     max-height: fit-content;
 
     &__heading-box {
@@ -37,7 +37,15 @@
         font-weight: bold;
     }
 
+
+
     &__general-details {
+        height: 0px;
+        overflow: hidden;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
         justify-content: space-between;
 
         &__input-field {
@@ -47,6 +55,7 @@
 
         &__inform-message-container {
             justify-content: space-between;
+            align-items: center;
             font-size: 0.8rem;
             width: 100%;
 
@@ -119,6 +128,14 @@
     }
 }
 
+.expand {
+    height: 11rem;
+}
+
+.expandDropdown{
+    height: 15rem;
+}
+
 @media (width < 1200px) {
 
     .register-form {
@@ -166,6 +183,7 @@
         }
 
         &__general-details {
+            flex-wrap: nowrap;
             flex-direction: column;
 
             &__input-field {
@@ -197,5 +215,13 @@
             align-self: center;
             font-size: 0.5rem;
         }
+    }
+
+    .expand {
+        height: 19rem;
+    }
+    
+    .expandDropdownMobile{
+        height: 27rem;
     }
 }

@@ -1,6 +1,6 @@
 @import '../../../shared/styles/palette';
 
-.exercise__list__card {
+.card {
     min-width: 19rem;
     border: 1px solid $main-blue-color;
     border-radius: 0.5rem;
@@ -18,12 +18,12 @@
     }
 }
 
-.exercise__list__content__wrapper {
+.card__content__wrapper {
     height: 100%;
 }
 
 @media(max-width: 600px) {
-    .exercise__list__card {
+    .card {
         width: 100%;
 
         &__text {

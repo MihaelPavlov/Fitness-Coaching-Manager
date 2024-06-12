@@ -3,22 +3,18 @@ import express from "express";
 // Config imports
 import expressConfig from "./config/express.config";
 
-const app: express.Application = express();
+// Main router import
+import router from "./routes";
 
-// Express Configs
+const app = express();
+
+// Express configs
 expressConfig(app);
 
-app.get("/", (req: express.Request, res: express.Response) => {
-    res.status(200).json({
-        status: "success",
-        data: {
-            message: "Backend works successfully!"
-        }
-    })
-});
+app.use(router);
 
-const PORT: Number = 3000;
+const port = 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server is listening on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is listening on port ${port}`);
 });

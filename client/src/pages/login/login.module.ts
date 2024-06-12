@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from '../../widgets/button/button.module';
 import { InputModule } from '../../widgets/input/input.module';
 import { LoginComponent } from './component/login.component';
+import { LinkModule } from '../../widgets/link/link.module';
 
 @NgModule({
     declarations: [
@@ -11,7 +12,8 @@ import { LoginComponent } from './component/login.component';
     imports: [
         CommonModule,
         ButtonModule,
-        InputModule
+        InputModule,
+        LinkModule
     ],
     exports:[
         LoginComponent

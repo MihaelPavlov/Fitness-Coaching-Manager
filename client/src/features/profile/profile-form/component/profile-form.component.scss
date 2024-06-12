@@ -1,0 +1,29 @@
+@use "../../../../shared/styles/palette";
+@use "../../../../shared/styles/mixins";
+
+.profile-container {
+    &__inputs-flex-container {
+        row-gap: 0.5rem;
+
+        @include mixins.respond(Phone) {
+            gap: 1rem;
+        }
+
+        &-first-item {
+            text-align: center;
+            color: palette.$main-blue-darker-color;
+        }
+
+        &-last-item {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        &-input-item {
+            @include mixins.respond(Phone) {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    }
+}

@@ -1,30 +1,29 @@
 import { Routes } from '@angular/router';
+
+import { LandingComponent } from '../../pages/landing/component/landing.component';
 import { LoginComponent } from '../../pages/login/component/login.component';
+import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 export const ROUTES: Routes = [
-    /* {
-        path: '',
-        component: LayoutComponent,
-        children: [
-            {
-                path: 'patient',
-                loadChildren: () =>
-                    import('../../pages/patients/patients.module').then(
-                        (m) => m.PatientsModule
-                    ),
-            },
-        ],
-    }, */
-
-    {
-        path: 'login',
-        component: LoginComponent,
-    },
-    {
+  {
+    path: '',
+    component: AppLayoutComponent,
+    children: [
+      {
         path: 'profile',
         loadChildren: () =>
-            import('../../pages/profile/profile.module').then(
-                (m) => m.ProfileModule
-            ),
-    },
+          import('../../pages/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+      },
+    ],
+  },
+  {
+    path: 'home',
+    component: LandingComponent,
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
 ];

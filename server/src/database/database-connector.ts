@@ -1,5 +1,5 @@
 import Knex from "knex";
-import knexConfig from "../../knex.config";
+import knexConfig from "../../knexfile";
 
 // Create a Knex instance using the configuration for the current environment
 const knex = Knex(knexConfig[process.env.NODE_ENV || "development"]);

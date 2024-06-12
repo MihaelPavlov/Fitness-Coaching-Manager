@@ -5,8 +5,8 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("id").primary().unsigned().unique();
         table.string("first_name", 45).defaultTo(null);
         table.string("last_name", 45).defaultTo(null);
-        table.string("email", 45).notNullable();
-        table.string("username", 45).notNullable();
+        table.string("email", 45).notNullable().unique();
+        table.string("username", 45).notNullable().unique();
         table.string("password", 255).notNullable();
         table.string("profile_picture_url", 255).defaultTo(null);
         table.string("country", 45).defaultTo(null);

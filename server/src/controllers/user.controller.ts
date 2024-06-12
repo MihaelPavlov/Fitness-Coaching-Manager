@@ -1,5 +1,6 @@
 import express from "express";
 import * as userService from "./../services/user.service";
+import { setAuthenticationCookies } from "../helpers/auth.helper";
 
 const router = express.Router();
 
@@ -25,45 +26,47 @@ router.get("/getDetail", async (req: express.Request, res: express.Response) => 
   });
 });
 
-router.post("/create", async (req: express.Request, res: express.Response) => {
+router.post("/register", async (req: express.Request, res: express.Response) => {
   try {
-    const createdUser = await userService.createUser(req.body);
+    const [accessToken, refreshToken, session] = await userService.registerUser(req.body);
 
-    res.status(201).json({
+    setAuthenticationCookies(res, accessToken, refreshToken);
+    res.status(200).json({
       status: "success",
       data: {
-        message: "Successfully created user!",
-        user: createdUser,
-      },
+          session
+      }
     });
+
   } catch (err) {
-    res.status(500).json({
-      status: "error",
+    return res.status(400).json({
+      status: "fail",
       data: {
-        message: err.message,
-      },
-    });
+          error: err.message
+      }
+    })
   }
 });
 
-router.post("/createSpecs", async (req: express.Request, res: express.Response) => {
+router.post("/login", async (req: express.Request, res: express.Response) => {
   try {
-    const createdUserSpecs = await userService.createUserSpecs(req.body);
+    const [accessToken, refreshToken, session] = await userService.loginUser(req.body);
 
-    res.status(201).json({
+    setAuthenticationCookies(res, accessToken, refreshToken);
+    res.status(200).json({
       status: "success",
       data: {
-        message: "Successfully created user specs!",
-        user: createdUserSpecs,
-      },
+          session
+      }
     });
+
   } catch (err) {
-    res.status(500).json({
-      status: "error",
+    return res.status(400).json({
+      status: "fail",
       data: {
-        message: err.message,
-      },
-    });
+          error: err.message
+      }
+    })
   }
 });
 

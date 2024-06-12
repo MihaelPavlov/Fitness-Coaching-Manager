@@ -4,30 +4,27 @@
 .profile-container {
     padding: 0 2rem;
 
+    &__main-heading {
+        padding-top: 0rem; //UNKNOWN PADDINT TOP ON THE HEADING
+
+        @include mixins.respond(Phone) {
+            text-align: center;
+        }
+    }
+
     &__public-btn {
         text-align: end;
 
         @include mixins.respond(Phone) {
             text-align: center;
-            margin-top: 3.5rem;
-        }
-    }
-
-    &__main-heading {
-        color: palette.$main-font-black-color;
-        text-align: start;
-        margin-bottom: -2rem;
-        padding-top: 0rem;
-        
-        @include mixins.respond(Phone) {
-            text-align: center;
+            margin-top: 1rem;
         }
     }
 
     &__img-container {
         text-align: center;
         position: relative;
-        padding-top: 3rem;
+        padding-top: 2rem;
 
         &-img {
             width: 10rem;
@@ -37,7 +34,7 @@
         }
 
         &-icon-private {
-            background-color: rgb(255, 255, 255);
+            background-color: palette.$main-font-white-color;
             position: absolute;
             top: 75%;
             left: 56%;

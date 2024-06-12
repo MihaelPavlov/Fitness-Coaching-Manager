@@ -16,11 +16,11 @@
     &__main-heading {
         color: palette.$main-font-black-color;
         text-align: start;
-        margin-bottom: -2.6rem;
-
+        margin-bottom: -2rem;
+        padding-top: 0rem;
+        
         @include mixins.respond(Phone) {
             text-align: center;
-            padding-top: 0rem;
         }
     }
 

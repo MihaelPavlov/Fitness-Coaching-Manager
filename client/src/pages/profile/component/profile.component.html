@@ -66,9 +66,7 @@
     </div>
   </div>
 
-  <ng-container
-    *ngIf="this.profileState == 'public'; then public; else private"
-  ></ng-container>
+  <ng-container *ngIf="this.profileState == 'public'; then public; else private"></ng-container>
 </div>
 
 <ng-template #public>

@@ -2,13 +2,12 @@
   <div
     class="landing-page-container__buttons-container d-flex align-items-end g-10"
   >
-    <app-button
-      text="I want to be a contributor"
-      class="landing-page-container__buttons-container__button mb-20"
-    />
-    <app-button
-      text="I want to do workouts"
-      class="landing-page-container__buttons-container__button mb-20"
-    />
-  </div>
+  <app-button class="landing-page-container__buttons-container__button mb-20" text="I want to be a contributor"
+  [width]="'100%'" [fontSize]="'1.5rem'" [padding]="'1rem'" [hoverBackgroundColor]="'main-background-color'"
+  [hoverTextColor]="'main-blue-darker-color'" (click)="navigateToRegister(registrationType.Trainer)">
+</app-button>
+<app-button class="landing-page-container__buttons-container__button mb-20" text="I want to do workouts"
+[width]="'100%'" [fontSize]="'1.5rem'" [padding]="'1rem'" [hoverBackgroundColor]="'main-background-color'"
+[hoverTextColor]="'main-blue-darker-color'" (click)="navigateToRegister(registrationType.User)">
+</app-button>
 </div>

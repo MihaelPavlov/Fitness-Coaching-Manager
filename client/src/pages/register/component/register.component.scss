@@ -1,13 +1,12 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared//styles/mixins";
 
+
 .register-container {
     height: 90vh;
     font-family: 'Open Sans', sans-serif;
 
     @include mixins.respond(Phone) {
-        height: 100%;
-        margin-top: 2.2rem;
     }
 }
 
@@ -24,8 +23,7 @@
         background-color: transparent;
         box-shadow: none;
         font-size: 0.7rem;
-        padding-left: 0;
-        padding-right: 0;
+        padding: 0 0 2rem 0;
 
         &__heading-box {
             text-align: center;
@@ -189,6 +187,9 @@
     &__links {
         gap: 0.1rem;
         text-align: center;
+        @include mixins.respond(Phone) {
+            margin-bottom: 5rem;
+        }
 
         &-text {
             transition: all 0.4s;
@@ -215,13 +216,15 @@
 .expand {
     height: 11rem;
 
+    @include mixins.respond(Tablet) {
+        height: 14rem;
+    }
+
     @include mixins.respond(Phone) {
         height: 19rem;
     }
 
-    @include mixins.respond(Tablet) {
-        height: 14rem;
-    }
+
 }
 
 .expandDropdown {

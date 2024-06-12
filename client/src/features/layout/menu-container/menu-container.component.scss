@@ -107,6 +107,10 @@ $color-black-02-percent: rgba(#000000, 0.02);
 @media (max-width: 600px) {
   .sidebar {
     position: sticky;
+    // position: fixed;
+    // min-height: 0%;
+    // top: calc(100vh - 4.5rem);
+    // flex-grow: 0;
     width: 100%;
     height: 4.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -172,4 +176,9 @@ $color-black-02-percent: rgba(#000000, 0.02);
     height: 1.5rem;
     text-align: center;
   }
+
+  // .margin-top {
+  //   height: 3rem;
+  //   margin-top: 3rem;
+  // }
 }

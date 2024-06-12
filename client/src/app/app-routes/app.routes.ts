@@ -25,6 +25,7 @@ export const ROUTES: Routes = [
       },
     ],
   },
+
   {
     path: 'home',
     component: LandingComponent,

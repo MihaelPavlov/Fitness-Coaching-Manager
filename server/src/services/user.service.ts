@@ -2,15 +2,9 @@ import { QueryParams } from "../query-builders/models/builder.models";
 import { UserBuilder } from "../query-builders/user.builder";
 import db from "../database/database-connector";
 import {
-  ACCESS_TOKEN_SECRET_KEY,
-  REFRESH_TOKEN_SECRET_KEY,
-} from "../config/secret.config";
-import { createSession } from "./user.sessions";
-import {
   verifyPassword,
   generatePasswordHash,
-  generateAccessToken,
-  generateRefreshToken,
+  createTokensAndSession,
 } from "./../helpers/auth.helper";
 import EXCEPTIONS from "./../constants/exceptions.constants";
 
@@ -70,20 +64,7 @@ export const registerUser = async (data: Record<string, any>) => {
     });
   }
 
-  const session = createSession(createdUserID, data?.user_role || -1);
-
-  const accessToken = await generateAccessToken(
-    { id: createdUserID, role: data?.user_role || -1 },
-    session.sessionId,
-    ACCESS_TOKEN_SECRET_KEY,
-    "2m"
-  );
-  const refreshToken = await generateRefreshToken(
-    session.sessionId,
-    REFRESH_TOKEN_SECRET_KEY,
-    "10m"
-  );
-  return [accessToken, refreshToken, session];
+  return createTokensAndSession({ id: createdUserID, role: data?.user_role || -1 });
 };
 
 export const loginUser = async (data: Record<string, any>) => {
@@ -99,18 +80,6 @@ export const loginUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTIONS.INVALID_LOGIN);
   }
 
-  const session = createSession(user.id, user.user_role);
-
-  const accessToken = await generateAccessToken(
-    user,
-    session.sessionId,
-    ACCESS_TOKEN_SECRET_KEY,
-    "2m"
-  );
-  const refreshToken = await generateRefreshToken(
-    session.sessionId,
-    REFRESH_TOKEN_SECRET_KEY,
-    "10m"
-  );
-  return [accessToken, refreshToken, session];
+  return createTokensAndSession(user);
 };
+

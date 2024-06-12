@@ -2,11 +2,7 @@
 @use "../../../shared/styles/mixins";
 
 .profile-container {
-    max-width: 75rem;
-    margin: 0 auto;
     padding: 0 2rem;
-    height: 100vh;
-    font-family: 'Open Sans', sans-serif;
 
     &__public-btn {
         text-align: end;

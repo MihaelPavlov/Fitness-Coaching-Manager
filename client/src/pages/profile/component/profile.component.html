@@ -49,12 +49,12 @@
             <p class="profile-container__inforamtion-container-box-label">Weight Goal</p>
         </div>
     </div>
-
-    <ng-template [ngIf]="profileState === 'public'">
-        <app-profile-cards></app-profile-cards>
-    </ng-template>
-
-    <ng-template [ngIf]="profileState === 'private'">
-        <app-profile-form></app-profile-form>
-    </ng-template>
 </div>
+
+<ng-template [ngIf]="profileState === 'public'">
+    <app-profile-cards></app-profile-cards>
+</ng-template>
+
+<ng-template [ngIf]="profileState === 'private'">
+    <app-profile-form></app-profile-form>
+</ng-template>

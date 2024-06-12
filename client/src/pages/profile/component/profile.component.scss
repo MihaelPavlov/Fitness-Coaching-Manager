@@ -24,13 +24,14 @@
 
         @include mixins.respond(Phone) {
             text-align: center;
-            padding-top: 1.5rem;
+            padding-top: 0rem;
         }
     }
 
     &__img-container {
         text-align: center;
         position: relative;
+        padding-top: 3rem;
 
         &-img {
             width: 10rem;
@@ -43,7 +44,7 @@
             background-color: rgb(255, 255, 255);
             position: absolute;
             top: 75%;
-            left: 53%;
+            left: 56%;
             border-radius: 50%;
             padding: 0.5rem;
             cursor: pointer;
@@ -54,7 +55,7 @@
             }
 
             @include mixins.respond(Phone) {
-                left: 58%;
+                left: 60%;
             }
         }
 
@@ -74,7 +75,7 @@
             }
 
             @include mixins.respond(Phone) {
-                left: 73%;
+                left: 77%;
             }
         }
     }
@@ -89,6 +90,10 @@
 
     &__inforamtion-container {
         padding-top: 0.4rem;
+
+        @include mixins.respond(Phone) {
+            gap: 0.7rem;
+        }
 
         &-box {
             &-data {

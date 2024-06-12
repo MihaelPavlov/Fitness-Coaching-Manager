@@ -15,8 +15,8 @@
         <img class="profile-container__img-container-img"
             src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
             alt="Img">
-        <span><i class="profile-container__img-container-icon-private material-icons">photo_camera</i></span>
-        <!--<span class="profile-container__img-container-icon-public material-symbols-outlined">chat</span>-->
+        <span *ngIf="profileState === 'private'"><i class="profile-container__img-container-icon-private material-icons">photo_camera</i></span>
+        <span *ngIf="profileState === 'public'" class="profile-container__img-container-icon-public material-symbols-outlined">chat</span>
     </div>
 
     <p class="profile-container__profile-name mb-3">Mihael Pavlov</p>

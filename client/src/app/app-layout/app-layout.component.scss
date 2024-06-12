@@ -1,0 +1,48 @@
+@use "../../shared/styles/mixins";
+@import "../../shared/styles/mixins";
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+
+  .main-header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    @include mixins.respond(Phone) {
+      background-color: #eceef3;
+    }
+  }
+
+  .main-sidebar {
+    @include mixins.respond(Phone) {
+      order: 3;
+      position: -webkit-sticky;
+      position: sticky;
+      bottom: 0;
+    }
+  }
+
+  .main-body {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    height: 100vh;
+
+    .main-content {
+      max-width: 90.6rem; // 1400px;
+      margin: 2rem 0;
+      margin-right: 10rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      overflow: hidden;
+
+      @include mixins.respond(Phone) {
+        margin: 2rem auto;
+      }
+    }
+  }
+}

@@ -9,9 +9,10 @@ import { HeaderComponent } from '../features/layout/header/header.component';
 import { MenuContainerComponent } from '../features/layout/menu-container/menu-container.component';
 import { LandingModule } from '../pages/landing/landing.module';
 import { LoginModule } from '../pages/login/login.module';
+import { AppLayoutComponent } from './app-layout/app-layout.component';
 
 @NgModule({
-    declarations: [AppComponent, HeaderComponent, MenuContainerComponent],
+    declarations: [AppComponent, AppLayoutComponent,HeaderComponent, MenuContainerComponent],
     exports: [BrowserModule, BrowserAnimationsModule],
     providers: [],
     bootstrap: [AppComponent],

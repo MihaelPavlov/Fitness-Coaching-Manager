@@ -1,36 +1,47 @@
-@import '../../../shared/styles/palette';
+@use '../../../shared/styles/palette';
+@use '../../../shared/styles/mixins';
 
-.card {
-    border: 1px solid $main-blue-color;
-    border-radius: 0.5rem;
-    height: 10rem;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('../../../shared/assets/images/temporary-exercise-list-placeholder-img.png');
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    height: 30rem;
+    overflow-y: scroll;
 
-    &__tag {
-        background-color: rgba(105, 105, 105, 0.6);
-        padding: 0.2rem 1rem;
-        border-radius: 0.2rem;
-        font-weight: bold;
+    @include mixins.respond(Phone) {
+        align-items: center;
+        height: auto;
     }
-}
 
-.card__content__wrapper {
-    height: 100%;
-}
+    &__card {
+        border: 1px solid palette.$main-blue-color;
+        border-radius: 0.5rem;
+        height: 10rem;
+        width: 19rem;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('../../../shared/assets/images/temporary-exercise-list-placeholder-img.png');
 
-@media(max-width: 600px) {
-    .card {
-        width: 100%;
-
-        &__text {
-            font-size: 1.5rem;
+        @include mixins.respond(Phone) {
+            width: 23rem;
         }
 
-        &:last-child {
-            margin-bottom: 5rem;
+        &-tag {
+            background-color: rgba(105, 105, 105, 0.6);
+            padding: 0.2rem 1rem;
+            border-radius: 0.2rem;
+            font-weight: bold;
+        }
+
+        &-text {
+            @include mixins.respond(Phone) {
+                font-size: 1.5rem;
+            }
+        }
+
+        &-content {
+            height: 100%;
         }
     }
 }

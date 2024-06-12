@@ -1,30 +1,10 @@
-@import '../../../shared/styles/palette';
+@use '../../../shared/styles/mixins';
 
-.wrapper {
-    height: 100vh;
+.header {
+    display: block;
+    padding-bottom: 0.5rem;
 
-    &__page__name {
+    @include mixins.respond(Phone) {
         display: none;
     }
 }
-
-@media(min-width: 671px) {
-    app-exercise-list {
-        display: flex;
-        flex-wrap: wrap;
-        height: 30rem;
-        gap: 0.5rem;
-        max-width: 90%;
-        overflow-y: scroll;  
-    }
-
-    app-exercise-library-search{
-        max-width: 85%;
-    }
-
-    .wrapper__page__name {
-        display: block;
-        padding-bottom: 0.5rem;
-    }
-}
-

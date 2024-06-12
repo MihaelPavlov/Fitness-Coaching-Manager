@@ -1,11 +1,13 @@
-<section class="card m-3" *ngFor="let card of exerciseCount">
-  <section
-    class="card__content__wrapper pt-6 pl-5 pb-4 pr-5 d-flex flex-direction-column justify-content-end g-2"
-  >
-    <div class="card__tags__container d-flex g-2">
-      <span class="card__tag">GYM</span>
-      <span class="card__tag">BACK</span>
-    </div>
-    <h1 class="card__text">{{ cardText }}</h1>
+<div class="container">
+  <section class="container__card m-3" *ngFor="let card of exerciseCount">
+    <section
+      class="container__card-content pt-6 pl-5 pb-4 pr-5 d-flex flex-direction-column justify-content-end g-2"
+    >
+      <div class=" d-flex g-2">
+        <span class="container__card-tag">GYM</span>
+        <span class="container__card-tag">BACK</span>
+      </div>
+      <h1 class="container__card-text">{{ cardText }}</h1>
+    </section>
   </section>
-</section>
+</div>

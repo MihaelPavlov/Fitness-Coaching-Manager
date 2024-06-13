@@ -23,7 +23,7 @@ export const ROUTES: Routes = [
       },
       // We do not have a working backend yet to retrieve exerciseId from. Setting this for development purposes
       {
-        path: 'exercise-library/1',
+        path: 'exercise/1',
         component: ExerciseLibraryDetailsComponent
       }
     ],

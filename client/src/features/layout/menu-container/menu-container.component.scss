@@ -177,6 +177,7 @@ $color-black-02-percent: rgba(#000000, 0.02);
   }
 
   .margin-top {
+    z-index: -1000;
     height: 3rem;
     margin-top: 3rem;
   }

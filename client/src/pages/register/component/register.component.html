@@ -13,8 +13,7 @@
   >
     <form
       (ngSubmit)="submitHandler()"
-      class="register-form w-100 d-flex flex-direction-column"
-    >
+      class="register-container__form w-100 d-flex flex-direction-column">
       <ng-container
         *ngTemplateOutlet="
           registerHeading;
@@ -34,7 +33,7 @@
   >
     <form
       (ngSubmit)="submitHandler()"
-      class="register-form w-100 d-flex flex-direction-column"
+      class="register-container__form w-100 d-flex flex-direction-column"
     >
       <ng-container
         *ngTemplateOutlet="
@@ -52,21 +51,21 @@
 
 <!-- Common header template -->
 <ng-template #registerHeading let-headingText="headingText">
-  <div class="register-form__heading-box mb-5">
-    <h1 class="register-form__heading-box-text mt-0">{{ headingText }}</h1>
-    <div class="register-form__heading-box-border"></div>
+  <div class="register-container__form__heading-box mb-5">
+    <h1 class="register-container__form__heading-box-text mt-0">{{ headingText }}</h1>
+    <div class="register-container__form__heading-box-border"></div>
   </div>
 </ng-template>
 
 <!-- General details template -->
 <ng-template #generalDetails>
-  <div class="register-form__details-container">
+  <div class="register-container__form__details-container">
     <div
-      class="register-form__details-container__heading-container d-flex justify-content-between pb-5"
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5"
       (click)="generalDetailsVisibility()"
     >
       <div
-        class="register-form__details-container__heading-container__label d-flex"
+        class="register-container__form__details-container__heading-container__label d-flex"
       >
         <ng-container
           *ngTemplateOutlet="backgroundSquare; context: { label: '1' }"
@@ -82,10 +81,10 @@
     </div>
     <div
       [class.expand]="showGeneralDetails"
-      class="register-form__general-details d-flex flex-wrap justify-content-center gr-2 gc-5"
+      class="register-container__form__details-container__general-details d-flex flex-wrap justify-content-center gr-2 gc-5"
     >
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Username"
         [type]="InputType.Text"
         placeholder="Username"
@@ -94,7 +93,7 @@
       >
       </app-input>
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Email"
         [type]="InputType.Text"
         placeholder="Email"
@@ -103,7 +102,7 @@
       >
       </app-input>
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Password"
         [type]="InputType.Password"
         placeholder="Password"
@@ -111,7 +110,7 @@
       >
       </app-input>
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Repeat Password"
         [type]="InputType.Password"
         placeholder="Repeat Password"
@@ -124,13 +123,13 @@
 
 <!-- Additional details template for users -->
 <ng-template #additionalUserDetails>
-  <div class="register-form__details-container">
+  <div class="register-container__form__details-container">
     <div
-      class="register-form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
       (click)="additionalDetailsVisibility()"
     >
       <div
-        class="register-form__details-container__heading-container__label d-flex"
+        class="register-container__form__details-container__heading-container__label d-flex"
       >
         <ng-container
           *ngTemplateOutlet="backgroundSquare; context: { label: '2' }"
@@ -146,10 +145,10 @@
     </div>
     <div
       [class.expand]="showAdditionalDetails"
-      class="register-form__general-details d-flex flex-wrap justify-content-center gc-5 gr-2"
+      class="register-container__form__details-container__general-details d-flex flex-wrap justify-content-center gc-5 gr-2"
     >
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.fitnessLevel"
         label="Fitness Level"
         name="fitnessLevel"
@@ -157,21 +156,21 @@
       >
       </app-select>
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.countryList"
         label="Country"
         name="country"
       >
       </app-select>
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.genderList"
         label="Sex"
         name="sex"
       >
       </app-select>
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.preferredLanguage"
         label="Preferred Language"
         name="preferredLanguage"
@@ -183,13 +182,13 @@
 
 <!-- Additional details template for trainers -->
 <ng-template #additionalTrainerDetails>
-  <div class="register-form__details-container">
+  <div class="register-container__form__details-container">
     <div
-      class="register-form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
       (click)="additionalDetailsVisibility()"
     >
       <div
-        class="register-form__details-container__heading-container__label d-flex"
+        class="register-container__form__details-container__heading-container__label d-flex"
       >
         <ng-container
           *ngTemplateOutlet="backgroundSquare; context: { label: '2' }"
@@ -205,10 +204,10 @@
     </div>
     <div
       [class.expand]="showAdditionalDetails" [class.expandDropdown]="showAdditionalDetails"
-      class="register-form__general-details d-flex flex-wrap justify-content-center gc-5 gr-2"
+      class="register-container__form__details-container__general-details d-flex flex-wrap justify-content-center gc-5 gr-2"
     >
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="First Name"
         [type]="InputType.Text"
         placeholder="First Name"
@@ -216,7 +215,7 @@
       >
       </app-input>
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Last Name"
         [type]="InputType.Text"
         placeholder="Last Name"
@@ -224,21 +223,21 @@
       >
       </app-input>
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.countryList"
         label="Country"
         name="country"
       >
       </app-select>
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.preferredLanguage"
         label="Preferred Language"
         name="preferredLanguage"
       >
       </app-select>
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Phone Number"
         [type]="InputType.Text"
         placeholder="Phone Number"
@@ -246,7 +245,7 @@
       >
       </app-input>
       <app-select
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.genderList"
         label="Sex"
         name="sex"
@@ -258,13 +257,13 @@
 
 <!-- Proof of rights details template -->
 <ng-template #proofOfRightsDetails>
-  <div class="register-form__details-container">
+  <div class="register-container__form__details-container">
   <div
-    class="register-form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+    class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
     (click)="proofOfRightsDetailsVisibility()"
   >
     <div
-      class="register-form__details-container__heading-container__label d-flex"
+      class="register-container__form__details-container__heading-container__label d-flex"
     >
       <ng-container
         *ngTemplateOutlet="backgroundSquare; context: { label: '3' }"
@@ -281,13 +280,13 @@
   <div
     [class.expandDropdown]="showProofOfRightsDetails"
     [class.expand]="showProofOfRightsDetails"
-    class="register-form__general-details d-flex flex-wrap justify-content-center align-content-start g-5"
+    class="register-container__form__details-container__general-details d-flex flex-wrap justify-content-center align-content-start g-5"
   >
     <div
-      class="register-form__general-details__inform-message-container d-flex"
+      class="register-container__form__details-container__general-details__inform-message-container d-flex"
     >
       <div
-        class="register-form__general-details__inform-message-container__message"
+        class="register-container__form__details-container__general-details__inform-message-container__message"
       >
         <p>
           As a trainer, provide proof of qualifications, certifications or
@@ -298,23 +297,23 @@
         </p>
       </div>
       <div
-        class="register-form__general-details__inform-message-container__button-container align-self-center"
+        class="register-container__form__details-container__general-details__inform-message-container__button-container align-self-center"
         (click)="toggleDropDownMenu()"
       >
         <div>+</div>
         <div
-          class="register-form__general-details__inform-message-container__button-container__menu"
+          class="register-container__form__details-container__general-details__inform-message-container__button-container__menu"
           *ngIf="showDropDownMenu"
         >
           <div
             (click)="attachLink = true"
-            class="register-form__general-details__inform-message-container__button-container__menu__item"
+            class="register-container__form__details-container__general-details__inform-message-container__button-container__menu__item"
           >
             Link
           </div>
           <div
             (click)="attachDocument = true"
-            class="register-form__general-details__inform-message-container__button-container__menu__item"
+            class="register-container__form__details-container__general-details__inform-message-container__button-container__menu__item"
           >
             Document
           </div>
@@ -323,7 +322,7 @@
     </div>
     <ng-container *ngIf="attachDocument">
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Attach Document"
         [type]="InputType.File"
         placeholder="Attach Document"
@@ -333,7 +332,7 @@
     </ng-container>
     <ng-container *ngIf="attachLink">
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Link Url"
         [type]="InputType.Url"
         placeholder="Link Url"
@@ -341,7 +340,7 @@
       >
       </app-input>
       <app-input
-        class="register-form__general-details__input-field"
+        class="register-container__form__details-container__general-details__input-field"
         label="Link Url 2"
         [type]="InputType.Url"
         placeholder="Link Url 2"
@@ -357,7 +356,7 @@
 <!-- Form footer template -->
 <ng-template #formFooter>
     <div >
-  <div class="register-form__elements__buttons">
+  <div class="register-container__form__elements__buttons">
     <app-button
       routerLink="/register"
       class="landing-page-container__buttons-container__button mb-20"
@@ -368,8 +367,8 @@
     >
     </app-button>
   </div>
-  <div class="register-form__links d-flex flex-direction-column">
-    <a class="register-form__links-text" href="/login"
+  <div class="register-container__form__links d-flex flex-direction-column">
+    <a class="register-container__form__links-text" href="/login"
       >Already have an account? Log in</a
     >
   </div>

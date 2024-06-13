@@ -16,6 +16,13 @@ export const ROUTES: Routes = [
             (m) => m.ProfileModule
           ),
       },
+      {
+        path: 'workout',
+        loadChildren: () =>
+          import('../../pages/workout-library/workout-library.module').then(
+            (m) => m.WorkoutLibraryModule
+          ),
+      },
     ],
   },
   {

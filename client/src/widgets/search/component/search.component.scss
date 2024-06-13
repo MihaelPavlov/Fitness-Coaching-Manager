@@ -1,0 +1,58 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.search-feature {
+  position: relative;
+
+  &__container {
+    gap: 57rem;
+    align-items: center;
+
+    @include mixins.respond(Phone) {
+      gap: 1rem;
+    }
+
+    &-input {
+      position: relative;
+
+      &-field {
+        all: unset;
+        background-color: #fff;
+        border-radius: 0.3rem;
+        padding: 0.4rem;
+
+        @include mixins.respond(Phone) {
+          width: 18rem;
+        }
+      }
+
+      &-search-icon {
+        position: absolute;
+        font-size: 1.3rem;
+        right: 4%;
+        bottom: 20%;
+        color: palette.$main-blue-color;
+        cursor: pointer;
+      }
+    }
+
+    &-filter-icon {
+      font-size: 2rem;
+      color: palette.$main-blue-color;
+      cursor: pointer;
+    }
+  }
+
+  &__filter-form {
+    position: absolute;
+    right: 8rem;
+    top: 2rem;
+    background-color: palette.$main-font-white-color;
+    outline: 1px solid palette.$main-blue-color;
+
+    @include mixins.respond(Phone) {
+      right: 0rem;
+      top: 3rem;
+    }
+  }
+}

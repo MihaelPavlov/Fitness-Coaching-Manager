@@ -1,0 +1,22 @@
+@use "../../../shared/styles/mixins";
+
+.workout-library {
+  &__header {
+    display: block;
+    padding-bottom: 0.5rem;
+
+    @include mixins.respond(Phone) {
+      display: none;
+    }
+  }
+
+  &__cards-flex-container {
+    max-width: 100%;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    @include mixins.respond(Phone) {
+      justify-content: center;
+    }
+  }
+}

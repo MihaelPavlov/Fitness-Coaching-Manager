@@ -1,86 +1,175 @@
-@use '../../../shared/styles/palette';
-@use '../../../shared/styles/variables';
+@use "../../../shared/styles/palette";
+$color-black-12-percent: rgba(#000000, 0.12);
+$color-black-10-percent: rgba(#000000, 0.1);
+$color-black-06-percent: rgba(#000000, 0.06);
+$color-black-04-percent: rgba(#000000, 0.04);
+$color-black-02-percent: rgba(#000000, 0.02);
 
-.menu__container {
-    // position: fixed;
-    background-color: palette.$menu-container-background-color;
+.sidebar {
+  width: 13.5rem;
+  background: white;
+  box-shadow: 0 0.25rem 0.3125rem $color-black-12-percent,
+    0 0.0625rem 0.625rem $color-black-12-percent,
+    0 0.125rem 0.25rem $color-black-02-percent;
+  height: calc(100vh - 3rem);
+  min-height: 100%;
+  overflow: hidden;
+  transition: width 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
-    &__navigation__item {
-        list-style-type: none;
-    }
-
-    &__navigation__link {
-        font-size: 1.25rem;
-        font-weight: 100;
-        color: palette.$menu-container-icon-color;
-    }
-
-    &__navigation__icon {
-        color: palette.$menu-container-icon-color;
-        font-size: 2.9rem;
-    }
+  /* Positioning the sidebar to the right side*/
+  position: fixed;
+  top: 3rem;
+  right: 0;
+  z-index: 0;
 }
 
-@media (max-width: 670px) {
-    .menu__container {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100vw;
-
-        &__navigation {
-            display: flex;
-            justify-content: space-around;
-        }
-
-        &__navigation__icon {
-            display: block;
-            text-align: center;
-            font-size: 1.9rem;
-        }
-
-        &__navigation__link {
-            font-size: .9rem;
-        }
-    }
+.sidebar.active {
+  width: 13.5rem;
 }
 
-@media (min-width: 671px) {
-    .menu__container {
-        // width: 10%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        z-index: -1;
+#side-nav::before {
+  background-color: white;
+  content: '';
+  width: 0.25rem;
+  min-width: 0.25rem;
+}
 
-        &__navigation {
-            flex-direction: column;
-            justify-content: flex-start;
-            height: 100vh;
-            // there is no such spacing class, so I decided to hard code the padding
-            //if not suitable, then we may add more spacing classes with bigger units
-            padding-top: 4rem;
-        }
+#side-nav:hover:not(.active) {
+  background-color: #EBEEF3;
+  z-index: 1;
+}
 
-        &__navigation__item {
-            display: flex;
-            background-color: palette.$menu-container-navigation-item-background-color;
-            width: 100%;
-            margin-bottom: variables.$spacing-4;
-        }
+#side-nav {
+  display: flex;
+  width: 13.75rem;
+  margin: 1rem 0;
+  height: 3rem;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: width 0.6s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
-        &__navigation__item:hover {
-            background-color: palette.$main-blue-darker-color;
-        }
+  &:first-child {
+    margin-top: 3rem;
+  }
 
-        &__navigation__icon {
-            font-size: 1.9rem;
-        }
+  &.active {
+    background-color: #EBEEF3;
+    z-index: 1;
+  }
 
-        &__navigation__link {
-            display: flex;
-            align-items: center;
-            padding-right: 0.5rem;
-        }
+  &.active::before {
+    background-color: #3C6AA7;
+    content: '';
+    height: 3rem;
+    width: 0.5rem;
+    min-width: 0.25rem;
+    position: absolute;
+    right: 0;
+  }
+}
+
+#side-nav>div {
+  width: 3.75rem;
+  min-width: 3.75rem;
+  text-align: center;
+
+  img {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
+
+#side-nav>p {
+  flex: 1 1 auto;
+  width: 6.25rem;
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+  line-height: 4;
+  letter-spacing: 0.025rem;
+  text-align: left;
+  color: palette.$main-font-black-color;
+}
+
+#side-nav.active>p {
+  color: palette.$main-font-black-color;
+}
+
+.material-icons {
+  color: palette.$main-font-black-color;
+  font-size: 1.5rem;
+  height: 1.5rem;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    position: sticky;
+    width: 100%;
+    height: 4.5rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: none;
+    z-index: 999;
+  }
+
+  .side-nav {
+    display: flex;
+    margin: 0.75rem;
+  }
+
+  #side-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0;
+    justify-content: space-between;
+    opacity: 0.5;
+    ;
+
+    &:first-child {
+      margin-top: 0;
     }
+
+    &.active {
+      background-color: white;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    &.active::before {
+      background-color: white;
+      height: 0;
+      width: 0;
+      min-width: 0;
+    }
+  }
+
+  #side-nav.active::before {
+    display: none;
+    margin: 0;
+  }
+
+  #side-nav>div {
+    width: auto;
+    /* Auto width */
+    text-align: center;
+  }
+
+  #side-nav>p {
+    text-align: center;
+    /* Center align the text */
+    line-height: 1.5;
+    /* Adjust line height */
+    margin: 0;
+    /* Remove margin */
+  }
+
+  .material-icons {
+    color: palette.$main-font-black-color;
+    font-size: 2rem;
+    height: 1.5rem;
+    text-align: center;
+  }
 }

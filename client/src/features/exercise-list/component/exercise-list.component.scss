@@ -27,20 +27,20 @@
             width: 23rem;
         }
 
-        &-tag {
+        &__tag {
             background-color: rgba(105, 105, 105, 0.6);
             padding: 0.2rem 1rem;
             border-radius: 0.2rem;
             font-weight: bold;
         }
 
-        &-text {
+        &__text {
             @include mixins.respond(Phone) {
                 font-size: 1.5rem;
             }
         }
 
-        &-content {
+        &__content {
             height: 100%;
         }
     }

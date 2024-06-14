@@ -1,22 +1,21 @@
-<nav> 
-    <ul *ngIf="!isAuth" class="nav__guest py-2 d-flex align-items-center justify-content-between">
-        <h1 class="uppercase nav__guest__mobile nav__guest__logo ml-6">ath</h1>
-        <h1 class="uppercase nav__guest__desktop nav__guest__logo ml-6">athleans | fit</h1>
+<nav>
+  <ul class="nav py-2 d-flex align-items-center justify-content-between">
+    <h1 class="uppercase nav__header-mobile nav__logo ml-6">ath</h1>
+    <h1 class="uppercase nav__header-desktop n nav__logo ml-6">athleans | fit</h1>
 
-        <section class="nav__guest__btn mr-6">
-            <a class="nav__guest__btn__link" href="">Register</a>
-            <a class="nav__guest__btn__link ml-4" href="">Login</a>
-        </section>
-    </ul>
+    <div *ngIf="this.isAuth">
+      <div class="nav__mobile">
+        <h3 class="menu-container">...</h3>
+      </div>
 
-    <ul *ngIf="isAuth" class="nav__user py-2 d-flex align-items-center justify-content-between">
-        <h1 class="uppercase nav__user__mobile nav__user__logo ml-6">ath</h1>
-        <h1 class="uppercase nav__user__desktop nav__user__desktop-white nav__user__logo ml-6">athleans | fit</h1>
-
-        <h3 class="nav__user__mobile">{{pageName}}</h3>
-        <h3 class="nav__user__menu__btn nav__user__mobile">...</h3>
-
-        <h2 class="mr-5 nav__user__desktop ml-auto nav__user__desktop-white">Username</h2>
-        <h3 class="nav__user__menu__btn nav__user__desktop nav__user__desktop-white mr-6">|||</h3>
-    </ul>
+      <div class="user-info__container">
+        <h2 class="mr-5 ml-auto">Username</h2>
+        <h3 class="menu-container mr-6">|||</h3>
+      </div>
+    </div>
+    <div *ngIf="!this.isAuth" class="btn-container mr-6">
+      <a class="btn-container__link" href="">Register</a>
+      <a class="btn-container__link ml-4" href="">Login</a>
+    </div>
+  </ul>
 </nav>

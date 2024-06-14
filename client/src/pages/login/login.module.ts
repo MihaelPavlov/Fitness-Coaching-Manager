@@ -4,6 +4,8 @@ import { ButtonModule } from '../../widgets/button/button.module';
 import { InputModule } from '../../widgets/input/input.module';
 import { LoginComponent } from './component/login.component';
 import { LinkModule } from '../../widgets/link/link.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     declarations: [
@@ -13,7 +15,9 @@ import { LinkModule } from '../../widgets/link/link.module';
         CommonModule,
         ButtonModule,
         InputModule,
-        LinkModule
+        LinkModule,
+        ReactiveFormsModule,
+        RouterModule
     ],
     exports:[
         LoginComponent

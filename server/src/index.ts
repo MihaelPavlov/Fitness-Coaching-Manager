@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 // Config imports
 import expressConfig from "./config/express.config";
@@ -10,8 +11,11 @@ import { checkAccessToken, checkRefreshToken } from "./middlewares/auth.middlewa
 import router from "./routes";
 
 const app = express();
-// Add headers before the routes are defined
-
+// CORS
+app.use(cors({
+  origin: "*",
+  credentials: true
+}))
 
 // Express configs
 expressConfig(app);

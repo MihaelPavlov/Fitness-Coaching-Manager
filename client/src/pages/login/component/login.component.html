@@ -1,31 +1,59 @@
 <div class="login-container d-flex align-items-center justify-content-center">
-    <form class="login-form d-flex flex-direction-column">
-        <div class="login-form__heading-box mb-5">
-            <h1 class="login-form__heading-box-text mt-0">Log in</h1>
-            <div class="login-form__heading-box-border"></div>
-        </div>
-        <div class="login-form__elements">
-            <div class="login-form__elements__inputs d-flex flex-direction-column g-2">
-                <app-input label="Email" [type]="InputType.Text" placeholder="Email" name="email"></app-input>
-                <app-input label="Password" [type]="InputType.Password" placeholder="Password"
-                    name="password"></app-input>
-            </div>
+  <form class="login-form d-flex flex-direction-column" [formGroup]="loginForm">
+    <div class="login-form__heading-box mb-5">
+      <h1 class="login-form__heading-box-text mt-0">Log in</h1>
+      <div class="login-form__heading-box-border"></div>
+    </div>
+    <div class="login-form__elements">
+      <div
+        class="login-form__elements__inputs d-flex flex-direction-column g-2"
+      >
+        <app-input
+          label="Email"
+          [type]="InputType.Text"
+          placeholder="Email"
+          name="email"
+          id="email"
+          (valueChange)="onValueChange('email', $event)"
+        ></app-input>
+        <app-input
+          label="Password"
+          [type]="InputType.Password"
+          placeholder="Password"
+          name="password"
+          id="password"
+          (valueChange)="onValueChange('password', $event)"
+        ></app-input>
+      </div>
 
-            <div class="login-form__elements__checkbox-field d-flex mt-2 g-2 align-items-center">
-                <input class="login-form__elements__checkbox-field-box ml-0" type="checkbox" id="scales"
-                    name="scales" />
-                <label class="login-form__elements__checkbox-field-text" for="scales">Show Password</label>
-            </div>
+      <div
+        class="login-form__elements__checkbox-field d-flex mt-2 g-2 align-items-center"
+      >
+        <input
+          class="login-form__elements__checkbox-field-box ml-0"
+          type="checkbox"
+          id="scales"
+          name="scales"
+        />
+        <label class="login-form__elements__checkbox-field-text" for="scales"
+          >Show Password</label
+        >
+      </div>
 
-            <div class="login-form__elements__buttons">
-                <app-button text="Sign In" [width]="'100%'" [hoverBackgroundColor]="'main-background-color'"
-                    [hoverTextColor]="'main-blue-darker-color'">
-                </app-button>
-            </div>
-        </div>
-        <div class="login-form__links d-flex flex-direction-column">
-            <app-link text="Forgot Username / Password?"></app-link>
-            <app-link text="Don't have an account? Sign up"></app-link>
-        </div>
-    </form>
+      <div class="login-form__elements__buttons">
+        <app-button
+          text="Sign In"
+          [width]="'100%'"
+          [hoverBackgroundColor]="'main-background-color'"
+          [hoverTextColor]="'main-blue-darker-color'"
+          (click)="login()"
+        >
+        </app-button>
+      </div>
+    </div>
+    <div class="login-form__links d-flex flex-direction-column">
+      <app-link text="Forgot Username / Password?"></app-link>
+      <app-link text="Don't have an account? Sign up"></app-link>
+    </div>
+  </form>
 </div>

@@ -10,6 +10,8 @@ import { checkAccessToken, checkRefreshToken } from "./middlewares/auth.middlewa
 import router from "./routes";
 
 const app = express();
+// Add headers before the routes are defined
+
 
 // Express configs
 expressConfig(app);

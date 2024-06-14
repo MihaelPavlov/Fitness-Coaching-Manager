@@ -1,53 +1,76 @@
 @use '../../../shared/styles/palette';
 @use '../../../shared/styles/variables';
+@use '../../../shared/styles/mixins';
 
-.nav__guest__logo,
-.nav__user__logo {
-    color: palette.$main-blue-darker-color;
-    font-size: 2rem;
-}
+.nav {
+    background-color: palette.$main-blue-color;
 
-.nav__guest__btn {
-
-    &__link {
-        color: palette.$menu-container-icon-color;
-        font-size: 1.2rem;
-        transition: all 0.4s;
-        
-        &:hover,
-        &:active {
-            color: palette.$main-blue-darker-color;
-        }
-    }
-}
-
-@media (min-width: 601px) {
-    .nav__user__mobile,
-    .nav__guest__mobile {
-        display: none;
-    }
-    
-    .nav__user {
-        background-color: palette.$main-blue-color !important;
-        &__desktop-white {
-            color: palette.$main-font-white-color;
-        }
-    }
-}
-
-@media (max-width: 600px) {
-    .nav__user__desktop,
-    .nav__guest__desktop {
-        display: none;
+    @include mixins.respond(Phone) {
+        background-color: palette.$main-background-color;
+        color: palette.$main-font-white-color;
     }
 
-    .nav__user__menu__btn {
+    &__logo {
         color: palette.$main-blue-darker-color;
-        margin-right: variables.$spacing-6;
+        font-size: 2rem;
     }
-}
 
-.nav__user__menu__btn {
-    transform: rotate(90deg);
-    font-size: 1rem;
+    &__header-desktop {
+        display: inline-block;
+        color: palette.$main-font-white-color;
+
+        @include mixins.respond(Phone) {
+            display: none;
+        }
+    }
+
+    &__header-mobile {
+        display: none;
+
+        @include mixins.respond(Phone) {
+            display: inline-block;
+        }
+    }
+
+    &__mobile {
+        display: none;
+
+        @include mixins.respond(Phone) {
+            display: inline-block;
+            margin: 0 1rem;
+        }
+    }
+
+    .user-info__container {
+        display: flex;
+        color: palette.$main-font-white-color;
+
+        @include mixins.respond(Phone) {
+            display: none;
+        }
+    }
+
+    .btn-container {
+        color: palette.$main-font-white-color;
+
+        @include mixins.respond(Phone) {
+            color: palette.$main-font-black-color;
+        }
+
+        &__link {
+            font-size: 1.2rem;
+            transition: all 0.4s;
+
+            &:hover,
+            &:active {
+                color: palette.$main-blue-darker-color;
+            }
+        }
+
+    }
+
+    .menu-container {
+        transform: rotate(90deg);
+        font-size: 1rem;
+    }
 }

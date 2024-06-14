@@ -15,7 +15,19 @@
         border-right: transparent;
         height: 2.5rem;
         font-size: 0.8rem;
-        padding: 0 6rem 0 0.4rem;
+        padding: 0 0rem 0 0.4rem;
         color: palette.$main-blue-darker-color;
     }
+}
+
+@media (width < 700px) {
+
+    .input-container__input {
+        background-color: white;
+        font-size: 0.6rem;
+    }
+}
+
+::-webkit-file-upload-button {
+    display: none;
 }

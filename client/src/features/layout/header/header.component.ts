@@ -9,5 +9,5 @@ import { Input } from '@angular/core';
 export class HeaderComponent {
   isAuth = true;
 
-  @Input() pageName: string = '';
+  @Input() pageName: string = 'Header';
 }

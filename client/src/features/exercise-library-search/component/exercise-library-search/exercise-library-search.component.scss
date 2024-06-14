@@ -1,0 +1,51 @@
+@use '../../../../shared/styles/palette';
+@use '../../../../shared/styles/mixins';
+
+.search__feature {
+    justify-content: space-between;
+    position: relative;
+
+    @include mixins.respond(Phone) {
+        width: 100%;
+    }
+
+    &__container {
+        position: relative;
+        width: 15%;
+
+        @include mixins.respond(Phone) {
+            width: 100%;
+        }
+    }
+
+    &__input {
+        all: unset;
+
+        background-color: #fff;
+        border-radius: .3rem;
+        width: 95%;
+        padding: 0.4rem;
+    }
+
+    &__search__icon {
+        position: absolute;
+        font-size: 1.3rem;
+        right: 5%;
+        color: palette.$main-blue-color;
+    }
+
+    &__filter__icon {
+        font-size: 1.8rem;
+        color: palette.$main-blue-color;
+        cursor: pointer;
+    }
+
+    &__filter__form {
+        position: absolute;
+        right: 2rem;
+        ;
+        top: 3rem;
+        background-color: palette.$main-font-white-color;
+        outline: 1px solid palette.$main-blue-color;
+    }
+}

@@ -9,6 +9,7 @@ export class ButtonComponent {
   @Input() text: string = '';
   @Input() padding: string = ''; // Input for padding
   @Input() width: '100%' | 'auto' = '100%'; // Input for controlling width
+  @Input() fontSize!: string
 
   //Style Decorators
   @Input() hoverTextColor: 'main-blue-darker-color' = 'main-blue-darker-color'; // Default hover text color

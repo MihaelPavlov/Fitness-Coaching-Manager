@@ -1,0 +1,6 @@
+<div class="input-container">
+    <p class="input-container__text">{{ label }}</p>
+    <select class="input-container__input w-100 d-block" [name]="name" (input)="onInputChange($event.target)"> 
+        <option class="input-container__input__option" *ngFor="let option of options" [value]="option">{{option}}</option>
+    </select>
+</div>

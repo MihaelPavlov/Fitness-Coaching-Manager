@@ -6,7 +6,7 @@
     color: palette.$main-background-color;
     text-align: center;
     border: none;
-    padding: 0.6rem;
+    padding: 0.6rem 0;
     font-size: 0.9rem;
     font-weight: 600;
     transition: all 0.4s;
@@ -19,5 +19,5 @@
     }
 }
 .border-hover:hover {
-    outline: 0.1rem solid var(--hoverBorderColor);
+    outline: 0.2rem solid var(--hoverBorderColor);
 }

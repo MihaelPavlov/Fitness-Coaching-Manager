@@ -1,0 +1,24 @@
+@use "../../../../shared/styles/mixins";
+
+.profile-container {
+    text-align: center;
+
+    &__cards-heading {
+        margin-bottom: 1.8rem;
+
+        @include mixins.respond(Phone) {
+            text-align: center;
+        }
+    }
+
+    &__cards-flex-container {
+        max-width: 100%;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        @include mixins.respond(Phone) {
+            justify-content: center;
+        }
+    }
+}
+

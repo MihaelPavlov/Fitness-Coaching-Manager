@@ -127,6 +127,18 @@ $spacing-map: (
     align-items: start;
 }
 
+.align-content-start {
+    align-content: start;
+}
+
+.align-content-center {
+    align-content: center;
+}
+
+.align-content-end {
+    align-content: end;
+}
+
 .justify-content-center {
     justify-content: center;
 }
@@ -292,5 +304,13 @@ $spacing-map: (
 
     .g-#{$key} {
         gap: $val;
+    }
+
+    .gc-#{$key} {
+        column-gap: $val
+    }
+
+    .gr-#{$key} {
+        row-gap: $val
     }
 }

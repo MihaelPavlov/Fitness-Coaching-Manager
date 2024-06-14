@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { LoginComponent } from '../../pages/login/component/login.component';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
@@ -23,6 +22,13 @@ export const ROUTES: Routes = [
             (m) => m.ExerciseLibraryModule
           ),
       },
+      {
+        path: 'register/:registrationType',
+        loadChildren: () =>
+          import('../../pages/register/register.module').then(
+            (m) => m.RegisterModule
+          )
+      }
     ],
   },
   {
@@ -32,5 +38,5 @@ export const ROUTES: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-  },
+  }
 ];

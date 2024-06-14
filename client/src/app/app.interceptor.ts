@@ -8,7 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const apiUrl = "http://localhost:3000"
+const apiUrl = "http://localhost:3000/api/v1"
 
 @Injectable()
 class AppInterceptor implements HttpInterceptor {
@@ -23,7 +23,7 @@ class AppInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request);
+    return next.handle(request).pipe();
   }
 }
 

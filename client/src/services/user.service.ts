@@ -9,6 +9,6 @@ export class UserService {
   constructor(private httpClient: HttpClient) { }
 
   login(email: string, password: string) {
-    return this.httpClient.post("/api/v1/users/login", { email, password });
+    return this.httpClient.post("/api/users/login", { email, password });
   }
 }

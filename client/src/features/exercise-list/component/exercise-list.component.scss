@@ -23,6 +23,10 @@
         background-position: center;
         background-image: linear-gradient(rgba(255, 255, 255, .65), rgba(255, 255, 255, .65)), url('../../../shared/assets/images/temporary-exercise-list-placeholder-img.png');
 
+        &:hover {
+            cursor: pointer;
+        }
+
         @include mixins.respond(Phone) {
             width: 23rem;
         }

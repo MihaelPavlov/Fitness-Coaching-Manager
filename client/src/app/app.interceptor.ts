@@ -23,7 +23,7 @@ class AppInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(request).pipe();
+    return next.handle(request);
   }
 }
 

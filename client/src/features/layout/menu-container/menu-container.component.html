@@ -1,32 +1,21 @@
 <div class="margin-top"></div>
 <nav class="sidebar" id="sidebar" #sidebar>
-    <div class="side-nav">
-      <ng-container *ngFor="let item of menuItems; trackByIndex">
-        <ng-container>
-          <a
-            *ngIf="item.visible"
-            id="side-nav"
-            routerLinkActive="active"
-            [routerLink]="item.route"
-            class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }}"
-            (click)="scrollToTop()"
-          >
-            <div class="icon" *ngIf="item.icon === 'report_grey'; else matIcon">
-              <img
-                src="{{'assets/img/'+item.icon+'.svg'}}"
-                alt="help icon"
-                class="material-icons-outlined"
-              />
+  <div class="side-nav">
+    <ng-container *ngFor="let item of menuItems; trackByIndex">
+      <ng-container>
+        <a *ngIf="item.visible" id="side-nav" routerLinkActive="active" [routerLink]="item.route"
+          class="{{ item.class }} {{ item.enabled ? '' : 'disabled' }}" (click)="scrollToTop()">
+          <div class="icon" *ngIf="item.icon === 'report_grey'; else matIcon">
+            <img src="{{'assets/img/'+item.icon+'.svg'}}" alt="help icon" class="material-icons-outlined" />
+          </div>
+          <ng-template #matIcon>
+            <div class="material-icons-outlined">
+              <span class="material-symbols-outlined"> {{item.icon}} </span>
             </div>
-            <ng-template #matIcon>
-              <div class="material-icons-outlined">
-                <span class="material-symbols-outlined"> {{item.icon}} </span>
-            </div>
-            </ng-template>
-            <p>{{item.label }}</p>
-          </a>
-        </ng-container>
+          </ng-template>
+          <p>{{item.label }}</p>
+        </a>
       </ng-container>
-    </div>
-  </nav>
-  
+    </ng-container>
+  </div>
+</nav>

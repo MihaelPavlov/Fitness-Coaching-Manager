@@ -1,0 +1,10 @@
+@use '../../../shared/styles/mixins';
+
+.header {
+    display: block;
+    padding-bottom: 0.5rem;
+
+    @include mixins.respond(Phone) {
+        display: none;
+    }
+}

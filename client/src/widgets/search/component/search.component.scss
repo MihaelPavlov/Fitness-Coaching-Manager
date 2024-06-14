@@ -17,12 +17,12 @@
 
       &-field {
         all: unset;
-        background-color: #fff;
+        background-color: palette.$main-font-white-color;
         border-radius: 0.3rem;
         padding: 0.4rem;
 
         @include mixins.respond(Phone) {
-          width: 18rem;
+          width: 20.1rem;
         }
       }
 
@@ -37,7 +37,7 @@
     }
 
     &-filter-icon {
-      padding-left: 3.1rem;
+      padding-left: 10rem;
       font-size: 2rem;
       color: palette.$main-blue-color;
       cursor: pointer;
@@ -50,11 +50,12 @@
 
   &__filter-form {
     position: absolute;
-    right: 4.5rem;
+    right: 1rem;
     top: 2.5rem;
     background-color: palette.$main-font-white-color;
     outline: 1px solid palette.$main-blue-color;
-
+    z-index: 100;
+    
     @include mixins.respond(Phone) {
       right: 0.1rem;
       top: 3rem;

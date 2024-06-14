@@ -1,0 +1,55 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.card-container {
+    font-family: 'Open Sans', sans-serif;
+    border-radius: 0.5rem;
+    width: 23rem;
+    height: 6.2rem;
+    padding-right: 1.15rem;
+    padding-bottom: 0.6rem;
+    padding-left: 1.15rem;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid palette.$main-blue-color;
+    @include mixins.respond(Phone) {
+        width: 21rem;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(rgba(245, 242, 242, 0.3), rgba(232, 232, 232, 0.215)), var(--background-url);
+        background-size: cover;
+        background-position: center;
+        z-index: -5;
+        transition: all 0.4s;
+    }
+
+    &:hover::before {
+        filter: blur(3px) brightness(80%);
+        transform: scale(1.1);
+    }
+    
+    &__tags {
+        padding-top: 3rem;
+        padding-bottom: 0.1rem;
+        &-tag {
+            background-color: palette.$main-blue-color;
+            color: palette.$main-font-white-color;
+            padding: 0.08rem 0.8rem;
+            font-size: 1.2rem;
+            border-radius: 0.2rem;
+        }
+    }
+
+    &__exercise-name {
+        font-weight: 700;
+        color: palette.$main-font-black-color;
+        font-size: 1.4rem;
+    }
+}

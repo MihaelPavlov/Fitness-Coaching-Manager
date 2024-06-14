@@ -3,7 +3,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { WorkoutLibraryRoutingModule } from './workout-library-routing.module';
 import { WorkoutLibraryComponent } from './component/workout-library.component';
 import { SearchModule } from '../../widgets/search/search.module';
-import { CardModule } from '../../widgets/card/card.module';
+import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
 
 @NgModule({
   declarations: [WorkoutLibraryComponent],
@@ -11,7 +11,7 @@ import { CardModule } from '../../widgets/card/card.module';
     SharedModule,
     WorkoutLibraryRoutingModule,
     SearchModule,
-    CardModule,
+    WorkoutCardModule,
   ],
   exports: [WorkoutLibraryComponent],
 })

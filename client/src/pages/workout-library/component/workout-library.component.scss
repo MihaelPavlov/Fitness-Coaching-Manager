@@ -2,25 +2,6 @@
 @use "../../../shared/styles/palette";
 
 .workout-library {
-  height: 45rem;
-
-  overflow-y: scroll;
-  scrollbar-color: #2c3958 #c9c9c9;
-  scrollbar-width: thin;
-  scrollbar-color: palette.$main-blue-color #dbdbdb;
-
-  @include mixins.respond(Phone) {
-    overflow-y: auto;
-    -ms-overflow-style: none; /* Internet Explorer 10+ */
-    scrollbar-width: none; /* Firefox */
-  }
-
-  @include mixins.respond(Phone) {
-    &::-webkit-scrollbar {
-      display: none; /* Safari and Chrome */
-    }
-  }
-
   &__header {
     display: block;
     padding-bottom: 0.5rem;
@@ -31,6 +12,32 @@
   }
 
   &__cards-flex-container {
+    height: 45rem;
+
+    overflow-y: scroll;
+    scrollbar-color: #2c3958 #c9c9c9;
+    scrollbar-width: thin;
+    scrollbar-color: palette.$main-blue-color #dbdbdb;
+
+    &:focus {
+      scrollbar-color: #003f7f #f0f2f5;
+    }
+
+    &:active {
+      scrollbar-color: #003f7f #f0f2f5;
+    }
+    
+    @include mixins.respond(Phone) {
+      overflow-y: auto;
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    @include mixins.respond(Phone) {
+      &::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
+    }
     max-width: 100%;
     flex-wrap: wrap;
     gap: 3rem;

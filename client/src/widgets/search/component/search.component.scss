@@ -37,21 +37,26 @@
     }
 
     &-filter-icon {
+      padding-left: 3.1rem;
       font-size: 2rem;
       color: palette.$main-blue-color;
       cursor: pointer;
+
+      @include mixins.respond(Phone) {
+        padding-left: 0rem;
+      }
     }
   }
 
   &__filter-form {
     position: absolute;
-    right: 8rem;
-    top: 2rem;
+    right: 4.5rem;
+    top: 2.5rem;
     background-color: palette.$main-font-white-color;
     outline: 1px solid palette.$main-blue-color;
 
     @include mixins.respond(Phone) {
-      right: 0rem;
+      right: 0.1rem;
       top: 3rem;
     }
   }

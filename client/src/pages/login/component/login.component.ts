@@ -27,6 +27,7 @@ export class LoginComponent {
 
   login(): void {
     if (this.loginForm.invalid) {
+      this.hasLoginError = true;
       return;
     }
 

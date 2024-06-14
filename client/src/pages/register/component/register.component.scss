@@ -3,7 +3,6 @@
 
 
 .register-container {
-    // height: 90vh;
     font-family: 'Open Sans', sans-serif;
 
 
@@ -74,7 +73,7 @@
                     justify-content: space-between;
                     align-items: center;
                     font-size: 0.8rem;
-                    width: 100%;
+                    gap: 1em;
     
                     @include mixins.respond(Phone) {
                         font-size: 0.6rem;
@@ -84,8 +83,8 @@
                     &__button-container {
                         position: relative;
                         border: 0.15rem solid palette.$main-blue-darker-color;
-                        width: 2.1rem;
-                        height: 2.1rem;
+                        height: 2rem;
+                        line-height: 0;
                         aspect-ratio: 1;
                         border-radius: 50%;
                         align-content: center;
@@ -96,16 +95,13 @@
                         background-color: white;
     
                         @include mixins.respond(Phone) {
-                            width: 1.7rem;
                             height: 1.7rem;
                             font-size: 1.5rem;
-                            font-weight: lighter;
                             background-color: transparent;
                         }
     
                         &__menu {
                             text-align: start;
-                            display: block;
                             position: absolute;
                             right: 70%;
                             top: 70%;
@@ -121,11 +117,11 @@
                             @include mixins.respond(Phone) {
                                 background-color: white;
                                 font-size: 1rem;
-                                width: 8rem;
+                                width: 7rem;
                             }
     
                             &__item {
-                                padding: 0.5rem;
+                                padding: 1.5rem 0.5rem;
                             }
     
                             &__item:hover {
@@ -201,8 +197,6 @@
     @include mixins.respond(Phone) {
         height: 19rem;
     }
-
-
 }
 
 .expandDropdown {

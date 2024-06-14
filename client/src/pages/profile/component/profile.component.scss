@@ -82,7 +82,7 @@
     }
 
     &__inforamtion-container {
-        padding-top: 0.4rem;
+        padding: 0.4rem 4rem;
 
         @include mixins.respond(Phone) {
             gap: 0.7rem;

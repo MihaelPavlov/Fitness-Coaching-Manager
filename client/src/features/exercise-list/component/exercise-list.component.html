@@ -1,5 +1,5 @@
 <div class="container">
-  <section class="container__card m-3" *ngFor="let card of exerciseCount">
+  <section (click)="navigateToDetails()" class="container__card m-3" *ngFor="let card of exerciseCount">
     <section
       class="container__card__content pt-6 pl-5 pb-4 pr-5 d-flex flex-direction-column justify-content-end g-2"
     >

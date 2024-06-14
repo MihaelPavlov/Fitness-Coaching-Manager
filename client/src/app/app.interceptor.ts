@@ -6,15 +6,14 @@ import {
   HttpInterceptor,
   HTTP_INTERCEPTORS
 } from '@angular/common/http';
-import { Observable, catchError } from 'rxjs';
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 const apiUrl = "http://localhost:3000"
 
 @Injectable()
 class AppInterceptor implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor() {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     if (request.url.startsWith("/api")) {

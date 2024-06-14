@@ -27,10 +27,22 @@ export class LoginComponent {
 
   login(): void {
     if (this.loginForm.invalid) {
-      console.log("Invalid form");
       return;
     }
 
-    console.log("Valid form");
+    this.userService
+        .login(
+          this.loginForm.value.email || "",
+          this.loginForm.value.password || ""
+        )
+        .subscribe({
+          next: () => {
+            this.hasLoginError = false;
+            this.router.navigate(['/']);
+          },
+          error: () => {
+            this.hasLoginError = true;
+          }
+        })
   }
 }

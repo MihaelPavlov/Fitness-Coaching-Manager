@@ -13,7 +13,7 @@ import router from "./routes";
 const app = express();
 // CORS
 app.use(cors({
-  origin: "*",
+  origin: "http://localhost:4200",
   credentials: true
 }))
 

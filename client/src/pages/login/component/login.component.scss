@@ -31,7 +31,7 @@
 
         &__checkbox-field {
             margin-bottom: 0.9rem;
-            
+
             &-box {
                 width: 0.9rem;
                 height: 0.9rem;
@@ -47,4 +47,12 @@
         gap: 0.1rem;
         text-align: center;
     }
+}
+
+.error-message {
+  font-size: 0.8em;
+  text-align: center;
+  margin-bottom: 1em;
+  color: palette.$main-form-error-message;
+  font-weight: bold;
 }

@@ -4,7 +4,7 @@ import { ExerciseLibraryComponent } from './component/exercise-library.component
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'list',
     component: ExerciseLibraryComponent
   }
 ];

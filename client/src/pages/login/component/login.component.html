@@ -18,7 +18,7 @@
         ></app-input>
         <app-input
           label="Password"
-          [type]="InputType.Password"
+          [type]="passwordType"
           placeholder="Password"
           name="password"
           id="password"
@@ -35,7 +35,7 @@
           id="scales"
           name="scales"
         />
-        <label class="login-form__elements__checkbox-field-text" for="scales"
+        <label class="login-form__elements__checkbox-field-text" for="scales" (click)="togglePasswordShow()"
           >Show Password</label
         >
       </div>

@@ -12,7 +12,7 @@ export class RestApiService {
   private readonly baseUrl;
 
   constructor(private readonly httpClient: HttpClient) {
-    this.baseUrl = '';
+    this.baseUrl = URL;
   }
 
   public get<T>(path: string, options?: object): Observable<T> {

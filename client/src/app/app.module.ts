@@ -10,12 +10,11 @@ import { MenuContainerComponent } from '../features/layout/menu-container/menu-c
 import { LandingModule } from '../pages/landing/landing.module';
 import { LoginModule } from '../pages/login/login.module';
 import { AppLayoutComponent } from './app-layout/app-layout.component';
-import { appInterceptorProvider } from './app.interceptor';
 
 @NgModule({
     declarations: [AppComponent, AppLayoutComponent,HeaderComponent, MenuContainerComponent],
     exports: [BrowserModule, BrowserAnimationsModule],
-    providers: [appInterceptorProvider],
+    providers: [],
     bootstrap: [AppComponent],
     imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LoginModule, LandingModule]
 })

@@ -12,8 +12,9 @@
     cursor: pointer;
     overflow: hidden;
     border: 1px solid palette.$main-blue-color;
+
     @include mixins.respond(Phone) {
-        width: 21rem;
+        width: 18rem;
     }
 
     &::before {
@@ -51,5 +52,6 @@
         font-weight: 700;
         color: palette.$main-font-black-color;
         font-size: 1.4rem;
+        //-webkit-text-stroke: 0.3px rgb(255, 255, 255);
     }
 }

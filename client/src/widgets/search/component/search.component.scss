@@ -3,7 +3,11 @@
 
 .search-feature {
   position: relative;
-
+  
+  @include mixins.respond(Phone) {
+    justify-content: center;
+  }
+  
   &__container {
     gap: 57rem;
     align-items: center;
@@ -22,7 +26,7 @@
         padding: 0.4rem;
 
         @include mixins.respond(Phone) {
-          width: 20.1rem;
+          width: 17rem;
         }
       }
 
@@ -50,7 +54,7 @@
 
   &__filter-form {
     position: absolute;
-    right: 1rem;
+    right: 10rem;
     top: 2.5rem;
     background-color: palette.$main-font-white-color;
     outline: 1px solid palette.$main-blue-color;

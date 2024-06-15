@@ -51,7 +51,7 @@
         </app-button>
       </div>
     </div>
-    <p class="error-message" *ngIf="hasLoginError">Invalid email or password!</p>
+    <app-error errorMessageText="Invalid email or password!" *ngIf="hasLoginError"></app-error>
     <div class="login-form__links d-flex flex-direction-column">
       <app-link text="Forgot Username / Password?"></app-link>
       <app-link text="Don't have an account? Sign up"></app-link>

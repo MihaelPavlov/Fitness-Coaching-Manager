@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -12,23 +12,23 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   public InputType = InputType;
 
-  passwordType: InputType = InputType.Password;
+  protected passwordType: InputType = InputType.Password;
 
-  loginForm = this.fb.group({
+  protected loginForm = this.fb.group({
     email: ['', Validators.required],
     password: ['', Validators.required]
   });
 
-  hasLoginError: boolean = false;
-  isPasswordShown: boolean = false;
+  protected hasLoginError: boolean = false;
+  protected isPasswordShown: boolean = false;
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {}
+  constructor(private readonly fb: FormBuilder, private readonly userService: UserService, private readonly router: Router) {}
 
-  onValueChange(name: string, value: string) {
+  protected onValueChange(name: string, value: string): void {
     this.loginForm.get(name)?.setValue(value);
   }
 
-  togglePasswordShow() {
+  protected togglePasswordShow(): void {
     this.isPasswordShown = !this.isPasswordShown;
     if (this.isPasswordShown === true) {
       this.passwordType = InputType.Text;
@@ -37,7 +37,7 @@ export class LoginComponent {
     this.passwordType = InputType.Password
   }
 
-  login(): void {
+  protected login(): void {
     if (this.loginForm.invalid) {
       this.hasLoginError = true;
       return;
@@ -45,8 +45,8 @@ export class LoginComponent {
 
     this.userService
         .login(
-          this.loginForm.value.email || "",
-          this.loginForm.value.password || ""
+          this.loginForm.value.email,
+          this.loginForm.value.password
         )
         .subscribe({
           next: () => {

@@ -6,6 +6,7 @@ import { LoginComponent } from './component/login.component';
 import { LinkModule } from '../../widgets/link/link.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ErrorModule } from '../../shared/components/error/error.module';
 
 @NgModule({
     declarations: [
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
         InputModule,
         LinkModule,
         ReactiveFormsModule,
-        RouterModule
+        RouterModule,
+        ErrorModule
     ],
     exports:[
         LoginComponent

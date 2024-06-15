@@ -9,8 +9,9 @@
   }
   
   &__container {
-    gap: 57rem;
     align-items: center;
+    justify-content: space-between;
+    width: 90%;
 
     @include mixins.respond(Phone) {
       gap: 1rem;
@@ -41,7 +42,6 @@
     }
 
     &-filter-icon {
-      padding-left: 10rem;
       font-size: 2rem;
       color: palette.$main-blue-color;
       cursor: pointer;

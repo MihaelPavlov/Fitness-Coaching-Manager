@@ -1,6 +1,5 @@
 import express from "express";
 import * as userService from "./../services/user.service";
-import { setAuthenticationCookies } from "../helpers/auth.helper";
 
 const router = express.Router();
 
@@ -30,11 +29,12 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
   try {
     const [accessToken, refreshToken, session] = await userService.registerUser(req.body);
 
-    setAuthenticationCookies(res, accessToken, refreshToken);
     res.status(200).json({
       status: "success",
       data: {
-          session
+          session,
+          accessToken,
+          refreshToken
       }
     });
 
@@ -52,11 +52,12 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
   try {
     const [accessToken, refreshToken, session] = await userService.loginUser(req.body);
 
-    setAuthenticationCookies(res, accessToken, refreshToken);
     res.status(200).json({
       status: "success",
       data: {
-          session
+          session,
+          accessToken,
+          refreshToken
       }
     });
 

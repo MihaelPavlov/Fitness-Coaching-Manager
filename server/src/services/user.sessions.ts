@@ -1,6 +1,7 @@
 export const sessions: Record<string, {
     sessionId: string,
     id: number,
+    username: string,
     role: number,
     valid: boolean
 }> = {};
@@ -21,10 +22,10 @@ export function invalidateSession(sessionId: string) {
     return sessions[sessionId];
 }
   
-export function createSession(id: number, role: number) {
+export function createSession(id: number, role: number, username: string) {
     const sessionId = String(Object.keys(sessions).length + 1);
   
-    const session = { sessionId, id, valid: true, role };
+    const session = { sessionId, id, valid: true, role, username };
   
     sessions[sessionId] = session;
   

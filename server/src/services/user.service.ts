@@ -64,7 +64,7 @@ export const registerUser = async (data: Record<string, any>) => {
     });
   }
 
-  return createTokensAndSession({ id: createdUserID, role: data?.user_role || -1 });
+  return createTokensAndSession({ id: createdUserID, role: data?.user_role || -1, username: data?.username });
 };
 
 export const loginUser = async (data: Record<string, any>) => {

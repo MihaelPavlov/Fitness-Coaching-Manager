@@ -12,7 +12,6 @@ export class UserService {
   login(email: string | null | undefined, password: string | null | undefined) {
     return this.apiService.post(PATH.USERS.LOGIN, { email, password }).pipe(
       tap((response: any) => {
-        console.log(response);
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
       })

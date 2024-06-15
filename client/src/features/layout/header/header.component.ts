@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,10 @@ import { Input } from '@angular/core';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  isAuth = true;
+  constructor(private userService: UserService) { }
+
+  protected isAuth = this.userService.IsAuth();
+  protected username = this.userService.getUsername();
 
   @Input() pageName: string = 'Header';
 }

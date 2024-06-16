@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { RestApiService } from '../../shared/services/rest-api.service';
 import { PATH } from '../../shared/configs/path.config';
-import { tap } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -23,12 +23,14 @@ export class UserService {
 
   login(email: string | null | undefined, password: string | null | undefined) {
     return this.apiService.post(PATH.USERS.LOGIN, { email, password }).pipe(
-      tap((response: any) => {
+      map((response: any) => {
         this.saveCredentials(
           response.data.accessToken,
           response.data.refreshToken,
           response.data.session.username
         );
+
+        return response;
       })
     );
   }

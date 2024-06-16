@@ -48,7 +48,7 @@ export class LoginComponent {
     }
 
     this.userService
-      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .login(this.loginForm.value.email as string, this.loginForm.value.password as string)
       .subscribe({
         next: () => {
           this.hasLoginError = false;

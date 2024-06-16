@@ -14,6 +14,7 @@
     width: 90%;
 
     @include mixins.respond(Phone) {
+      width:auto;
       gap: 1rem;
     }
 

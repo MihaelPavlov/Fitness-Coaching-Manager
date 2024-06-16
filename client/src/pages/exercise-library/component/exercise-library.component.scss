@@ -16,27 +16,23 @@
     height: 45rem;
     width: 95%;
     overflow-y: scroll;
-    
-    @include scrollbar.scrollbar();
-
-    @include mixins.respond(Phone) {
-      overflow-y: auto;
-      -ms-overflow-style: none; /* Internet Explorer 10+ */
-      scrollbar-width: none; /* Firefox */
-    }
-
-    @include mixins.respond(Phone) {
-      &::-webkit-scrollbar {
-        display: none; /* Safari and Chrome */
-      }
-    }
     max-width: 100%;
     flex-wrap: wrap;
     gap: 3rem;
 
+    @include scrollbar.scrollbar();
+
     @include mixins.respond(Phone) {
+      width: 100%;
+      overflow-y: auto;
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+      scrollbar-width: none; /* Firefox */
       justify-content: center;
       gap: 1rem;
+
+      &::-webkit-scrollbar {
+        display: none; /* Safari and Chrome */
+      }
     }
   }
 }

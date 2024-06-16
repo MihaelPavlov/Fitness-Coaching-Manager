@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Input } from '@angular/core';
-import { UserService } from '../../../services/user.service';
+import { UserService } from '../../../entities/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +8,7 @@ import { UserService } from '../../../services/user.service';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   protected isAuth = this.userService.IsAuth();
   protected username = this.userService.getUsername();

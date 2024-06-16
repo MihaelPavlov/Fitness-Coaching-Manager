@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UserService } from '../../../services/user.service';
+import { UserService } from '../../../entities/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent {
   public InputType = InputType;
@@ -16,13 +16,17 @@ export class LoginComponent {
 
   protected loginForm = this.fb.group({
     email: ['', Validators.required],
-    password: ['', Validators.required]
+    password: ['', Validators.required],
   });
 
   protected hasLoginError: boolean = false;
   protected isPasswordShown: boolean = false;
 
-  constructor(private readonly fb: FormBuilder, private readonly userService: UserService, private readonly router: Router) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly userService: UserService,
+    private readonly router: Router
+  ) {}
 
   protected onValueChange(name: string, value: string): void {
     this.loginForm.get(name)?.setValue(value);
@@ -33,8 +37,8 @@ export class LoginComponent {
     if (this.isPasswordShown === true) {
       this.passwordType = InputType.Text;
       return;
-    };
-    this.passwordType = InputType.Password
+    }
+    this.passwordType = InputType.Password;
   }
 
   protected login(): void {
@@ -44,18 +48,15 @@ export class LoginComponent {
     }
 
     this.userService
-        .login(
-          this.loginForm.value.email,
-          this.loginForm.value.password
-        )
-        .subscribe({
-          next: () => {
-            this.hasLoginError = false;
-            //this.router.navigate(['/']);
-          },
-          error: () => {
-            this.hasLoginError = true;
-          }
-        })
+      .login(this.loginForm.value.email, this.loginForm.value.password)
+      .subscribe({
+        next: () => {
+          this.hasLoginError = false;
+          //this.router.navigate(['/']);
+        },
+        error: () => {
+          this.hasLoginError = true;
+        },
+      });
   }
 }

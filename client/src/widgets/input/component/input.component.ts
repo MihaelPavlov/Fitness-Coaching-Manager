@@ -37,8 +37,7 @@ export class InputComponent {
 
   @Output() valueChange = new EventEmitter<string>();
 
-  onInputChange(eventTarget: any) {
+  public onInputChange(eventTarget: any): void {
     this.valueChange.emit(eventTarget.value);
   }
-
 }

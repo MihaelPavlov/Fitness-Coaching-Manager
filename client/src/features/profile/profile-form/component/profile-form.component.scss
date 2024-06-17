@@ -23,14 +23,6 @@
                 gap: 1rem;
                 text-align: center;
             }
-
-            &__input-container{
-                flex: 1;
-
-                @include mixins.respond(Phone) {
-                    width: 80%
-                }
-            }
         }  
     }
 }

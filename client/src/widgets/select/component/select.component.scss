@@ -1,4 +1,5 @@
 @use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
 
 .input-container {
 
@@ -14,18 +15,16 @@
         border-top: transparent;
         border-left: transparent;
         border-right: transparent;
-        height: 2.5rem;
         font-size: 0.8rem;
-        padding: 0 0rem 0 0.4rem;
+        width: 16.4rem;
+        height: 2.75rem;
+        margin: 0.2rem;
+        padding-left: 0.4rem;
         color: palette.$main-blue-darker-color;
-    }
-}
 
-
-@media (width < 700px) {
-
-    .input-container__input {
-        background-color: white;
-        font-size: 0.6rem;
+        @include mixins.respond(Phone) {
+            background-color: white;
+            font-size: 0.6rem;
+        }
     }
 }

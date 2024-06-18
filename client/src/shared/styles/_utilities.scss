@@ -83,10 +83,6 @@ $spacing-map: (
     overflow-wrap: break-word;
 }
 
-.no-wrap {
-    white-space: nowrap;
-}
-
 .v-hidden {
     visibility: hidden;
 }
@@ -169,6 +165,10 @@ $spacing-map: (
 
 .flex-wrap {
     flex-wrap: wrap;
+}
+
+.flex-nowrap {
+    flex-wrap: nowrap;
 }
 
 .position-relative {

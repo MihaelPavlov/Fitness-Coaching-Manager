@@ -1,0 +1,41 @@
+@use '../../../../shared/styles/palette';
+
+.exercise__details__text__tag__heading {
+    color: palette.$main-blue-color;
+}
+
+.exercise__details__description__heading {
+    color: palette.$main-blue-color;
+}
+
+.exercise__details__instructions__list {
+    list-style-type: none;
+
+    &__item {
+        color: palette.$menu-container-icon-color;
+    }
+}
+
+.exercise__details__btn {
+    all: unset;
+    color: white;
+    background-color: palette.$main-blue-color;
+    padding: 0.3rem 4rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+@media(max-width: 671px) {
+    .exercise__details__img {
+        width: 100%;
+    }
+
+    .exercise__details__tag {
+        background-color: rgb(131, 130, 130, .6);
+        padding: 0 0.5rem;
+        font-size: 1rem;
+        border-radius: 0.2rem;
+    }
+
+    
+}

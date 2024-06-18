@@ -25,6 +25,13 @@ export const ROUTES: Routes = [
       {
         path: 'exercise/list/1',
         component: ExerciseLibraryDetailsComponent
+      },
+      {
+        path: 'register/:registrationType',
+        loadChildren: () =>
+          import('../../pages/register/register.module').then(
+            (m) => m.RegisterModule
+          )
       }
     ],
   },
@@ -35,5 +42,5 @@ export const ROUTES: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-  },
+  }
 ];

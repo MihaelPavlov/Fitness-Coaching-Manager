@@ -14,10 +14,15 @@
         }
 
         &-input-item {
+            width: 100%;
+            display: flex;
+            gap: 3em;
+
             @include mixins.respond(Phone) {
                 flex-direction: column;
                 gap: 1rem;
+                text-align: center;
             }
-        }
+        }  
     }
 }

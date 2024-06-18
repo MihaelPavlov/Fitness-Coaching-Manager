@@ -83,10 +83,6 @@ $spacing-map: (
     overflow-wrap: break-word;
 }
 
-.no-wrap {
-    white-space: nowrap;
-}
-
 .v-hidden {
     visibility: hidden;
 }
@@ -127,6 +123,18 @@ $spacing-map: (
     align-items: start;
 }
 
+.align-content-start {
+    align-content: start;
+}
+
+.align-content-center {
+    align-content: center;
+}
+
+.align-content-end {
+    align-content: end;
+}
+
 .justify-content-center {
     justify-content: center;
 }
@@ -157,6 +165,10 @@ $spacing-map: (
 
 .flex-wrap {
     flex-wrap: wrap;
+}
+
+.flex-nowrap {
+    flex-wrap: nowrap;
 }
 
 .position-relative {
@@ -292,5 +304,13 @@ $spacing-map: (
 
     .g-#{$key} {
         gap: $val;
+    }
+
+    .gc-#{$key} {
+        column-gap: $val
+    }
+
+    .gr-#{$key} {
+        row-gap: $val
     }
 }

@@ -7,4 +7,17 @@ import { Component, Input } from '@angular/core';
 })
 export class TagComponent {
   @Input() text: string = '';
+
+  @Input() backgroundColor: 'dark-grey' | 'main-blue-color' = 'main-blue-color';
+
+  get getBackgroundColor(): string {
+    switch (this.backgroundColor) {
+      case 'dark-grey': {
+        return '#808080'
+      }
+      default: {
+        return '#4f69a1'
+      }
+    }
+  }
 }

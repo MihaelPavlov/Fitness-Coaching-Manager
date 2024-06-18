@@ -2,7 +2,7 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared/styles/scrollbar";
 
-.exercise-library {
+.workout-library {
   &__header {
     display: block;
     padding-bottom: 0.5rem;
@@ -16,10 +16,9 @@
     height: 45rem;
     width: 95%;
     overflow-y: scroll;
-    max-width: 100%;
     flex-wrap: wrap;
     gap: 3rem;
-
+    
     @include scrollbar.scrollbar();
 
     @include mixins.respond(Phone) {

@@ -1,17 +1,19 @@
 import { NgModule } from '@angular/core';
 import { ExerciseLibraryComponent } from './component/exercise-library.component';
 import { ExerciseLibraryRoutingModule } from './exercise-library-routing.module';
-import { ExerciseLibrarySearchComponent } from '../../features/exercise-library-search/component/exercise-library-search/exercise-library-search.component';
-import { ExerciseListComponent } from '../../features/exercise-list/component/exercise-list.component';
 import { SharedModule } from '../../shared/shared.module';
+import { SearchModule } from '../../widgets/search/search.module';
+import { ExerciseCardModule } from '../../widgets/exercise-card/exercise-card.module';
 
 @NgModule({
-  declarations: [
-    ExerciseLibraryComponent,
-    ExerciseLibrarySearchComponent,
-    ExerciseListComponent,
+  declarations: [ExerciseLibraryComponent],
+  imports: [
+    SharedModule,
+    ExerciseLibraryRoutingModule,
+    SearchModule,
+    ExerciseCardModule,
+    
   ],
-  imports: [SharedModule, ExerciseLibraryRoutingModule],
   exports: [ExerciseLibraryComponent],
 })
 export class ExerciseLibraryModule {}

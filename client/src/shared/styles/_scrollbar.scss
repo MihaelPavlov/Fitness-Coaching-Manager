@@ -1,0 +1,15 @@
+@use "./palette";
+
+@mixin scrollbar() {
+  scrollbar-color: #2c3958 #c9c9c9;
+  scrollbar-width: thin;
+  scrollbar-color: palette.$main-blue-color #dbdbdb;
+
+  &:focus {
+    scrollbar-color: #003f7f #f0f2f5;
+  }
+
+  &:active {
+    scrollbar-color: #003f7f #f0f2f5;
+  }
+}

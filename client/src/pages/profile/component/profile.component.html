@@ -1,5 +1,5 @@
 <div class="profile-container">
-  <h1 class="profile-container__main-heading pt-8">Profile</h1>
+  <h1 class="profile-container__main-heading">Profile</h1>
 
   <ng-container *ngIf="this.profileState !== 'public'; else subscribeBtn"></ng-container>
 
@@ -21,7 +21,7 @@
     <app-tag text="Legs"></app-tag>
   </div>
 
-  <div class="profile-container__inforamtion-container d-flex justify-content-center g-4 mb-3">
+  <div class="profile-container__inforamtion-container d-flex justify-content-evenly mb-3">
     <div class="profile-container__inforamtion-container-box">
       <p class="profile-container__inforamtion-container-box-data">18</p>
       <p class="profile-container__inforamtion-container-box-label">BMI</p>

@@ -151,6 +151,10 @@ $spacing-map: (
     justify-content: space-between;
 }
 
+.justify-content-evenly {
+    justify-content: space-evenly;
+}
+
 .flex-direction-column {
     flex-direction: column;
 }

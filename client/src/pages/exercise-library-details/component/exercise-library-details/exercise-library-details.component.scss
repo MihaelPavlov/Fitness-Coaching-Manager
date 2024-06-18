@@ -1,4 +1,5 @@
 @use '../../../../shared/styles/palette';
+@use '../../../../shared/styles/mixins';
 
 .exercise__details__text__tag__heading {
     color: palette.$main-blue-color;
@@ -23,19 +24,41 @@
     padding: 0.3rem 4rem;
     font-size: 0.9rem;
     cursor: pointer;
+    border-radius: 0.2rem;
+
+    &:hover {
+        background-color: palette.$main-blue-darker-color;
+    }
 }
 
-@media(max-width: 671px) {
+.exercise__details__tag {
+    background-color: rgb(131, 130, 130, .6);
+    padding: 0 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.2rem;
+}  
+
+@include mixins.respond(Phone) {
     .exercise__details__img {
         width: 100%;
+    }  
+}
+
+@media(min-width: 672px) {
+    .exercise__details__container {
+        display: flex;
+        gap: 2rem;
     }
 
-    .exercise__details__tag {
-        background-color: rgb(131, 130, 130, .6);
-        padding: 0 0.5rem;
-        font-size: 1rem;
+    .exercise__details__img {
+        width: 40%;
+        object-fit: cover;
+        object-position: left;
+        border: 1px solid palette.$main-blue-color;
         border-radius: 0.2rem;
     }
 
-    
+    .exercise__details__text__container {
+        width: 50%;
+    }
 }

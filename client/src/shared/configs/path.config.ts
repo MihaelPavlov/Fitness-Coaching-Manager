@@ -1,5 +1,6 @@
 export const PATH = {
   USERS: {
-    LOGIN: "users/login"
+    LOGIN: "users/login",
+    CURRENT_USER: "users/current"
   }
 }

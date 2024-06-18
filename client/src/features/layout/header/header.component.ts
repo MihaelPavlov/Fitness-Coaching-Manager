@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { UserService } from '../../../entities/services/user.service';
 
@@ -7,11 +7,15 @@ import { UserService } from '../../../entities/services/user.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   constructor(private userService: UserService) {}
 
-  protected isAuth = this.userService.IsAuth();
-  protected username = this.userService.getUsername();
+  ngOnInit(): void {
+      this.userService.getUserInfo().subscribe((res: any) => this.username = res.data.username)
+  }
+
+  protected isAuth = this.userService.isAuth();
+  protected username: string = "";
 
   @Input() pageName: string = 'Header';
 }

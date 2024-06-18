@@ -1,4 +1,3 @@
-import express from "express";
 import * as bcrypt from "bcrypt";
 import * as jwt from "../lib/jwt.lib";
 import { Secret } from "jsonwebtoken";

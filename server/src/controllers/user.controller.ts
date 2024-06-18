@@ -1,7 +1,12 @@
 import express from "express";
 import * as userService from "./../services/user.service";
+import { isAuth } from "./../middlewares/auth.middleware";
 
 const router = express.Router();
+
+router.get("/", isAuth, async (req: express.Request, res: express.Response) => {
+  res.end();
+});
 
 router.get("/getList", async (req: express.Request, res: express.Response) => {
   const users = await userService.getUsers(req.body);

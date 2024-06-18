@@ -52,7 +52,7 @@ export class LoginComponent {
       .subscribe({
         next: () => {
           this.hasLoginError = false;
-          this.router.navigate(['/']);
+          //this.router.navigate(['/']);
         },
         error: () => {
           this.hasLoginError = true;

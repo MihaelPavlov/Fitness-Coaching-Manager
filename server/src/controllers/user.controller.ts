@@ -4,8 +4,23 @@ import { isAuth } from "./../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.get("/", isAuth, async (req: express.Request, res: express.Response) => {
-  res.end();
+router.get("/current", isAuth, async (req: any, res: express.Response) => {
+  const user = await userService.getUser({
+    what: {
+      userName: 1
+    },
+    id: req.user.id,
+    limit: 20,
+    offset: 0
+  });
+  const username = user[0].userName;
+  res.status(200).json({
+    status: "success",
+    data: {
+      username,
+      role: req.user.role
+    }
+  });
 });
 
 router.get("/getList", async (req: express.Request, res: express.Response) => {

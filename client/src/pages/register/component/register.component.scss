@@ -129,6 +129,10 @@
                             &__item:hover {
                                 color: white;
                                 background-color: palette.$main-blue-lighter-color;
+                                transition:
+                                    color 150ms ease-in-out,
+                                    background-color 150ms ease-in-out,
+                                ;
                             }
                         }
                     }

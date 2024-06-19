@@ -15,9 +15,8 @@ import { ButtonModule } from '../../widgets/button/button.module';
     ExerciseLibraryRoutingModule,
     SearchModule,
     ExerciseCardModule,
-
     TagModule,
-    ButtonModule
+    ButtonModule,
   ],
   exports: [ExerciseLibraryComponent],
 })

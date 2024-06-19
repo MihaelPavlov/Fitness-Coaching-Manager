@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-exercise-library-details',
-  templateUrl: './exercise-library-details.component.html',
+  selector: 'app-exercise-details',
+  templateUrl: './exercise-details.component.html',
   standalone: true,
   imports: [CommonModule],
-  styleUrl: './exercise-library-details.component.scss'
+  styleUrl: './exercise-details.component.scss'
 })
-export class ExerciseLibraryDetailsComponent {
+export class ExerciseDetailsComponent {
 
   //setting this for development purposes
   exerciseInstructions = [

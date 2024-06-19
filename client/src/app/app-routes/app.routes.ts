@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
 import { LoginComponent } from '../../pages/login/component/login.component';
-import { ExerciseLibraryDetailsComponent } from '../../pages/exercise-library-details/component/exercise-library-details/exercise-library-details.component';
+import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-library-details/exercise-details.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 export const ROUTES: Routes = [
@@ -31,7 +31,7 @@ export const ROUTES: Routes = [
       // We do not have a working backend yet to retrieve exerciseId from. Setting this for development purposes
       {
         path: 'exercise/list/1',
-        component: ExerciseLibraryDetailsComponent
+        component: ExerciseDetailsComponent
       },
       {
         path: 'register/:registrationType',

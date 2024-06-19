@@ -4,8 +4,8 @@
     <section class="exercise__details__text__container">
         <h1 class="exercise__details__text__tag__heading mb-2">Tags</h1>
         <div class="exercise__details__tags__container d-flex g-2 mb-4">
-            <h1 class="exercise__details__tag">GYM</h1>
-            <h1 class="exercise__details__tag">BACK</h1>
+            <app-tag text="GYM" backgroundColor="dark-grey"></app-tag>
+            <app-tag  text="BACK" backgroundColor="dark-grey"></app-tag>
         </div>
 
         <h1 class="exercise__details__description__heading mb-2">Description</h1>
@@ -17,8 +17,8 @@
         </div>
 
         <div class="exercise__details__btns__container d-flex g-2 justify-content-center mt-6">
-            <button class="exercise__details__btn">Edit</button>
-            <button class="exercise__details__btn">Delete</button>
+            <app-button text="Edit" padding="0.25rem 3rem" [width]="'auto'"></app-button>
+            <app-button text="Delete" padding="0.25rem 2rem" [width]="'auto'"></app-button>
         </div>
     </section>
 </section>

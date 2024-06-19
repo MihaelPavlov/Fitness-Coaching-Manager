@@ -1,15 +1,11 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-exercise-details',
   templateUrl: './exercise-details.component.html',
-  standalone: true,
-  imports: [CommonModule],
   styleUrl: './exercise-details.component.scss'
 })
 export class ExerciseDetailsComponent {
-
   //setting this for development purposes
   exerciseInstructions = [
     'Begin with legs shoulder width apart and place hands on the floor in a push up position under the shoulders',

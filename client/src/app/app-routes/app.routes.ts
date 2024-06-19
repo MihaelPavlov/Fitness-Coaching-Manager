@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
 import { LoginComponent } from '../../pages/login/component/login.component';
-import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-library-details/exercise-details.component';
+import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-details/exercise-details.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 export const ROUTES: Routes = [

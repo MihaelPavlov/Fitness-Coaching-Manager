@@ -2,7 +2,7 @@ export interface QueryParams {
   limit: number | null;
   offset: number | null;
   what: Record<string, number>;
-  condition: Condition,
+  condition?: Condition,
   id: number | null
 }
 

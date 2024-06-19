@@ -1,27 +1,9 @@
-import express from "express";
 import * as bcrypt from "bcrypt";
 import * as jwt from "../lib/jwt.lib";
 import { Secret } from "jsonwebtoken";
 import { ACCESS_TOKEN_SECRET_KEY } from "./../config/secret.config";
 import { REFRESH_TOKEN_SECRET_KEY } from "./../config/secret.config";
 import { createSession } from "./../services/user.sessions";
-
-export const setAuthenticationCookies = (
-  res: express.Response,
-  accessToken: any,
-  refreshToken: any
-) => {
-  res.cookie("accessToken", accessToken, {
-    maxAge: 2 * 60 * 100,
-    httpOnly: true,
-  });
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    sameSite: "none",
-    secure: true,
-    maxAge: 10 * 60 * 100,
-  });
-};
 
 export const generatePasswordHash = async (password: string) => {
   return bcrypt.hash(password, 12);
@@ -61,7 +43,7 @@ const generateRefreshToken = async (
 };
 
 export const createTokensAndSession = async (user: Record<string, any>) => {
-  const session = createSession(user.id, user.user_role);
+  const session = createSession(user.id, user.user_role, user.username);
 
   const accessToken = await generateAccessToken(
     user,

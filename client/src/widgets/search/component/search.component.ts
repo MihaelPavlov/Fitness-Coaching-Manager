@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-exercise-library-search',
-  templateUrl: './exercise-library-search.component.html',
-  styleUrl: './exercise-library-search.component.scss',
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
 })
-export class ExerciseLibrarySearchComponent {
+export class SearchComponent {
   @Input() toggleFilterForm: boolean = false;
 
   public filterHandler(): void {

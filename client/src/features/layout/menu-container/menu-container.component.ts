@@ -34,19 +34,19 @@ export class MenuContainerComponent {
     this.menuItems = [
       {
         label: 'Workouts',
-        class: page == '/profile/' ? 'active' : '',
+        class: page == '/workout/list' ? 'active' : '',
         enabled: true,
         visible: true,
         icon: 'fitness_center',
-        route: '/profile/',
+        route: '/workout/list',
       },
       {
         label: 'Exercises',
-        class: page == '/exercises/list' ? 'active' : '',
+        class: page == '/exercise/list' ? 'active' : '',
         enabled: true,
         visible: true,
         icon: 'article',
-        route: '/exercises/list',
+        route: '/exercise/list',
       },
       {
         label: 'Builders',

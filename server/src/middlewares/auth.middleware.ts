@@ -26,7 +26,7 @@ export const checkAccessToken = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { accessToken } = req.cookies;
+  const accessToken = req.get("accessToken");
 
   if (!accessToken) {
     return next();
@@ -54,7 +54,7 @@ export const checkRefreshToken = async (
 ) => {
   if (!req.expiredAccessToken) return next();
 
-  const { refreshToken } = req.cookies;
+  const refreshToken = req.get("refreshToken");
 
   if (!refreshToken) {
     return next();
@@ -74,10 +74,7 @@ export const checkRefreshToken = async (
 
     const newAccessToken = await generateToken(session);
 
-    res.cookie("accessToken", newAccessToken, {
-      maxAge: 2 * 60 * 100,
-      httpOnly: true,
-    });
+    res.setHeader("accessToken", newAccessToken as string);
 
     // @ts-ignore
     req.user = await verifyToken(newAccessToken, ACCESS_TOKEN_SECRET_KEY);

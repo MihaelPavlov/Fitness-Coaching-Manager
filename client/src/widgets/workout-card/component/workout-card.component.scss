@@ -12,7 +12,7 @@
     overflow: hidden;
 
     @include mixins.respond(Phone) {
-        width: 22rem;
+        width: 18rem;
     }
 
     &::before {

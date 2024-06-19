@@ -17,6 +17,13 @@ export const ROUTES: Routes = [
           ),
       },
       {
+        path: 'workout',
+        loadChildren: () =>
+          import('../../pages/workout-library/workout-library.module').then(
+            (m) => m.WorkoutLibraryModule
+          ),
+      },
+      {
         path: 'exercise',
         loadChildren: () =>
           import('../../pages/exercise-library/exercise-library.module').then((m) => m.ExerciseLibraryModule),
@@ -31,8 +38,8 @@ export const ROUTES: Routes = [
         loadChildren: () =>
           import('../../pages/register/register.module').then(
             (m) => m.RegisterModule
-          )
-      }
+          ),
+      },
     ],
   },
   {
@@ -42,5 +49,5 @@ export const ROUTES: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-  }
+  },
 ];

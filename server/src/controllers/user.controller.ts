@@ -1,8 +1,27 @@
 import express from "express";
 import * as userService from "./../services/user.service";
-import { setAuthenticationCookies } from "../helpers/auth.helper";
+import { isAuth } from "./../middlewares/auth.middleware";
 
 const router = express.Router();
+
+router.get("/getUserInfo", isAuth, async (req: any, res: express.Response) => {
+  const user = await userService.getUser({
+    what: {
+      userName: 1
+    },
+    id: req.user.id,
+    limit: 20,
+    offset: 0
+  });
+  const username = user[0].userName;
+  res.status(200).json({
+    status: "success",
+    data: {
+      username,
+      role: req.user.role
+    }
+  });
+});
 
 router.get("/getList", async (req: express.Request, res: express.Response) => {
   const users = await userService.getUsers(req.body);
@@ -30,11 +49,12 @@ router.post("/register", async (req: express.Request, res: express.Response) => 
   try {
     const [accessToken, refreshToken, session] = await userService.registerUser(req.body);
 
-    setAuthenticationCookies(res, accessToken, refreshToken);
     res.status(200).json({
       status: "success",
       data: {
-          session
+          session,
+          accessToken,
+          refreshToken
       }
     });
 
@@ -52,11 +72,12 @@ router.post("/login", async (req: express.Request, res: express.Response) => {
   try {
     const [accessToken, refreshToken, session] = await userService.loginUser(req.body);
 
-    setAuthenticationCookies(res, accessToken, refreshToken);
     res.status(200).json({
       status: "success",
       data: {
-          session
+          session,
+          accessToken,
+          refreshToken
       }
     });
 

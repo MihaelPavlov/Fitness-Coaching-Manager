@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-    selector: 'app-card',
-    templateUrl: './card.component.html',
-    styleUrls: ['./card.component.scss']
+    selector: 'app-workout-card',
+    templateUrl: './workout-card.component.html',
+    styleUrls: ['./workout-card.component.scss']
 })
-export class CardComponent {
+export class WorkoutCardComponent {
     imageUrl = '../../../shared/assets/images/danielle-cerullo-CQfNt66ttZM-unsplash.jpg';  //Provided image
 }

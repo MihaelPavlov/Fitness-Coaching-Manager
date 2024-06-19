@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
 import { LoginComponent } from '../../pages/login/component/login.component';
-import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-details/exercise-details.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 export const ROUTES: Routes = [
@@ -27,11 +26,6 @@ export const ROUTES: Routes = [
         path: 'exercise',
         loadChildren: () =>
           import('../../pages/exercise-library/exercise-library.module').then((m) => m.ExerciseLibraryModule),
-      },
-      // We do not have a working backend yet to retrieve exerciseId from. Setting this for development purposes
-      {
-        path: 'exercise/list/1',
-        component: ExerciseDetailsComponent
       },
       {
         path: 'register/:registrationType',

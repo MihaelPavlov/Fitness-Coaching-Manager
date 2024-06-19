@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
 import { UserService } from '../../../entities/services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -10,12 +11,13 @@ import { UserService } from '../../../entities/services/user.service';
 export class HeaderComponent implements OnInit {
   constructor(private userService: UserService) {}
 
+  protected userInfo$: Observable<any> = this.userService.userInfo$;
+
   ngOnInit(): void {
-      this.userService.getUserInfo().subscribe((res: any) => this.username = res.data.username)
+      this.userService.fetchUserInfo();
   }
 
   protected isAuth = this.userService.isAuth();
-  protected username: string = "";
 
   @Input() pageName: string = 'Header';
 }

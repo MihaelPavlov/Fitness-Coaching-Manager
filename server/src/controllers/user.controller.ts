@@ -4,7 +4,7 @@ import { isAuth } from "./../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.get("/current", isAuth, async (req: any, res: express.Response) => {
+router.get("/getUserInfo", isAuth, async (req: any, res: express.Response) => {
   const user = await userService.getUser({
     what: {
       userName: 1

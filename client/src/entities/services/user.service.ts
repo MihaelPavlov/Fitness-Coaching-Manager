@@ -4,15 +4,18 @@ import { PATH } from '../../shared/configs/path.config';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 
 interface UserInfo {
-  username: string,
-  role: number
+  username: string;
+  role: number;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  constructor(private readonly apiService: RestApiService) { }
+  private userInfoSubject$ = new BehaviorSubject<UserInfo | null>(null);
+  public userInfo$ = this.userInfoSubject$.asObservable();
+
+  constructor(private readonly apiService: RestApiService) {}
 
   public isAuth(): boolean {
     const accessToken = localStorage.getItem('accessToken');
@@ -21,8 +24,16 @@ export class UserService {
     return accessToken !== null && refreshToken !== null;
   }
 
-  public getUserInfo(): Observable<any> {
-      return this.fetchCurrentUserInfo(localStorage.getItem('accessToken') as string, localStorage.getItem('refreshToken') as string);
+  public fetchUserInfo(): Subscription {
+    return this.fetchCurrentUserInfo(
+      localStorage.getItem('accessToken') as string,
+      localStorage.getItem('refreshToken') as string
+    ).subscribe((res: any) => {
+      this.userInfoSubject$.next({
+        username: res.data.username,
+        role: res.data.role,
+      });
+    });
   }
 
   public login(email: string, password: string): Observable<any> {
@@ -38,15 +49,17 @@ export class UserService {
     );
   }
 
-  private saveCredentials(
-    accessToken: string,
-    refreshToken: string,
-  ): void {
+  private saveCredentials(accessToken: string, refreshToken: string): void {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   }
 
-  private fetchCurrentUserInfo(accessToken: string, refreshToken: string): Observable<any> {
-    return this.apiService.get(PATH.USERS.CURRENT_USER, { headers: { accessToken, refreshToken } })
+  private fetchCurrentUserInfo(
+    accessToken: string,
+    refreshToken: string
+  ): Observable<any> {
+    return this.apiService.get(PATH.USERS.CURRENT_USER, {
+      headers: { accessToken, refreshToken },
+    });
   }
 }

@@ -52,16 +52,15 @@ export const registerUser = async (data: Record<string, any>) => {
   // Coach user
   if (data.user_role == 1) {
     // Insert data into contributors and applications
-    const createdContributorID = (
-      await db("contributors").insert({
-        user_id: createdUserID,
-      })
-    ).at(0);
-
-    await db("contributor_applications").insert({
+    await db("contributors").insert({
+      user_id: createdUserID,
+    })
+    
+    // Skip this step for now
+    /* await db("contributor_applications").insert({
       contributor_id: createdContributorID,
       item_uri: data.item_uri,
-    });
+    }); */
   }
 
   return createTokensAndSession({ id: createdUserID, role: data?.user_role || -1, username: data?.username });

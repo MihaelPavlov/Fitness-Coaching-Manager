@@ -7,7 +7,7 @@
 
 <ng-template #registerAsUser>
   <div class="register-container d-flex align-items-center justify-content-center">
-    <form (ngSubmit)="submitHandler()" class="register-container__form w-100 d-flex flex-direction-column">
+    <form class="register-container__form w-100 d-flex flex-direction-column">
       <ng-container *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as User' }
@@ -21,7 +21,7 @@
 
 <ng-template #registerAsTrainer>
   <div class="register-container d-flex align-items-center justify-content-center">
-    <form (ngSubmit)="submitHandler()" class="register-container__form w-100 d-flex flex-direction-column">
+    <form class="register-container__form w-100 d-flex flex-direction-column">
       <ng-container *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as Trainer' }
@@ -66,10 +66,10 @@
         [type]="InputType.Text" placeholder="Email" name="email" (valueChange)="handleInputChange('email', $event)">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Password"
-        [type]="InputType.Password" placeholder="Password" name="password">
+        [type]="InputType.Password" placeholder="Password" name="password" (valueChange)="handleInputChange('password', $event)">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field"
-        label="Repeat Password" [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword">
+        label="Repeat Password" [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword" (valueChange)="handleInputChange('rePassword', $event)">
       </app-input>
     </div>
   </div>
@@ -93,16 +93,16 @@
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
       <app-select class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.fitnessLevel" label="Fitness Level" name="fitnessLevel"
-        (valueChange)="handleInputChange('fitnessLevel', $event)">
+        (valueChange)="handleInputChange('fitness_level', $event)">
       </app-select>
       <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.countryList" label="Country" name="country">
+        [options]="optionArrays.countryList" label="Country" name="country" (valueChange)="handleInputChange('country', $event)">
       </app-select>
       <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.genderList" label="Sex" name="sex">
+        [options]="optionArrays.genderList" label="Sex" name="sex" (valueChange)="handleInputChange('sex', $event)">
       </app-select>
       <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage">
+        [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage" (valueChange)="handleInputChange('languages', $event)">
       </app-select>
     </div>
   </div>
@@ -211,7 +211,7 @@
   <div>
     <div class="register-container__form__elements__buttons">
       <app-button routerLink="/register" class="landing-page-container__buttons-container__button mb-20" text="Sign In"
-        [width]="'100%'" [hoverBackgroundColor]="'main-background-color'" [hoverTextColor]="'main-blue-darker-color'">
+        [width]="'100%'" [hoverBackgroundColor]="'main-background-color'" [hoverTextColor]="'main-blue-darker-color'" (click)="register()">
       </app-button>
     </div>
     <div class="register-container__form__links d-flex flex-direction-column">

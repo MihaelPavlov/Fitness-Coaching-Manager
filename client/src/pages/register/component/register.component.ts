@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   public attachLink = false;
   public formData: any = {};
 
-  private userRole: number = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
+  private userRole: number = -1;
 
   protected registerForm = this.fb.group({
     user_role: [this.userRole, Validators.required],
@@ -65,7 +65,8 @@ export class RegisterComponent implements OnInit {
     this.registerForm.get(name)?.setValue(value);
   }
 
-  public submitHandler(): void {
-
+  public register(): void {
+    this.registerForm.value.user_role = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
+    console.log(this.registerForm.value);
   }
 }

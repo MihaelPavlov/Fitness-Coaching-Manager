@@ -3,6 +3,7 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -25,7 +26,11 @@ export class RegisterComponent implements OnInit {
 
   private userRole: number = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
 
-  constructor(private route: ActivatedRoute) {}
+  protected registerForm = this.fb.group({
+    
+  });
+
+  constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder) {}
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -50,10 +55,10 @@ export class RegisterComponent implements OnInit {
   }
 
   public handleInputChange(name: string, value: string): void {
-    this.formData[name] = value;
+    this.registerForm.get(name)?.setValue(value);
   }
 
   public submitHandler(): void {
-    console.log(this.formData);
+
   }
 }

@@ -3,7 +3,7 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +27,14 @@ export class RegisterComponent implements OnInit {
   private userRole: number = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
 
   protected registerForm = this.fb.group({
-    
+    user_role: [this.userRole, Validators.required],
+    username: ['', Validators.required],
+    email: ['', Validators.required, Validators.email],
+    password: ['', Validators.required],
+    fitness_level: ['', Validators.required],
+    country: ['', Validators.required],
+    sex: ['', Validators.required],
+    languages: ['', Validators.required]
   });
 
   constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder) {}

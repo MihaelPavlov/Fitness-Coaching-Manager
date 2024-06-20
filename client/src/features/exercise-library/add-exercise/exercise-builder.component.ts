@@ -6,6 +6,7 @@ import { optionArrays } from '../../../shared/option-arrays';
   selector: 'app-exercise-builder',
   templateUrl: './exercise-builder.component.html',
   styleUrl: './exercise-builder.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ExerciseBuidlerComponent {
     public InputType = InputType;

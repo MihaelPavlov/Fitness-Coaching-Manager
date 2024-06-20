@@ -1,21 +1,16 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared/styles/mixins";
 
-.exercise-container {
-  height: 90vh;
-  @include mixins.respond(Phone) {
-    height: 79vh;
-  }
-}
-
 .exercise-form {
   background-color: palette.$main-font-white-color;
   padding: 4.5rem 6rem 2rem 6rem;
+  max-width: 100%;
   border-bottom: 0.5rem solid palette.$main-blue-darker-color;
   box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
 
   @include mixins.respond(Phone) {
     background-color: palette.$main-background-color;
+    padding: 0;
     box-shadow: none;
     border-bottom: none;
   }
@@ -43,20 +38,20 @@
         gap: 0.8rem;
       }
 
-      ::ng-deep .input-container input {
+      .input-container input {
         @include mixins.respond(Phone) {
           width: 97%;
         }
       }
 
-      ::ng-deep .input-container select {
+      .input-container select {
         @include mixins.respond(Phone) {
           width: 98.6%;
         }
       }
 
-      &__description{
-        ::ng-deep .input-container input {
+      &__description {
+        .input-container input {
           @include mixins.respond(Phone) {
             padding-bottom: 2rem;
           }
@@ -64,7 +59,10 @@
       }
     }
 
-  
+    &__buttons {
+      flex-wrap: wrap;
+    }
+
     &__custom-button {
       position: relative;
 
@@ -78,7 +76,7 @@
         height: 0.8rem;
         background-color: palette.$main-blue-darker-color;
         @include mixins.respond(Phone) {
-            right: 0.6rem;
+          right: 0.6rem;
         }
       }
 

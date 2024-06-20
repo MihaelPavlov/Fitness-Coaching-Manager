@@ -23,6 +23,8 @@ export class RegisterComponent implements OnInit {
   public attachLink = false;
   public formData: any = {};
 
+  private userRole: number = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
+
   constructor(private route: ActivatedRoute) {}
 
   public ngOnInit(): void {

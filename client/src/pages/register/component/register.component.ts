@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
   public formData: any = {};
 
   constructor(private route: ActivatedRoute) {}
-  
+
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.selectedRegistrationType = params['registrationType'];
@@ -33,20 +33,14 @@ export class RegisterComponent implements OnInit {
 
   public generalDetailsVisibility(): void {
     this.showGeneralDetails = !this.showGeneralDetails;
-    this.showAdditionalDetails = false;
-    this.showProofOfRightsDetails = false;
   }
 
   public additionalDetailsVisibility(): void {
     this.showAdditionalDetails = !this.showAdditionalDetails;
-    this.showGeneralDetails = false;
-    this.showProofOfRightsDetails = false;
   }
 
   public proofOfRightsDetailsVisibility(): void {
     this.showProofOfRightsDetails = !this.showProofOfRightsDetails;
-    this.showGeneralDetails = false;
-    this.showAdditionalDetails = false;
   }
 
   public toggleDropDownMenu(): void {

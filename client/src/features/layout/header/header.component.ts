@@ -12,12 +12,11 @@ export class HeaderComponent implements OnInit {
   constructor(private userService: UserService) {}
 
   protected userInfo$: Observable<any> = this.userService.userInfo$;
+  protected isAuth$ = this.userService.isAuth$;
 
   ngOnInit(): void {
-      this.userService.fetchUserInfo();
+    this.userService.fetchUserInfo();
   }
-
-  protected isAuth = this.userService.isAuth();
 
   @Input() pageName: string = 'Header';
 }

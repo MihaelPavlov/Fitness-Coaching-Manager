@@ -1,7 +1,7 @@
 import { Injectable, OnInit } from '@angular/core';
 import { RestApiService } from '../../shared/services/rest-api.service';
 import { PATH } from '../../shared/configs/path.config';
-import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
 
 interface UserInfo {
   username: string;
@@ -17,12 +17,8 @@ export class UserService {
 
   constructor(private readonly apiService: RestApiService) {}
 
-  public isAuth(): boolean {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    return accessToken !== null && refreshToken !== null;
-  }
+  private isAuth$$ = new BehaviorSubject<boolean>(false);
+  public isAuth$ = this.isAuth$$.asObservable();
 
   public fetchUserInfo(): Subscription {
     return this.fetchCurrentUserInfo(
@@ -33,6 +29,7 @@ export class UserService {
         username: res.data.username,
         role: res.data.role,
       });
+      this.isAuth$$.next(true);
     });
   }
 

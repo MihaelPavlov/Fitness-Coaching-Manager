@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import { FormBuilder, Validators } from '@angular/forms';
 import { passwordsMatch } from '../../../shared/validators/passwords-match';
+import { UserService } from '../../../entities/services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +44,7 @@ export class RegisterComponent implements OnInit {
     languages: ['Bulgarian', [Validators.required]]
   });
 
-  constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder) {}
+  constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder, private readonly userService: UserService) {}
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -76,9 +77,18 @@ export class RegisterComponent implements OnInit {
 
   public register(): void {
     this.registerForm.value.user_role = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
-    console.log(this.registerForm.value)
+
     if (this.registerForm.invalid) {
       return;
     }
+
+    const requestBody = {
+      ...this.registerForm.value,
+      password: this.registerForm.value.passGroup?.password
+    }
+
+    delete requestBody["passGroup"];
+
+    console.log(requestBody);
   }
 }

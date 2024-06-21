@@ -47,6 +47,9 @@ export class RegisterComponent implements OnInit {
     country: ['Bulgaria', [Validators.required]],
     sex: ['Male', [Validators.required]],
     language: ['Bulgarian', [Validators.required]],
+    first_name: ['', [Validators.required]],
+    last_name: ['', [Validators.required]],
+    phone_number: ['', [Validators.required]]
   });
 
   constructor(
@@ -88,6 +91,7 @@ export class RegisterComponent implements OnInit {
   protected register(): void {
     this.registerForm.value.user_role =
       this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
+    if (this.registerForm.value.user_role === 1) this.registerForm.get("fitness_level")?.setValue(null);
 
     if (this.registerForm.invalid) {
       return;

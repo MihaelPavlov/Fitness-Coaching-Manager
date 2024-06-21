@@ -90,10 +90,9 @@ export class RegisterComponent implements OnInit {
 
   protected register(): void {
     this.registerForm.get("user_role")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
-    
+
     if (this.registerForm.value.user_role === 1) {
       this.registerForm.get("fitness_level")?.setValue(null);
-      console.log("coach ", this.registerForm.value)
 
       if (this.registerForm.value.first_name === null || this.registerForm.value.first_name === "") return;
       if (this.registerForm.value.last_name === null || this.registerForm.value.last_name === "") return;

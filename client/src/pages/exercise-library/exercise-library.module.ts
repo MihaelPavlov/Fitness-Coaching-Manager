@@ -4,15 +4,19 @@ import { ExerciseLibraryRoutingModule } from './exercise-library-routing.module'
 import { SharedModule } from '../../shared/shared.module';
 import { SearchModule } from '../../widgets/search/search.module';
 import { ExerciseCardModule } from '../../widgets/exercise-card/exercise-card.module';
+import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-details/exercise-details.component';
+import { TagModule } from '../../widgets/tag/tag.module';
+import { ButtonModule } from '../../widgets/button/button.module';
 
 @NgModule({
-  declarations: [ExerciseLibraryComponent],
+  declarations: [ExerciseLibraryComponent, ExerciseDetailsComponent],
   imports: [
     SharedModule,
     ExerciseLibraryRoutingModule,
     SearchModule,
     ExerciseCardModule,
-    
+    TagModule,
+    ButtonModule,
   ],
   exports: [ExerciseLibraryComponent],
 })

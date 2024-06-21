@@ -46,6 +46,19 @@ export class UserService {
     );
   }
 
+  public register(body: Record<string, any>): Observable<any> {
+    return this.apiService.post(PATH.USERS.REGISTER, body).pipe(
+      map((response: any) => {
+        this.saveCredentials(
+          response.data.accessToken,
+          response.data.refreshToken
+        );
+
+        return response;
+      })
+    )
+  }
+
   private saveCredentials(accessToken: string, refreshToken: string): void {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);

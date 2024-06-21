@@ -38,7 +38,7 @@ export const registerUser = async (data: Record<string, any>) => {
       password: await generatePasswordHash(data.password),
       country: data.country,
       phone_number: data?.phone_number || null,
-      languages: data.languages,
+      language: data.language,
     })
   ).at(0);
 

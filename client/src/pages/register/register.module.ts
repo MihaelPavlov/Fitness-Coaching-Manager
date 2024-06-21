@@ -6,6 +6,7 @@ import { RegisterComponent } from './component/register.component';
 import { SelectModule } from '../../widgets/select/select.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterRoutingModule } from './register-routing.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -15,7 +16,8 @@ import { RegisterRoutingModule } from './register-routing.module';
     ButtonModule,
     SelectModule,
     ReactiveFormsModule,
-    RegisterRoutingModule
+    RegisterRoutingModule,
+    RouterModule
   ],
   exports: [RegisterComponent]
 })

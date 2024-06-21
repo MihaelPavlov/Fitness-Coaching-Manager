@@ -54,9 +54,11 @@ export class UserService {
           response.data.refreshToken
         );
 
+        this.fetchUserInfo();
+
         return response;
       })
-    )
+    );
   }
 
   private saveCredentials(accessToken: string, refreshToken: string): void {

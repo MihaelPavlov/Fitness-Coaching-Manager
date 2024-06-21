@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import { FormBuilder, Validators } from '@angular/forms';
 import { passwordsMatch } from '../../../shared/validators/passwords-match';
@@ -28,23 +28,33 @@ export class RegisterComponent implements OnInit {
 
   private userRole: number = -1;
 
+  protected hasRegisterError: boolean = false;
+
   protected registerForm = this.fb.group({
     user_role: [this.userRole, [Validators.required]],
     username: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
-    passGroup: this.fb.group({
-      password: ['', [Validators.required]],
-      rePassword: ['', [Validators.required]],
-    }, {
-      validators: [passwordsMatch()]
-    }),
+    passGroup: this.fb.group(
+      {
+        password: ['', [Validators.required]],
+        rePassword: ['', [Validators.required]],
+      },
+      {
+        validators: [passwordsMatch()],
+      }
+    ),
     fitness_level: ['Sedentary', [Validators.required]],
     country: ['Bulgaria', [Validators.required]],
     sex: ['Male', [Validators.required]],
-    languages: ['Bulgarian', [Validators.required]]
+    language: ['Bulgarian', [Validators.required]],
   });
 
-  constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder, private readonly userService: UserService) {}
+  constructor(
+    private readonly route: ActivatedRoute,
+    private readonly fb: FormBuilder,
+    private readonly userService: UserService,
+    private readonly router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -69,14 +79,15 @@ export class RegisterComponent implements OnInit {
   }
 
   public handleInputChange(name: string, value: string): void {
-    if (name === "password" || name === "rePassword") {
-      this.registerForm.get("passGroup")?.get(name)?.setValue(value);
+    if (name === 'password' || name === 'rePassword') {
+      this.registerForm.get('passGroup')?.get(name)?.setValue(value);
     }
     this.registerForm.get(name)?.setValue(value);
   }
 
-  public register(): void {
-    this.registerForm.value.user_role = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
+  protected register(): void {
+    this.registerForm.value.user_role =
+      this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
 
     if (this.registerForm.invalid) {
       return;
@@ -84,11 +95,20 @@ export class RegisterComponent implements OnInit {
 
     const requestBody = {
       ...this.registerForm.value,
-      password: this.registerForm.value.passGroup?.password
-    }
+      password: this.registerForm.value.passGroup?.password,
+    };
 
-    delete requestBody["passGroup"];
+    delete requestBody['passGroup'];
 
-    console.log(requestBody);
+    this.userService.register(requestBody).subscribe({
+      next: () => {
+        this.hasRegisterError = false;
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        console.log(err)
+        this.hasRegisterError = true;
+      },
+    });
   }
 }

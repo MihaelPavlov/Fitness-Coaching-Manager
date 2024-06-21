@@ -50,7 +50,7 @@ export const registerUser = async (data: Record<string, any>) => {
   });
 
   // Coach user
-  if (data.user_role == 1) {
+  if (data.user_role === 1) {
     // Insert data into contributors and applications
     await db("contributors").insert({
       user_id: createdUserID,

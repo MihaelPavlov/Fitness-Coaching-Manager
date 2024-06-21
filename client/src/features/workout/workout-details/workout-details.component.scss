@@ -1,0 +1,11 @@
+@use "../../../shared/styles/mixins";
+@use "../../../shared/styles/palette";
+
+.workout-details-header{
+    &__h1{
+        @include mixins.respond(Phone) {
+        }
+    }
+}
+
+

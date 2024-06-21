@@ -1,0 +1,17 @@
+<div class="workout-details-header d-flex mb-6 justify-content-between">
+  <h1 class="workout-library-header__h1">{{ workoutName }}</h1>
+  <app-button
+    text="Begin Workout"
+    [width]="'10rem'"
+    [hoverBackgroundColor]="'main-background-color'"
+    [hoverTextColor]="'main-blue-darker-color'"
+  >
+  </app-button>
+</div>
+
+<div class="workout-details-cards d-flex flex-direction-column g-4">
+    <app-exercise-set-card></app-exercise-set-card>
+    <app-exercise-set-card></app-exercise-set-card>
+    <app-exercise-set-card></app-exercise-set-card>
+    <app-exercise-set-card></app-exercise-set-card>
+</div>

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
-import { LoginComponent } from '../../pages/login/component/login.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 export const ROUTES: Routes = [
@@ -18,8 +17,8 @@ export const ROUTES: Routes = [
       {
         path: 'workout',
         loadChildren: () =>
-          import('../../pages/workout-library/workout-library.module').then(
-            (m) => m.WorkoutLibraryModule
+          import('../../pages/workout/workout.module').then(
+            (m) => m.WorkoutModule
           ),
       },
       {

@@ -125,22 +125,22 @@
     <div [class.expand]="showAdditionalDetails" [class.expandDropdown]="showAdditionalDetails"
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
       <app-input class="register-container__form__details-container__general-details__input-field" label="First Name"
-        [type]="InputType.Text" placeholder="First Name" name="firstName">
+        [type]="InputType.Text" placeholder="First Name" name="firstName" (valueChange)="handleInputChange('first_name', $event)">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Last Name"
-        [type]="InputType.Text" placeholder="Last Name" name="lastName">
+        [type]="InputType.Text" placeholder="Last Name" name="lastName" (valueChange)="handleInputChange('last_name', $event)">
       </app-input>
       <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.countryList" label="Country" name="country">
+        [options]="optionArrays.countryList" label="Country" name="country" (valueChange)="handleInputChange('country', $event)">
       </app-select>
       <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage">
+        [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage" (valueChange)="handleInputChange('language', $event)">
       </app-select>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Phone Number"
-        [type]="InputType.Text" placeholder="Phone Number" name="phoneNumber">
+        [type]="InputType.Text" placeholder="Phone Number" name="phoneNumber" (valueChange)="handleInputChange('phone_number', $event)">
       </app-input>
       <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.genderList" label="Sex" name="sex">
+        [options]="optionArrays.genderList" label="Sex" name="sex" (valueChange)="handleInputChange('sex', $event)">
       </app-select>
     </div>
   </div>

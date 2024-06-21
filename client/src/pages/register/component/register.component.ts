@@ -43,13 +43,13 @@ export class RegisterComponent implements OnInit {
         validators: [passwordsMatch()],
       }
     ),
-    fitness_level: ['Sedentary', [Validators.required]],
+    fitness_level: ['Sedentary'],
     country: ['Bulgaria', [Validators.required]],
     sex: ['Male', [Validators.required]],
     language: ['Bulgarian', [Validators.required]],
-    first_name: ['', [Validators.required]],
-    last_name: ['', [Validators.required]],
-    phone_number: ['', [Validators.required]]
+    first_name: [''],
+    last_name: [''],
+    phone_number: ['']
   });
 
   constructor(
@@ -89,11 +89,26 @@ export class RegisterComponent implements OnInit {
   }
 
   protected register(): void {
-    this.registerForm.value.user_role =
-      this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
-    if (this.registerForm.value.user_role === 1) this.registerForm.get("fitness_level")?.setValue(null);
+    this.registerForm.get("user_role")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
+    
+    if (this.registerForm.value.user_role === 1) {
+      this.registerForm.get("fitness_level")?.setValue(null);
+      console.log("coach ", this.registerForm.value)
+
+      if (this.registerForm.value.first_name === null || this.registerForm.value.first_name === "") return;
+      if (this.registerForm.value.last_name === null || this.registerForm.value.last_name === "") return;
+      if (this.registerForm.value.phone_number === null || this.registerForm.value.phone_number === "") return;
+    };
+    if (this.registerForm.value.user_role === -1) {
+      this.registerForm.get("first_name")?.setValue(null);
+      this.registerForm.get("last_name")?.setValue(null);
+      this.registerForm.get("phone_number")?.setValue(null);
+
+      if (this.registerForm.value.fitness_level === null || this.registerForm.value.fitness_level === "") return;
+    }
 
     if (this.registerForm.invalid) {
+      console.log(this.registerForm.value)
       return;
     }
 

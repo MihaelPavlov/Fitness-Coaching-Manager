@@ -15,8 +15,8 @@ export class LoginComponent {
   protected passwordType: InputType = InputType.Password;
 
   protected loginForm = this.fb.group({
-    email: ['', Validators.required],
-    password: ['', Validators.required],
+    email: ['', [Validators.required]],
+    password: ['', [Validators.required]],
   });
 
   protected hasLoginError: boolean = false;

@@ -4,6 +4,7 @@ import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import { FormBuilder, Validators } from '@angular/forms';
+import { passwordsMatch } from '../../../shared/validators/passwords-match';
 
 @Component({
   selector: 'app-register',
@@ -30,7 +31,12 @@ export class RegisterComponent implements OnInit {
     user_role: [this.userRole, [Validators.required]],
     username: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    passGroup: this.fb.group({
+      password: ['', [Validators.required]],
+      rePassword: ['', [Validators.required]],
+    }, {
+      validators: [passwordsMatch()]
+    }),
     fitness_level: ['Sedentary', [Validators.required]],
     country: ['Bulgaria', [Validators.required]],
     sex: ['Male', [Validators.required]],
@@ -62,14 +68,16 @@ export class RegisterComponent implements OnInit {
   }
 
   public handleInputChange(name: string, value: string): void {
+    if (name === "password" || name === "rePassword") {
+      this.registerForm.get("passGroup")?.get(name)?.setValue(value);
+    }
     this.registerForm.get(name)?.setValue(value);
   }
 
   public register(): void {
     this.registerForm.value.user_role = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
-    console.log(this.registerForm.value);
+    console.log(this.registerForm.value)
     if (this.registerForm.invalid) {
-      console.log("invalid register")
       return;
     }
   }

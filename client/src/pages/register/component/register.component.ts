@@ -27,14 +27,14 @@ export class RegisterComponent implements OnInit {
   private userRole: number = -1;
 
   protected registerForm = this.fb.group({
-    user_role: [this.userRole, Validators.required],
-    username: ['', Validators.required],
-    email: ['', Validators.required],
-    password: ['', Validators.required],
-    fitness_level: ['Sedentary', Validators.required],
-    country: ['Bulgaria', Validators.required],
-    sex: ['Male', Validators.required],
-    languages: ['Bulgarian', Validators.required]
+    user_role: [this.userRole, [Validators.required]],
+    username: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+    fitness_level: ['Sedentary', [Validators.required]],
+    country: ['Bulgaria', [Validators.required]],
+    sex: ['Male', [Validators.required]],
+    languages: ['Bulgarian', [Validators.required]]
   });
 
   constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder) {}
@@ -68,5 +68,9 @@ export class RegisterComponent implements OnInit {
   public register(): void {
     this.registerForm.value.user_role = this.selectedRegistrationType === RegistrationType.User ? -1 : 1;
     console.log(this.registerForm.value);
+    if (this.registerForm.invalid) {
+      console.log("invalid register")
+      return;
+    }
   }
 }

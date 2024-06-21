@@ -31,10 +31,10 @@ export class RegisterComponent implements OnInit {
     username: ['', Validators.required],
     email: ['', Validators.required],
     password: ['', Validators.required],
-    fitness_level: ['', Validators.required],
-    country: ['', Validators.required],
-    sex: ['', Validators.required],
-    languages: ['', Validators.required]
+    fitness_level: ['Sedentary', Validators.required],
+    country: ['Bulgaria', Validators.required],
+    sex: ['Male', Validators.required],
+    languages: ['Bulgarian', Validators.required]
   });
 
   constructor(private readonly route: ActivatedRoute, private readonly fb: FormBuilder) {}

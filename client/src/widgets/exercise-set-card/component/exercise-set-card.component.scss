@@ -16,8 +16,7 @@
     height: 4.5rem;
     padding: 0.2rem;
     box-shadow: none;
-    &:last-child{
-    }
+    justify-content: space-between;
   }
 
   &:hover {
@@ -48,7 +47,7 @@
 
       &__heading {
         @include mixins.respond(Phone) {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
         }
       }
 
@@ -69,7 +68,8 @@
         font-size: 1.2rem;
 
         @include mixins.respond(Phone) {
-          font-size: 0.8rem;
+          font-size: 0.9rem;
+          margin-right: 6rem;
         }
       }
     }
@@ -103,6 +103,7 @@
 
       @include mixins.respond(Phone) {
         font-size: 2rem;
+        margin-left: 4rem;
       }
     }
   }

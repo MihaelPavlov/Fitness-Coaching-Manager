@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
   private userRole: number = -1;
 
   protected hasRegisterError: boolean = false;
+  protected registerErrorMsg: string = "";
 
   protected registerForm = this.fb.group({
     user_role: [this.userRole, [Validators.required]],
@@ -124,7 +125,7 @@ export class RegisterComponent implements OnInit {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        console.log(err)
+        this.registerErrorMsg = err.error.data.error;
         this.hasRegisterError = true;
       },
     });

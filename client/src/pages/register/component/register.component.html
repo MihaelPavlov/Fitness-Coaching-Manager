@@ -1,4 +1,4 @@
-<app-loader></app-loader>
+<app-loader *ngIf="isLoading"></app-loader>
 <ng-container *ngIf="
     selectedRegistrationType === RegistrationType.User;
     else registerAsTrainer

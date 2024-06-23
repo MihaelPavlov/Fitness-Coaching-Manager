@@ -29,6 +29,7 @@ export class RegisterComponent implements OnInit {
 
   private userRole: number = -1;
 
+  protected isLoading: boolean = false;
   protected hasRegisterError: boolean = false;
   protected registerErrorMsg: string = "";
 
@@ -91,11 +92,13 @@ export class RegisterComponent implements OnInit {
   }
 
   protected register(): void {
+    this.isLoading = true;
     this.registerForm.get("user_role")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
 
     this.updateFormValidators();
 
     if (this.registerForm.invalid) {
+      this.isLoading = false;
       const errors = getFormValidationErrors(this.registerForm);
       console.log(errors);
       this.hasRegisterError = true;
@@ -112,10 +115,12 @@ export class RegisterComponent implements OnInit {
 
     this.userService.register(requestBody).subscribe({
       next: () => {
+        this.isLoading = false;
         this.hasRegisterError = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
+        this.isLoading = false;
         this.registerErrorMsg = err.error.data.error;
         this.hasRegisterError = true;
       },

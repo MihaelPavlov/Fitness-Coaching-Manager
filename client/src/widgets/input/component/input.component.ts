@@ -11,6 +11,7 @@ export class InputComponent {
   @Input() placeholder: string = '';
   @Input() type: InputType = InputType.Text;
   @Input() name: string = '';
+  @Input() value: string = '';
 
   //Style Decorators
   @Input() textColor: 'main-text-color' = 'main-text-color';

@@ -62,6 +62,9 @@
         [type]="InputType.Text" placeholder="Username" name="username"
         (valueChange)="handleInputChange('username', $event)">
       </app-input>
+      <ng-container *ngIf="registerForm.get('username')?.touched">
+        
+      </ng-container>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Email"
         [type]="InputType.Text" placeholder="Email" name="email" (valueChange)="handleInputChange('email', $event)">
       </app-input>

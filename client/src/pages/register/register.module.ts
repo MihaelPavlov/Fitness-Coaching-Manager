@@ -7,6 +7,7 @@ import { SelectModule } from '../../widgets/select/select.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterRoutingModule } from './register-routing.module';
 import { RouterModule } from '@angular/router';
+import { ErrorModule } from '../../shared/components/error/error.module';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
     SelectModule,
     ReactiveFormsModule,
     RegisterRoutingModule,
-    RouterModule
+    RouterModule,
+    ErrorModule
   ],
   exports: [RegisterComponent]
 })

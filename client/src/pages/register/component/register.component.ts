@@ -3,9 +3,10 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { passwordsMatch } from '../../../shared/validators/passwords-match';
 import { UserService } from '../../../entities/services/user.service';
+import { getFormValidationErrors } from '../../../shared/validators/get-form-validation-errors';
 
 @Component({
   selector: 'app-register',
@@ -108,7 +109,9 @@ export class RegisterComponent implements OnInit {
     }
 
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.value)
+      const errors = getFormValidationErrors(this.registerForm);
+      this.hasRegisterError = true;
+      this.registerErrorMsg = this.validationErrors[errors[0].control]
       return;
     }
 
@@ -129,5 +132,13 @@ export class RegisterComponent implements OnInit {
         this.hasRegisterError = true;
       },
     });
+  }
+
+  private validationErrors: Record<string, string> = {
+    username: "Username is required!",
+    email: "Email is required!",
+    passGroup: "Passwords must match!",
+    password: "Password is required!",
+    rePassword: "You must confirm the password!"
   }
 }

@@ -45,13 +45,13 @@ export class RegisterComponent implements OnInit {
         validators: [passwordsMatch()],
       }
     ),
-    fitness_level: ['Sedentary'],
+    fitness_level: ['Sedentary', [Validators.required]],
     country: ['Bulgaria', [Validators.required]],
     sex: ['Male', [Validators.required]],
     language: ['Bulgarian', [Validators.required]],
-    first_name: [''],
-    last_name: [''],
-    phone_number: ['']
+    first_name: ['', [Validators.required]],
+    last_name: ['', [Validators.required]],
+    phone_number: ['', [Validators.required]]
   });
 
   constructor(
@@ -93,23 +93,11 @@ export class RegisterComponent implements OnInit {
   protected register(): void {
     this.registerForm.get("user_role")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
 
-    if (this.registerForm.value.user_role === 1) {
-      this.registerForm.get("fitness_level")?.setValue(null);
-
-      if (this.registerForm.value.first_name === null || this.registerForm.value.first_name === "") return;
-      if (this.registerForm.value.last_name === null || this.registerForm.value.last_name === "") return;
-      if (this.registerForm.value.phone_number === null || this.registerForm.value.phone_number === "") return;
-    };
-    if (this.registerForm.value.user_role === -1) {
-      this.registerForm.get("first_name")?.setValue(null);
-      this.registerForm.get("last_name")?.setValue(null);
-      this.registerForm.get("phone_number")?.setValue(null);
-
-      if (this.registerForm.value.fitness_level === null || this.registerForm.value.fitness_level === "") return;
-    }
+    this.updateFormValidators();
 
     if (this.registerForm.invalid) {
       const errors = getFormValidationErrors(this.registerForm);
+      console.log(errors);
       this.hasRegisterError = true;
       this.registerErrorMsg = this.validationErrors[errors[0].control]
       return;
@@ -139,6 +127,40 @@ export class RegisterComponent implements OnInit {
     email: "Email is required!",
     passGroup: "Passwords must match!",
     password: "Password is required!",
-    rePassword: "You must confirm the password!"
+    rePassword: "You must confirm the password!",
+    first_name: "First name is required!",
+    last_name: "Last name is required!",
+    phone_number: "Phone number is required!"
+  }
+
+  private updateFormValidators(): void {
+    const role_controls = {
+      user: ["fitness_level"],
+      coach: ["first_name", "last_name", "phone_number"]
+    }
+
+    if (this.registerForm.value.user_role === 1) {
+      this.registerForm.get("fitness_level")?.setValue(null);
+      this.addValidators(role_controls.coach);
+      this.removeValidators(role_controls.user);
+    };
+    if (this.registerForm.value.user_role === -1) {
+      this.addValidators(role_controls.user);
+      this.removeValidators(role_controls.coach);
+    }
+  }
+
+  private addValidators(controls: string[]): void {
+    controls.forEach(control => {
+      this.registerForm.get(control)?.setValidators([Validators.required]);
+      this.registerForm.get(control)?.updateValueAndValidity();
+    });
+  }
+
+  private removeValidators(controls: string[]): void {
+    controls.forEach(control => {
+      this.registerForm.get(control)?.clearValidators();
+      this.registerForm.get(control)?.updateValueAndValidity();
+    });
   }
 }

@@ -7,6 +7,7 @@ import { LinkModule } from '../../widgets/link/link.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ErrorModule } from '../../shared/components/error/error.module';
+import { LoaderModule } from '../../shared/components/loader/loader.module';
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { ErrorModule } from '../../shared/components/error/error.module';
         LinkModule,
         ReactiveFormsModule,
         RouterModule,
-        ErrorModule
+        ErrorModule,
+        LoaderModule
     ],
     exports:[
         LoginComponent

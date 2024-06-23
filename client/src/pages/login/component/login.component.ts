@@ -19,6 +19,7 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
 
+  protected isLoading: boolean = false;
   protected hasLoginError: boolean = false;
   protected isPasswordShown: boolean = false;
 
@@ -42,7 +43,10 @@ export class LoginComponent {
   }
 
   protected login(): void {
+    this.isLoading = true;
+
     if (this.loginForm.invalid) {
+      this.isLoading = false;
       this.hasLoginError = true;
       return;
     }
@@ -51,10 +55,12 @@ export class LoginComponent {
       .login(this.loginForm.value.email as string, this.loginForm.value.password as string)
       .subscribe({
         next: () => {
+          this.isLoading = false;
           this.hasLoginError = false;
           this.router.navigate(['/']);
         },
         error: () => {
+          this.isLoading = false;
           this.hasLoginError = true;
         },
       });

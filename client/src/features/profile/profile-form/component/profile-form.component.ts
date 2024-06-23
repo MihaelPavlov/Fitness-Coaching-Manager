@@ -19,7 +19,6 @@ export class ProfileFormComponent {
   ngOnInit() {
     this.userService.getDetails({}).subscribe(userData => {
       this.userData = userData.data.user[0];
-      console.log(this.userData);
     })
   }
 }

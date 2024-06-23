@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { UserService } from '../../../../entities/services/user.service';
-import { UserData } from '../userType';
+import { IUserData } from '../user-type/userType';
 
 @Component({
   selector: 'app-profile-form',
@@ -12,7 +12,7 @@ import { UserData } from '../userType';
 export class ProfileFormComponent {
   public InputType = InputType;
 
-  public userData!: UserData;
+  public userData!: IUserData;
 
   constructor(private readonly userService: UserService) {}
 

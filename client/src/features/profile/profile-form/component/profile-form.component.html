@@ -5,11 +5,11 @@
 
     <div class="profile-container__inputs-flex-container-input-item d-flex align-items-center justify-content-center">
         <div class="profile-container__inputs-flex-container-input-item__input-container">
-            <app-input label="Last Name" [type]="InputType.Text" placeholder="Last Name" [textColor]="'main-text-color'"
+            <app-input label="Last Name" [type]="InputType.Text" value="{{userData.lastName}}" placeholder="Last Name" [textColor]="'main-text-color'"
                 [backgroundColor]="'white'"></app-input>
         </div>
         <div class="profile-container__inputs-flex-container-input-item__input-container">
-            <app-input label="First Name" [type]="InputType.Text" placeholder="First Name"
+            <app-input label="First Name" [type]="InputType.Text" value="{{userData.firstName}}" placeholder="First Name"
                 [textColor]="'main-text-color'" [backgroundColor]="'white'"></app-input>
         </div>
     </div>
@@ -19,7 +19,7 @@
         <div class="profile-container__inputs-flex-container-input-item__input-container"> <app-input
                 label="Date of Birth" [type]="InputType.Text" placeholder="Date of Birth"
                 [textColor]="'main-text-color'" [backgroundColor]="'white'"></app-input> </div>
-        <div class="profile-container__inputs-flex-container-input-item__input-container"> <app-input label="Email" [type]="InputType.Text" placeholder="Email"
+        <div class="profile-container__inputs-flex-container-input-item__input-container"> <app-input label="Email" [type]="InputType.Text" value="{{userData.email}}" placeholder="Email"
                 [textColor]="'main-text-color'" [backgroundColor]="'white'"></app-input> </div>
     </div>
 

@@ -6,7 +6,7 @@ import { UserData } from '../userType';
 @Component({
   selector: 'app-profile-form',
   templateUrl: './profile-form.component.html',
-  styleUrls: ['./profile-form.component.scss']
+  styleUrls: ['./profile-form.component.scss'],
 })
 
 export class ProfileFormComponent {

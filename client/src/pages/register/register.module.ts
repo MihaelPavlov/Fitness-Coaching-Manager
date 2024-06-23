@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterRoutingModule } from './register-routing.module';
 import { RouterModule } from '@angular/router';
 import { ErrorModule } from '../../shared/components/error/error.module';
+import { LoaderModule } from '../../shared/components/loader/loader.module';
 
 @NgModule({
   declarations: [RegisterComponent],
@@ -19,7 +20,8 @@ import { ErrorModule } from '../../shared/components/error/error.module';
     ReactiveFormsModule,
     RegisterRoutingModule,
     RouterModule,
-    ErrorModule
+    ErrorModule,
+    LoaderModule
   ],
   exports: [RegisterComponent]
 })

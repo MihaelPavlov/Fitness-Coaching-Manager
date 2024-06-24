@@ -11,13 +11,12 @@ import { IUserData } from '../user-type/userType';
 
 export class ProfileFormComponent {
   public InputType = InputType;
-
   public userData!: IUserData;
 
   constructor(private readonly userService: UserService) {}
 
   ngOnInit() {
-    this.userService.getDetails({}).subscribe(userData => {
+    this.userService.getDetail().subscribe(userData => {
       this.userData = userData.data.user[0];
     })
   }

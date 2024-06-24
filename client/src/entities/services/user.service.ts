@@ -64,7 +64,7 @@ export class UserService {
   }
 
   //method to call BE and retrieve private profile details
-  public getDetails(options: object): Observable<any> {
+  public getDetail(options?: object): Observable<any> {
     return this.apiService.get('users/getDetail', options);
   }
 }

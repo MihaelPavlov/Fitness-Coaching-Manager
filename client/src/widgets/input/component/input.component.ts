@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 
+interface InputValidations {
+  isRequired: boolean
+}
+
 @Component({
   selector: 'app-input',
   templateUrl: './input.component.html',
@@ -11,6 +15,7 @@ export class InputComponent {
   @Input() placeholder: string = '';
   @Input() type: InputType = InputType.Text;
   @Input() name: string = '';
+  @Input() validations: InputValidations | null = null;
 
   //Style Decorators
   @Input() textColor: 'main-text-color' = 'main-text-color';

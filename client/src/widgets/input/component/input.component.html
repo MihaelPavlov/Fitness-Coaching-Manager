@@ -1,5 +1,6 @@
 <div class="input-container">
-    <p class="input-container__text">{{ label }}</p>
+    <p class="input-container__text" [ngClass]="{'required-label': validations?.isRequired}">{{ label }}</p>
     <input class="input-container__input  w-100 d-block align-items-start" [placeholder]="placeholder" [name]="name"
         [type]="type" [style.background-color]="getBackgroundColor" [style.color]="getTextColor" (input)="onInputChange($event.target)">
+    <p>Invalid field</p>
 </div>

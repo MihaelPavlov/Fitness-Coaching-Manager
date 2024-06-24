@@ -29,6 +29,12 @@
     }
 }
 
+.required-label::after {
+  content: "*";
+  display: inline;
+  color: palette.$main-form-error-message;
+}
+
 ::-webkit-file-upload-button {
     display: none;
 }

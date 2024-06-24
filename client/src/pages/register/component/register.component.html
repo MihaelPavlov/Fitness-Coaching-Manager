@@ -129,7 +129,7 @@
         [type]="InputType.Text" placeholder="First Name" name="firstName" (valueChange)="handleInputChange('first_name', $event)">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Last Name"
-        [type]="InputType.Text" placeholder="Last Name" name="lastName" (valueChange)="handleInputChange('last_name', $event)">
+        [type]="InputType.Text" placeholder="Last Name" name="lastName" (valueChange)="handleInputChange('last_name', $event)" [validations]="{ isRequired: true }">
       </app-input>
       <app-select class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.countryList" label="Country" name="country" (valueChange)="handleInputChange('country', $event)">

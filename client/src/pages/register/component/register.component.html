@@ -73,7 +73,7 @@
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field"
         label="Repeat Password" [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword" (valueChange)="handleInputChange('rePassword', $event)"
-        [errors]="registerForm.get('passGroup')?.get('rePassword')?.errors" [validations]="{ isRequired: true }">
+        [errors]="registerForm.get('passGroup')?.errors" [validations]="{ isRequired: true }">
       </app-input>
     </div>
   </div>

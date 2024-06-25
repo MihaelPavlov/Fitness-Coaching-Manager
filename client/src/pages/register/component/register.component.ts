@@ -99,9 +99,8 @@ export class RegisterComponent implements OnInit {
 
     if (this.registerForm.invalid) {
       this.isLoading = false;
-      const errors = getFormValidationErrors(this.registerForm);
+      this.registerErrorMsg = "Fulfill all the fields"
       this.hasRegisterError = true;
-      this.registerErrorMsg = this.validationErrors[errors[0].control]
       return;
     }
 
@@ -124,17 +123,6 @@ export class RegisterComponent implements OnInit {
         this.hasRegisterError = true;
       },
     });
-  }
-
-  private validationErrors: Record<string, string> = {
-    username: "Username is required!",
-    email: "Email is required!",
-    passGroup: "Passwords must match!",
-    password: "Password is required!",
-    rePassword: "You must confirm the password!",
-    first_name: "First name is required!",
-    last_name: "Last name is required!",
-    phone_number: "Phone number is required!"
   }
 
   private updateFormValidators(): void {

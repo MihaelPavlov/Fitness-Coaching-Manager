@@ -206,7 +206,7 @@
 }
 
 .expandDropdown {
-    height: 16rem;
+    height: 17rem;
 
     @include mixins.respond(Phone) {
         height: 27rem;

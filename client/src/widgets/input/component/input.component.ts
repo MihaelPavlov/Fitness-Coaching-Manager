@@ -16,6 +16,7 @@ export class InputComponent {
   @Input() type: InputType = InputType.Text;
   @Input() name: string = '';
   @Input() validations: InputValidations | null = null;
+  @Input() errors: any = null;
 
   //Style Decorators
   @Input() textColor: 'main-text-color' = 'main-text-color';
@@ -38,6 +39,12 @@ export class InputComponent {
         return '#475f93'
       }
     }
+  }
+
+  get hasError(): boolean {
+    if (this.errors === null) return false;
+    if (Object.keys(this.errors as object).length > 0) return true;
+    return false;
   }
 
   @Output() valueChange = new EventEmitter<string>();

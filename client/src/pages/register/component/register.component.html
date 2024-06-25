@@ -61,16 +61,19 @@
       class="register-container__form__details-container__general-details d-flex justify-content-between">
       <app-input class="register-container__form__details-container__general-details__input-field" label="Username"
         [type]="InputType.Text" placeholder="Username" name="username"
-        (valueChange)="handleInputChange('username', $event)">
+        (valueChange)="handleInputChange('username', $event)" [errors]="registerForm.get('username')?.errors" [validations]="{ isRequired: true }">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Email"
-        [type]="InputType.Text" placeholder="Email" name="email" (valueChange)="handleInputChange('email', $event)">
+        [type]="InputType.Text" placeholder="Email" name="email" (valueChange)="handleInputChange('email', $event)"
+        [errors]="registerForm.get('email')?.errors" [validations]="{ isRequired: true }">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Password"
-        [type]="InputType.Password" placeholder="Password" name="password" (valueChange)="handleInputChange('password', $event)">
+        [type]="InputType.Password" placeholder="Password" name="password" (valueChange)="handleInputChange('password', $event)"
+        [errors]="registerForm.get('passGroup')?.get('password')?.errors" [validations]="{ isRequired: true }">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field"
-        label="Repeat Password" [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword" (valueChange)="handleInputChange('rePassword', $event)">
+        label="Repeat Password" [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword" (valueChange)="handleInputChange('rePassword', $event)"
+        [errors]="registerForm.get('passGroup')?.get('rePassword')?.errors" [validations]="{ isRequired: true }">
       </app-input>
     </div>
   </div>
@@ -126,10 +129,12 @@
     <div [class.expand]="showAdditionalDetails" [class.expandDropdown]="showAdditionalDetails"
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
       <app-input class="register-container__form__details-container__general-details__input-field" label="First Name"
-        [type]="InputType.Text" placeholder="First Name" name="firstName" (valueChange)="handleInputChange('first_name', $event)">
+        [type]="InputType.Text" placeholder="First Name" name="firstName" (valueChange)="handleInputChange('first_name', $event)"
+        [errors]="registerForm.get('first_name')?.errors" [validations]="{ isRequired: true }">
       </app-input>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Last Name"
-        [type]="InputType.Text" placeholder="Last Name" name="lastName" (valueChange)="handleInputChange('last_name', $event)" [validations]="{ isRequired: true }">
+        [type]="InputType.Text" placeholder="Last Name" name="lastName" (valueChange)="handleInputChange('last_name', $event)" [validations]="{ isRequired: true }"
+        [errors]="registerForm.get('last_name')?.errors">
       </app-input>
       <app-select class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.countryList" label="Country" name="country" (valueChange)="handleInputChange('country', $event)">
@@ -138,7 +143,8 @@
         [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage" (valueChange)="handleInputChange('language', $event)">
       </app-select>
       <app-input class="register-container__form__details-container__general-details__input-field" label="Phone Number"
-        [type]="InputType.Text" placeholder="Phone Number" name="phoneNumber" (valueChange)="handleInputChange('phone_number', $event)">
+        [type]="InputType.Text" placeholder="Phone Number" name="phoneNumber" (valueChange)="handleInputChange('phone_number', $event)"
+        [errors]="registerForm.get('phone_number')?.errors" [validations]="{ isRequired: true }">
       </app-input>
       <app-select class="register-container__form__details-container__general-details__input-field"
         [options]="optionArrays.genderList" label="Sex" name="sex" (valueChange)="handleInputChange('sex', $event)">

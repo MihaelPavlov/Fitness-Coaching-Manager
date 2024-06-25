@@ -100,7 +100,6 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.invalid) {
       this.isLoading = false;
       const errors = getFormValidationErrors(this.registerForm);
-      console.log(errors);
       this.hasRegisterError = true;
       this.registerErrorMsg = this.validationErrors[errors[0].control]
       return;

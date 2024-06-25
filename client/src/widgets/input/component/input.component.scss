@@ -35,6 +35,12 @@
   color: palette.$main-form-error-message;
 }
 
+.error-message {
+  color: palette.$main-form-error-message;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
 ::-webkit-file-upload-button {
     display: none;
 }

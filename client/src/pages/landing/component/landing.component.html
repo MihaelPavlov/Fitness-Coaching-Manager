@@ -1,7 +1,10 @@
 <div class="landing-page-container d-flex justify-content-center flex-wrap">
     <div class="landing-page-container__buttons-container d-flex align-items-end g-10">
-        <button class="btn w-100 landing-page-container__buttons-container__button">
+        <button class="btn w-100 landing-page-container__buttons-container__button" (click)="navigateToRegister(registrationType.Trainer)">
           I want to be a contributor
+        </button>
+        <button class="btn w-100 landing-page-container__buttons-container__button" (click)="navigateToRegister(registrationType.User)">
+          I want to do workouts
         </button>
         <!-- <app-button class="landing-page-container__buttons-container__button mb-20" text="I want to be a contributor"
             [width]="'100%'" [fontSize]="'1.5rem'" [padding]="'1rem'" [hoverBackgroundColor]="'main-background-color'"

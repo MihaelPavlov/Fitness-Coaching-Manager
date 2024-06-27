@@ -16,6 +16,6 @@ import { AppLayoutComponent } from './app-layout/app-layout.component';
     exports: [BrowserModule, BrowserAnimationsModule],
     providers: [],
     bootstrap: [AppComponent],
-    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LoginModule, LandingModule]
+    imports: [BrowserModule, BrowserAnimationsModule, AppRoutingModule, HttpClientModule, BrowserModule, RouterOutlet, LandingModule]
 })
 export class AppModule { }

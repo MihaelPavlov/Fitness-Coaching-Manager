@@ -8,7 +8,7 @@
 export class ButtonComponent {
   @Input() text: string = '';
   @Input() padding: string = ''; // Input for padding
-  @Input() width: '100%' | 'auto' = '100%'; // Input for controlling width
+  @Input() width: '100%' | 'auto' | '10rem' = '100%'; // Input for controlling width
   @Input() fontSize!: string
 
   //Style Decorators
@@ -22,6 +22,11 @@ export class ButtonComponent {
       case 'auto': {
         return 'auto'
       }
+
+      case '10rem': {
+        return '10rem'
+      }
+      
       default: {
         return '100%'
       }

@@ -1,4 +1,5 @@
 @use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
 
 .login-container {
     height: 100vh;
@@ -10,6 +11,12 @@
     padding: 5rem 6rem 8rem 6rem;
     border-bottom: 0.5rem solid palette.$main-blue-darker-color;
     box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
+
+    @include mixins.respond(Phone) {
+        background-color: palette.$main-background-color;
+        box-shadow:none;
+        border-bottom:none;
+    }
 
     &__heading-box {
         text-align: center;

@@ -2,8 +2,8 @@
     <h1 class="exercise-library__header">{{pageName}}</h1>
     <app-search></app-search>
     <div class="exercise-library__cards-flex-container d-flex">
-        <app-exercise-card></app-exercise-card>
-        <app-exercise-card></app-exercise-card>
+        <app-exercise-card (click)="navigateToDetails()"></app-exercise-card>
+        <app-exercise-card (click)="navigateToDetails()"></app-exercise-card>
         <app-exercise-card></app-exercise-card>
         <app-exercise-card></app-exercise-card>
         <app-exercise-card></app-exercise-card>

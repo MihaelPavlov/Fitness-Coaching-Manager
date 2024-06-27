@@ -1,0 +1,80 @@
+<div
+  class="exercise-container d-flex align-items-center justify-content-center"
+>
+  <form class="exercise-form d-flex flex-direction-column">
+    <div class="exercise-form__heading-box mb-5">
+      <h1 class="exercise-form__heading-box-text mt-0">Create Exercise</h1>
+      <div class="exercise-form__heading-box-border"></div>
+    </div>
+    <div class="exercise-form__elements">
+      <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
+        <app-input
+          label="Name"
+          [type]="InputType.Text"
+          placeholder="New Exercise"
+          name="name"
+          id="name"
+        ></app-input>
+        <app-input
+          label="Thumb"
+          [type]="InputType.Text"
+          placeholder="Gif/Video"
+          name="thumb"
+          id="thumb"
+          class="exercise-form__elements__custom-button"
+        ></app-input>
+      </div>
+      <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
+        <app-select
+          class="register-container__form__details-container__general-details__input-field"
+          [options]="optionArrays.difficultyList"
+          label="Difficulty"
+          name="difficulty"
+        >
+        </app-select>
+        <app-select
+          class="register-container__form__details-container__general-details__input-field"
+          [options]="optionArrays.exerciseEquipmentList"
+          label="Equipment"
+          name="Equipment"
+        >
+        </app-select>
+      </div>
+      <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
+        <app-select
+          class="register-container__form__details-container__general-details__input-field"
+          [options]="optionArrays.tagsList"
+          label="Equipment"
+          name="Equipment"
+        >
+        </app-select>
+        <app-input
+          label="Description"
+          [type]="InputType.Text"
+          placeholder="Description"
+          name="description"
+          id="description"
+          class="exercise-form__elements__inputs__description"
+        ></app-input>
+      </div>
+
+      <div class="exercise-form__elements__buttons mt-6 justify-content-center d-flex g-4">
+        <app-button
+          text="Cancle"
+          [width]="'10rem'"
+          [hoverBackgroundColor]="'main-background-color'"
+          [hoverTextColor]="'main-blue-darker-color'"
+        >
+        </app-button>
+        <app-button
+          text="Create"
+          [width]="'10rem'"
+          [hoverBackgroundColor]="'main-background-color'"
+          [hoverTextColor]="'main-blue-darker-color'"
+        >
+        </app-button>
+      </div>
+    </div>
+    <div class="exercise-form__links d-flex flex-direction-column"></div>
+  </form>
+</div>

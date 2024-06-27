@@ -1,0 +1,35 @@
+@use "./palette";
+@use "./mixins";
+
+.btn {
+  display: inline-block;
+    background-color: palette.$main-blue-darker-color;
+    color: palette.$main-background-color;
+    text-align: center;
+    border: none;
+    padding: 0.6rem 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.4s;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+}
+
+.btn-hover-text-blue {
+  &:hover {
+    color: palette.$main-blue-darker-color;
+  }
+}
+
+.btn-hover-main {
+  &:hover {
+    background-color: palette.$main-background-color;
+  }
+}
+
+.border-hover:hover {
+  outline: 0.2rem solid var(--hoverBorderColor);
+}

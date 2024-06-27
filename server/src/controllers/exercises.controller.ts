@@ -4,11 +4,9 @@ import { isCoach } from "./../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.post("/add", isCoach, async (req: any, res: express.Response) => {
+router.post("/add", async (req: any, res: express.Response) => {
   try {
-    const exerciseData = req.body;
-
-    const createdExerciseID = await exerciseService.addExercise(exerciseData);
+    const createdExerciseID = await exerciseService.addExercise(req.body);
 
     res.status(201).json({
       status: "success",
@@ -30,9 +28,39 @@ router.post("/getList", async (req: any, res: express.Response) => {
 
     res.status(200).json({
       status: "success",
-      data: {
-        exercises,
-      },
+      data: exercises,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.post("/getTagList", async (req: any, res: express.Response) => {
+  try {
+    const exerciseTags = await exerciseService.getTags(req.body);
+
+    res.status(201).json({
+      status: "success",
+      data: exerciseTags,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
+
+router.post("/getEquipmentList", async (req: any, res: express.Response) => {
+  try {
+    const exerciseEquipments = await exerciseService.getEquipments(req.body);
+
+    res.status(201).json({
+      status: "success",
+      data: exerciseEquipments,
     });
   } catch (error) {
     res.status(400).json({

@@ -1,12 +1,12 @@
 import { QueryParams } from "../query-builders/models/builder.models";
 import { ExerciseBuilder } from "../query-builders/exercise.builder";
 import db from "../database/database-connector";
+import { ExerciseTagBuilder } from "../query-builders/exercise-tag.builder";
+import { ExerciseEquipmentBuilder } from "../query-builders/exercise-equipment.builder";
+import { TABLE } from "../database/constants/tables.contant";
 
-export const getExercises = async (payload: QueryParams) => {
-  let builder = new ExerciseBuilder(payload);
-
-  return await builder.buildQuery();
-};
+export const getExercises = async (payload: QueryParams) =>
+  await new ExerciseBuilder(payload);
 
 export const addExercise = async (exerciseData: any) => {
   const requiredFields = [
@@ -30,7 +30,7 @@ export const addExercise = async (exerciseData: any) => {
   const tagIds = exerciseData.tag_ids ? exerciseData.tag_ids.split(",") : [];
 
   if (equipmentIds.length > 0) {
-    const equipmentCount = await db("exercise_equipment")
+    const equipmentCount = await db(TABLE.EXERCISE_EQUIPMENTS)
       .whereIn("id", equipmentIds)
       .count("* as count")
       .first();
@@ -42,7 +42,7 @@ export const addExercise = async (exerciseData: any) => {
   }
 
   if (tagIds.length > 0) {
-    const tagCount = await db("exercise_tags")
+    const tagCount = await db(TABLE.EXERCISE_TAGS)
       .whereIn("id", tagIds)
       .count("* as count")
       .first();
@@ -56,8 +56,8 @@ export const addExercise = async (exerciseData: any) => {
   const currentDate = new Date().toISOString().split("T")[0];
 
   const createdExerciseID = (
-    await db("exercises").insert({
-      contributor_id: exerciseData.contributor_id, 
+    await db(TABLE.EXERCISES).insert({
+      contributor_id: exerciseData.contributor_id,
       title: exerciseData.title,
       thumb_uri: exerciseData.thumb_uri,
       difficulty: exerciseData.difficulty,
@@ -71,3 +71,9 @@ export const addExercise = async (exerciseData: any) => {
 
   return createdExerciseID;
 };
+
+export const getTags = async (tagData: any) =>
+  await new ExerciseTagBuilder(tagData).buildQuery();
+
+export const getEquipments = async (equipmentData: any) =>
+  await new ExerciseEquipmentBuilder(equipmentData).buildQuery();

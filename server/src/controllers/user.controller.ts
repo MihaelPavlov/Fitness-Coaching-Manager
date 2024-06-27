@@ -39,9 +39,9 @@ router.get("/getDetail", async (req: express.Request, res: express.Response) => 
 
   res.status(200).json({
     status: "success",
-    data: {
+    data:{
       user
-    },
+    }
   });
 });
 

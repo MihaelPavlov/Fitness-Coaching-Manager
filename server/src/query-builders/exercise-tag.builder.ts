@@ -1,28 +1,21 @@
+import { TABLE } from "../database/constants/tables.contant";
+import { AbstractBuilder } from "./common/abstract.builder";
 import {
   AssociationItem,
   Condition,
   QueryParams,
 } from "./models/builder.models";
-import { AbstractBuilder } from "./common/abstract.builder";
-import { TABLE } from "../database/constants/tables.contant";
 
-export class ExerciseBuilder extends AbstractBuilder {
+export class ExerciseTagBuilder extends AbstractBuilder {
   override fieldsMap: Record<string, Record<string, string>> = {
-    [TABLE.EXERCISES]: {
+    [TABLE.EXERCISE_TAGS]: {
       uid: "id",
-      contributorId: "contributor_id",
-      title: "title",
-      thumbUri: "thumb_uri",
-      difficulty: "difficulty",
-      equipmentIds: "equipment_ids",
-      description: "description",
-      tagIds: "tag_ids",
-      dateCreated: "date_created",
-      dateModified: "date_modified",
+      name: "name",
+      iconUri: "icon_uri",
+      tagColor: "tag_color",
     },
   };
-
-  override mainTable: string = TABLE.EXERCISES;
+  override mainTable: string = TABLE.EXERCISE_TAGS;
   override defaultLimit: number | null = 20;
   override defaultOffset: number | null = 0;
   override defaultSelect: Record<string, number> | null;

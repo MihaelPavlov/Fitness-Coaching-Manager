@@ -1,8 +1,12 @@
-<div class="card-container pt-5 position-relative"  [ngStyle]="{'--background-url': 'url(' + imageUrl + ')'}">
-    <div class="card-container__tags d-flex g-2">
-        <app-tag text="Gym" [backgroundColor]="'dark-grey'"></app-tag>
-        <app-tag text="Back" [backgroundColor]="'dark-grey'"></app-tag>
-        <app-tag text="Legs" [backgroundColor]="'dark-grey'"></app-tag>
-    </div>
-    <p class="card-container__exercise-name uppercase d-flex">Weight Loss</p>
+<div
+  (click)="navigateToDetails(exercise.uid)"
+  class="card-container pt-5 position-relative"
+  [ngStyle]="{ '--background-url': 'url(' + imageUrl + ')' }"
+>
+  <div class="card-container__tags d-flex g-2">
+    <app-tag text="Gym" [backgroundColor]="'dark-grey'"></app-tag>
+    <app-tag text="Back" [backgroundColor]="'dark-grey'"></app-tag>
+    <app-tag text="Legs" [backgroundColor]="'dark-grey'"></app-tag>
+  </div>
+  <p class="card-container__exercise-name uppercase d-flex">Weight Loss</p>
 </div>

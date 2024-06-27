@@ -7,6 +7,7 @@ import {
   createTokensAndSession,
 } from "./../helpers/auth.helper";
 import EXCEPTIONS from "./../constants/exceptions.constants";
+import { TABLE } from "../database/constants/tables.contant";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -22,14 +23,14 @@ export const getUser = async (payload: QueryParams) => {
 };
 
 export const registerUser = async (data: Record<string, any>) => {
-  const user = await db("users").select("*").where("email", "=", data.email);
+  const user = await db(TABLE.USERS).select("*").where("email", "=", data.email);
 
   if (user.length > 0) {
     throw new Error(EXCEPTIONS.USER_ALREADY_EXIST);
   }
 
   const createdUserID = (
-    await db("users").insert({
+    await db(TABLE.USERS).insert({
       first_name: data?.first_name || null,
       last_name: data?.last_name || null,
       user_role: data?.user_role || -1,
@@ -43,7 +44,7 @@ export const registerUser = async (data: Record<string, any>) => {
   ).at(0);
 
   // Create user specs from created user
-  await db("user_specs").insert({
+  await db(TABLE.USER_SPECS).insert({
     user_id: createdUserID,
     sex: data.sex,
     fitness_level: data?.fitness_level || null,
@@ -53,23 +54,27 @@ export const registerUser = async (data: Record<string, any>) => {
   if (data.user_role == 1) {
     // Insert data into contributors and applications
     const createdContributorID = (
-      await db("contributors").insert({
+      await db(TABLE.CONTRIBUTORS).insert({
         user_id: createdUserID,
       })
     ).at(0);
 
-    await db("contributor_applications").insert({
+    await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
       contributor_id: createdContributorID,
       item_uri: data.item_uri,
     });
   }
 
-  return createTokensAndSession({ id: createdUserID, role: data?.user_role || -1, username: data?.username });
+  return createTokensAndSession({
+    id: createdUserID,
+    role: data?.user_role || -1,
+    username: data?.username,
+  });
 };
 
 export const loginUser = async (data: Record<string, any>) => {
   const user = (
-    await db("users").select("*").where("email", "=", data.email)
+    await db(TABLE.USERS).select("*").where("email", "=", data.email)
   ).at(0);
 
   if (!user) {
@@ -82,4 +87,3 @@ export const loginUser = async (data: Record<string, any>) => {
 
   return createTokensAndSession(user);
 };
-

@@ -10,7 +10,6 @@ import { ProfileFormComponent } from '../../features/profile/profile-form/compon
 import { ProfileCardsComponent } from '../../features/profile/profile-cards/component/profile-cards.component';
 import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
 
-
 @NgModule({
     declarations: [
         ProfileComponent,

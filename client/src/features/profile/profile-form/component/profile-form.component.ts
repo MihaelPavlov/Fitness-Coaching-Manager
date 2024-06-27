@@ -13,11 +13,19 @@ export class ProfileFormComponent {
   public InputType = InputType;
   public userData!: IUserData;
 
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService) {}
 
   ngOnInit() {
     this.userService.getDetail().subscribe(userData => {
       this.userData = userData.data.user[0];
     })
   }
+
+
+  handleEdit(): void {
+    console.log()
+  }
+
+  
 }

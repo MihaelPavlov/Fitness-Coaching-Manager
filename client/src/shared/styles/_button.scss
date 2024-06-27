@@ -14,20 +14,10 @@
 
     &:hover {
         cursor: pointer;
+        color: palette.$main-blue-darker-color;
+        background-color: palette.$main-background-color;
         transform: scale(1.1);
     }
-}
-
-.btn-hover-text-blue {
-  &:hover {
-    color: palette.$main-blue-darker-color;
-  }
-}
-
-.btn-hover-main {
-  &:hover {
-    background-color: palette.$main-background-color;
-  }
 }
 
 .border-hover:hover {

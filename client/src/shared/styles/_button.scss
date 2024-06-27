@@ -21,5 +21,5 @@
 }
 
 .border-hover:hover {
-  outline: 0.2rem solid var(--hoverBorderColor);
+  outline: 0.2rem solid palette.$main-blue-darker-color;
 }

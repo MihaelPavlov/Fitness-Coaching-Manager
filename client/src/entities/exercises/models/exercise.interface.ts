@@ -4,9 +4,9 @@ export interface IExercise {
   title: string;
   thumbUri: string;
   difficulty: number;
-  equipmentIds: number[];
+  equipmentIds: string;
   description: string;
-  tagIds: number[];
+  tagIds: string;
   dateCreated: string;
   dateModified: string;
 }

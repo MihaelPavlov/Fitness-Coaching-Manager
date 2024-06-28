@@ -1,5 +1,4 @@
 import express from "express";
-
 import userController from "./controllers/user.controller";
 import exercisesController from "./controllers/exercises.controller";
 

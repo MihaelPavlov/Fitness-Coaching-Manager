@@ -8,6 +8,7 @@
       class="m-2"
       *ngFor="let exercise of this.exercises"
       [exercise]="exercise"
+      [tags]="getExerciseTags(exercise.tagIds)"
     ></app-exercise-card>
   </div>
 </section>

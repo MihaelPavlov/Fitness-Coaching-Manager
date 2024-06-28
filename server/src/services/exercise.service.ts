@@ -4,41 +4,24 @@ import db from "../database/database-connector";
 import { ExerciseTagBuilder } from "../query-builders/exercise-tag.builder";
 import { ExerciseEquipmentBuilder } from "../query-builders/exercise-equipment.builder";
 import { TABLE } from "../database/constants/tables.contant";
+import { BadRequestException } from "../models/exceptions/bad-request.exception";
 
-export const getExercises = async (payload: QueryParams) =>
-  await new ExerciseBuilder(payload);
+export const executeExerciseBuilder = async (payload: QueryParams) =>
+  await new ExerciseBuilder(payload).buildQuery();
 
 export const addExercise = async (exerciseData: any) => {
-  const requiredFields = [
-    "title",
-    "thumb_uri",
-    "difficulty",
-    "description",
-    "equipment_ids",
-    "tag_ids",
-  ];
-
-  for (let field of requiredFields) {
-    if (!exerciseData[field]) {
-      throw new Error(`Missing required field: ${field}`);
-    }
-  }
-
-  const equipmentIds = exerciseData.equipment_ids
-    ? exerciseData.equipment_ids.split(",")
+  const equipmentIds = exerciseData.equipmentIds
+    ? exerciseData.equipmentIds.split(",")
     : [];
-  const tagIds = exerciseData.tag_ids ? exerciseData.tag_ids.split(",") : [];
+  const tagIds = exerciseData.tagIds ? exerciseData.tagIds.split(",") : [];
 
   if (equipmentIds.length > 0) {
     const equipmentCount = await db(TABLE.EXERCISE_EQUIPMENTS)
       .whereIn("id", equipmentIds)
       .count("* as count")
       .first();
-    if (equipmentCount.count !== equipmentIds.length) {
-      throw new Error("Invalid equipment IDs");
-    }
-  } else {
-    throw new Error("equipment_ids must be selected");
+    if (equipmentCount.count !== equipmentIds.length)
+      throw new BadRequestException();
   }
 
   if (tagIds.length > 0) {
@@ -46,24 +29,20 @@ export const addExercise = async (exerciseData: any) => {
       .whereIn("id", tagIds)
       .count("* as count")
       .first();
-    if (tagCount.count !== tagIds.length) {
-      throw new Error("Invalid tag IDs");
-    }
-  } else {
-    throw new Error("tag_ids must be selected");
+    if (tagCount.count !== tagIds.length) throw new BadRequestException();
   }
 
   const currentDate = new Date().toISOString().split("T")[0];
 
   const createdExerciseID = (
     await db(TABLE.EXERCISES).insert({
-      contributor_id: exerciseData.contributor_id,
+      contributor_id: exerciseData.contributorId,
       title: exerciseData.title,
-      thumb_uri: exerciseData.thumb_uri,
+      thumb_uri: exerciseData.thumbUri,
       difficulty: exerciseData.difficulty,
-      equipment_ids: exerciseData.equipment_ids,
+      equipment_ids: exerciseData.equipmentIds,
       description: exerciseData.description,
-      tag_ids: exerciseData.tag_ids,
+      tag_ids: exerciseData.tagIds,
       date_created: currentDate,
       date_modified: currentDate,
     })

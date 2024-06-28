@@ -3,9 +3,12 @@ import { RestApiService } from '../../../shared/services/rest-api.service';
 import { IQueryParams } from '../../models/query-params.interface';
 import { Injectable } from '@angular/core';
 import { PATH } from '../../../shared/configs/path.config';
-import { EXERCISE_FIELDS } from '../models/exercise-fields.constant';
+import { EXERCISE_FIELDS } from '../models/fields/exercise-fields.constant';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IExercise } from '../models/exercise.interface';
+import { IExerciseTag } from '../models/exercise-tag.interface';
+import { IExerciseEquipment } from '../models/exercise-equipment.interface';
+import { CreateExercise } from '../models/create-exercise.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,14 +16,47 @@ import { IExercise } from '../models/exercise.interface';
 export class ExerciseService {
   constructor(private api: RestApiService) {}
 
-  public getExercises(
+  public getList(
     queryParams: IQueryParams
   ): Observable<IRequestResult<IExercise[]> | null> {
-    const payload = this.buildPayload(queryParams);
+    const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
     return this.api.post(PATH.EXERCISES.GET_LIST, payload);
   }
 
-  private buildPayload(queryParams: IQueryParams): any {
+  public getTagList(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IExerciseTag[]> | null> {
+    const payload = this.buildPayload(
+      queryParams,
+      EXERCISE_FIELDS.exercise_tags
+    );
+    return this.api.post(PATH.EXERCISES.GET_TAG_LIST, payload);
+  }
+
+  public getEquipmentList(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IExerciseEquipment[]> | null> {
+    const payload = this.buildPayload(
+      queryParams,
+      EXERCISE_FIELDS.exercise_equipments
+    );
+    return this.api.post(PATH.EXERCISES.GET_EQUIPMENT_LIST, payload);
+  }
+
+  public getDetails(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IExercise[]> | null> {
+    const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
+    return this.api.post(PATH.EXERCISES.GET_DETAILS, payload);
+  }
+
+  public create(
+    exercise: CreateExercise
+  ): Observable<IRequestResult<number> | null> {
+    return this.api.post(PATH.EXERCISES.CREATE, exercise);
+  }
+
+  private buildPayload(queryParams: IQueryParams, fields: any): any {
     const payload: any = {};
     if (queryParams.limit !== null) {
       payload.limit = queryParams.limit;
@@ -34,10 +70,7 @@ export class ExerciseService {
     payload.what = {};
     for (const key in queryParams.what) {
       if (queryParams.what.hasOwnProperty(key)) {
-        const backendField =
-          EXERCISE_FIELDS.exercises[
-            key as keyof typeof EXERCISE_FIELDS.exercises
-          ];
+        const backendField = fields[key as keyof typeof fields];
         if (backendField) {
           payload.what[backendField] = queryParams.what[key];
         }

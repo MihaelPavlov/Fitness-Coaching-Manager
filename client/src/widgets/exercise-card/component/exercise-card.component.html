@@ -3,10 +3,14 @@
   class="card-container pt-5 position-relative"
   [ngStyle]="{ '--background-url': 'url(' + imageUrl + ')' }"
 >
-  <div class="card-container__tags d-flex g-2">
-    <app-tag text="Gym" [backgroundColor]="'dark-grey'"></app-tag>
-    <app-tag text="Back" [backgroundColor]="'dark-grey'"></app-tag>
-    <app-tag text="Legs" [backgroundColor]="'dark-grey'"></app-tag>
+  <div *ngIf="tags" class="card-container__tags d-flex g-2">
+    <app-tag
+      *ngFor="let tag of tags"
+      [text]="tag.name"
+      [backgroundColor]="'dark-grey'"
+    ></app-tag>
   </div>
-  <p class="card-container__exercise-name uppercase d-flex">Weight Loss</p>
+  <p class="card-container__exercise-name uppercase d-flex">
+    {{ exercise.title }}
+  </p>
 </div>

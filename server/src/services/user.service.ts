@@ -6,8 +6,8 @@ import {
   generatePasswordHash,
   createTokensAndSession,
 } from "./../helpers/auth.helper";
-import EXCEPTIONS from "./../constants/exceptions.constants";
 import { TABLE } from "../database/constants/tables.contant";
+import { EXCEPTION } from "../constants/exceptions.constants";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -23,10 +23,12 @@ export const getUser = async (payload: QueryParams) => {
 };
 
 export const registerUser = async (data: Record<string, any>) => {
-  const user = await db(TABLE.USERS).select("*").where("email", "=", data.email);
+  const user = await db(TABLE.USERS)
+    .select("*")
+    .where("email", "=", data.email);
 
   if (user.length > 0) {
-    throw new Error(EXCEPTIONS.USER_ALREADY_EXIST);
+    throw new Error(EXCEPTION.USER_ALREADY_EXIST);
   }
 
   const createdUserID = (
@@ -78,11 +80,11 @@ export const loginUser = async (data: Record<string, any>) => {
   ).at(0);
 
   if (!user) {
-    throw new Error(EXCEPTIONS.INVALID_LOGIN);
+    throw new Error(EXCEPTION.INVALID_LOGIN);
   }
 
   if (!(await verifyPassword(data.password, user.password))) {
-    throw new Error(EXCEPTIONS.INVALID_LOGIN);
+    throw new Error(EXCEPTION.INVALID_LOGIN);
   }
 
   return createTokensAndSession(user);

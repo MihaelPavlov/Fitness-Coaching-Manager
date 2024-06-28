@@ -16,7 +16,7 @@ $spacing-map: (
     20: $spacing-20
 );
 
-$small-text-map: (
+$text-map: (
   1: $font-1,
   2: $font-2,
   3: $font-3,
@@ -25,13 +25,6 @@ $small-text-map: (
   6: $font-6,
   7: $font-7,
   8: $font-8,
-);
-
-$large-text-map: (
-  1: $display-1,
-  2: $display-2,
-  3: $display-3,
-  4: $display-4,
 );
 
 .text-center {
@@ -339,14 +332,8 @@ $large-text-map: (
 }
 
 
-@each $key, $val in $small-text-map {
+@each $key, $val in $text-map {
   .fs-#{$key} {
-    font-size: $val;
-  }
-}
-
-@each $key, $val in $large-text-map {
-  .display-#{$key} {
     font-size: $val;
   }
 }

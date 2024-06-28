@@ -1,9 +1,6 @@
 @use "./palette";
 @use "./mixins";
 
-/* .control__wrapper {
-} */
-
 .control__label {
   color: palette.$main-blue-darker-color;
   font-weight: 650;
@@ -27,6 +24,11 @@
     background-color: white;
     font-size: 0.6rem;
   }
+}
+
+select.control {
+  width: 16.4rem;
+  height: 2.75rem;
 }
 
 ::-webkit-file-upload-button {

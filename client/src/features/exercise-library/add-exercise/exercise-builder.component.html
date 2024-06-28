@@ -9,106 +9,48 @@
     <div class="exercise-form__elements">
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper">
-          <label for="name" class="control__label">New Exercise</label>
+          <label for="name" class="control__label w-100">New Exercise</label>
           <input [type]="InputType.Text" id="name" placeholder="New Exercise" name="name" class="control w-100 d-block align-items-start">
         </div>
-        <!-- <app-input
-          label="Name"
-          [type]="InputType.Text"
-          placeholder="New Exercise"
-          name="name"
-          id="name"
-        ></app-input> -->
         <div class="control__wrapper exercise-form__elements__custom-button">
           <label for="thumb" class="control__label">Gif/Video</label>
           <input [type]="InputType.Text" id="thumb" placeholder="Gif/Video" name="thumb" class="control w-100 d-block align-items-start">
         </div>
-        <!-- <app-input
-          label="Thumb"
-          [type]="InputType.Text"
-          placeholder="Gif/Video"
-          name="thumb"
-          id="thumb"
-          class="exercise-form__elements__custom-button"
-        ></app-input> -->
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
-        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <div class="control__wrapper">
           <label for="difficulty" class="control__label">Difficulty</label>
           <select id="difficulty" name="difficulty" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.difficultyList" [value]="option">{{option}}</option>
           </select>
         </div>
-        <!-- <app-select
-          class="register-container__form__details-container__general-details__input-field"
-          [options]="optionArrays.difficultyList"
-          label="Difficulty"
-          name="difficulty"
-        >
-        </app-select> -->
-        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <div class="control__wrapper">
           <label for="equipment" class="control__label">Equipment</label>
           <select id="equipment" name="equipment" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.exerciseEquipmentList" [value]="option">{{option}}</option>
           </select>
         </div>
-        <!-- <app-select
-          class="register-container__form__details-container__general-details__input-field"
-          [options]="optionArrays.exerciseEquipmentList"
-          label="Equipment"
-          name="Equipment"
-        >
-        </app-select> -->
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
-        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <div class="control__wrapper">
           <label for="equipment" class="control__label">Equipment</label>
           <select id="equipment" name="equipment" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.tagsList" [value]="option">{{option}}</option>
           </select>
         </div>
-        <!-- <app-select
-          class="register-container__form__details-container__general-details__input-field"
-          [options]="optionArrays.tagsList"
-          label="Equipment"
-          name="Equipment"
-        >
-        </app-select> -->
         <div class="control__wrapper exercise-form__elements__inputs__description">
           <label for="description" class="control__label">Description</label>
           <input [type]="InputType.Text" id="description" placeholder="Description" name="description" class="control w-100 d-block align-items-start">
         </div>
-        <!-- <app-input
-          label="Description"
-          [type]="InputType.Text"
-          placeholder="Description"
-          name="description"
-          id="description"
-          class="exercise-form__elements__inputs__description"
-        ></app-input> -->
       </div>
 
       <div class="exercise-form__elements__buttons mt-6 justify-content-center d-flex g-4">
         <button class="btn">
           Cancel
         </button>
-        <!-- <app-button
-          text="Cancle"
-          [width]="'10rem'"
-          [hoverBackgroundColor]="'main-background-color'"
-          [hoverTextColor]="'main-blue-darker-color'"
-        >
-        </app-button> -->
         <button class="btn">
           Create
         </button>
-        <!-- <app-button
-          text="Create"
-          [width]="'10rem'"
-          [hoverBackgroundColor]="'main-background-color'"
-          [hoverTextColor]="'main-blue-darker-color'"
-        >
-        </app-button> -->
       </div>
     </div>
     <div class="exercise-form__links d-flex flex-direction-column"></div>

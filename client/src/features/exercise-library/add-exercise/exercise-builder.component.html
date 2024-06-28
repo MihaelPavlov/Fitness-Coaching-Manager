@@ -8,23 +8,23 @@
     </div>
     <div class="exercise-form__elements">
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
-        <div class="control__wrapper">
+        <div class="control__wrapper w-100">
           <label for="name" class="control__label w-100">New Exercise</label>
           <input [type]="InputType.Text" id="name" placeholder="New Exercise" name="name" class="control w-100 d-block align-items-start">
         </div>
-        <div class="control__wrapper exercise-form__elements__custom-button">
+        <div class="control__wrapper w-100 exercise-form__elements__custom-button">
           <label for="thumb" class="control__label">Gif/Video</label>
           <input [type]="InputType.Text" id="thumb" placeholder="Gif/Video" name="thumb" class="control w-100 d-block align-items-start">
         </div>
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
-        <div class="control__wrapper">
+        <div class="control__wrapper w-100">
           <label for="difficulty" class="control__label">Difficulty</label>
           <select id="difficulty" name="difficulty" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.difficultyList" [value]="option">{{option}}</option>
           </select>
         </div>
-        <div class="control__wrapper">
+        <div class="control__wrapper w-100">
           <label for="equipment" class="control__label">Equipment</label>
           <select id="equipment" name="equipment" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.exerciseEquipmentList" [value]="option">{{option}}</option>
@@ -32,13 +32,13 @@
         </div>
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
-        <div class="control__wrapper">
+        <div class="control__wrapper w-100">
           <label for="equipment" class="control__label">Equipment</label>
           <select id="equipment" name="equipment" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.tagsList" [value]="option">{{option}}</option>
           </select>
         </div>
-        <div class="control__wrapper exercise-form__elements__inputs__description">
+        <div class="control__wrapper w-100 exercise-form__elements__inputs__description">
           <label for="description" class="control__label">Description</label>
           <input [type]="InputType.Text" id="description" placeholder="Description" name="description" class="control w-100 d-block align-items-start">
         </div>

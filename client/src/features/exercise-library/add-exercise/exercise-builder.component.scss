@@ -40,13 +40,13 @@
 
       input {
         @include mixins.respond(Phone) {
-          width: 100%;
+          width: 97%;
         }
       }
 
       select {
         @include mixins.respond(Phone) {
-          width: 100%;
+          width: 98.6%;
         }
       }
 

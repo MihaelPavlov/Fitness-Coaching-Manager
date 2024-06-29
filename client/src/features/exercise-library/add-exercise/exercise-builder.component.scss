@@ -1,0 +1,104 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.exercise-form {
+  background-color: palette.$main-font-white-color;
+  padding: 4.5rem 6rem 2rem 6rem;
+  max-width: 100%;
+  border-bottom: 0.5rem solid palette.$main-blue-darker-color;
+  box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
+
+  @include mixins.respond(Phone) {
+    background-color: palette.$main-background-color;
+    padding: 0;
+    box-shadow: none;
+    border-bottom: none;
+  }
+
+  &__heading-box {
+    text-align: center;
+
+    &-text {
+      color: palette.$main-blue-darker-color;
+      font-size: 2.8rem;
+      margin-bottom: -0.6rem;
+    }
+
+    &-border {
+      display: inline-block;
+      border-bottom: palette.$main-blue-darker-color 0.3rem solid;
+      width: 7rem;
+    }
+  }
+
+  &__elements {
+    &__inputs {
+      @include mixins.respond(Phone) {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+
+      input {
+        @include mixins.respond(Phone) {
+          width: 97%;
+        }
+      }
+
+      select {
+        @include mixins.respond(Phone) {
+          width: 98.6%;
+        }
+      }
+
+      &__description {
+        input {
+          @include mixins.respond(Phone) {
+            padding-bottom: 2rem;
+          }
+        }
+      }
+    }
+
+    &__buttons {
+      flex-wrap: wrap;
+    }
+
+    &__custom-button {
+      position: relative;
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 64.5%;
+        right: 3%;
+        transform: translateY(-50%);
+        width: 1.2rem;
+        height: 0.8rem;
+        background-color: palette.$main-blue-darker-color;
+        @include mixins.respond(Phone) {
+          right: 0.6rem;
+        }
+      }
+
+      &::before {
+        content: "...";
+        position: absolute;
+        top: 52%;
+        right: 1.9%;
+        transform: translateY(-50%);
+        width: 1.2rem;
+        height: 0.8rem;
+        color: palette.$main-font-white-color;
+        z-index: 100;
+        cursor: pointer;
+        @include mixins.respond(Phone) {
+          right: 1.6%;
+        }
+      }
+    }
+  }
+}
+
+button {
+  width: 10rem;
+}

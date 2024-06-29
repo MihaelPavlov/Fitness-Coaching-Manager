@@ -3,5 +3,12 @@ export const PATH = {
     LOGIN: "users/login",
     REGISTER: "users/register",
     CURRENT_USER: "users/getUserInfo"
-  }
+  },
+  EXERCISES: {
+    GET_LIST: 'exercises/getList',
+    GET_DETAILS: 'exercises/getDetail',
+    CREATE: 'exercises/create',
+    GET_TAG_LIST: 'exercises/getTagList',
+    GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
+  },
 }

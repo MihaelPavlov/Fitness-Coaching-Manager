@@ -68,7 +68,7 @@
         font-size: 1.2rem;
 
         @include mixins.respond(Phone) {
-          font-size: 0.9rem;
+          font-size: 0.8rem;
           margin-right: 6rem;
         }
       }

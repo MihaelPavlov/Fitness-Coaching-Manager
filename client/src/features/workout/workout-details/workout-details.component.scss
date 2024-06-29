@@ -13,6 +13,7 @@
     }
 
     &__btn-desktop{
+        margin-top: 0.6rem;
         @include mixins.respond(Phone) {
             display: none;    
         }

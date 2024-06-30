@@ -18,8 +18,6 @@
   }
 
   &__img-container {
-    display: flex;
-    align-items: center;
     flex-basis: 40%;
     overflow: hidden;
     border-radius: 0.9rem;
@@ -34,6 +32,7 @@
     img {
       height: 100%;
       width: auto;
+
       @include mixins.respond(Phone) {
         width: 100%;
         height: auto;
@@ -57,11 +56,10 @@
       }
 
       &__container {
-        flex-direction: column;
-
         &__text {
           font-size: 1.1rem;
           font-weight: 500;
+
           @include mixins.respond(Phone) {
             font-size: 0.8rem;
           }
@@ -70,29 +68,14 @@
     }
 
     &__circles {
-      display: flex;
       flex-basis: 65%;
-      gap: 2rem;
-      justify-content: center;
-      align-items: center;
-
-      &__reps {
-        align-self: flex-end;
-      }
-
-      &__sets {
-        align-self: flex-end;
-      }
     }
 
     &__btn {
-      margin-top: 4rem;
+      flex-basis: 5%;
       @include mixins.respond(Phone) {
         margin-top: 2rem;
       }
-      display: flex;
-      flex-basis: 5%;
-      justify-content: center;
     }
   }
 }

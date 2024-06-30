@@ -1,7 +1,7 @@
 <h1 class="workout-session-header__h1 mb-4">{{ workoutName }}</h1>
 
 <div class="workout-session-container d-flex g-8">
-  <div class="workout-session-container__img-container">
+  <div class="workout-session-container__img-container d-flex align-items-center">
     <img
       src="../../../shared/assets/images/temporary-exercise-list-placeholder-img.png"
       alt=""
@@ -13,7 +13,7 @@
     >
       <h2 class="workout-session-container__information__instructions__heading mb-2">Chest Press</h2>
       <!-- for looped here -->
-       <div class="workout-session-container__information__instructions__container d-flex g-2">
+       <div class="workout-session-container__information__instructions__container d-flex g-2 flex-direction-column">
         <p class="workout-session-container__information__instructions__container__text">
             1. Begin with legs shoulder width apart and place hands on the floor in
             a push up position under the shoulders
@@ -27,8 +27,8 @@
           </p>
        </div>
     </div>
-    <div class="workout-session-container__information__circles d-flex">
-      <div class="workout-session-container__information__circles__reps">
+    <div class="workout-session-container__information__circles d-flex g-6 justify-content-center align-items-center">
+      <div class="workout-session-container__information__circles__reps align-self-flex-end">
         <app-circle
           [width]="'small'"
           [height]="'small'"
@@ -43,7 +43,7 @@
           value="1:12"
         ></app-circle>
       </div>
-      <div class="workout-session-container__information__circles__sets">
+      <div class="workout-session-container__information__circles__sets align-self-flex-end ">
         <app-circle
           [width]="'small'"
           [height]="'small'"
@@ -53,7 +53,7 @@
         ></app-circle>
       </div>
     </div>
-    <div class="workout-session-container__information__btn">
+    <div class="workout-session-container__information__btn mt-10 d-flex justify-content-center">
       <app-button
         text="NEXT SET"
         [width]="'10rem'"

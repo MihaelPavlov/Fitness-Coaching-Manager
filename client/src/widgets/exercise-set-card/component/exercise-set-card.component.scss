@@ -5,7 +5,6 @@
   background-color: white;
   border-radius: 0.8rem;
   overflow: hidden;
-  padding: 1rem;
   box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.049);
   cursor: pointer;
   transition: all 0.4s;
@@ -33,18 +32,11 @@
   }
 
   &__information {
-    padding: 1rem;
-
     @include mixins.respond(Phone) {
       padding: 0.5rem;
     }
 
     &__header {
-      display: flex;
-      gap: 1rem;
-      align-items: center;
-      margin-bottom: 0.5rem;
-
       &__heading {
         @include mixins.respond(Phone) {
           font-size: 0.8rem;
@@ -81,17 +73,9 @@
         font-size: 0;
       }
     }
-
-    &__tags {
-      display: flex;
-      gap: 0.5rem;
-    }
   }
 
   &__icon {
-    align-items: center;
-    padding: 0.5rem;
-
     span {
       font-size: 3rem;
       color: palette.$main-blue-color;
@@ -103,7 +87,6 @@
 
       @include mixins.respond(Phone) {
         font-size: 2rem;
-        margin-left: 4rem;
       }
     }
   }

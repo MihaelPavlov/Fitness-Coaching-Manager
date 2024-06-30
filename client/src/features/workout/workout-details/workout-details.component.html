@@ -1,13 +1,9 @@
 <div class="workout-details-header d-flex mb-6 justify-content-between hidden">
   <h1 class="workout-details-header__h1">{{ workoutName }}</h1>
   <div class="workout-details-header__btn-desktop">
-    <app-button
-      text="BEGIN WORKOUT"
-      [width]="'10rem'"
-      [hoverBackgroundColor]="'white'"
-      [hoverTextColor]="'main-blue-darker-color'"
-    >
-    </app-button>
+    <button class="btn btn-begin">
+      BEGIN WORKOUT
+    </button>
   </div>
 </div>
 
@@ -25,12 +21,8 @@
 </div>
 
 <div class="workout-details-header__btn-mobile">
-  <app-button
-    text="Begin Workout"
-    [width]="'10rem'"
-    [hoverBackgroundColor]="'main-background-color'"
-    [hoverTextColor]="'main-blue-darker-color'"
-  >
-  </app-button>
+  <button class="btn btn-begin">
+    BEGIN WORKOUT
+  </button>
 </div>
   

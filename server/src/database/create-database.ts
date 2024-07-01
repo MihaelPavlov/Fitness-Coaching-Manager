@@ -1,16 +1,16 @@
-import * as configs from "./../config/db.config";
+import "dotenv/config";
 
 const customConnection = {
-    host: configs.DB_HOST,
-    user: configs.DB_USERNAME,
-    password: configs.DB_PASSWORD
+    host: process.env.DB_HOST,
+    user: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD
 }
 
 import knex from "knex";
 
 const knexConnect = knex({ client: "mysql2", connection: customConnection });
 
-knexConnect.raw(`CREATE DATABASE IF NOT EXISTS ${configs.DB_NAME}`)
+knexConnect.raw(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`)
     .then(() => {
         knexConnect.destroy();
         console.log("Successfully created database or exsisted.")

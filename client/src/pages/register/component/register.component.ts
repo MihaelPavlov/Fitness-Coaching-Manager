@@ -33,26 +33,26 @@ export class RegisterComponent implements OnInit {
   protected hasRegisterError: boolean = false;
   protected registerErrorMsg: string = "";
 
-  protected registerForm = new FormGroup({
-    userRole: new FormControl(this.userRole, [Validators.required]),
-    username: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    passGroup: new FormGroup(
+  protected registerForm = this.fb.group({
+    userRole: [this.userRole, [Validators.required]],
+    username: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    passGroup: this.fb.group(
       {
-        password: new FormControl('', [Validators.required]),
-        rePassword: new FormControl('', [Validators.required]),
+        password: ['', [Validators.required]],
+        rePassword: ['', [Validators.required]],
       },
       {
         validators: [passwordsMatch()],
       }
     ),
-    fitnessLevel: new FormControl('Sedentary', [Validators.required]),
-    country: new FormControl('Bulgaria', [Validators.required]),
-    sex: new FormControl('Male', [Validators.required]),
-    language: new FormControl('Bulgarian', [Validators.required]),
-    firstName: new FormControl('', [Validators.required]),
-    lastName: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [Validators.required])
+    fitnessLevel: ['Sedentary', [Validators.required]],
+    country: ['Bulgaria', [Validators.required]],
+    sex: ['Male', [Validators.required]],
+    language: ['Bulgarian', [Validators.required]],
+    firstName: ['', [Validators.required]],
+    lastName: ['', [Validators.required]],
+    phoneNumber: ['', [Validators.required]]
   });
 
   constructor(
@@ -91,6 +91,7 @@ export class RegisterComponent implements OnInit {
     this.updateFormValidators();
 
     if (this.registerForm.invalid) {
+      console.log(this.registerForm.value)
       this.isLoading = false;
       return;
     }

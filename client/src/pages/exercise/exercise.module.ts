@@ -1,22 +1,22 @@
 import { NgModule } from '@angular/core';
-import { ExerciseLibraryComponent } from './component/exercise-library.component';
-import { ExerciseLibraryRoutingModule } from './exercise-library-routing.module';
+import { ExerciseLibraryComponent } from '../../features/exercise/exercise-library/exercise-library.component';
+import { ExerciseRoutingModule } from './exercise-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { SearchModule } from '../../widgets/search/search.module';
 import { ExerciseCardModule } from '../../widgets/exercise-card/exercise-card.module';
-import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-details/exercise-details.component';
+import { ExerciseDetailsComponent } from '../../features/exercise/exercise-details/exercise-details.component';
 import { TagModule } from '../../widgets/tag/tag.module';
-import { ExerciseBuidlerComponent } from '../../features/exercise-library/add-exercise/exercise-builder.component';
+import { ExerciseBuidlerComponent } from '../../features/exercise/exercise-builder/exercise-builder.component';
 
 @NgModule({
   declarations: [ExerciseLibraryComponent,ExerciseBuidlerComponent,ExerciseDetailsComponent],
   imports: [
     SharedModule,
-    ExerciseLibraryRoutingModule,
+    ExerciseRoutingModule,
     SearchModule,
     ExerciseCardModule,
     TagModule,
   ],
   exports: [ExerciseLibraryComponent],
 })
-export class ExerciseLibraryModule {}
+export class ExerciseModule {}

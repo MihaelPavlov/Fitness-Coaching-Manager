@@ -24,8 +24,8 @@ export const ROUTES: Routes = [
       {
         path: 'exercise',
         loadChildren: () =>
-          import('../../pages/exercise-library/exercise-library.module').then(
-            (m) => m.ExerciseLibraryModule
+          import('../../pages/exercise/exercise.module').then(
+            (m) => m.ExerciseModule
           ),
       },
       {

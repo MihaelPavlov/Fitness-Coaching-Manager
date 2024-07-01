@@ -3,7 +3,7 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { passwordsMatch } from '../../../shared/validators/passwords-match';
 import { UserService } from '../../../entities/services/user.service';
 import { getFormValidationErrors } from '../../../shared/validators/get-form-validation-errors';
@@ -33,26 +33,26 @@ export class RegisterComponent implements OnInit {
   protected hasRegisterError: boolean = false;
   protected registerErrorMsg: string = "";
 
-  protected registerForm = this.fb.group({
-    user_role: [this.userRole, [Validators.required]],
-    username: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    passGroup: this.fb.group(
+  protected registerForm = new FormGroup({
+    user_role: new FormControl(this.userRole, [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    passGroup: new FormGroup(
       {
-        password: ['', [Validators.required]],
-        rePassword: ['', [Validators.required]],
+        password: new FormControl('', [Validators.required]),
+        rePassword: new FormControl('', [Validators.required]),
       },
       {
         validators: [passwordsMatch()],
       }
     ),
-    fitness_level: ['Sedentary', [Validators.required]],
-    country: ['Bulgaria', [Validators.required]],
-    sex: ['Male', [Validators.required]],
-    language: ['Bulgarian', [Validators.required]],
-    first_name: ['', [Validators.required]],
-    last_name: ['', [Validators.required]],
-    phone_number: ['', [Validators.required]]
+    fitness_level: new FormControl('Sedentary', [Validators.required]),
+    country: new FormControl('Bulgaria', [Validators.required]),
+    sex: new FormControl('Male', [Validators.required]),
+    language: new FormControl('Bulgarian', [Validators.required]),
+    first_name: new FormControl('', [Validators.required]),
+    last_name: new FormControl('', [Validators.required]),
+    phone_number: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -84,13 +84,6 @@ export class RegisterComponent implements OnInit {
     this.showDropDownMenu = !this.showDropDownMenu;
   }
 
-  public handleInputChange(name: string, value: string): void {
-    if (name === 'password' || name === 'rePassword') {
-      this.registerForm.get('passGroup')?.get(name)?.setValue(value);
-    }
-    this.registerForm.get(name)?.setValue(value);
-  }
-
   protected register(): void {
     this.isLoading = true;
     this.registerForm.get("user_role")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
@@ -99,8 +92,6 @@ export class RegisterComponent implements OnInit {
 
     if (this.registerForm.invalid) {
       this.isLoading = false;
-      this.registerErrorMsg = "Fulfill all the fields"
-      this.hasRegisterError = true;
       return;
     }
 

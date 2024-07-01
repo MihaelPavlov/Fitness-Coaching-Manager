@@ -8,7 +8,7 @@
 
 <ng-template #registerAsUser>
   <div class="register-container d-flex align-items-center justify-content-center">
-    <form class="register-container__form w-100 d-flex flex-direction-column">
+    <form class="register-container__form w-100 d-flex flex-direction-column" [formGroup]="registerForm" (ngSubmit)="register()">
       <ng-container *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as User' }
@@ -22,7 +22,7 @@
 
 <ng-template #registerAsTrainer>
   <div class="register-container d-flex align-items-center justify-content-center">
-    <form class="register-container__form w-100 d-flex flex-direction-column">
+    <form class="register-container__form w-100 d-flex flex-direction-column" (ngSubmit)="register()">
       <ng-container *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as Trainer' }
@@ -45,7 +45,7 @@
 
 <!-- General details template -->
 <ng-template #generalDetails>
-  <div class="register-container__form__details-container">
+  <div class="register-container__form__details-container" [formGroup]="registerForm">
     <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5"
       (click)="generalDetailsVisibility()">
       <div class="register-container__form__details-container__heading-container__label d-flex">
@@ -61,27 +61,29 @@
       class="register-container__form__details-container__general-details d-flex justify-content-between">
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="username" class="control__label">Username</label>
-        <input [type]="InputType.Text" id="username" placeholder="Username" name="username" class="control w-100 d-block align-items-start">
+        <input [type]="InputType.Text" id="username" placeholder="Username" name="username" class="control w-100 d-block align-items-start" formControlName="username">
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="email" class="control__label">Email</label>
-        <input [type]="InputType.Email" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start">
+        <input [type]="InputType.Email" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start" formControlName="email">
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-        <label for="password" class="control__label">Password</label>
-        <input [type]="InputType.Password" id="password" placeholder="Password" name="password" class="control w-100 d-block align-items-start">
-      </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-        <label for="rePassword" class="control__label">Repeat Password</label>
-        <input [type]="InputType.Password" id="rePassword" placeholder="Repeat Password" name="rePassword" class="control w-100 d-block align-items-start">
-      </div>
+      <ng-container formGroupName="passGroup">
+        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+          <label for="password" class="control__label">Password</label>
+          <input [type]="InputType.Password" id="password" placeholder="Password" name="password" class="control w-100 d-block align-items-start" formControlName="password">
+        </div>
+        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+          <label for="rePassword" class="control__label">Repeat Password</label>
+          <input [type]="InputType.Password" id="rePassword" placeholder="Repeat Password" name="rePassword" class="control w-100 d-block align-items-start" formControlName="rePassword">
+        </div>
+      </ng-container>
     </div>
   </div>
 </ng-template>
 
 <!-- Additional details template for users -->
 <ng-template #additionalUserDetails>
-  <div class="register-container__form__details-container">
+  <div class="register-container__form__details-container" [formGroup]="registerForm">
     <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
       (click)="additionalDetailsVisibility()">
       <div class="register-container__form__details-container__heading-container__label d-flex">
@@ -97,25 +99,25 @@
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="fitnessLevel" class="control__label">Fitness Level</label>
-        <select id="fitnessLevel" name="fitnessLevel" class="control w-100 d-block">
+        <select id="fitnessLevel" name="fitnessLevel" class="control w-100 d-block" formControlName="fitness_level">
           <option class="control__option" *ngFor="let option of optionArrays.fitnessLevel" [value]="option">{{option}}</option>
         </select>
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="country" class="control__label">Country</label>
-        <select id="country" name="country" class="control w-100 d-block">
+        <select id="country" name="country" class="control w-100 d-block" formControlName="country">
           <option class="control__option" *ngFor="let option of optionArrays.countryList" [value]="option">{{option}}</option>
         </select>
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="sex" class="control__label">Sex</label>
-        <select id="sex" name="sex" class="control w-100 d-block">
+        <select id="sex" name="sex" class="control w-100 d-block" formControlName="sex">
           <option class="control__option" *ngFor="let option of optionArrays.genderList" [value]="option">{{option}}</option>
         </select>
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="preferredLanguage" class="control__label">Preferred Language</label>
-        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block">
+        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block" formControlName="language">
           <option class="control__option" *ngFor="let option of optionArrays.preferredLanguage" [value]="option">{{option}}</option>
         </select>
       </div>
@@ -125,7 +127,7 @@
 
 <!-- Additional details template for trainers -->
 <ng-template #additionalTrainerDetails>
-  <div class="register-container__form__details-container">
+  <div class="register-container__form__details-container" [formGroup]="registerForm">
     <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
       (click)="additionalDetailsVisibility()">
       <div class="register-container__form__details-container__heading-container__label d-flex">
@@ -141,31 +143,31 @@
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="firstName" class="control__label">First Name</label>
-        <input [type]="InputType.Text" id="firstName" placeholder="First Name" name="firstName" class="control w-100 d-block align-items-start">
+        <input [type]="InputType.Text" id="firstName" placeholder="First Name" name="firstName" class="control w-100 d-block align-items-start" formControlName="first_name">
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="lastName" class="control__label">Last Name</label>
-        <input [type]="InputType.Text" id="lastName" placeholder="Last Name" name="lastName" class="control w-100 d-block align-items-start">
+        <input [type]="InputType.Text" id="lastName" placeholder="Last Name" name="lastName" class="control w-100 d-block align-items-start" formControlName="last_name">
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="country" class="control__label">Country</label>
-        <select id="country" name="country" class="control w-100 d-block">
+        <select id="country" name="country" class="control w-100 d-block" formControlName="country">
           <option class="control__option" *ngFor="let option of optionArrays.countryList" [value]="option">{{option}}</option>
         </select>
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="preferredLanguage" class="control__label">Preferred Language</label>
-        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block">
+        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block" formControlName="language">
           <option class="control__option" *ngFor="let option of optionArrays.preferredLanguage" [value]="option">{{option}}</option>
         </select>
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="phoneNumber" class="control__label">Phone Number</label>
-        <input [type]="InputType.Text" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" class="control w-100 d-block align-items-start">
+        <input [type]="InputType.Text" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" class="control w-100 d-block align-items-start" formControlName="phone_number">
       </div>
       <div class="control__wrapper register-container__form__details-container__general-details__input-field">
         <label for="sex" class="control__label">Sex</label>
-        <select id="sex" name="sex" class="control w-100 d-block">
+        <select id="sex" name="sex" class="control w-100 d-block" formControlName="sex">
           <option class="control__option" *ngFor="let option of optionArrays.genderList" [value]="option">{{option}}</option>
         </select>
       </div>
@@ -240,7 +242,7 @@
 <ng-template #formFooter>
   <div>
     <div class="register-container__form__elements__buttons">
-      <button class="btn w-100 landing-page-container__buttons-container__button" type="submit">
+      <button class="btn w-100 landing-page-container__buttons-container__button" type="submit" [disabled]="registerForm.invalid">
         Sign In
       </button>
     </div>

@@ -4,7 +4,6 @@
 .exercise-form {
   background-color: palette.$main-font-white-color;
   padding: 4.5rem 6rem 2rem 6rem;
-  max-width: 100%;
   border-bottom: 0.5rem solid palette.$main-blue-darker-color;
   box-shadow: 0 1rem 1rem rgba($color: black, $alpha: 0.15);
 
@@ -16,8 +15,6 @@
   }
 
   &__heading-box {
-    text-align: center;
-
     &-text {
       color: palette.$main-blue-darker-color;
       font-size: 2.8rem;
@@ -25,7 +22,6 @@
     }
 
     &-border {
-      display: inline-block;
       border-bottom: palette.$main-blue-darker-color 0.3rem solid;
       width: 7rem;
     }
@@ -57,10 +53,6 @@
           }
         }
       }
-    }
-
-    &__buttons {
-      flex-wrap: wrap;
     }
 
     &__custom-button {
@@ -97,8 +89,4 @@
       }
     }
   }
-}
-
-button {
-  width: 10rem;
 }

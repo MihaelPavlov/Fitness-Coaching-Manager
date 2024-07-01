@@ -1,12 +1,12 @@
 
 <div  class="mb-4">
-    <button class="btn w-auto btn-goback" (click)="goBack()">Go back</button>
+    <button class="btn w-auto btn-large" (click)="goBack()">Go back</button>
 </div>
 
-<section class="exercise__details__container">
+<section class="exercise__details__container d-flex g-6">
     <img class="exercise__details__img" src="../../../../shared/assets/images/temporary-exercise-list-placeholder-img.png" alt="">
 
-    <section class="exercise__details__text__container">
+    <section class="exercise__details__text__container w-50">
         <h1 class="exercise__details__text__tag__heading mb-2">Tags</h1>
         <div class="exercise__details__tags__container d-flex g-2 mb-4">
             <app-tag text="GYM" backgroundColor="dark-grey"></app-tag>
@@ -24,10 +24,10 @@
         <div class="exercise__details__btns__container d-flex g-2 justify-content-center mt-6">
             <!-- <app-button text="Edit" padding="0.25rem 3rem" [width]="'auto'"></app-button>
             <app-button text="Delete" padding="0.25rem 2rem" [width]="'auto'"></app-button> -->
-            <button class="btn w-auto edit-btn">
+            <button class="btn w-auto btn-large">
               Edit
             </button>
-            <button class="btn w-auto delete-btn">
+            <button class="btn w-auto btn-large">
               Delete
             </button>
         </div>

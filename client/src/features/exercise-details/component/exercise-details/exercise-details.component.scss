@@ -1,57 +1,48 @@
 @use "../../../../shared/styles/palette";
 @use "../../../../shared/styles/mixins";
 
-.exercise__details__description__heading {
-  color: palette.$main-blue-color;
-}
-
-.exercise__details__instructions__list {
-  list-style-type: none;
-
-  &__item {
-    color: palette.$menu-container-icon-color;
+.exercise__details {
+  &__description {
+    &__heading {
+      color: palette.$main-blue-color;
+    }
   }
-}
 
-.exercise__details__container {
-  display: flex;
-  gap: 2rem;
+  &__instructions {
+    &__list {
+      list-style-type: none;
 
-  @include mixins.respond(Phone) {
-    all: unset;
+      &__item {
+        color: palette.$menu-container-icon-color;
+      }
+    }
   }
-}
 
-.exercise__details__img {
-  width: 40%;
-  object-fit: cover;
-  object-position: left;
-  border: 1px solid palette.$main-blue-color;
-  border-radius: 0.2rem;
-
-  @include mixins.respond(Phone) {
-    width: 100%;
-    border: 0.1rem solid black;
-    border-radius: 0.3rem;
+  &__container {
+    @include mixins.respond(Phone) {
+      all: unset;
+    }
   }
-}
 
-.exercise__details__text__container {
-  width: 50%;
+  &__img {
+    width: 40%;
+    object-fit: cover;
+    object-position: left;
+    border: 1px solid palette.$main-blue-color;
+    border-radius: 0.2rem;
 
-  @include mixins.respond(Phone) {
-    all: unset;
+    @include mixins.respond(Phone) {
+      width: 100%;
+      border: 0.1rem solid black;
+      border-radius: 0.3rem;
+    }
   }
-}
 
-.edit-btn {
-  padding: 0.25rem 3rem;
-}
-
-.delete-btn {
-  padding: 0.25rem 2rem;
-}
-
-.btn-goback {
-  padding: 0.25rem 2rem;
+  &__text {
+    &__container {
+      @include mixins.respond(Phone) {
+        all: unset;
+      }
+    }
+  }
 }

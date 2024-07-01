@@ -42,7 +42,6 @@
 
   &__information {
     flex-basis: 60%;
-    flex-direction: column;
 
     &__instructions {
       flex-basis: 30%;
@@ -78,8 +77,4 @@
       }
     }
   }
-}
-
-.btn-next-set {
-  padding: 0.6rem 2.3rem 0.6rem 2.3rem;
 }

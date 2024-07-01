@@ -58,34 +58,16 @@
     &__custom-button {
       position: relative;
 
-      &::after {
-        content: "";
-        position: absolute;
-        top: 64.5%;
-        right: 3%;
-        transform: translateY(-50%);
-        width: 1.2rem;
-        height: 0.8rem;
+      input::file-selector-button {
+        font-weight: bold;
+        color: rgb(255, 255, 255);
+        padding: 0.3rem 0.8rem 0.3rem 0.8rem;
+        border: none;
+        border-radius: 1px;
         background-color: palette.$main-blue-darker-color;
-        @include mixins.respond(Phone) {
-          right: 0.6rem;
-        }
-      }
-
-      &::before {
-        content: "...";
-        position: absolute;
-        top: 52%;
-        right: 1.9%;
-        transform: translateY(-50%);
-        width: 1.2rem;
-        height: 0.8rem;
-        color: palette.$main-font-white-color;
-        z-index: 100;
+        font-size: 0.7rem;
+        margin-top: 0.6rem;
         cursor: pointer;
-        @include mixins.respond(Phone) {
-          right: 1.6%;
-        }
       }
     }
   }

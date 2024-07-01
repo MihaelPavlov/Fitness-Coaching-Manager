@@ -14,7 +14,7 @@
         </div>
         <div class="control__wrapper w-100 exercise-form__elements__custom-button">
           <label for="thumb" class="control__label">Gif/Video</label>
-          <input [type]="InputType.Text" id="thumb" placeholder="Gif/Video" name="thumb" class="control w-100 d-block align-items-start">
+          <input [type]="InputType.File" id="thumb" name="thumb" class="control w-100 d-block align-items-start">
         </div>
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
@@ -33,7 +33,7 @@
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper w-100">
-          <label for="equipment" class="control__label">Equipment</label>
+          <label for="equipment" class="control__label">Tag</label>
           <select id="equipment" name="equipment" class="control w-100 d-block">
             <option class="control__option" *ngFor="let option of optionArrays.tagsList" [value]="option">{{option}}</option>
           </select>

@@ -7,6 +7,7 @@ import { ExerciseCardModule } from '../../widgets/exercise-card/exercise-card.mo
 import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-details/exercise-details.component';
 import { TagModule } from '../../widgets/tag/tag.module';
 import { ExerciseBuidlerComponent } from '../../features/exercise-library/add-exercise/exercise-builder.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ExerciseLibraryComponent,ExerciseBuidlerComponent,ExerciseDetailsComponent],
@@ -16,6 +17,7 @@ import { ExerciseBuidlerComponent } from '../../features/exercise-library/add-ex
     SearchModule,
     ExerciseCardModule,
     TagModule,
+    ReactiveFormsModule
   ],
   exports: [ExerciseLibraryComponent],
 })

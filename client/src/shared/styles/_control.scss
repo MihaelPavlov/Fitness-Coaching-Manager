@@ -7,6 +7,12 @@
   margin-bottom: 0.2rem;
 }
 
+.control__label.required::after {
+  content: '*';
+  display: inline;
+  color: palette.$main-form-error-message;
+}
+
 .control {
   background-color: palette.$main-background-color;
   border-bottom: palette.$main-blue-darker-color 0.3rem solid;

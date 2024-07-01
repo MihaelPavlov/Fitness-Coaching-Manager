@@ -1,15 +1,15 @@
 import { Knex } from "knex";
-import * as configs from "./src/config/db.config";
+//import * as configs from "./src/config/db.config";
 
 const knexConfig: { [key: string]: Knex.Config } = {
   development: {
     client: "mysql2",
     connection: {
-      host: configs.DB_HOST,
-      user: configs.DB_USERNAME,
-      password: configs.DB_PASSWORD,
-      database: configs.DB_NAME,
-      port: configs.DB_PORT,
+      host: process.env.DB_HOST,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      port: +process.env.DB_PORT,
     },
     migrations: {
       directory: "./src/database/migrations",

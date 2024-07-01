@@ -27,6 +27,9 @@ export class UserBuilder extends AbstractBuilder {
       userId: "user_id",
       sex: "sex",
     },
+    [TABLE.CONTRIBUTORS]:{
+      
+    }
   };
   override mainTable: string = TABLE.USERS;
   override defaultLimit: number | null = 20; // Specify default limit here, otherwise it will not be reflected on the query

@@ -8,5 +8,35 @@ export const createUserValidators: ValidationChain[] = checkSchema({
         exists: {
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "username")
         }
-    }
+    },
+    email: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "email")
+        }
+    },
+    password: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "password")
+        }
+    },
+    country: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "country")
+        }
+    },
+    language: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "language")
+        }
+    },
+    sex: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "sex")
+        }
+    },
 });

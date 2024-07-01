@@ -96,6 +96,10 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    if (this.registerForm.get('sex')?.value === 'Prefer not to say') {
+      this.registerForm.get('sex')?.setValue(null);
+    }
+
     const requestBody = {
       ...this.registerForm.value,
       password: this.registerForm.value.passGroup?.password,

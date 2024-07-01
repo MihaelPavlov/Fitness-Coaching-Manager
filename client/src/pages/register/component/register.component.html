@@ -22,7 +22,7 @@
 
 <ng-template #registerAsTrainer>
   <div class="register-container d-flex align-items-center justify-content-center">
-    <form class="register-container__form w-100 d-flex flex-direction-column" (ngSubmit)="register()">
+    <form class="register-container__form w-100 d-flex flex-direction-column" [formGroup]="registerForm" (ngSubmit)="register()">
       <ng-container *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as Trainer' }

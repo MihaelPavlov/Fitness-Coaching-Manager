@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
   protected registerErrorMsg: string = "";
 
   protected registerForm = new FormGroup({
-    user_role: new FormControl(this.userRole, [Validators.required]),
+    userRole: new FormControl(this.userRole, [Validators.required]),
     username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     passGroup: new FormGroup(
@@ -46,13 +46,13 @@ export class RegisterComponent implements OnInit {
         validators: [passwordsMatch()],
       }
     ),
-    fitness_level: new FormControl('Sedentary', [Validators.required]),
+    fitnessLevel: new FormControl('Sedentary', [Validators.required]),
     country: new FormControl('Bulgaria', [Validators.required]),
     sex: new FormControl('Male', [Validators.required]),
     language: new FormControl('Bulgarian', [Validators.required]),
-    first_name: new FormControl('', [Validators.required]),
-    last_name: new FormControl('', [Validators.required]),
-    phone_number: new FormControl('', [Validators.required])
+    firstName: new FormControl('', [Validators.required]),
+    lastName: new FormControl('', [Validators.required]),
+    phoneNumber: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -86,7 +86,7 @@ export class RegisterComponent implements OnInit {
 
   protected register(): void {
     this.isLoading = true;
-    this.registerForm.get("user_role")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
+    this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
 
     this.updateFormValidators();
 
@@ -118,16 +118,16 @@ export class RegisterComponent implements OnInit {
 
   private updateFormValidators(): void {
     const role_controls = {
-      user: ["fitness_level"],
-      coach: ["first_name", "last_name", "phone_number"]
+      user: ["fitnessLevel"],
+      coach: ["firstName", "lastName", "phoneNumber"]
     }
 
-    if (this.registerForm.value.user_role === 1) {
-      this.registerForm.get("fitness_level")?.setValue(null);
+    if (this.registerForm.value.userRole === 1) {
+      this.registerForm.get("fitnessLevel")?.setValue(null);
       this.addValidators(role_controls.coach);
       this.removeValidators(role_controls.user);
     };
-    if (this.registerForm.value.user_role === -1) {
+    if (this.registerForm.value.userRole === -1) {
       this.addValidators(role_controls.user);
       this.removeValidators(role_controls.coach);
     }

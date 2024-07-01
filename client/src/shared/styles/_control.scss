@@ -26,6 +26,11 @@
   }
 }
 
+.control + p {
+  color: palette.$main-form-error-message;
+  font-size: 0.9rem;
+}
+
 select.control {
   width: 16.4rem;
   height: 2.75rem;

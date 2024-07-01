@@ -12,7 +12,7 @@ export const createExerciseValidators: ValidationChain[] = checkSchema({
       options: { min: 3, max: 45 },
       errorMessage: formatString(
         EXCEPTION.VALIDATION.INVALID_LENGTH,
-        "Description",
+        "Title",
         "3",
         "45"
       ),

@@ -3,8 +3,9 @@ import * as userService from "./../services/user.service";
 import { isAuth } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
-import { inputValidationMiddleware } from "./../middlewares/validation.middleware";
-import { createUserValidators } from "./../validators/user.validator";
+import { inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
+import { createCoachValidators, createUserValidators } from "./../validators/user.validator";
+import { UserRoles } from "./../models/enums/user-roles.enum";
 
 const router = express.Router();
 
@@ -61,7 +62,7 @@ router.get(
 
 router.post(
   PATH.USERS.REGISTER,
-  inputValidationMiddleware(createUserValidators),
+  registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
     try {
       const [accessToken, refreshToken, session] =

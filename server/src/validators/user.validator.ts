@@ -4,6 +4,8 @@ import { formatString } from "./../helpers/string-format.helper";
 import { GenderType } from "./../models/enums/gender-list.enum";
 import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
 
+console.log(Object.values(FitnessLevels))
+
 export const createUserValidators: ValidationChain[] = checkSchema({
     username: {
         in: ["body"],
@@ -41,7 +43,7 @@ export const createUserValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "sex")
         },
         isIn: {
-            options: Object.values(GenderType),
+            options: [Object.values(GenderType)],
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "sex")
         }
     },
@@ -51,7 +53,7 @@ export const createUserValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "fitnessLevel")
         },
         isIn: {
-            options: Object.values(FitnessLevels),
+            options: [Object.values(FitnessLevels)],
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "fitnessLevel")
         }
     }
@@ -109,7 +111,7 @@ export const createCoachValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "sex")
         },
         isIn: {
-            options: Object.values(GenderType),
+            options: [Object.values(GenderType)],
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "sex")
         }
     },

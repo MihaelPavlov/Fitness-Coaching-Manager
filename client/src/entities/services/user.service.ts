@@ -11,10 +11,10 @@ export class UserService {
   private userInfoSubject$ = new BehaviorSubject<UserInfo | null>(null);
   public userInfo$ = this.userInfoSubject$.asObservable();
 
+  private isAuthSubject$ = new BehaviorSubject<boolean>(false);
+  public isAuth$ = this.isAuthSubject$.asObservable();
+  
   constructor(private readonly apiService: RestApiService) {}
-
-  private isAuth$$ = new BehaviorSubject<boolean>(false);
-  public isAuth$ = this.isAuth$$.asObservable();
 
   public fetchUserInfo(): Subscription {
     return this.fetchCurrentUserInfo(
@@ -25,7 +25,7 @@ export class UserService {
         username: res.data.username,
         role: res.data.role,
       });
-      this.isAuth$$.next(true);
+      this.isAuthSubject$.next(true);
     });
   }
 

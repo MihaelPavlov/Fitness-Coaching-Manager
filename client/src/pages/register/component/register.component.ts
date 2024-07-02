@@ -45,10 +45,10 @@ export class RegisterComponent implements OnInit {
         validators: [this.passwordsMatch()],
       }
     ),
-    fitnessLevel: ['Sedentary', [Validators.required]],
-    country: ['Bulgaria', [Validators.required]],
-    sex: ['Male', [Validators.required]],
-    language: ['Bulgarian', [Validators.required]],
+    fitnessLevel: [optionArrays.fitnessLevel[0], [Validators.required]],
+    country: [optionArrays.countryList[0], [Validators.required]],
+    sex: [optionArrays.genderList[0], [Validators.required]],
+    language: [optionArrays.preferredLanguage[0], [Validators.required]],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required]]

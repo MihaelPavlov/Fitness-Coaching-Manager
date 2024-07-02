@@ -7,6 +7,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { passwordsMatch } from '../../../shared/validators/passwords-match';
 import { UserService } from '../../../entities/services/user.service';
 import { getFormValidationErrors } from '../../../shared/validators/get-form-validation-errors';
+import { UserRoles } from '../../../shared/enums/user-roles.enum';
 
 @Component({
   selector: 'app-register',
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
   public attachLink = false;
   public formData: any = {};
 
-  private userRole: number = -1;
+  private userRole!: number;
 
   protected isLoading: boolean = false;
   protected hasRegisterError: boolean = false;
@@ -86,7 +87,7 @@ export class RegisterComponent implements OnInit {
 
   protected register(): void {
     this.isLoading = true;
-    this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? -1 : 1);
+    this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? UserRoles.User : UserRoles.Coach);
 
     this.updateFormValidators();
 
@@ -127,12 +128,12 @@ export class RegisterComponent implements OnInit {
       coach: ["firstName", "lastName", "phoneNumber"]
     }
 
-    if (this.registerForm.value.userRole === 1) {
+    if (this.registerForm.value.userRole === UserRoles.Coach) {
       this.registerForm.get("fitnessLevel")?.setValue(null);
       this.addValidators(role_controls.coach);
       this.removeValidators(role_controls.user);
     };
-    if (this.registerForm.value.userRole === -1) {
+    if (this.registerForm.value.userRole === UserRoles.User) {
       this.addValidators(role_controls.user);
       this.removeValidators(role_controls.coach);
     }

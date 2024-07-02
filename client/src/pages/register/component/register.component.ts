@@ -64,6 +64,8 @@ export class RegisterComponent implements OnInit {
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.selectedRegistrationType = params['registrationType'];
+      this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? UserRoles.User : UserRoles.Coach);
+      this.updateFormValidators();
     });
   }
 
@@ -83,11 +85,12 @@ export class RegisterComponent implements OnInit {
     this.showDropDownMenu = !this.showDropDownMenu;
   }
 
+  public isDisabled(): boolean {
+    return this.registerForm.invalid;
+  }
+
   public register(): void {
     this.isLoading = true;
-    this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? UserRoles.User : UserRoles.Coach);
-
-    this.updateFormValidators();
 
     if (this.registerForm.invalid) {
       console.log(this.registerForm.value)

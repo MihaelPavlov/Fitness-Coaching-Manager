@@ -5,7 +5,7 @@
       athleans | fit
     </h1>
 
-    <div *ngIf="(isAuth$ | async) === true">
+    <div *ngIf="(isAuth$ | async)">
       <div class="nav__mobile">
         <h3 class="menu-container">...</h3>
       </div>
@@ -15,7 +15,7 @@
         <h3 class="menu-container mr-6">|||</h3>
       </div>
     </div>
-    <div *ngIf="(isAuth$ | async) === false" class="btn-container mr-6">
+    <div *ngIf="!(isAuth$ | async)" class="btn-container mr-6">
       <a class="btn-container__link" href="/register">Register</a>
       <a class="btn-container__link ml-4" href="/login">Login</a>
     </div>

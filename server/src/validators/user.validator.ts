@@ -57,7 +57,7 @@ export const createUserValidators: ValidationChain[] = checkSchema({
     }
 });
 
-export const createCoachValidators = checkSchema({
+export const createCoachValidators: ValidationChain[] = checkSchema({
     userRole: {
         in: ["body"],
         exists: {

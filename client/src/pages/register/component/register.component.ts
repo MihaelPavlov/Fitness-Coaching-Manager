@@ -3,10 +3,9 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { passwordsMatch } from '../../../shared/validators/passwords-match';
 import { UserService } from '../../../entities/services/user.service';
-import { getFormValidationErrors } from '../../../shared/validators/get-form-validation-errors';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 
 @Component({

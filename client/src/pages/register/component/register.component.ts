@@ -3,8 +3,7 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
-import { FormBuilder, Validators } from '@angular/forms';
-import { passwordsMatch } from '../../../shared/validators/passwords-match';
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from '../../../entities/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 
@@ -43,7 +42,7 @@ export class RegisterComponent implements OnInit {
         rePassword: ['', [Validators.required]],
       },
       {
-        validators: [passwordsMatch()],
+        validators: [this.passwordsMatch()],
       }
     ),
     fitnessLevel: ['Sedentary', [Validators.required]],
@@ -150,5 +149,16 @@ export class RegisterComponent implements OnInit {
       this.registerForm.get(control)?.clearValidators();
       this.registerForm.get(control)?.updateValueAndValidity();
     });
+  }
+
+  private passwordsMatch(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const passwordControl = control.get('password');
+      const rePasswordControl = control.get('rePassword');
+
+      return passwordControl?.value === rePasswordControl?.value
+        ? null
+        : { matchPasswordsValidator: true };
+    };
   }
 }

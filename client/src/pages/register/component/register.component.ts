@@ -85,7 +85,7 @@ export class RegisterComponent implements OnInit {
     this.showDropDownMenu = !this.showDropDownMenu;
   }
 
-  protected register(): void {
+  public register(): void {
     this.isLoading = true;
     this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? UserRoles.User : UserRoles.Coach);
 

@@ -7,6 +7,7 @@ import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators
 import { UserService } from '../../../entities/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { GenderType } from '../../../shared/enums/gender-list.enum';
+import { FitnessLevels } from '../../../shared/enums/fitness-levels.enum';
 
 @Component({
   selector: 'app-register',
@@ -17,6 +18,8 @@ export class RegisterComponent implements OnInit {
   public RegistrationType = RegistrationType;
   public InputType = InputType;
   public optionArrays = optionArrays;
+  public GenderType = GenderType;
+  public FitnessLevels = FitnessLevels;
   public selectedRegistrationType!: RegistrationType;
   public isRegisteringAsTrainer = false;
   public showGeneralDetails = false;

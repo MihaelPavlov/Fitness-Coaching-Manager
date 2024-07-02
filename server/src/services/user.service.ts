@@ -8,6 +8,7 @@ import {
 } from "./../helpers/auth.helper";
 import { TABLE } from "../database/constants/tables.contant";
 import { EXCEPTION } from "../constants/exceptions.constants";
+import { UserRoles } from "./../models/enums/user-roles.enum";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -35,7 +36,7 @@ export const registerUser = async (data: Record<string, any>) => {
     await db(TABLE.USERS).insert({
       first_name: data?.firstName || null,
       last_name: data?.lastName || null,
-      user_role: data?.userRole || -1,
+      user_role: data?.userRole || UserRoles.User,
       username: data.username,
       email: data.email,
       password: await generatePasswordHash(data.password),
@@ -53,7 +54,7 @@ export const registerUser = async (data: Record<string, any>) => {
   });
 
   // Coach user
-  if (data.userRole === 1) {
+  if (data.userRole === UserRoles.Coach) {
     // Insert data into contributors and applications
     const createdContributorID = (
       await db(TABLE.CONTRIBUTORS).insert({
@@ -69,7 +70,7 @@ export const registerUser = async (data: Record<string, any>) => {
 
   return createTokensAndSession({
     id: createdUserID,
-    role: data?.userRole || -1,
+    role: data?.userRole || UserRoles.User,
     username: data?.username,
   });
 };

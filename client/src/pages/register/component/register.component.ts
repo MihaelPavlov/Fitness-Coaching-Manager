@@ -6,6 +6,7 @@ import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from '../../../entities/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
+import { GenderType } from '../../../shared/enums/gender-list.enum';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,6 @@ export class RegisterComponent implements OnInit {
   public showDropDownMenu = false;
   public attachDocument = false;
   public attachLink = false;
-  public formData: any = {};
 
   private userRole!: number;
 
@@ -95,8 +95,8 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    if (this.registerForm.get('sex')?.value === 'Prefer not to say') {
-      this.registerForm.get('sex')?.setValue(null);
+    if (this.registerForm.get("sex")?.value === GenderType.None) {
+      this.registerForm.get("sex")?.setValue("None");
     }
 
     const requestBody = {

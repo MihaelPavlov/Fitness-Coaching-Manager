@@ -20,6 +20,17 @@
     }
 }
 
+button:disabled, button[disabled] {
+  background-color: palette.$main-background-color;
+  color: #fff;
+
+  &:hover {
+    color: #fff;
+    background-color: palette.$main-background-color;
+    transform: scale(1);
+  }
+}
+
 .border-hover:hover {
   outline: 0.2rem solid palette.$main-blue-darker-color;
 }

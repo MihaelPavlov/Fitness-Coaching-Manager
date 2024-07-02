@@ -2,11 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { RestApiService } from '../../shared/services/rest-api.service';
 import { PATH } from '../../shared/configs/path.config';
 import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
-
-interface UserInfo {
-  username: string;
-  role: number;
-}
+import { UserInfo } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root',

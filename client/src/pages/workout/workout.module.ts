@@ -9,6 +9,8 @@ import { WorkoutDetailsComponent } from '../../features/workout/workout-details/
 import { ExerciseSetCardModule } from '../../widgets/exercise-set-card/exercise-set-card.module';
 import { WorkoutSessionComponent } from '../../features/workout/workout-session/workout-session.component';
 import { CircleModule } from '../../widgets/circle/circle.module';
+import { WorkoutBuilderComponent } from '../../features/workout/workout-builder/workout-builder.component';
+import { WorkoutEditCardModule } from '../../widgets/workout-edit-card/workout-edit-card.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,7 @@ import { CircleModule } from '../../widgets/circle/circle.module';
     WorkoutLibraryComponent,
     WorkoutDetailsComponent,
     WorkoutSessionComponent,
+    WorkoutBuilderComponent,
   ],
   imports: [
     SharedModule,
@@ -23,7 +26,8 @@ import { CircleModule } from '../../widgets/circle/circle.module';
     SearchModule,
     WorkoutCardModule,
     ExerciseSetCardModule,
-    CircleModule
+    CircleModule,
+    WorkoutEditCardModule,
   ],
   exports: [WorkoutComponent],
 })

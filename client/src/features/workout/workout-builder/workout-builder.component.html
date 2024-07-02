@@ -1,0 +1,329 @@
+<div #registerAsTrainer>
+  <div
+    class="create-workout-container d-flex align-items-center justify-content-center"
+  >
+    <form
+      class="create-workout-container__form w-100 d-flex flex-direction-column"
+    >
+      <ng-container
+        *ngTemplateOutlet="
+          formHeading;
+          context: { headingText: 'Create Workout' }
+        "
+      ></ng-container>
+      <ng-container *ngTemplateOutlet="workoutDetails"></ng-container>
+      <ng-container *ngTemplateOutlet="Exercise"></ng-container>
+      <ng-container *ngTemplateOutlet="formFooter"></ng-container>
+    </form>
+  </div>
+</div>
+
+<!-- Common header template -->
+<ng-template #formHeading let-headingText="headingText">
+  <div class="create-workout-container__form__heading-box mb-5">
+    <h1 class="create-workout-container__form__heading-box-text mt-0">
+      {{ headingText }}
+    </h1>
+    <div class="create-workout-container__form__heading-box-border"></div>
+  </div>
+</ng-template>
+
+<!-- General details template -->
+<ng-template #workoutDetails>
+  <div class="create-workout-container__form__details-container">
+    <div
+      class="create-workout-container__form__details-container__heading-container d-flex justify-content-between pb-5"
+      (click)="workoutDetailsVisibility()"
+    >
+      <div
+        class="create-workout-container__form__details-container__heading-container__label d-flex"
+      >
+        <ng-container
+          *ngTemplateOutlet="backgroundSquare; context: { label: '1' }"
+        ></ng-container>
+        <div>Workout Details</div>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="
+          backgroundSquare;
+          context: { label: showWorkoutDetails ? '⬇' : '➡' }
+        "
+      ></ng-container>
+    </div>
+    <div
+      [class.expand]="showWorkoutDetails"
+      class="create-workout-container__form__details-container__general-details d-flex justify-content-center"
+    >
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="username" class="control__label">Name</label>
+        <input
+          [type]="InputType.Text"
+          id="name"
+          placeholder="Name"
+          name="name"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="email" class="control__label">Description</label>
+        <input
+          [type]="InputType.Email"
+          id="description"
+          placeholder="Description"
+          name="description"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="password" class="control__label">Image</label>
+        <input
+          [type]="InputType.File"
+          id="password"
+          placeholder="Password"
+          name="password"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="equipment" class="control__label">Tag</label>
+        <select id="equipment" name="equipment" class="control w-100 d-block">
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.tagsList"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="password" class="control__label">Number of Sets</label>
+        <input
+          [type]="InputType.Number"
+          id="number-sets"
+          placeholder="Number"
+          name="number-sets"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="password" class="control__label">Pause between sets</label>
+        <input
+          [type]="InputType.Number"
+          id="pause-sets"
+          placeholder="Higher than 0"
+          name="pause-sets"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="password" class="control__label"
+          >Pause between exercises</label
+        >
+        <input
+          [type]="InputType.Number"
+          id="pause-exercises"
+          placeholder="Seconds"
+          name="pause-exercises"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field d-flex align-items-end"
+      >
+        <div
+          class="control__wrapper create-workout-container__form__details-container__general-details__input-field-checkbox d-flex flex-direction-column"
+        >
+          <div class="d-flex align-items-center g-2">
+            <label class="control__label">Acttive</label>
+            <input
+              [type]="InputType.Checkbox"
+              (change)="onActiveChange($event)"
+            />
+          </div>
+          <span class="description">(publicly visible)</span>
+        </div>
+        <div
+          class="control__wrapper create-workout-container__form__details-container__general-details__input-field-checkbox d-flex flex-direction-column"
+        >
+          <div class="d-flex align-items-center g-2">
+            <label class="control__label">Private</label>
+            <input
+              [type]="InputType.Checkbox"
+              (change)="onPrivateChange($event)"
+            />
+          </div>
+          <span class="description">(publicly visible)</span>
+        </div>
+      </div>
+      <div
+        *ngIf="isPrivate"
+        class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+      >
+        <label for="password" class="control__label">Related student</label>
+        <input
+          [type]="InputType.Number"
+          id="pause-exercises"
+          placeholder="Seconds"
+          name="pause-exercises"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Additional details template for trainers -->
+<ng-template #Exercise>
+  <div class="create-workout-container__form__details-container">
+    <div
+      class="create-workout-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      (click)="ExerciseVisibility()"
+    >
+      <div
+        class="create-workout-container__form__details-container__heading-container__label d-flex"
+      >
+        <ng-container
+          *ngTemplateOutlet="backgroundSquare; context: { label: '2 ' }"
+        ></ng-container>
+        <div>Exercise</div>
+      </div>
+      <ng-container
+        *ngTemplateOutlet="
+          backgroundSquare;
+          context: { label: showExercise ? '⬇' : '➡' }
+        "
+      ></ng-container>
+    </div>
+    <div
+      [class.expandDropdown]="showExercise"
+      [class.expand]="showExercise"
+      [class.expandExercise]="showExercise"
+      class="create-workout-container__form__details-container__general-details"
+    >
+      <div class="create-workout-container__form__details-container__general-details__inform-message-container d-flex justify-content-center align-items-center">
+        <div class="create-workout-container__form__details-container__general-details__inform-message-container__message">
+          <p>Add Additional Exercise by pressing the plus button</p>
+        </div>
+        <div class="create-workout-container__form__details-container__general-details__inform-message-container__button-container align-self-center" (click)="showExerciseForm()">
+          <div>+</div>
+        </div>
+        <ng-container *ngTemplateOutlet="exerciseFormPopup"></ng-container>
+      </div>
+      <ng-container *ngTemplateOutlet="exerciseEditCards"></ng-container>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Form footer template -->
+<ng-template #formFooter>
+  <div>
+    <div class="create-workout-container__form__elements__buttons d-flex justify-content-center mt-4">
+      <button
+        class="btn btn-large text-center landing-page-container__buttons-container__button"
+        type="submit"
+      >
+        Create
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #backgroundSquare let-label="label">
+  <div
+    class="background-square-container d-flex justify-content-center align-items-center"
+  >
+    {{ label }}
+  </div>
+</ng-template>
+
+<ng-template #exerciseFormPopup>
+  <div class="popup" id="popup" [ngClass]="{ show: showExerciseFormPopup }">
+    <div
+      class="popup__content d-flex flex-direction-column align-items-center text-center"
+    >
+      <a
+        href="javascript:void(0)"
+        (click)="showExerciseForm()"
+        class="popup__content__close mr-4 mt-2"
+        >&times;</a
+      >
+      <div class="popup__content__heading-box mt-4 text-center mb-4">
+        <h1 class="popup__content__heading-box__text">Add Exercise</h1>
+        <div class="popup__content__heading-box__border"></div>
+      </div>
+      <div class="control__wrapper mb-3">
+        <label for="equipment" class="control__label">Exercises</label>
+        <select id="equipment" name="equipment" class="control w-100 d-block">
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.exerciseEquipmentList"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div class="control__wrapper mb-3">
+        <label class="control__label mr-2">Has Timing</label>
+        <input
+          [type]="InputType.Checkbox"
+          (change)="onHasTimingChange($event)"
+        />
+      </div>
+      <div *ngIf="hasTiming" class="control__wrapper mb-3">
+        <label class="control__label">Duration</label>
+        <input
+          [type]="InputType.Number"
+          id="pause-exercises"
+          placeholder="Seconds"
+          name="pause-exercises"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <div class="control__wrapper mb-4">
+        <label for="password" class="control__label">Description</label>
+        <input
+          [type]="InputType.Text"
+          id="pause-sets"
+          placeholder="Description"
+          name="pause-sets"
+          class="control w-100 d-block align-items-start"
+        />
+      </div>
+      <button
+        class="btn btn-medium text-center landing-page-container__buttons-container__button"
+        type="submit"
+      >
+        Add
+      </button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #exerciseEditCards>
+  <div class="d-flex flex-wrap justify-content-center">
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+  </div>
+</ng-template>

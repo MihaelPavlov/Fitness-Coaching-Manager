@@ -1,0 +1,293 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared//styles/mixins";
+@use "../../../shared/styles/scrollbar";
+
+.create-workout-container {
+  margin: 0 auto;
+  font-family: "Open Sans", sans-serif;
+  @include mixins.respond(Phone) {
+    width: auto;
+  }
+  &__form {
+    padding: 5rem 6rem 8rem 6rem;
+
+    @include mixins.respond(Phone) {
+      background-color: transparent;
+      box-shadow: none;
+      font-size: 0.7rem;
+      padding: 0 0 2rem 0;
+
+      &__heading-box {
+        text-align: center;
+        margin-bottom: 3rem;
+
+        &-text {
+          font-size: 2.2rem;
+        }
+      }
+    }
+
+    &__heading-box {
+      text-align: center;
+      &-text {
+        color: palette.$main-blue-darker-color;
+        font-size: 2rem;
+        margin-bottom: -0.6rem;
+      }
+
+      &-border {
+        display: inline-block;
+        border-bottom: palette.$main-blue-darker-color 0.3rem solid;
+        width: 3rem;
+      }
+    }
+
+    &__details-container {
+      &__general-details {
+        flex-wrap: wrap;
+        height: 0px;
+        overflow: hidden;
+        transition: all 0.5s ease-in-out;
+        @include scrollbar.scrollbar();
+
+        @include mixins.respond(Phone) {
+          width: 100%;
+          max-height: 70vh; //Scroll
+          overflow-y: auto;
+          -ms-overflow-style: none; /* Internet Explorer 10+ */
+          scrollbar-width: none; /* Firefox */
+          justify-content: center;
+          gap: 1rem;
+
+          &::-webkit-scrollbar {
+            display: none; /* Safari and Chrome */
+          }
+        }
+
+        @include mixins.respond(Phone) {
+          width: auto;
+          align-items: center;
+          flex-wrap: nowrap;
+          flex-direction: column;
+          gap: 0;
+        }
+
+        &__link-container {
+          @include mixins.respond(Phone) {
+            flex-direction: column;
+          }
+        }
+
+        &__input-field {
+          margin: 0.5rem;
+          @include mixins.respond(Phone) {
+            gap: 1rem;
+          }
+          &-checkbox {
+            margin-left: 2.5rem;
+            @include mixins.respond(Phone) {
+              margin-left: 0;
+            }
+            align-items: center;
+            input {
+              width: 1rem;
+              height: 1rem;
+            }
+            span {
+              font-size: 0.8rem;
+              color: palette.$main-blue-darker-color;
+            }
+          }
+          input {
+            background-color: white;
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+            }
+
+            &[type="number"] {
+              -moz-appearance: textfield; /* Firefox */
+            }
+          }
+          select {
+            background-color: white;
+          }
+
+          @include mixins.respond(Phone) {
+            text-align: center;
+          }
+        }
+
+        &__inform-message-container {
+          font-size: 0.8rem;
+          gap: 1em;
+
+          @include mixins.respond(Phone) {
+            font-size: 0.6rem;
+            gap: 0.5rem;
+          }
+
+          &__button-container {
+            position: relative;
+            border: 0.15rem solid palette.$main-blue-darker-color;
+            height: 2rem;
+            line-height: 0;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            align-content: center;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: palette.$main-blue-darker-color;
+            background-color: white;
+            cursor: pointer;
+
+            @include mixins.respond(Phone) {
+              height: 1.7rem;
+              font-size: 1.5rem;
+              background-color: transparent;
+            }
+          }
+        }
+      }
+
+      @include mixins.respond(Phone) {
+        width: 100%;
+        align-self: center;
+      }
+
+      &__heading-container {
+        @include mixins.respond(Phone) {
+          align-items: center;
+        }
+
+        &__label {
+          align-items: center;
+          gap: 1rem;
+          color: palette.$main-blue-darker-color;
+          font-size: 1.2rem;
+          font-weight: bold;
+
+          @include mixins.respond(Phone) {
+            font-size: 0.9rem;
+            align-items: center;
+            overflow: hidden;
+            gap: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.expand {
+  height: auto;
+  @include mixins.respond(Phone) {
+    height: auto;
+    margin-bottom: 1rem;
+  }
+}
+
+.expandDropdown {
+  height: auto;
+  @include mixins.respond(Phone) {
+    height: auto;
+    margin-bottom: 1rem;
+  }
+}
+
+.expandExercise {
+  @include mixins.respond(Phone) {
+    height: auto;
+    margin-bottom: 1rem;
+  }
+}
+
+.background-square-container {
+  width: 2rem;
+  height: 2rem;
+  background-color: palette.$main-blue-darker-color;
+  color: white;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  align-self: center;
+  cursor: pointer;
+
+  @include mixins.respond(Phone) {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.8rem;
+  }
+}
+
+//POPUPFROM
+.popup {
+  height: 100vh;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 3000;
+  position: fixed;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+
+  &__content {
+    @include mixins.respond(Phone) {
+      width: 90%;
+    }
+    width: 30rem;
+    height: 29.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+    transition: all 0.4s;
+
+    &__close {
+      &:link,
+      &:visited {
+        color: palette.$menu-container-icon-color;
+        font-size: 2rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s;
+        line-height: 1;
+        align-self: end;
+      }
+
+      &:hover {
+        color: palette.$main-blue-darker-color;
+      }
+    }
+
+    &__heading-box {
+      &__text {
+        color: palette.$main-blue-darker-color;
+        font-size: 1.7rem;
+      }
+
+      &__border {
+        display: inline-block;
+        border-bottom: palette.$main-blue-darker-color 0.3rem solid;
+        width: 3rem;
+      }
+    }
+  }
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &.show &__content {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}

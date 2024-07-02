@@ -4,5 +4,6 @@ export enum InputType {
     Email = 'email',
     Number = 'number',
     Url = 'url',
-    File = 'file'
+    File = 'file',
+    Checkbox = 'checkbox'
 }

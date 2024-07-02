@@ -1,0 +1,86 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.card {
+  background-color: white;
+  border-radius: 0.8rem;
+  overflow: hidden;
+  box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.049);
+  cursor: pointer;
+  transition: all 0.4s;
+  width: 100%;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+
+  @include mixins.respond(Phone) {
+    max-width: 100%;
+    background-color: white;
+    box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.049);
+    height: 4.5rem;
+    padding: 0.2rem;
+    box-shadow: none;
+    justify-content: space-between;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+  }
+
+  &__img {
+    width: auto;
+    height: 5rem;
+    @include mixins.respond(Phone) {
+      height: 100%;
+      width: auto;
+    }
+  }
+
+  &__information {
+    @include mixins.respond(Phone) {
+      padding: 0.5rem;
+    }
+
+    &__header {
+      &__heading {
+        font-size: 1rem;
+        @include mixins.respond(Phone) {
+          font-size: 0.8rem;
+        }
+      }
+
+      @include mixins.respond(Phone) {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      &__sets {
+        color: grey;
+        font-weight: 600;
+        font-size: 1rem;
+
+        @include mixins.respond(Phone) {
+          font-size: 0.8rem;
+          margin-right: 6rem;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    @include mixins.respond(Phone) {
+      margin-left: 0;
+    }
+    span {
+      font-size: 2rem;
+      color: palette.$main-blue-color;
+      transition: all 0.2s;
+
+      &:hover {
+        transform: scale(1.2);
+      }
+
+      @include mixins.respond(Phone) {
+        font-size: 1.7rem;
+      }
+    }
+  }
+}

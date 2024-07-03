@@ -270,7 +270,7 @@
     </div>
     <app-error *ngIf="hasRegisterError" [errorMessageText]="registerErrorMsg"></app-error>
     <div class="register-container__form__links d-flex flex-direction-column">
-      <a class="register-container__form__links-text" href="/login">Already have an account? Log in</a>
+      <a class="register-container__form__links-text" routerLink="/login">Already have an account? Log in</a>
     </div>
   </div>
 </ng-template>

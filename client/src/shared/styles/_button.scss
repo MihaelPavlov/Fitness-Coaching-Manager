@@ -21,12 +21,13 @@
 }
 
 button:disabled, button[disabled] {
-  background-color: palette.$main-background-color;
+  background-color: #a89997;
   color: #fff;
 
   &:hover {
+    cursor: default;
     color: #fff;
-    background-color: palette.$main-background-color;
+    background-color: #a89997;
     transform: scale(1);
   }
 }

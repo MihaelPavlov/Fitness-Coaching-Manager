@@ -38,7 +38,7 @@ export class LoginComponent {
     this.passwordType = InputType.Password;
   }
 
-  protected login(): void {
+  public login(): void {
     this.isLoading = true;
 
     if (this.loginForm.invalid) {

@@ -10,12 +10,18 @@
         class="login-form__elements__inputs d-flex flex-direction-column g-2"
       >
         <div class="control__wrapper">
-          <label for="email" class="control__label">Email</label>
+          <label for="email" class="control__label required">Email</label>
           <input [type]="InputType.Email" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start" formControlName="email">
+          <ng-container *ngIf="loginForm.get('email')?.touched">
+            <p *ngIf="loginForm.get('email')?.errors">Invalid field</p>
+          </ng-container>
         </div>
         <div class="control__wrapper">
-          <label for="password" class="control__label">Password</label>
+          <label for="password" class="control__label required">Password</label>
           <input [type]="passwordType" id="password" placeholder="Password" name="password" class="control w-100 d-block align-items-start" formControlName="password">
+          <ng-container *ngIf="loginForm.get('password')?.touched">
+            <p *ngIf="loginForm.get('password')?.errors">Invalid field</p>
+          </ng-container>
         </div>
       </div>
 
@@ -34,15 +40,15 @@
       </div>
 
       <div class="login-form__elements__buttons">
-        <button class="btn w-100">
+        <button class="btn w-100" [disabled]="loginForm.invalid">
           Sign In
         </button>
       </div>
     </div>
     <app-error errorMessageText="Invalid email or password!" *ngIf="hasLoginError"></app-error>
     <div class="login-form__links d-flex flex-direction-column">
-      <app-link text="Forgot Username / Password?"></app-link>
-      <app-link text="Don't have an account? Sign up"></app-link>
+      <a class="link" href="#">Forgot Username / Password?</a>
+      <a routerLink="/register" class="link">Don't have an account? Sign up</a>
     </div>
   </form>
 </div>

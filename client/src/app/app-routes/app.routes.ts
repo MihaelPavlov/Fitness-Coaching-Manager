@@ -39,6 +39,10 @@ export const ROUTES: Routes = [
     ],
   },
   {
+    path: 'register',
+    component: LandingComponent
+  },
+  {
     path: 'home',
     component: LandingComponent,
   },

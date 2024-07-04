@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UserService } from '../../../entities/services/user.service';
+import { UserService } from '../../../entities/users/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -48,7 +48,10 @@ export class LoginComponent {
     }
 
     this.userService
-      .login(this.loginForm.value.email as string, this.loginForm.value.password as string)
+      .login(
+        this.loginForm.value.email as string,
+        this.loginForm.value.password as string
+      )
       .subscribe({
         next: () => {
           this.isLoading = false;

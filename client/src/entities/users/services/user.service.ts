@@ -1,8 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
-import { RestApiService } from '../../shared/services/rest-api.service';
-import { PATH } from '../../shared/configs/path.config';
+import { RestApiService } from '../../../shared/services/rest-api.service';
+import { PATH } from '../../../shared/configs/path.config';
 import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
-import { UserInfo } from '../models/user.interface';
+import { UserInfo } from '../../models/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,7 @@ export class UserService {
 
   private isAuthSubject$ = new BehaviorSubject<boolean>(false);
   public isAuth$ = this.isAuthSubject$.asObservable();
-  
+
   constructor(private readonly apiService: RestApiService) {}
 
   public fetchUserInfo(): Subscription {

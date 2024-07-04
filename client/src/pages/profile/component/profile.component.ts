@@ -7,5 +7,4 @@ import { Component } from '@angular/core';
 })
 export class ProfileComponent {
   profileState: 'public' | 'private' = 'private'
-
 }

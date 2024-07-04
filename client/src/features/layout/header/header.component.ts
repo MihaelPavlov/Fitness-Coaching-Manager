@@ -9,15 +9,14 @@ import { Observable } from 'rxjs';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
+  @Input() pageName: string = 'Header';
+
+  public userInfo$: Observable<any> = this.userService.userInfo$;
+  public isAuth$ = this.userService.isAuth$;
+
   constructor(private userService: UserService) {}
 
-  protected userInfo$: Observable<any> = this.userService.userInfo$;
-
-  ngOnInit(): void {
-      this.userService.fetchUserInfo();
+  public ngOnInit(): void {
+    this.userService.fetchUserInfo();
   }
-
-  protected isAuth = this.userService.isAuth();
-
-  @Input() pageName: string = 'Header';
 }

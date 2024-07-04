@@ -1,3 +1,5 @@
+@use "./../../../shared/styles/palette";
+
 .landing-page-container {
     position: absolute;
     top: 0;
@@ -16,6 +18,9 @@
 button {
   padding: 1rem;
   font-size: 1.5rem;
+  max-width: max-content;
+  background-color: palette.$main-background-color;
+  color: palette.$main-font-black-color;
 }
 
 @media (width <=700px) {

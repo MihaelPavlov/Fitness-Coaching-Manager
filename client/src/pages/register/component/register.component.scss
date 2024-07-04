@@ -52,7 +52,7 @@
                 flex-wrap: wrap;
                 height: 0px;
                 overflow: hidden;
-                transition: all 0.5s ease-in-out;
+                transition: height 0.5s ease-in-out;
 
                 @include mixins.respond(Phone) {
                     width: auto;
@@ -199,7 +199,7 @@
 }
 
 .expand {
-    height: 11rem;
+    height: 12rem;
 
     @include mixins.respond(Phone) {
         height: 19rem;
@@ -208,7 +208,7 @@
 }
 
 .expandDropdown {
-    height: 16rem;
+    height: 17rem;
 
     @include mixins.respond(Phone) {
         height: 27rem;

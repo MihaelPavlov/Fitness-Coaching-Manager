@@ -20,6 +20,18 @@
     }
 }
 
+button:disabled, button[disabled] {
+  background-color: #a89997;
+  color: #fff;
+
+  &:hover {
+    cursor: default;
+    color: #fff;
+    background-color: #a89997;
+    transform: scale(1);
+  }
+}
+
 .border-hover:hover {
   outline: 0.2rem solid palette.$main-blue-darker-color;
 }

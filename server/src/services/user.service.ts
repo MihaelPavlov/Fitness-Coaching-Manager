@@ -8,6 +8,7 @@ import {
 } from "./../helpers/auth.helper";
 import { TABLE } from "../database/constants/tables.contant";
 import { EXCEPTION } from "../constants/exceptions.constants";
+import { UserRoles } from "./../models/enums/user-roles.enum";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -33,15 +34,15 @@ export const registerUser = async (data: Record<string, any>) => {
 
   const createdUserID = (
     await db(TABLE.USERS).insert({
-      first_name: data?.first_name || null,
-      last_name: data?.last_name || null,
-      user_role: data?.user_role || -1,
+      first_name: data?.firstName || null,
+      last_name: data?.lastName || null,
+      user_role: data?.userRole || UserRoles.User,
       username: data.username,
       email: data.email,
       password: await generatePasswordHash(data.password),
       country: data.country,
-      phone_number: data?.phone_number || null,
-      languages: data.languages,
+      phone_number: data?.phoneNumber || null,
+      language: data.language,
     })
   ).at(0);
 
@@ -49,11 +50,11 @@ export const registerUser = async (data: Record<string, any>) => {
   await db(TABLE.USER_SPECS).insert({
     user_id: createdUserID,
     sex: data.sex,
-    fitness_level: data?.fitness_level || null,
+    fitness_level: data?.fitnessLevel || null,
   });
 
   // Coach user
-  if (data.user_role == 1) {
+  if (data.userRole === UserRoles.Coach) {
     // Insert data into contributors and applications
     const createdContributorID = (
       await db(TABLE.CONTRIBUTORS).insert({
@@ -61,15 +62,15 @@ export const registerUser = async (data: Record<string, any>) => {
       })
     ).at(0);
 
-    await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
+    /* await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
       contributor_id: createdContributorID,
       item_uri: data.item_uri,
-    });
+    });  */
   }
 
   return createTokensAndSession({
     id: createdUserID,
-    role: data?.user_role || -1,
+    role: data?.userRole || UserRoles.User,
     username: data?.username,
   });
 };

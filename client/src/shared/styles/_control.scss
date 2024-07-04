@@ -1,0 +1,36 @@
+@use "./palette";
+@use "./mixins";
+
+.control__label {
+  color: palette.$main-blue-darker-color;
+  font-weight: 650;
+  margin-bottom: 0.2rem;
+}
+
+.control {
+  background-color: palette.$main-background-color;
+  border-bottom: palette.$main-blue-darker-color 0.3rem solid;
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  font-size: 0.8rem;
+  width: 16rem;
+  height: 2.5rem;
+  margin: 0.2rem;
+  padding-left: 0.4rem;
+  color: palette.$main-blue-darker-color;
+
+  @include mixins.respond(Phone) {
+    background-color: white;
+    font-size: 0.6rem;
+  }
+}
+
+select.control {
+  width: 16.4rem;
+  height: 2.75rem;
+}
+
+::-webkit-file-upload-button {
+  display: none;
+}

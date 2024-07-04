@@ -1,7 +1,8 @@
-@use "../../../shared/styles/palette";
+@use "./palette";
+@use "./mixins";
 
-.button {
-    display: inline-block;
+.btn {
+  display: inline-block;
     background-color: palette.$main-blue-darker-color;
     color: palette.$main-background-color;
     text-align: center;
@@ -13,11 +14,12 @@
 
     &:hover {
         cursor: pointer;
-        color: var(--hoverTextColor);
-        background-color: var(--hoverBackgroundColor);
+        color: palette.$main-blue-darker-color;
+        background-color: palette.$main-background-color;
         transform: scale(1.1);
     }
 }
+
 .border-hover:hover {
-    outline: 0.2rem solid var(--hoverBorderColor);
+  outline: 0.2rem solid palette.$main-blue-darker-color;
 }

@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent {
-  profileState: 'public' | 'private' = 'private'
-
+  profileState: 'public' | 'private' = 'public'
 }

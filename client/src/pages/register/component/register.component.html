@@ -58,19 +58,22 @@
     </div>
     <div [class.expand]="showGeneralDetails"
       class="register-container__form__details-container__general-details d-flex justify-content-between">
-      <app-input class="register-container__form__details-container__general-details__input-field" label="Username"
-        [type]="InputType.Text" placeholder="Username" name="username"
-        (valueChange)="handleInputChange('username', $event)">
-      </app-input>
-      <app-input class="register-container__form__details-container__general-details__input-field" label="Email"
-        [type]="InputType.Text" placeholder="Email" name="email" (valueChange)="handleInputChange('email', $event)">
-      </app-input>
-      <app-input class="register-container__form__details-container__general-details__input-field" label="Password"
-        [type]="InputType.Password" placeholder="Password" name="password">
-      </app-input>
-      <app-input class="register-container__form__details-container__general-details__input-field"
-        label="Repeat Password" [type]="InputType.Password" placeholder="Repeat Password" name="repeatPassword">
-      </app-input>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="username" class="control__label">Username</label>
+        <input [type]="InputType.Text" id="username" placeholder="Username" name="username" class="control w-100 d-block align-items-start">
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="email" class="control__label">Email</label>
+        <input [type]="InputType.Email" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start">
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="password" class="control__label">Password</label>
+        <input [type]="InputType.Password" id="password" placeholder="Password" name="password" class="control w-100 d-block align-items-start">
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="rePassword" class="control__label">Repeat Password</label>
+        <input [type]="InputType.Password" id="rePassword" placeholder="Repeat Password" name="rePassword" class="control w-100 d-block align-items-start">
+      </div>
     </div>
   </div>
 </ng-template>
@@ -91,19 +94,30 @@
     </div>
     <div [class.expand]="showAdditionalDetails"
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.fitnessLevel" label="Fitness Level" name="fitnessLevel"
-        (valueChange)="handleInputChange('fitnessLevel', $event)">
-      </app-select>
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.countryList" label="Country" name="country">
-      </app-select>
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.genderList" label="Sex" name="sex">
-      </app-select>
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage">
-      </app-select>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="fitnessLevel" class="control__label">Fitness Level</label>
+        <select id="fitnessLevel" name="fitnessLevel" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.fitnessLevel" [value]="option">{{option}}</option>
+        </select>
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="country" class="control__label">Country</label>
+        <select id="country" name="country" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.countryList" [value]="option">{{option}}</option>
+        </select>
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="sex" class="control__label">Sex</label>
+        <select id="sex" name="sex" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.genderList" [value]="option">{{option}}</option>
+        </select>
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="preferredLanguage" class="control__label">Preferred Language</label>
+        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.preferredLanguage" [value]="option">{{option}}</option>
+        </select>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -124,24 +138,36 @@
     </div>
     <div [class.expand]="showAdditionalDetails" [class.expandDropdown]="showAdditionalDetails"
       class="register-container__form__details-container__general-details  d-flex justify-content-between">
-      <app-input class="register-container__form__details-container__general-details__input-field" label="First Name"
-        [type]="InputType.Text" placeholder="First Name" name="firstName">
-      </app-input>
-      <app-input class="register-container__form__details-container__general-details__input-field" label="Last Name"
-        [type]="InputType.Text" placeholder="Last Name" name="lastName">
-      </app-input>
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.countryList" label="Country" name="country">
-      </app-select>
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.preferredLanguage" label="Preferred Language" name="preferredLanguage">
-      </app-select>
-      <app-input class="register-container__form__details-container__general-details__input-field" label="Phone Number"
-        [type]="InputType.Text" placeholder="Phone Number" name="phoneNumber">
-      </app-input>
-      <app-select class="register-container__form__details-container__general-details__input-field"
-        [options]="optionArrays.genderList" label="Sex" name="sex">
-      </app-select>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="firstName" class="control__label">First Name</label>
+        <input [type]="InputType.Text" id="firstName" placeholder="First Name" name="firstName" class="control w-100 d-block align-items-start">
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="lastName" class="control__label">Last Name</label>
+        <input [type]="InputType.Text" id="lastName" placeholder="Last Name" name="lastName" class="control w-100 d-block align-items-start">
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="country" class="control__label">Country</label>
+        <select id="country" name="country" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.countryList" [value]="option">{{option}}</option>
+        </select>
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="preferredLanguage" class="control__label">Preferred Language</label>
+        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.preferredLanguage" [value]="option">{{option}}</option>
+        </select>
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="phoneNumber" class="control__label">Phone Number</label>
+        <input [type]="InputType.Text" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" class="control w-100 d-block align-items-start">
+      </div>
+      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <label for="sex" class="control__label">Sex</label>
+        <select id="sex" name="sex" class="control w-100 d-block">
+          <option class="control__option" *ngFor="let option of optionArrays.genderList" [value]="option">{{option}}</option>
+        </select>
+      </div>
     </div>
   </div>
 </ng-template>
@@ -191,16 +217,19 @@
         </div>
       </div>
       <div class="register-container__form__details-container__general-details__link-container d-flex"  [class]="attachLink ? 'fadeIn' : 'fadeOut' ">
-          <app-input class="register-container__form__details-container__general-details__input-field" label="Link Url"
-            [type]="InputType.Url" placeholder="Link Url" name="linkUrl">
-          </app-input>
-          <app-input [class.fadeIn]='attachLink' class="register-container__form__details-container__general-details__input-field"
-            label="Link Url 2" [type]="InputType.Url" placeholder="Link Url 2" name="linkUrl2">
-          </app-input>
+          <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+            <label for="linkUrl" class="control__label">Link Url</label>
+            <input [type]="InputType.Url" id="linkUrl" placeholder="Link Url" name="linkUrl" class="control w-100 d-block align-items-start">
+          </div>
+          <div [class.fadeIn]='attachLink' class="control__wrapper register-container__form__details-container__general-details__input-field">
+            <label for="linkUrl2" class="control__label">Link Url 2</label>
+            <input [type]="InputType.Url" id="linkUrl2" placeholder="Link Url 2" name="linkUrl2" class="control w-100 d-block align-items-start">
+          </div>
       </div>
-        <app-input  [class]="attachDocument ? 'fadeIn' : 'fadeOut' " class="register-container__form__details-container__general-details__input-field"
-          label="Attach Document" [type]="InputType.File" placeholder="Attach Document" name="attachDocument">
-        </app-input>
+        <div [class]="attachDocument ? 'fadeIn' : 'fadeOut' " class="control__wrapper register-container__form__details-container__general-details__input-field">
+          <label for="attachDocument" class="control__label">Attach Document</label>
+          <input [type]="InputType.File" id="attachDocument" placeholder="Attach Document" name="attachDocument" class="control w-100 d-block align-items-start">
+        </div>
     </div>
   </div>
 
@@ -210,9 +239,9 @@
 <ng-template #formFooter>
   <div>
     <div class="register-container__form__elements__buttons">
-      <app-button routerLink="/register" class="landing-page-container__buttons-container__button mb-20" text="Sign In"
-        [width]="'100%'" [hoverBackgroundColor]="'main-background-color'" [hoverTextColor]="'main-blue-darker-color'">
-      </app-button>
+      <button class="btn w-100 landing-page-container__buttons-container__button" type="submit">
+        Sign In
+      </button>
     </div>
     <div class="register-container__form__links d-flex flex-direction-column">
       <a class="register-container__form__links-text" href="/login">Already have an account? Log in</a>

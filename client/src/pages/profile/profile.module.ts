@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonModule } from '../../widgets/button/button.module';
-import { InputModule } from '../../widgets/input/input.module';
 import { ProfileComponent } from './component/profile.component';
 import { TagModule } from '../../widgets/tag/tag.module';
 
@@ -18,8 +16,6 @@ import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
     ],
     imports: [
         CommonModule,
-        ButtonModule,
-        InputModule,
         TagModule,
         ProfileRoutingModule,
         WorkoutCardModule

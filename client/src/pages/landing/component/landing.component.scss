@@ -13,6 +13,11 @@
     background-size: cover;
 }
 
+button {
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
 @media (width <=700px) {
     .landing-page-container__buttons-container {
         margin-top: 50vh;
@@ -23,7 +28,7 @@
 
 
         &__button{
-            margin-bottom: 3rem;           
+            margin-bottom: 3rem;
         }
     }
 }

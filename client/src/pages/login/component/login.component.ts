@@ -28,10 +28,6 @@ export class LoginComponent {
     private readonly router: Router
   ) {}
 
-  protected onValueChange(name: string, value: string): void {
-    this.loginForm.get(name)?.setValue(value);
-  }
-
   protected togglePasswordShow(): void {
     this.isPasswordShown = !this.isPasswordShown;
     if (this.isPasswordShown === true) {

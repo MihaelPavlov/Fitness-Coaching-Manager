@@ -38,20 +38,20 @@
         gap: 0.8rem;
       }
 
-      .input-container input {
+      input {
         @include mixins.respond(Phone) {
           width: 97%;
         }
       }
 
-      .input-container select {
+      select {
         @include mixins.respond(Phone) {
           width: 98.6%;
         }
       }
 
       &__description {
-        .input-container input {
+        input {
           @include mixins.respond(Phone) {
             padding-bottom: 2rem;
           }
@@ -97,4 +97,8 @@
       }
     }
   }
+}
+
+button {
+  width: 10rem;
 }

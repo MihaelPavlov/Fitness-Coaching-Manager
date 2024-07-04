@@ -14,7 +14,7 @@
     border: 1px solid palette.$main-blue-color;
 
     @include mixins.respond(Phone) {
-        width: unset;
+        width: 18rem;
     }
 
     &::before {

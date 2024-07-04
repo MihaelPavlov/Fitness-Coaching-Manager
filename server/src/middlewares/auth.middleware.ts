@@ -7,8 +7,7 @@ import {
 import { getSession } from "../services/user.sessions";
 import { Secret } from "jsonwebtoken";
 import { Session } from "../models/session.model";
-import { EXCEPTION } from "../constants/exceptions.constants";
-import { RESPONSE_STATUS } from "../constants/response.constants";
+import EXCEPTIONS from "./../constants/exceptions.constants";
 
 const verifyToken = async (token: string, secret: Secret) => {
   return await jwt.verify(token, secret);
@@ -90,9 +89,9 @@ export const checkRefreshToken = async (
 export const isAuth = (req: any, res: Response, next: NextFunction) => {
   if (!req.user) {
     return res.status(401).json({
-      status: RESPONSE_STATUS.FAILED,
+      status: "fail",
       data: {
-        error: EXCEPTION.UNAUTHENTICATED,
+        error: EXCEPTIONS.UNAUTHENTICATED,
       },
     });
   }
@@ -101,11 +100,11 @@ export const isAuth = (req: any, res: Response, next: NextFunction) => {
 };
 
 export const isCoach = (req: any, res: Response, next: NextFunction) => {
-  if (!req.user || req.user.role !== 1) {
+  if (req.user.role !== 1) {
     return res.status(401).json({
-      status: RESPONSE_STATUS.FAILED,
+      status: "fail",
       data: {
-        error: EXCEPTION.UNAUTHORIZED,
+        error: EXCEPTIONS.UNAUTHORIZED,
       },
     });
   }

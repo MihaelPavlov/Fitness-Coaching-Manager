@@ -1,14 +1,9 @@
-import {
-  AssociationItem,
-  Condition,
-  QueryParams,
-} from "./models/builder.models";
+import { AssociationItem, Condition, QueryParams } from "./models/builder.models";
 import { AbstractBuilder } from "./common/abstract.builder";
-import { TABLE } from "../database/constants/tables.contant";
 
 export class UserBuilder extends AbstractBuilder {
   override fieldsMap: Record<string, Record<string, string>> = {
-    [TABLE.USERS]: {
+    users: {
       uid: "id",
       firstName: "first_name",
       lastName: "last_name",
@@ -23,12 +18,12 @@ export class UserBuilder extends AbstractBuilder {
       visible: "visible",
       dateCreated: "date_created",
     },
-    [TABLE.USER_SPECS]: {
+    user_specs: {
       userId: "user_id",
       sex: "sex",
     },
   };
-  override mainTable: string = TABLE.USERS;
+  override mainTable: string = "users";
   override defaultLimit: number | null = 20; // Specify default limit here, otherwise it will not be reflected on the query
   override defaultOffset: number | null = 0; // Specify default offset here, otherwise it will not be reflected on the query
   override defaultSelect: Record<string, number> | null; // Specify Default fields for selection here, Otherwise it will select all

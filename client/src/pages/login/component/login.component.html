@@ -1,5 +1,5 @@
 <div class="login-container d-flex align-items-center justify-content-center">
-  <form class="login-form d-flex flex-direction-column" [formGroup]="loginForm" (ngSubmit)="login()">
+  <form class="login-form d-flex flex-direction-column" [formGroup]="loginForm">
     <div class="login-form__heading-box mb-5">
       <h1 class="login-form__heading-box-text mt-0">Log in</h1>
       <div class="login-form__heading-box-border"></div>
@@ -8,14 +8,22 @@
       <div
         class="login-form__elements__inputs d-flex flex-direction-column g-2"
       >
-        <div class="control__wrapper">
-          <label for="email" class="control__label">Email</label>
-          <input [type]="InputType.Email" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start" formControlName="email">
-        </div>
-        <div class="control__wrapper">
-          <label for="password" class="control__label">Password</label>
-          <input [type]="passwordType" id="password" placeholder="Password" name="password" class="control w-100 d-block align-items-start" formControlName="password">
-        </div>
+        <app-input
+          label="Email"
+          [type]="InputType.Text"
+          placeholder="Email"
+          name="email"
+          id="email"
+          (valueChange)="onValueChange('email', $event)"
+        ></app-input>
+        <app-input
+          label="Password"
+          [type]="passwordType"
+          placeholder="Password"
+          name="password"
+          id="password"
+          (valueChange)="onValueChange('password', $event)"
+        ></app-input>
       </div>
 
       <div
@@ -33,9 +41,14 @@
       </div>
 
       <div class="login-form__elements__buttons">
-        <button class="btn w-100">
-          Sign In
-        </button>
+        <app-button
+          text="Sign In"
+          [width]="'100%'"
+          [hoverBackgroundColor]="'main-background-color'"
+          [hoverTextColor]="'main-blue-darker-color'"
+          (click)="login()"
+        >
+        </app-button>
       </div>
     </div>
     <app-error errorMessageText="Invalid email or password!" *ngIf="hasLoginError"></app-error>

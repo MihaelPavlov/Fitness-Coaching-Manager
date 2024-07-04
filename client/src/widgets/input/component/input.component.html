@@ -1,0 +1,5 @@
+<div class="input-container">
+    <p class="input-container__text">{{ label }}</p>
+    <input class="input-container__input  w-100 d-block align-items-start" [placeholder]="placeholder" [name]="name"
+        [type]="type" [style.background-color]="getBackgroundColor" [value]="value" [style.color]="getTextColor" (input)="onInputChange($event.target)">
+</div>

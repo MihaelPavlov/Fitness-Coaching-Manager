@@ -16,27 +16,30 @@ export class ProfileFormComponent {
 
   constructor(
     private readonly userService: UserService,
-    private fb: FormBuilder) {}
+    private fb: FormBuilder) { }
 
-    editForm = this.fb.group({
-      firstName: ['', []],
-      lastName: [''],
-      email: [''],
-      dateOfBirth: [''],
-      weightGoal: [''],
-      weight: ['']
-    })
+  editForm = this.fb.group({
+    firstName: ['', []],
+    lastName: [''],
+    email: [''],
+    dateOfBirth: [''],
+    weightGoal: [''],
+    weight: ['']
+  })
 
   ngOnInit() {
     this.userService.getDetail().subscribe(userData => {
       this.userData = userData.data.user[0];
+
+      this.editForm.patchValue({
+        firstName: this.userData.firstName,
+        lastName: this.userData.lastName,
+        email: this.userData.email
+      })
     })
   }
-
 
   handleEdit(): void {
     console.log(this.editForm.value)
   }
-
-  
 }

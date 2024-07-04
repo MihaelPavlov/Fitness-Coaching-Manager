@@ -7,6 +7,7 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileFormComponent } from '../../features/profile/profile-form/component/profile-form.component';
 import { ProfileCardsComponent } from '../../features/profile/profile-cards/component/profile-cards.component';
 import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
         CommonModule,
         TagModule,
         ProfileRoutingModule,
-        WorkoutCardModule
+        WorkoutCardModule,
+        ReactiveFormsModule
     ],
     exports: [
         ProfileComponent

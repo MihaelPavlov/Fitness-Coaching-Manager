@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { UserService } from '../../../../entities/services/user.service';
 import { IUserData } from '../user-type/userType';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-form',
@@ -14,7 +15,17 @@ export class ProfileFormComponent {
   public userData!: IUserData;
 
   constructor(
-    private readonly userService: UserService) {}
+    private readonly userService: UserService,
+    private fb: FormBuilder) {}
+
+    editForm = this.fb.group({
+      firstName: ['', []],
+      lastName: [''],
+      email: [''],
+      dateOfBirth: [''],
+      weightGoal: [''],
+      weight: ['']
+    })
 
   ngOnInit() {
     this.userService.getDetail().subscribe(userData => {
@@ -24,7 +35,7 @@ export class ProfileFormComponent {
 
 
   handleEdit(): void {
-    console.log()
+    console.log(this.editForm.value)
   }
 
   

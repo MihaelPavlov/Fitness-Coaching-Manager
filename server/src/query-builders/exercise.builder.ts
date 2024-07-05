@@ -30,6 +30,11 @@ export class ExerciseBuilder extends AbstractBuilder {
   override entityById: number | null = null;
   override associations: Array<AssociationItem> = [
     //Add object for user
+    {
+      mainField: "contributor_id",
+      relatedTable: TABLE.CONTRIBUTORS,
+      relatedField: "id"
+    }
   ];
 
   constructor(queryParams: QueryParams | null = null) {

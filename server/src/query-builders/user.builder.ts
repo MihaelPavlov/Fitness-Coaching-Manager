@@ -17,16 +17,38 @@ export class UserBuilder extends AbstractBuilder {
       password: "password",
       profilePicture: "profile_picture_url",
       country: "country",
-      userLanguages: "languages",
+      language: "language",
       phoneNumber: "phone_number",
       userRole: "user_role",
       visible: "visible",
       dateCreated: "date_created",
     },
     [TABLE.USER_SPECS]: {
+      userSpecId: "id",
       userId: "user_id",
+      weight: "weight",
+      weightGoal: "weight_goal",
+      height: "height",
+      BMI: "bmi",
+      burnedCalories: "total_calorie_burned",
+      workoutCount: "total_workouts",
+      preferences: "workout_preferences",
       sex: "sex",
+      fitnessLevel: "fitness_level",
+      birthDate: "date_of_birth"
     },
+    [TABLE.CONTRIBUTORS]: {
+      contributorId: "id",
+      userId: "user_id",
+      dateOfApproval: "approval_date",
+      summary: "summary",
+      rating: "rating",
+      trusted: "is_trusted"
+    },
+    [TABLE.CONTRIBUTORS_SUBSCRIBERS]: {
+      contributor: "contributor_id",
+      subscriber: "user_id"
+    }
   };
   override mainTable: string = TABLE.USERS;
   override defaultLimit: number | null = 20; // Specify default limit here, otherwise it will not be reflected on the query

@@ -3,6 +3,7 @@ const USERS_FIELDS = {
     uid: "uid",
     firstName: "firstName",
     lastName: "lastName",
+    userName: "username",
     email: "email",
     password: "password",
     profilePicture: "profilePicture",

@@ -21,9 +21,7 @@ export class ExerciseTagBuilder extends AbstractBuilder {
   override defaultSelect: Record<string, number> | null;
   override defaultCondition: Condition;
   override entityById: number | null = null;
-  override associations: Array<AssociationItem> = [
-    //Add object for user
-  ];
+  override associations: Array<AssociationItem> = [];
 
   constructor(queryParams: QueryParams | null = null) {
     super(queryParams);

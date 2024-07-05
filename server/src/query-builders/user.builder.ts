@@ -60,9 +60,14 @@ export class UserBuilder extends AbstractBuilder {
     // Specify associations here, otherwise there will be no join tables
     {
       mainField: "id",
-      relatedTable: "user_specs",
+      relatedTable: TABLE.USER_SPECS,
       relatedField: "user_id",
     },
+    {
+      mainField: "id",
+      relatedTable: TABLE.CONTRIBUTORS,
+      relatedField: "user_id"
+    }
   ];
 
   constructor(queryParams: QueryParams | null = null) {

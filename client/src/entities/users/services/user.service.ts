@@ -3,6 +3,7 @@ import { RestApiService } from '../../../shared/services/rest-api.service';
 import { PATH } from '../../../shared/configs/path.config';
 import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
 import { UserInfo } from '../../models/user.interface';
+import { IQueryParams } from '../../models/query-params.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,10 @@ export class UserService {
   public isAuth$ = this.isAuthSubject$.asObservable();
 
   constructor(private readonly apiService: RestApiService) {}
+
+  public getDetails(queryParams: IQueryParams) {
+    
+  }
 
   public fetchUserInfo(): Subscription {
     return this.fetchCurrentUserInfo(

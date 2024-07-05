@@ -4,7 +4,7 @@ import {
   QueryParams,
 } from "./models/builder.models";
 import { AbstractBuilder } from "./common/abstract.builder";
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 
 export class ExerciseBuilder extends AbstractBuilder {
   override fieldsMap: Record<string, Record<string, string>> = {

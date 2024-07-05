@@ -4,7 +4,7 @@ import {
   QueryParams,
 } from "./models/builder.models";
 import { AbstractBuilder } from "./common/abstract.builder";
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 
 export class UserBuilder extends AbstractBuilder {
   override fieldsMap: Record<string, Record<string, string>> = {
@@ -35,7 +35,7 @@ export class UserBuilder extends AbstractBuilder {
       preferences: "workout_preferences",
       sex: "sex",
       fitnessLevel: "fitness_level",
-      birthDate: "date_of_birth"
+      birthDate: "date_of_birth",
     },
     [TABLE.CONTRIBUTORS]: {
       contributorId: "id",
@@ -43,12 +43,12 @@ export class UserBuilder extends AbstractBuilder {
       dateOfApproval: "approval_date",
       summary: "summary",
       rating: "rating",
-      trusted: "is_trusted"
+      trusted: "is_trusted",
     },
     [TABLE.CONTRIBUTORS_SUBSCRIBERS]: {
       contributor: "contributor_id",
-      subscriber: "user_id"
-    }
+      subscriber: "user_id",
+    },
   };
   override mainTable: string = TABLE.USERS;
   override defaultLimit: number | null = 20; // Specify default limit here, otherwise it will not be reflected on the query

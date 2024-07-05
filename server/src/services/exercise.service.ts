@@ -3,7 +3,7 @@ import { ExerciseBuilder } from "../query-builders/exercise.builder";
 import db from "../database/database-connector";
 import { ExerciseTagBuilder } from "../query-builders/exercise-tag.builder";
 import { ExerciseEquipmentBuilder } from "../query-builders/exercise-equipment.builder";
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 import { BadRequestException } from "../models/exceptions/bad-request.exception";
 
 export const executeExerciseBuilder = async (payload: QueryParams) =>

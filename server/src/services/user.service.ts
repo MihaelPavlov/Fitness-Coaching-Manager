@@ -6,7 +6,7 @@ import {
   generatePasswordHash,
   createTokensAndSession,
 } from "./../helpers/auth.helper";
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 import { EXCEPTION } from "../constants/exceptions.constants";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 

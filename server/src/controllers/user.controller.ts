@@ -46,16 +46,14 @@ router.get(
   }
 );
 
-router.get(
+router.post(
   PATH.USERS.GET_DETAILS,
   async (req: express.Request, res: express.Response) => {
     const user = await userService.getUser(req.body);
 
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
-      data: {
-        user,
-      },
+      data: user[0]
     });
   }
 );

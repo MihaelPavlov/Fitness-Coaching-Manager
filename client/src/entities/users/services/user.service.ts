@@ -1,9 +1,12 @@
 import { Injectable, OnInit } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { PATH } from '../../../shared/configs/path.config';
-import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { UserInfo } from '../../models/user.interface';
 import { IQueryParams } from '../../models/query-params.interface';
+import { IRequestResult } from '../../models/request-result.interface';
+import { IPublicUserDetails } from '../models/user-details.interface';
+import { HttpRequest } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +20,8 @@ export class UserService {
 
   constructor(private readonly apiService: RestApiService) {}
 
-  public getDetails(queryParams: IQueryParams) {
-    
+  public getDetail(queryParams: IQueryParams): Observable<IRequestResult<IPublicUserDetails[]> | null> {
+    return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
   public fetchUserInfo(): Subscription {

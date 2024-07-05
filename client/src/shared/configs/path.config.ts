@@ -2,7 +2,8 @@ export const PATH = {
   USERS: {
     LOGIN: "users/login",
     REGISTER: "users/register",
-    CURRENT_USER: "users/getUserInfo"
+    CURRENT_USER: "users/getUserInfo",
+    GET_DETAIL: "users/getDetail"
   },
   EXERCISES: {
     GET_LIST: 'exercises/getList',

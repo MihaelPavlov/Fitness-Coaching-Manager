@@ -16,9 +16,6 @@ export class ProfileComponent implements OnInit {
 
   public user: any;
 
-  public userInfo$: Observable<any> = this.userService.userInfo$;
-  public isAuth$ = this.userService.isAuth$;
-
   constructor(private readonly userService: UserService, private readonly route: ActivatedRoute) {}
 
   public ngOnInit(): void {
@@ -32,10 +29,12 @@ export class ProfileComponent implements OnInit {
             this.profileState = 'private';
           }
           // Logged-in user see other profile
+          this.fetchPublicProfileUser(params);
         },
         err => {
           console.log("Unauthenticated.");
           // Display public profile
+          this.fetchPublicProfileUser(params);
         }
       );
     })
@@ -61,26 +60,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private fetchPrivateProfileUser(): void {}
+  private fetchPrivateProfileUser(): void {} // Must be done from other PR
 }
 
-
-/*
-const queryParams: IQueryParams = {
-            what: {
-              firstName: 1,
-              lastName: 1,
-              BMI: 1,
-              workoutCount: 1,
-              fitnessLevel: 1,
-              weight: 1,
-              weightGoal: 1,
-              preferences: 1
-            },
-            id: params['userId'] || null
-          }
-
-          this.userService.getDetail(queryParams).subscribe((res: IRequestResult<IPublicUserDetails[]> | null) => {
-            console.log(res?.data);
-          })
-*/

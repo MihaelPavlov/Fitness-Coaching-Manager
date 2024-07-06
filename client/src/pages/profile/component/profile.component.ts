@@ -20,8 +20,15 @@ export class ProfileComponent implements OnInit {
     const queryParams: IQueryParams = {
       what: {
         firstName: 1,
-        lastName: 1
-      }
+        lastName: 1,
+        BMI: 1,
+        workoutCount: 1,
+        fitnessLevel: 1,
+        weight: 1,
+        weightGoal: 1,
+        preferences: 1
+      },
+      id: 1
     }
 
     this.userService.getDetail(queryParams).subscribe((res: IRequestResult<IPublicUserDetails[]> | null) => {

@@ -9,6 +9,7 @@ import {
 import { TABLE } from "../database/constants/tables.constant";
 import { EXCEPTION } from "../constants/exceptions.constants";
 import { UserRoles } from "./../models/enums/user-roles.enum";
+import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -50,7 +51,7 @@ export const registerUser = async (data: Record<string, any>) => {
   await db(TABLE.USER_SPECS).insert({
     user_id: createdUserID,
     sex: data.sex,
-    fitness_level: data?.fitnessLevel || null,
+    fitness_level: data.userRole === UserRoles.Coach ? FitnessLevels.Elite : data?.fitnessLevel || null,
   });
 
   // Coach user

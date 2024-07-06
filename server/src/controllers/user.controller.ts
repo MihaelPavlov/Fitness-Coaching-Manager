@@ -25,6 +25,7 @@ router.get(
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
       data: {
+        id: req.user.id,
         username,
         role: req.user.role,
       },

@@ -6,7 +6,6 @@ import { UserInfo } from '../../models/user.interface';
 import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IPublicUserDetails } from '../models/user-details.interface';
-import { HttpRequest } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -24,12 +23,20 @@ export class UserService {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
+  public fetchUserForProfile(): Observable<any> {
+    return this.fetchCurrentUserInfo(
+      localStorage.getItem('accessToken') as string,
+      localStorage.getItem('refreshToken') as string
+    )
+  }
+
   public fetchUserInfo(): Subscription {
     return this.fetchCurrentUserInfo(
       localStorage.getItem('accessToken') as string,
       localStorage.getItem('refreshToken') as string
     ).subscribe((res: any) => {
       this.userInfoSubject$.next({
+        id: res.data.id,
         username: res.data.username,
         role: res.data.role,
       });

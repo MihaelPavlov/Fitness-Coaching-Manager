@@ -54,7 +54,7 @@ export class UserService {
   }
 
   public hasUserSubscribedToContributor(contributorId: number): Observable<any> {
-    return this.apiService.post(PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
+    return this.apiService.get(PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`, { 'headers': this.createAuthHeaders() })
   }
 
   public login(email: string, password: string): Observable<any> {

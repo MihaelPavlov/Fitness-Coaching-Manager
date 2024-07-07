@@ -12,5 +12,7 @@ export const PATH = {
     GET_DETAILS: "/getDetail",
     REGISTER: "/register",
     LOGIN: "/login",
+    SUBSCRIBE: "/subscribe",
+    UNSUBSCRIBE: "/unsubscribe"
   },
 };

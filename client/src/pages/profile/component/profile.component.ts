@@ -14,7 +14,8 @@ export class ProfileComponent implements OnInit {
   profileState: 'public' | 'private' = 'public';
 
   public user: IPublicUserDetails | undefined;
-  private isAuth: boolean = false;
+  protected isAuth: boolean = false;
+  protected isSubscribed: boolean = false;
 
   constructor(private readonly userService: UserService, private readonly route: ActivatedRoute, private readonly router: Router) {}
 
@@ -44,6 +45,10 @@ export class ProfileComponent implements OnInit {
     if(!this.isAuth) {
       this.router.navigate(['/login']);
     }
+  }
+
+  public onUnsubscribe(): void {
+
   }
 
   private fetchPublicProfileUser(params: any): void {

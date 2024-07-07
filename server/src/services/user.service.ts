@@ -51,7 +51,10 @@ export const registerUser = async (data: Record<string, any>) => {
   await db(TABLE.USER_SPECS).insert({
     user_id: createdUserID,
     sex: data.sex,
-    fitness_level: data.userRole === UserRoles.Coach ? FitnessLevels.Elite : data?.fitnessLevel || null,
+    fitness_level:
+      data.userRole === UserRoles.Coach
+        ? FitnessLevels.Elite
+        : data?.fitnessLevel || null,
   });
 
   // Coach user
@@ -91,3 +94,29 @@ export const loginUser = async (data: Record<string, any>) => {
 
   return createTokensAndSession(user);
 };
+
+export const subscribeToContributor = async (
+  userId: number,
+  contributorId: number
+) => {
+  // Check if user has subscribed already
+  const hasSubscribed = (await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
+    .select("*")
+    .where("contributor_id", "=", contributorId)
+    .andWhere("user_id", "=", userId)).length > 0;
+
+  if (hasSubscribed) {
+    throw new Error("You are already subscribed to this contributor");
+  }
+
+  // Subscribe user
+  await db(TABLE.CONTRIBUTORS_SUBSCRIBERS).insert({
+    contributor_id: contributorId,
+    user_id: userId
+  });
+};
+
+export const unsubscribeToContributor = async (
+  userId: number,
+  contributorId: number
+) => {};

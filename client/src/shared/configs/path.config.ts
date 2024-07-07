@@ -3,7 +3,10 @@ export const PATH = {
     LOGIN: "users/login",
     REGISTER: "users/register",
     CURRENT_USER: "users/getUserInfo",
-    GET_DETAIL: "users/getDetail"
+    GET_DETAIL: "users/getDetail",
+    SUBSCRIBE: "/subscribe",
+    UNSUBSCRIBE: "/unsubscribe",
+    HAS_SUBSCRIBED: "/hasSubscribed"
   },
   EXERCISES: {
     GET_LIST: 'exercises/getList',

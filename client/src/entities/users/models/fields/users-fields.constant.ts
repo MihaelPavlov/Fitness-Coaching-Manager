@@ -1,4 +1,4 @@
-const USERS_FIELDS = {
+export const USERS_FIELDS = {
   users: {
     uid: "uid",
     firstName: "firstName",

@@ -45,15 +45,15 @@ export class UserService {
     });
   }
 
-  public subscribeToContributor(contributorId: number) {
+  public subscribeToContributor(contributorId: number): Observable<any> {
     return this.apiService.post(PATH.USERS.SUBSCRIBE + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
   }
 
-  public unsubscribeToContributor(contributorId: number) {
+  public unsubscribeToContributor(contributorId: number): Observable<any> {
     return this.apiService.post(PATH.USERS.UNSUBSCRIBE + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
   }
 
-  public hasUserSubscribedToContributor(contributorId: number) {
+  public hasUserSubscribedToContributor(contributorId: number): Observable<any> {
     return this.apiService.post(PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
   }
 

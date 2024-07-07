@@ -6,6 +6,7 @@ import { UserInfo } from '../../models/user.interface';
 import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IPublicUserDetails } from '../models/user-details.interface';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class UserService {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
-  public fetchUserForProfile(): Observable<any> {
+  public fetchUserInfo$(): Observable<any> {
     return this.fetchCurrentUserInfo(
       localStorage.getItem('accessToken') as string,
       localStorage.getItem('refreshToken') as string
@@ -42,6 +43,18 @@ export class UserService {
       });
       this.isAuthSubject$.next(true);
     });
+  }
+
+  public subscribeToContributor(contributorId: number) {
+    return this.apiService.post(PATH.USERS.SUBSCRIBE + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
+  }
+
+  public unsubscribeToContributor(contributorId: number) {
+    return this.apiService.post(PATH.USERS.UNSUBSCRIBE + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
+  }
+
+  public hasUserSubscribedToContributor(contributorId: number) {
+    return this.apiService.post(PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
   }
 
   public login(email: string, password: string): Observable<any> {
@@ -84,5 +97,11 @@ export class UserService {
     return this.apiService.get(PATH.USERS.CURRENT_USER, {
       headers: { accessToken, refreshToken },
     });
+  }
+
+  private createAuthHeaders(): HttpHeaders {
+    return new HttpHeaders()
+              .set('AccessToken', localStorage.getItem('accessToken') || '')
+              .set('RefreshToken', localStorage.getItem('refreshToken') || '')
   }
 }

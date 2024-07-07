@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.userService.fetchUserForProfile().subscribe({
+      this.userService.fetchUserInfo$().subscribe({
         next: (res: any) => {
           this.isAuth = true;
           if (!params["userId"] || res.data.id == params["userId"]) { // Same user trying to access his public profile - not allowed

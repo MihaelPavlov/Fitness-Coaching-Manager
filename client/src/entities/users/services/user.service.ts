@@ -19,7 +19,7 @@ export class UserService {
 
   constructor(private readonly apiService: RestApiService) {}
 
-  public getDetail(queryParams: IQueryParams): Observable<IRequestResult<IPublicUserDetails[]> | null> {
+  public getDetail(queryParams: IQueryParams): Observable<IRequestResult<IPublicUserDetails> | null> {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 

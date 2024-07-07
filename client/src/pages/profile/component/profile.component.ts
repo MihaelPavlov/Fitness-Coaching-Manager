@@ -3,7 +3,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { UserService } from '../../../entities/users/services/user.service';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IPublicUserDetails } from '../../../entities/users/models/user-details.interface';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -13,14 +13,16 @@ import { ActivatedRoute } from '@angular/router';
 export class ProfileComponent implements OnInit {
   profileState: 'public' | 'private' = 'public';
 
-  public user: any;
+  public user: IPublicUserDetails | undefined;
+  private isAuth: boolean = false;
 
-  constructor(private readonly userService: UserService, private readonly route: ActivatedRoute) {}
+  constructor(private readonly userService: UserService, private readonly route: ActivatedRoute, private readonly router: Router) {}
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.userService.fetchUserForProfile().subscribe({
         next: (res: any) => {
+          this.isAuth = true;
           if (!params["userId"] || res.data.id == params["userId"]) { // Same user trying to access his public profile - not allowed
             // Do different builder request for private
             this.fetchPrivateProfileUser();
@@ -36,6 +38,12 @@ export class ProfileComponent implements OnInit {
         }
       });
     })
+  }
+
+  public onSubscribe(): void {
+    if(!this.isAuth) {
+      this.router.navigate(['/login']);
+    }
   }
 
   private fetchPublicProfileUser(params: any): void {
@@ -55,8 +63,9 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userService.getDetail(queryParams).subscribe({
-      next: (res: IRequestResult<IPublicUserDetails[]> | null) => {
+      next: (res: IRequestResult<IPublicUserDetails> | null) => {
         console.log(res?.data);
+        this.user = res?.data;
       },
       error: (err) => {
         console.log("Could not find user");

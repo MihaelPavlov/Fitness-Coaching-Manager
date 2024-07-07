@@ -104,7 +104,6 @@ export class ProfileComponent implements OnInit {
 
     this.userService.getDetail(queryParams).subscribe({
       next: (res: IRequestResult<IPublicUserDetails> | null) => {
-        console.log(res?.data);
         this.user = res?.data;
       },
       error: (err) => {

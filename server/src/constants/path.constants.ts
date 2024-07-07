@@ -13,6 +13,7 @@ export const PATH = {
     REGISTER: "/register",
     LOGIN: "/login",
     SUBSCRIBE: "/subscribe",
-    UNSUBSCRIBE: "/unsubscribe"
+    UNSUBSCRIBE: "/unsubscribe",
+    HAS_SUBSCRIBED: "/hasSubscribed"
   },
 };

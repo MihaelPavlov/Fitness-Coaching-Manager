@@ -161,4 +161,28 @@ router.post(
   }
 )
 
+router.get(
+  PATH.USERS.HAS_SUBSCRIBED + "/:contributorId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      const hasSubscribed = await userService.hasUserSubscribed(req.user.id, req.params.contributorId);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          hasSubscribed
+        }
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message
+        }
+      })
+    }
+  }
+)
+
 export default router;

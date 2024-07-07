@@ -137,4 +137,28 @@ router.post(
   }
 )
 
+router.post(
+  PATH.USERS.UNSUBSCRIBE + "/:contributorId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.unsubscribeToContributor(req.user.id, req.params.contributorId);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          message: "Successfully unsubscribed."
+        }
+      })
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message
+        }
+      })
+    }
+  }
+)
+
 export default router;

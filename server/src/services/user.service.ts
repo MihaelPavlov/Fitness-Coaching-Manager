@@ -100,10 +100,13 @@ export const subscribeToContributor = async (
   contributorId: number
 ) => {
   // Check if user has subscribed already
-  const hasSubscribed = (await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
-    .select("*")
-    .where("contributor_id", "=", contributorId)
-    .andWhere("user_id", "=", userId)).length > 0;
+  const hasSubscribed =
+    (
+      await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
+        .select("*")
+        .where("contributor_id", "=", contributorId)
+        .andWhere("user_id", "=", userId)
+    ).length > 0;
 
   if (hasSubscribed) {
     throw new Error("You are already subscribed to this contributor");
@@ -112,11 +115,28 @@ export const subscribeToContributor = async (
   // Subscribe user
   await db(TABLE.CONTRIBUTORS_SUBSCRIBERS).insert({
     contributor_id: contributorId,
-    user_id: userId
+    user_id: userId,
   });
 };
 
 export const unsubscribeToContributor = async (
   userId: number,
   contributorId: number
-) => {};
+) => {
+  const hasSubscribed =
+    (
+      await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
+        .select("*")
+        .where("contributor_id", "=", contributorId)
+        .andWhere("user_id", "=", userId)
+    ).length > 0;
+
+  if (!hasSubscribed) {
+    throw new Error("You are not subscribed");
+  }
+
+  await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
+    .where("contributor_id", "=", contributorId)
+    .andWhere("user_id", "=", userId)
+    .del();
+};

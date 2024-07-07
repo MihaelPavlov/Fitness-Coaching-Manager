@@ -68,7 +68,7 @@
     <button *ngIf="!isSubscribed" class="btn w-auto sub-btn" (click)="onSubscribe()">
       Subscribe
     </button>
-    <button *ngIf="isAuth && isSubscribed" class="btn w-auto sub-btn" (click)="onSubscribe()">
+    <button *ngIf="isAuth && isSubscribed" class="btn w-auto sub-btn" (click)="onUnsubscribe()">
       Unsubscribe
     </button>
   </div>

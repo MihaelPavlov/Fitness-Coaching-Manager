@@ -4,9 +4,9 @@ export const PATH = {
     REGISTER: "users/register",
     CURRENT_USER: "users/getUserInfo",
     GET_DETAIL: "users/getDetail",
-    SUBSCRIBE: "/subscribe",
-    UNSUBSCRIBE: "/unsubscribe",
-    HAS_SUBSCRIBED: "/hasSubscribed"
+    SUBSCRIBE: "users/subscribe",
+    UNSUBSCRIBE: "users/unsubscribe",
+    HAS_SUBSCRIBED: "users/hasSubscribed"
   },
   EXERCISES: {
     GET_LIST: 'exercises/getList',

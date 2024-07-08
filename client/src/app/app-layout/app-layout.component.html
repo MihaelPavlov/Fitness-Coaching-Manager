@@ -5,7 +5,7 @@
       <router-outlet></router-outlet>
     </main>
   </div>
-  <app-menu-container class="main-sidebar"></app-menu-container>
+  <app-menu-container class="main-sidebar" *ngIf="(isAuth$ | async)"></app-menu-container>
 
   <!-- <main-footer></main-footer> -->
 </div>

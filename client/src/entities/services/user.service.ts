@@ -1,12 +1,8 @@
 import { Injectable, OnInit } from '@angular/core';
 import { RestApiService } from '../../shared/services/rest-api.service';
 import { PATH } from '../../shared/configs/path.config';
-import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
-
-interface UserInfo {
-  username: string;
-  role: number;
-}
+import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
+import { UserInfo } from '../models/user.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -15,14 +11,10 @@ export class UserService {
   private userInfoSubject$ = new BehaviorSubject<UserInfo | null>(null);
   public userInfo$ = this.userInfoSubject$.asObservable();
 
+  private isAuthSubject$ = new BehaviorSubject<boolean>(false);
+  public isAuth$ = this.isAuthSubject$.asObservable();
+  
   constructor(private readonly apiService: RestApiService) {}
-
-  public isAuth(): boolean {
-    const accessToken = localStorage.getItem('accessToken');
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    return accessToken !== null && refreshToken !== null;
-  }
 
   public fetchUserInfo(): Subscription {
     return this.fetchCurrentUserInfo(
@@ -33,6 +25,7 @@ export class UserService {
         username: res.data.username,
         role: res.data.role,
       });
+      this.isAuthSubject$.next(true);
     });
   }
 
@@ -43,6 +36,21 @@ export class UserService {
           response.data.accessToken,
           response.data.refreshToken
         );
+
+        return response;
+      })
+    );
+  }
+
+  public register(body: Record<string, any>): Observable<any> {
+    return this.apiService.post(PATH.USERS.REGISTER, body).pipe(
+      map((response: any) => {
+        this.saveCredentials(
+          response.data.accessToken,
+          response.data.refreshToken
+        );
+
+        this.fetchUserInfo();
 
         return response;
       })

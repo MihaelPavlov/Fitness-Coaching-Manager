@@ -90,3 +90,8 @@ export const loginUser = async (data: Record<string, any>) => {
 
   return createTokensAndSession(user);
 };
+
+export const updateUserDetails = async(userData: any) => {
+  console.log(userData, 'printed from service');
+  await db(TABLE.USERS).where("email", "=", userData.email).update('email', userData.email)
+}

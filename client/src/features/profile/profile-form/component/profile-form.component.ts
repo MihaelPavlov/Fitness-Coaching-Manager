@@ -3,6 +3,7 @@ import { InputType } from '../../../../shared/enums/input-types.enum';
 import { UserService } from '../../../../entities/services/user.service';
 import { IUserData } from '../user-type/userType';
 import { FormBuilder } from '@angular/forms';
+import { IUpdatedUserDetails } from '../user-type/updateUserInterface';
 
 @Component({
   selector: 'app-profile-form',
@@ -40,6 +41,7 @@ export class ProfileFormComponent {
   }
 
   handleEdit(): void {
-    console.log(this.editForm.value)
+    const updatedDetails = this.editForm.value;
+    this.userService.update(updatedDetails as IUpdatedUserDetails);
   }
 }

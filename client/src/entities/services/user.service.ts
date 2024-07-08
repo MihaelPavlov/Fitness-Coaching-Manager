@@ -3,6 +3,7 @@ import { RestApiService } from '../../shared/services/rest-api.service';
 import { PATH } from '../../shared/configs/path.config';
 import { BehaviorSubject, Observable, Subscription, isEmpty, map } from 'rxjs';
 import { UserInfo } from '../models/user.interface';
+import { IUpdatedUserDetails } from '../../features/profile/profile-form/user-type/updateUserInterface';
 
 @Injectable({
   providedIn: 'root',
@@ -74,5 +75,10 @@ export class UserService {
   //method to call BE and retrieve private profile details
   public getDetail(options?: object): Observable<any> {
     return this.apiService.get('users/getDetail', options);
+  }
+
+  // method to send updated UserDetails to BE
+  public update(userData: IUpdatedUserDetails) {
+    this.apiService.post('users/update', userData).subscribe();
   }
 }

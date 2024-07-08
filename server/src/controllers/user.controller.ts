@@ -114,4 +114,12 @@ router.post(
   }
 );
 
+router.post(
+  PATH.USERS.UPDATE,
+  async(req: express.Request, res: express.Response) => {
+    console.log('I was called');
+    console.log(req.body)
+  }
+)
+
 export default router;

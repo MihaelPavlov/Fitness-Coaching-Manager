@@ -5,6 +5,8 @@ import { WorkoutBuilder } from "./../query-builders/workout.builder";
 
 export const executeWorkoutBuilder = async (payload: QueryParams) => await new WorkoutBuilder(payload).buildQuery();
 
+export const getWorkouts = async (payload: QueryParams) => await executeWorkoutBuilder(payload);
+
 export const createWorkoutSession = async (
   contributorId: number,
   data: Record<string, any>

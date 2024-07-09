@@ -2,7 +2,6 @@ import { TABLE } from "./../database/constants/tables.constant";
 import { AbstractBuilder } from "./common/abstract.builder";
 import { AssociationItem, Condition, QueryParams } from "./models/builder.models";
 
-
 export class WorkoutBuilder extends AbstractBuilder {
     protected override fieldsMap: Record<string, Record<string, string>> = {
         [TABLE.WORKOUT_SESSION]: {

@@ -1,5 +1,9 @@
 import { TABLE } from "./../database/constants/tables.constant";
 import db from "../database/database-connector";
+import { QueryParams } from "./../query-builders/models/builder.models";
+import { WorkoutBuilder } from "./../query-builders/workout.builder";
+
+export const executeWorkoutBuilder = async (payload: QueryParams) => await new WorkoutBuilder(payload).buildQuery();
 
 export const createWorkoutSession = async (
   contributorId: number,

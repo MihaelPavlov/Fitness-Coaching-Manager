@@ -4,6 +4,9 @@
 <div
   class="profile-card-container__cards-flex-container justify-content-start d-flex mw-100"
 >
+  <ng-container *ngIf="!workouts">
+    <p>There are none workouts yet</p>
+  </ng-container>
   <ng-container *ngFor="let workout of workouts">
     <app-workout-card [workout]="workout"></app-workout-card>
   </ng-container>

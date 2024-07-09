@@ -4,6 +4,7 @@ import { isAuth, isCoach } from "./../middlewares/auth.middleware";
 import { PATH } from "./../constants/path.constants";
 import { createWorkoutExercisesValidators, createWorkoutValidators } from "./../validators/workout.validator";
 import { RESPONSE_STATUS } from "./../constants/response.constants";
+import { inputValidationMiddleware } from "./../middlewares/validation.middleware";
 
 const router = express.Router();
 
@@ -11,8 +12,8 @@ router.post(
     PATH.WORKOUTS.CREATE_WORKOUT,
     isAuth,
     isCoach,
-    createWorkoutValidators,
-    createWorkoutExercisesValidators,
+    inputValidationMiddleware(createWorkoutValidators),
+    inputValidationMiddleware(createWorkoutExercisesValidators),
     async (req: any, res: express.Response) => {
         try {
             const createdWorkout = await createWorkoutSession(req.user.id, req.body);

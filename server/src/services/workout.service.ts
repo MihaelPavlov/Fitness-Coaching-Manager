@@ -23,6 +23,7 @@ export const createWorkoutSession = async (
 
   // Save each added exercise to the workout
   for (let exercise of data?.exercises) {
+    // Check if exercise exsists
     await db(TABLE.SESSION_EXERCISES).insert({
       session_id: workoutSessionId,
       exercise_id: exercise?.exerciseId,

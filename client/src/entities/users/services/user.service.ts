@@ -7,6 +7,7 @@ import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IPublicUserDetails } from '../models/user-details.interface';
 import { HttpHeaders } from '@angular/common/http';
+import { IWorkoutCardsFields } from '../models/workout-cards.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +25,7 @@ export class UserService {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
-  public getContributorWorkouts(queryParams: IQueryParams): Observable<any> {
+  public getContributorWorkouts(queryParams: IQueryParams): Observable<IRequestResult<IWorkoutCardsFields> | null> {
     return this.apiService.post(PATH.WORKOUTS.GET_CONTRIBUTOR_WORKOUTS, queryParams);
   }
 

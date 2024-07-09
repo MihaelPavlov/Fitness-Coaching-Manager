@@ -5,7 +5,7 @@ import { IRequestResult } from '../../../entities/models/request-result.interfac
 import { IPublicUserDetails } from '../../../entities/users/models/user-details.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USERS_FIELDS } from '../../../entities/users/models/fields/users-fields.constant';
-import { catchError, map, tap } from 'rxjs';
+import { IWorkoutCardsFields } from '../../../entities/users/models/workout-cards.interface';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit {
   public profileUserId?: number;
   protected isAuth: boolean = false;
   protected isSubscribed: boolean = false;
+
+  public workouts: IWorkoutCardsFields | undefined;
 
   constructor(
     private readonly userService: UserService,
@@ -137,8 +139,9 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userService.getContributorWorkouts(queryParams).subscribe({
-      next: (res: any) => {
-        console.log(res);
+      next: (res: IRequestResult<IWorkoutCardsFields> | null) => {
+        console.log(res?.data);
+        this.workouts = res?.data;
       },
       error: err => {
         console.log(err);

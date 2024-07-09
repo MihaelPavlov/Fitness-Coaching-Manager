@@ -14,9 +14,7 @@ router.post("/getWorkouts", async(req: express.Request, res: express.Response) =
 
         res.status(200).json({
             status: RESPONSE_STATUS.SUCCESS,
-            data: {
-                workouts
-            }
+            data: workouts
         })
     } catch (err) {
         res.status(400).json({

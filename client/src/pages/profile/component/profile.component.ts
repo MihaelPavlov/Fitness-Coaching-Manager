@@ -108,6 +108,9 @@ export class ProfileComponent implements OnInit {
 
     this.userService.getDetail(queryParams).subscribe({
       next: (res: IRequestResult<IPublicUserDetails> | null) => {
+        if (!res?.data) {
+          this.router.navigate(['/']);
+        }
         this.user = res?.data;
       },
       error: (err) => {

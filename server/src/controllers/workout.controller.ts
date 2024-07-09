@@ -8,7 +8,7 @@ import { inputValidationMiddleware } from "./../middlewares/validation.middlewar
 
 const router = express.Router();
 
-router.get("/", async(req: express.Request, res: express.Response) => {
+router.post("/getWorkouts", async(req: express.Request, res: express.Response) => {
     try {
         const workouts = await getWorkouts(req.body);
 

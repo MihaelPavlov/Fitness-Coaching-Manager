@@ -15,4 +15,7 @@ export const PATH = {
     GET_TAG_LIST: 'exercises/getTagList',
     GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
   },
+  WORKOUTS: {
+    GET_CONTRIBUTOR_WORKOUTS: "workouts/getWorkouts"
+  }
 }

@@ -56,7 +56,9 @@ export class ProfileComponent implements OnInit {
         error: err => {
           console.log(err)
         }
-      })
+      });
+
+      this.fetchContributorWorkouts(params['userId']);
     });
   }
 
@@ -113,4 +115,34 @@ export class ProfileComponent implements OnInit {
   }
 
   private fetchPrivateProfileUser(): void {} // Must be done from other PR
+
+  private fetchContributorWorkouts(contributorId: number): void {
+    const queryParams: IQueryParams = {
+      what: {
+        title: 1,
+        tags: 1,
+        rating: 1,
+        imageUri: 1
+      },
+      condition: {
+        type: "AND",
+        items: [
+          {
+            field: "owner",
+            operation: "EQ",
+            value: contributorId
+          }
+        ]
+      }
+    }
+
+    this.userService.getContributorWorkouts(queryParams).subscribe({
+      next: (res: any) => {
+        console.log(res);
+      },
+      error: err => {
+        console.log(err);
+      }
+    })
+  }
 }

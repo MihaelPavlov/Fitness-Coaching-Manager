@@ -1,16 +1,30 @@
+import { UserBuilder } from "./../query-builders/user.builder";
 import { WorkoutTagsBuilder } from "./../query-builders/workout-tags.builder";
 
 export const mapWorkouts = async (workouts: Array<any>) => {
   return await Promise.all(
     workouts.map(async (el) => {
-      if (el.tags) {
+      if (el.tags) { // Map Tags
         el.tags = el.tags.split(",");
         el.tags = await mapTagIds(el.tags);
       }
+
+      // Map owner
+      el.owner = await mapWorkoutOwner(el.owner);
+
       return el;
     })
   );
 };
+
+const mapWorkoutOwner = async (ownerId: number) => {
+  return (await new UserBuilder({
+    what: {
+      firstName: 1
+    },
+    id: ownerId
+  }).buildQuery()).at(0);
+}
 
 const mapTagIds = async (tags: Array<string>) => {
   return await Promise.all(

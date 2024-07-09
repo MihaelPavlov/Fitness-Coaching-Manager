@@ -122,6 +122,7 @@ export class ProfileComponent implements OnInit {
     const queryParams: IQueryParams = {
       what: {
         title: 1,
+        owner: 1,
         tags: 1,
         rating: 1,
         imageUri: 1

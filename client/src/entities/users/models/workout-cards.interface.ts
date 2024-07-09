@@ -1,5 +1,6 @@
 export interface IWorkoutCardsFields {
   title: string,
+  owner: WorkoutOwner,
   tags: Array<ITagInterface>,
   rating: number,
   imageUri: string
@@ -7,4 +8,8 @@ export interface IWorkoutCardsFields {
 
 interface ITagInterface {
   name: string
+}
+
+interface WorkoutOwner {
+  firstName: string
 }

@@ -1,6 +1,6 @@
 <div class="card-container pt-5 position-relative" [ngStyle]="{'--background-url': 'url(' + workout?.imageUri + ')'}">
     <p class="card-container__workout-name mt-0 uppercase">{{workout?.title}}</p>
-    <p class="card-container__workout-trainer">Mihael</p>
+    <p class="card-container__workout-trainer">{{workout?.owner?.firstName}}</p>
 
     <div class="card-container__difficulty d-flex g-4 align-items-center">
         <p class="card-container__difficulty-text">

@@ -1,6 +1,10 @@
 import { UserBuilder } from "./../query-builders/user.builder";
 import { WorkoutTagsBuilder } from "./../query-builders/workout-tags.builder";
 
+export const sortWorkouts = (workouts: Array<any>) => {
+  workouts = workouts.sort((a, b) => b.rating-a.rating);
+}
+
 export const mapWorkouts = async (workouts: Array<any>) => {
   return await Promise.all(
     workouts.map(async (el) => {

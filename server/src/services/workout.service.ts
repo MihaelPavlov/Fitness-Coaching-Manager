@@ -2,13 +2,14 @@ import { TABLE } from "./../database/constants/tables.constant";
 import db from "../database/database-connector";
 import { QueryParams } from "./../query-builders/models/builder.models";
 import { WorkoutBuilder } from "./../query-builders/workout.builder";
-import { mapWorkouts } from "./../helpers/workout.helper";
+import { mapWorkouts, sortWorkouts } from "./../helpers/workout.helper";
 
 export const executeWorkoutBuilder = async (payload: QueryParams) => await new WorkoutBuilder(payload).buildQuery();
 
 export const getWorkouts = async (payload: QueryParams) => {
   const workouts = await executeWorkoutBuilder(payload);
   await mapWorkouts(workouts);
+  sortWorkouts(workouts);
   
   return workouts;
 };

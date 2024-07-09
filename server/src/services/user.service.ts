@@ -74,7 +74,7 @@ export const registerUser = async (data: Record<string, any>) => {
 
   return createTokensAndSession({
     id: createdUserID,
-    role: data?.userRole || UserRoles.User,
+    user_role: data?.userRole || UserRoles.User,
     username: data?.username,
   });
 };
@@ -92,7 +92,11 @@ export const loginUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTION.INVALID_LOGIN);
   }
 
-  return createTokensAndSession(user);
+  return createTokensAndSession({
+    id: user.id,
+    user_role: user.user_role,
+    username: user.username
+  });
 };
 
 export const subscribeToContributor = async (

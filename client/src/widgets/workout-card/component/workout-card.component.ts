@@ -8,4 +8,9 @@ import { IWorkoutCardsFields } from '../../../entities/users/models/workout-card
 })
 export class WorkoutCardComponent {
   @Input() workout: IWorkoutCardsFields | undefined;
+
+  public starsCount(): Array<any> {
+    if (this.workout?.rating === 0) return Array(1).fill(0);
+    return Array(this.workout?.rating).fill(0);
+  }
 }

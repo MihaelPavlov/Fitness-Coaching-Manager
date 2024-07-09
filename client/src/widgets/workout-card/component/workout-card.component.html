@@ -7,21 +7,11 @@
             Beginner
         </p>
         <div class="card-container__difficulty-stars">
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
+            <ng-container *ngFor="let i of starsCount()">
+              <span class="card-container__difficulty-stars-star material-symbols-outlined">
                 star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
+              </span>
+            </ng-container>
         </div>
     </div>
     <div class="card-container__tags d-flex g-2">

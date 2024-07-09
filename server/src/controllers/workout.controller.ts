@@ -2,7 +2,7 @@ import express from "express";
 import { createWorkoutSession } from "./../services/workout.service";
 import { isAuth, isCoach } from "./../middlewares/auth.middleware";
 import { PATH } from "./../constants/path.constants";
-import { createWorkoutValidators } from "./../validators/workout.validator";
+import { createWorkoutExercisesValidators, createWorkoutValidators } from "./../validators/workout.validator";
 import { RESPONSE_STATUS } from "./../constants/response.constants";
 
 const router = express.Router();
@@ -12,6 +12,7 @@ router.post(
     isAuth,
     isCoach,
     createWorkoutValidators,
+    createWorkoutExercisesValidators,
     async (req: any, res: express.Response) => {
         try {
             const createdWorkout = await createWorkoutSession(req.user.id, req.body);

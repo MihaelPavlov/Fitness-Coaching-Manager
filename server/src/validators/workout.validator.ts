@@ -81,13 +81,64 @@ export const createWorkoutValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "tags")
         }
     },
-    rating: {
+});
+
+export const createWorkoutExercisesValidators: ValidationChain[] = checkSchema({
+    exercises: {
         in: ["body"],
         exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "rating")
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "exercises")
+        }
+    },
+    "exercises.*.exerciseId": {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "exerciseId")
         },
         isNumeric: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "rating")
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "exerciseId")
+        }
+    },
+    "exercises.*.rank": {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "rank")
+        },
+        isNumeric: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "rank")
+        }
+    },
+    "exercises.*.description": {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "description")
+        },
+    },
+    "exercises.*.hasTiming": {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "hasTiming")
+        },
+        isBoolean: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "hasTiming")
+        }
+    },
+    "exercises.*.duration": {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "duration")
+        },
+        isNumeric: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "duration")
+        }
+    },
+    "exercises.*.repetitions": {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "repetitions")
+        },
+        isNumeric: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "repetitions")
         }
     },
 });

@@ -18,7 +18,6 @@ export const createWorkoutSession = async (
       is_active: data?.active,
       is_private: data?.private,
       tag_ids: data?.tags,
-      rating: data?.rating,
     })
   ).at(0);
 

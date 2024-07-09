@@ -3,43 +3,9 @@ import db from "../database/database-connector";
 import { QueryParams } from "./../query-builders/models/builder.models";
 import { WorkoutBuilder } from "./../query-builders/workout.builder";
 import { WorkoutTagsBuilder } from "./../query-builders/workout-tags.builder";
+import { mapWorkouts } from "./../helpers/workout.helper";
 
 export const executeWorkoutBuilder = async (payload: QueryParams) => await new WorkoutBuilder(payload).buildQuery();
-
-const mapWorkouts = async (workouts: Array<any>) => {
-  return await Promise.all(
-    workouts.map(async (el) => {
-      if (el.tags) {
-        el.tags = el.tags.split(",");
-        el.tags = await mapTagIds(el.tags);
-      }
-      return el;
-    })
-  )
-}
-
-const mapTagIds = async (tags: Array<string>) => {
-  return await Promise.all(
-    tags.map(async (tagId) => {
-      const tag = new WorkoutTagsBuilder({ 
-        what: {
-          name: 1
-        },
-        condition: {
-          type: "AND",
-          items: [
-            {
-              field: "uid",
-              operation: "EQ",
-              value: Number(tagId)
-            }
-          ]
-        }
-       });
-       return (await tag.buildQuery()).at(0);
-    })
-  )
-}
 
 export const getWorkouts = async (payload: QueryParams) => {
   const workouts = await executeWorkoutBuilder(payload);

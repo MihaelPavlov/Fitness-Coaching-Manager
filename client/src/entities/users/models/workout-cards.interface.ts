@@ -1,6 +1,10 @@
 export interface IWorkoutCardsFields {
   title: string,
-  tags: Array<Record<string, any>>,
+  tags: Array<ITagInterface>,
   rating: number,
   imageUri: string
+}
+
+interface ITagInterface {
+  name: string
 }

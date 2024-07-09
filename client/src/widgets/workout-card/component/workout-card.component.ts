@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IWorkoutCardsFields } from '../../../entities/users/models/workout-cards.interface';
 
 @Component({
     selector: 'app-workout-card',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
     styleUrls: ['./workout-card.component.scss']
 })
 export class WorkoutCardComponent {
-    imageUrl = '../../../shared/assets/images/danielle-cerullo-CQfNt66ttZM-unsplash.jpg';  //Provided image
+  @Input() workout: IWorkoutCardsFields | undefined;
 }

@@ -25,7 +25,7 @@ export class UserService {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
-  public getContributorWorkouts(queryParams: IQueryParams): Observable<IRequestResult<IWorkoutCardsFields> | null> {
+  public getContributorWorkouts(queryParams: IQueryParams): Observable<IRequestResult<IWorkoutCardsFields[]> | null> {
     return this.apiService.post(PATH.WORKOUTS.GET_CONTRIBUTOR_WORKOUTS, queryParams);
   }
 

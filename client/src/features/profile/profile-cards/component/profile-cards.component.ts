@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IWorkoutCardsFields } from '../../../../entities/users/models/workout-cards.interface';
 
 @Component({
   selector: 'app-profile-cards',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./profile-cards.component.scss']
 })
 export class ProfileCardsComponent {
+  @Input() workouts: IWorkoutCardsFields[] | undefined;
 }

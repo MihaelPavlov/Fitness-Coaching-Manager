@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   protected isAuth: boolean = false;
   protected isSubscribed: boolean = false;
 
-  public workouts: IWorkoutCardsFields | undefined;
+  public workouts: IWorkoutCardsFields[] | undefined;
 
   constructor(
     private readonly userService: UserService,
@@ -139,7 +139,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userService.getContributorWorkouts(queryParams).subscribe({
-      next: (res: IRequestResult<IWorkoutCardsFields> | null) => {
+      next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
         console.log(res?.data);
         this.workouts = res?.data;
       },

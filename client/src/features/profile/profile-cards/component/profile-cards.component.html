@@ -1,10 +1,10 @@
 <div class="profile-card-container__cards-heading">
-    <h2>Most Rated Workouts</h2>
+  <h2>Most Rated Workouts</h2>
 </div>
-<div class="profile-card-container__cards-flex-container justify-content-start d-flex mw-100">
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
+<div
+  class="profile-card-container__cards-flex-container justify-content-start d-flex mw-100"
+>
+  <ng-container *ngFor="let workout of workouts">
+    <app-workout-card [workout]="workout"></app-workout-card>
+  </ng-container>
 </div>

@@ -219,10 +219,11 @@ export abstract class AbstractBuilder {
   }
 
   /**
-   * Build the OFFSET clause of the SQL query.
+   * Build the ORDER clause of the SQL query.
    *
    * @param query - The knex query builder instance.
-   * @returns The query builder instance with the OFFSET clause.
+   * @param order - The array containing order items to apply to ORDER clause
+   * @returns The query builder instance with the ORDER clause.
    */
   private buildOrder(query: Knex.QueryBuilder, order?: Array<OrderItem>): Knex.QueryBuilder {
     if (!order) {

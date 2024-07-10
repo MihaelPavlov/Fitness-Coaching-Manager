@@ -7,5 +7,5 @@ import { IWorkoutCardsFields } from '../../../../entities/workouts/models/workou
   styleUrls: ['./profile-cards.component.scss'],
 })
 export class ProfileCardsComponent {
-  @Input() workouts: IWorkoutCardsFields[] | undefined;
+  @Input() workouts!: IWorkoutCardsFields[];
 }

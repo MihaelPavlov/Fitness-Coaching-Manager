@@ -7,7 +7,7 @@ import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-c
   styleUrls: ['./workout-card.component.scss'],
 })
 export class WorkoutCardComponent {
-  @Input() workout: IWorkoutCardsFields | undefined;
+  @Input() workout!: IWorkoutCardsFields;
 
   public starsCount(): Array<any> {
     if (this.workout?.rating === 0) return Array(1).fill(0);

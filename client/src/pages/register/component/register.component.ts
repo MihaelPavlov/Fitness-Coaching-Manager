@@ -14,6 +14,7 @@ import { UserService } from '../../../entities/users/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { GenderType } from '../../../shared/enums/gender-list.enum';
 import { FitnessLevels } from '../../../shared/enums/fitness-levels.enum';
+import { AuthService } from '../../../entities/users/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -66,7 +67,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
-    private readonly userService: UserService,
+    private readonly authService: AuthService,
     private readonly router: Router
   ) {}
 
@@ -124,7 +125,7 @@ export class RegisterComponent implements OnInit {
 
     delete requestBody['passGroup'];
 
-    this.userService.register(requestBody).subscribe({
+    this.authService.register(requestBody).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasRegisterError = false;

@@ -6,6 +6,8 @@ import { IPublicUserDetails } from '../../../entities/users/models/user-details.
 import { ActivatedRoute, Router } from '@angular/router';
 import { USERS_FIELDS } from '../../../entities/users/models/fields/users-fields.constant';
 import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-cards.interface';
+import { WorkoutService } from '../../../entities/workouts/services/workout.service';
+import { UserInfo } from '../../../entities/models/user.interface';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +26,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private readonly userService: UserService,
+    private readonly workoutService: WorkoutService,
     private readonly route: ActivatedRoute,
     private readonly router: Router
   ) {}
@@ -32,10 +35,10 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.profileUserId = params['userId'];
 
-      this.userService.fetchUserInfo$().subscribe({
-        next: (res: any) => {
+      this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
+        if(userInfo) {
           this.isAuth = true;
-          if (!params['userId'] || res.data.id == params['userId']) {
+          if (!params['userId'] || userInfo.id == params['userId']) {
             // Same user trying to access his public profile - not allowed
             // Do different builder request for private
             this.fetchPrivateProfileUser();
@@ -44,11 +47,9 @@ export class ProfileComponent implements OnInit {
           }
           // Logged-in user see other profile
           this.fetchPublicProfileUser(params);
-        },
-        error: (err) => {
-          // Display public profile
+        } else {
           this.fetchPublicProfileUser(params);
-        },
+        }
       });
 
       this.userService
@@ -148,7 +149,7 @@ export class ProfileComponent implements OnInit {
       },
     };
 
-    this.userService.getContributorWorkouts(queryParams).subscribe({
+    this.workoutService.getContributorWorkouts(queryParams).subscribe({
       next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
         console.log(res?.data);
         this.workouts = res?.data ?? [];

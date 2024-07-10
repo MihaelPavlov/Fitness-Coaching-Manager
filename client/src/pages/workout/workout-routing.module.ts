@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { WorkoutLibraryComponent } from '../../features/workout/workout-library/worokut-library.component';
 import { WorkoutDetailsComponent } from '../../features/workout/workout-details/workout-details.component';
 import { WorkoutSessionComponent } from '../../features/workout/workout-session/workout-session.component';
+import { WorkoutBuilderComponent } from '../../features/workout/workout-builder/workout-builder.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'session',
     component: WorkoutSessionComponent,
+  },
+  {
+    path: 'create',
+    component: WorkoutBuilderComponent,
   },
 ];
 

@@ -27,7 +27,7 @@
   color: palette.$main-blue-darker-color;
 
   @include mixins.respond(Phone) {
-    background-color: white;
+    background-color: palette.$main-background-color;
     font-size: 0.6rem;
   }
 }

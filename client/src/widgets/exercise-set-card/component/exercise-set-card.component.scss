@@ -37,6 +37,9 @@
     }
 
     &__header {
+      @include mixins.respond(Phone) {
+        align-items: flex-start;
+      }
       &__heading {
         @include mixins.respond(Phone) {
           font-size: 0.8rem;
@@ -61,7 +64,6 @@
 
         @include mixins.respond(Phone) {
           font-size: 0.8rem;
-          margin-right: 6rem;
         }
       }
     }

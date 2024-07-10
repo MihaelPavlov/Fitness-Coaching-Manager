@@ -1,0 +1,30 @@
+@use "../../../shared/styles/mixins";
+@use "../../../shared/styles/palette";
+
+.workout-details-header{
+    @include mixins.respond(Phone) {
+        justify-content: center;    
+    } 
+
+    &__h1{
+        @include mixins.respond(Phone) {
+            text-align: center;   
+        } 
+    }
+
+    &__btn-desktop{
+        margin-top: 0.6rem;
+        @include mixins.respond(Phone) {
+            display: none;    
+        }
+    }
+
+    &__btn-mobile{
+        display: none;
+        @include mixins.respond(Phone) {
+            display: block;    
+            text-align: center;
+            margin-top: 2rem;
+        }
+    }
+}

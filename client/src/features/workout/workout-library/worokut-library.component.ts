@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'workout-library',
+  selector: 'app-workout-library',
   templateUrl: './workout-library.component.html',
-  styleUrls: ['./workout-library.component.scss'],
+  styleUrl: './workout-library.component.scss',
 })
 export class WorkoutLibraryComponent {
-  pageName: string = 'Workout';
+  pageName:string = 'Workouts'
 }

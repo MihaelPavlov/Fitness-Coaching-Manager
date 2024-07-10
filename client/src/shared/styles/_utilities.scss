@@ -111,6 +111,10 @@ $text-map: (
     display: block;
 }
 
+.d-inline-block {
+    display: inline-block;
+}
+
 .d-table {
     display: table;
 }
@@ -121,6 +125,10 @@ $text-map: (
 
 .align-self-flex-start {
     align-self: flex-start;
+}
+
+.align-self-flex-end {
+    align-self: flex-end;
 }
 
 .align-items-center {

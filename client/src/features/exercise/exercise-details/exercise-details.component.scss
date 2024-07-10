@@ -1,0 +1,48 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.exercise__details {
+  &__description {
+    &__heading {
+      color: palette.$main-blue-color;
+    }
+  }
+
+  &__instructions {
+    &__list {
+      list-style-type: none;
+
+      &__item {
+        color: palette.$menu-container-icon-color;
+      }
+    }
+  }
+
+  &__container {
+    @include mixins.respond(Phone) {
+      all: unset;
+    }
+  }
+
+  &__img {
+    width: 40%;
+    object-fit: cover;
+    object-position: left;
+    border: 1px solid palette.$main-blue-color;
+    border-radius: 0.2rem;
+
+    @include mixins.respond(Phone) {
+      width: 100%;
+      border: 0.1rem solid black;
+      border-radius: 0.3rem;
+    }
+  }
+
+  &__text {
+    &__container {
+      @include mixins.respond(Phone) {
+        all: unset;
+      }
+    }
+  }
+}

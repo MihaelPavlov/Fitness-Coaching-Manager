@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExerciseLibraryComponent } from './component/exercise-library.component';
-import { ExerciseDetailsComponent } from '../../features/exercise-details/component/exercise-details/exercise-details.component';
-import { ExerciseBuidlerComponent } from '../../features/exercise-library/add-exercise/exercise-builder.component';
+import { ExerciseLibraryComponent } from '../../features/exercise/exercise-library/exercise-library.component';
+import { ExerciseDetailsComponent } from '../../features/exercise/exercise-details/exercise-details.component';
+import { ExerciseBuidlerComponent } from '../../features/exercise/exercise-builder/exercise-builder.component';
 
 const routes: Routes = [
   {
@@ -24,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ExerciseLibraryRoutingModule { }
+export class ExerciseRoutingModule { }

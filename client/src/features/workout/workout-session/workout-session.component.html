@@ -1,0 +1,62 @@
+<h1 class="workout-session-header__h1 mb-4">{{ workoutName }}</h1>
+
+<div class="workout-session-container d-flex g-8">
+  <div class="workout-session-container__img-container d-flex align-items-center">
+    <img
+      src="../../../shared/assets/images/temporary-exercise-list-placeholder-img.png"
+      alt=""
+    />
+  </div>
+  <div class="workout-session-container__information d-flex flex-direction-column">
+    <div
+      class="workout-session-container__information__instructions"
+    >
+      <h2 class="workout-session-container__information__instructions__heading mb-2">Chest Press</h2>
+      <!-- for looped here -->
+       <div class="workout-session-container__information__instructions__container d-flex g-2 flex-direction-column">
+        <p class="workout-session-container__information__instructions__container__text">
+            1. Begin with legs shoulder width apart and place hands on the floor in
+            a push up position under the shoulders
+          </p>
+          <p class="workout-session-container__information__instructions__container__text">
+            2. Kick legs back and lower stomach and thighs to touch the floor
+          </p>
+          <p class="workout-session-container__information__instructions__container__text">
+            3. Push from this position while simultaneously bringing knees to the
+            chest planting feet on the ground
+          </p>
+       </div>
+    </div>
+    <div class="workout-session-container__information__circles d-flex g-6 justify-content-center align-items-center">
+      <div class="workout-session-container__information__circles__reps align-self-flex-end">
+        <app-circle
+          [width]="'small'"
+          [height]="'small'"
+          text="Repetition"
+          value="12"
+        ></app-circle>
+      </div>
+      <div class="workout-session-container__information__circles__time">
+        <app-circle
+          [borderColor]="'green'"
+          text="Total Time"
+          value="1:12"
+        ></app-circle>
+      </div>
+      <div class="workout-session-container__information__circles__sets align-self-flex-end ">
+        <app-circle
+          [width]="'small'"
+          [height]="'small'"
+          [borderColor]="'orange'"
+          text="Sets made"
+          value="1/4"
+        ></app-circle>
+      </div>
+    </div>
+    <div class="workout-session-container__information__btn mt-10 d-flex justify-content-center">
+      <button class="btn btn-large btn-full-width-mobile">
+        NEXT SET
+      </button>
+    </div>
+  </div>
+</div>

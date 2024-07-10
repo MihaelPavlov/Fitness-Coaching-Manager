@@ -39,14 +39,14 @@ export class AuthService {
     );
   }
 
-  private saveCredentials(accessToken: string, refreshToken: string): void {
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
-  }
-
   public createAuthHeaders(): HttpHeaders {
     return new HttpHeaders()
       .set('AccessToken', localStorage.getItem('accessToken') || '')
       .set('RefreshToken', localStorage.getItem('refreshToken') || '');
+  }
+
+  private saveCredentials(accessToken: string, refreshToken: string): void {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
   }
 }

@@ -6,8 +6,6 @@ import { UserInfo } from '../../models/user.interface';
 import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IPublicUserDetails } from '../models/user-details.interface';
-import { HttpHeaders } from '@angular/common/http';
-import { IWorkoutCardsFields } from '../../workouts/models/workout-cards.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +30,7 @@ export class UserService {
   }
 
   public fetchUserInfo(): Subscription {
-    return this.fetchCurrentUserInfo(
-      localStorage.getItem('accessToken') as string,
-      localStorage.getItem('refreshToken') as string
-    ).subscribe((res: any) => {
+    return this.fetchCurrentUserInfo().subscribe((res: any) => {
       this.userInfoSubject$.next({
         id: res.data.id,
         username: res.data.username,
@@ -48,16 +43,14 @@ export class UserService {
   public subscribeToContributor(contributorId: number): Observable<any> {
     return this.apiService.post(
       PATH.USERS.SUBSCRIBE + `/${contributorId}`,
-      {},
-      { headers: this.createAuthHeaders() }
+      {}
     );
   }
 
   public unsubscribeToContributor(contributorId: number): Observable<any> {
     return this.apiService.post(
       PATH.USERS.UNSUBSCRIBE + `/${contributorId}`,
-      {},
-      { headers: this.createAuthHeaders() }
+      {}
     );
   }
 
@@ -65,23 +58,11 @@ export class UserService {
     contributorId: number
   ): Observable<any> {
     return this.apiService.get(
-      PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`,
-      { headers: this.createAuthHeaders() }
+      PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`
     );
   }
 
-  private fetchCurrentUserInfo(
-    accessToken: string,
-    refreshToken: string
-  ): Observable<any> {
-    return this.apiService.get(PATH.USERS.CURRENT_USER, {
-      headers: { accessToken, refreshToken },
-    });
-  }
-
-  private createAuthHeaders(): HttpHeaders {
-    return new HttpHeaders()
-      .set('AccessToken', localStorage.getItem('accessToken') || '')
-      .set('RefreshToken', localStorage.getItem('refreshToken') || '');
+  private fetchCurrentUserInfo(): Observable<any> {
+    return this.apiService.get(PATH.USERS.CURRENT_USER);
   }
 }

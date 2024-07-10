@@ -1,6 +1,6 @@
 import { TABLE } from "./../database/constants/tables.constant";
 import { AbstractBuilder } from "./common/abstract.builder";
-import { AssociationItem, Condition, QueryParams } from "./models/builder.models";
+import { AssociationItem, Condition, OrderItem, QueryParams } from "./models/builder.models";
 
 export class WorkoutBuilder extends AbstractBuilder {
     protected override fieldsMap: Record<string, Record<string, string>> = {
@@ -27,6 +27,7 @@ export class WorkoutBuilder extends AbstractBuilder {
     protected override defaultLimit: number;
     protected override defaultSelect: Record<string, number>;
     protected override defaultCondition: Condition;
+    protected override defaultOrder: OrderItem[];
     protected override entityById: number;
     protected override associations: AssociationItem[] = [
         {

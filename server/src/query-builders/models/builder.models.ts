@@ -3,6 +3,7 @@ export interface QueryParams {
   offset?: number | null;
   what?: Record<string, number>;
   condition?: Condition,
+  order?: Array<OrderItem>,
   id?: number | null
 }
 

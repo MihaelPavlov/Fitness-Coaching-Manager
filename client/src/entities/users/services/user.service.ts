@@ -7,7 +7,7 @@ import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IPublicUserDetails } from '../models/user-details.interface';
 import { HttpHeaders } from '@angular/common/http';
-import { IWorkoutCardsFields } from '../models/workout-cards.interface';
+import { IWorkoutCardsFields } from '../../workouts/models/workout-cards.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,19 +21,26 @@ export class UserService {
 
   constructor(private readonly apiService: RestApiService) {}
 
-  public getDetail(queryParams: IQueryParams): Observable<IRequestResult<IPublicUserDetails> | null> {
+  public getDetail(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IPublicUserDetails> | null> {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
-  public getContributorWorkouts(queryParams: IQueryParams): Observable<IRequestResult<IWorkoutCardsFields[]> | null> {
-    return this.apiService.post(PATH.WORKOUTS.GET_CONTRIBUTOR_WORKOUTS, queryParams);
+  public getContributorWorkouts(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IWorkoutCardsFields[]> | null> {
+    return this.apiService.post(
+      PATH.WORKOUTS.GET_CONTRIBUTOR_WORKOUTS,
+      queryParams
+    );
   }
 
   public fetchUserInfo$(): Observable<any> {
     return this.fetchCurrentUserInfo(
       localStorage.getItem('accessToken') as string,
       localStorage.getItem('refreshToken') as string
-    )
+    );
   }
 
   public fetchUserInfo(): Subscription {
@@ -51,15 +58,28 @@ export class UserService {
   }
 
   public subscribeToContributor(contributorId: number): Observable<any> {
-    return this.apiService.post(PATH.USERS.SUBSCRIBE + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
+    return this.apiService.post(
+      PATH.USERS.SUBSCRIBE + `/${contributorId}`,
+      {},
+      { headers: this.createAuthHeaders() }
+    );
   }
 
   public unsubscribeToContributor(contributorId: number): Observable<any> {
-    return this.apiService.post(PATH.USERS.UNSUBSCRIBE + `/${contributorId}`, {}, { 'headers': this.createAuthHeaders() })
+    return this.apiService.post(
+      PATH.USERS.UNSUBSCRIBE + `/${contributorId}`,
+      {},
+      { headers: this.createAuthHeaders() }
+    );
   }
 
-  public hasUserSubscribedToContributor(contributorId: number): Observable<any> {
-    return this.apiService.get(PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`, { 'headers': this.createAuthHeaders() })
+  public hasUserSubscribedToContributor(
+    contributorId: number
+  ): Observable<any> {
+    return this.apiService.get(
+      PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`,
+      { headers: this.createAuthHeaders() }
+    );
   }
 
   private fetchCurrentUserInfo(
@@ -73,7 +93,7 @@ export class UserService {
 
   private createAuthHeaders(): HttpHeaders {
     return new HttpHeaders()
-              .set('AccessToken', localStorage.getItem('accessToken') || '')
-              .set('RefreshToken', localStorage.getItem('refreshToken') || '')
+      .set('AccessToken', localStorage.getItem('accessToken') || '')
+      .set('RefreshToken', localStorage.getItem('refreshToken') || '');
   }
 }

@@ -5,7 +5,7 @@ import { IRequestResult } from '../../../entities/models/request-result.interfac
 import { IPublicUserDetails } from '../../../entities/users/models/user-details.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USERS_FIELDS } from '../../../entities/users/models/fields/users-fields.constant';
-import { IWorkoutCardsFields } from '../../../entities/users/models/workout-cards.interface';
+import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-cards.interface';
 
 @Component({
   selector: 'app-profile',
@@ -51,14 +51,16 @@ export class ProfileComponent implements OnInit {
         },
       });
 
-      this.userService.hasUserSubscribedToContributor(params['userId']).subscribe({
-        next: (res: any) => {
-          this.isSubscribed = res?.data?.hasSubscribed;
-        },
-        error: err => {
-          console.log(err)
-        }
-      });
+      this.userService
+        .hasUserSubscribedToContributor(params['userId'])
+        .subscribe({
+          next: (res: any) => {
+            this.isSubscribed = res?.data?.hasSubscribed;
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
 
       this.fetchContributorWorkouts(params['userId']);
     });
@@ -69,25 +71,29 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    this.userService.subscribeToContributor(this.profileUserId as number).subscribe({
-      next: (res: any) => {
-        this.isSubscribed = true;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+    this.userService
+      .subscribeToContributor(this.profileUserId as number)
+      .subscribe({
+        next: (res: any) => {
+          this.isSubscribed = true;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   public onUnsubscribe(): void {
-    this.userService.unsubscribeToContributor(this.profileUserId as number).subscribe({
-      next: (res: any) => {
-        this.isSubscribed = false;
-      },
-      error: err => {
-        console.log(err);
-      }
-    });
+    this.userService
+      .unsubscribeToContributor(this.profileUserId as number)
+      .subscribe({
+        next: (res: any) => {
+          this.isSubscribed = false;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   private fetchPublicProfileUser(params: any): void {
@@ -128,28 +134,28 @@ export class ProfileComponent implements OnInit {
         owner: 1,
         tags: 1,
         rating: 1,
-        imageUri: 1
+        imageUri: 1,
       },
       condition: {
-        type: "AND",
+        type: 'AND',
         items: [
           {
-            field: "owner",
-            operation: "EQ",
-            value: contributorId
-          }
-        ]
-      }
-    }
+            field: 'owner',
+            operation: 'EQ',
+            value: contributorId,
+          },
+        ],
+      },
+    };
 
     this.userService.getContributorWorkouts(queryParams).subscribe({
       next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
         console.log(res?.data);
         this.workouts = res?.data ?? [];
       },
-      error: err => {
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 }

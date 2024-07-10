@@ -147,6 +147,12 @@ export class ProfileComponent implements OnInit {
           },
         ],
       },
+      order: [
+        {
+          field: 'rating',
+          direction: 'DESC'
+        }
+      ]
     };
 
     this.workoutService.getContributorWorkouts(queryParams).subscribe({

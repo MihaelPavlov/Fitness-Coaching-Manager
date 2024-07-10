@@ -226,7 +226,10 @@ export abstract class AbstractBuilder {
    */
   private buildOrder(query: Knex.QueryBuilder, order?: Array<OrderItem>): Knex.QueryBuilder {
     if (!order) {
-      return query;
+      if (!this.defaultOrder) {
+        return query;
+      }
+      order = this.defaultOrder;
     }
     
     order.forEach(orderItem => {

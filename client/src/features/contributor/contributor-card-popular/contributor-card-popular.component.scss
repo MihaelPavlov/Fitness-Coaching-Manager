@@ -1,12 +1,16 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared/styles/mixins";
 
-.card-new__container {
-  flex-direction: column;
+.card-popular__container {
   height: 15rem;
   width: 15rem;
+  @include mixins.respond(Phone) {
+    height: 9.5rem;
+    width: 9.5rem;
+  }
   background-color: palette.$main-blue-darker-color;
   border-radius: 5px;
+
   img {
     height: 100%;
     width: 100%;
@@ -16,22 +20,29 @@
 
   &__information-container {
     flex-basis: 40%;
-    align-items: center;
     justify-content: space-around;
-    h2{
-        font-size: 1.2rem;
-        color: white;
+
+    h2 {
+      font-size: 1.2rem;
+      color: white;
+      @include mixins.respond(Phone) {
+        font-size: 0.7rem;
+      }
     }
+
     &__star-container {
-      display: flex;
-      align-items: center;
       font-size: 1.3rem;
-      justify-content: start;
+      @include mixins.respond(Phone) {
+        font-size: 0.8rem;
+      }
       span {
         color: rgb(255, 255, 109);
+        @include mixins.respond(Phone) {
+          font-size: 0.8rem;
+        }
       }
       p {
-        color:palette.$menu-container-navigation-item-background-color;
+        color: palette.$menu-container-navigation-item-background-color;
       }
     }
   }

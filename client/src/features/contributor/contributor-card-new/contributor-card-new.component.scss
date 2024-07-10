@@ -2,9 +2,12 @@
 @use "../../../shared/styles/mixins";
 
 .card-new__container {
-  flex-direction: column;
   height: 22rem;
   width: 15rem;
+  @include mixins.respond(Phone) {
+    height: 19rem;
+    width: 14rem;
+  }
   background-color: white;
   border: 0.15rem solid palette.$main-blue-darker-color;
   border-radius: 5px;
@@ -23,20 +26,11 @@
     }
 
     &__star-container {
-      display: flex;
-      align-items: center;
       font-size: 1.3rem;
-      justify-content: start;
-      margin-left: 0.8rem;
-      margin-bottom: 2rem;
+      margin: 0 0 2rem 0.8rem;
       span {
         color: rgb(180, 180, 80);
       }
-    }
-
-    &__tag-container {
-      justify-content: space-around;
-      margin-bottom: 1rem;
     }
   }
 }

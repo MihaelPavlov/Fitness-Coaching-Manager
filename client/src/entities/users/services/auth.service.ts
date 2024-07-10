@@ -2,7 +2,11 @@ import { map, Observable } from "rxjs";
 import { PATH } from "../../../shared/configs/path.config";
 import { RestApiService } from "../../../shared/services/rest-api.service";
 import { UserService } from "./user.service";
+import { Injectable } from "@angular/core";
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AuthService {
   constructor(private readonly apiService: RestApiService, private readonly userService: UserService) {}
 

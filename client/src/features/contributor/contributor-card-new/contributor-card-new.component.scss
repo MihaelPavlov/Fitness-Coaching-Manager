@@ -1,0 +1,42 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.card-new__container {
+  flex-direction: column;
+  height: 22rem;
+  width: 15rem;
+  background-color: white;
+  border: 0.15rem solid palette.$main-blue-darker-color;
+  border-radius: 5px;
+  img {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__information-container {
+    flex-basis: 40%;
+
+    h2 {
+      margin: 1rem 0 0.5rem 0.8rem;
+    }
+
+    &__star-container {
+      display: flex;
+      align-items: center;
+      font-size: 1.3rem;
+      justify-content: start;
+      margin-left: 0.8rem;
+      margin-bottom: 2rem;
+      span {
+        color: rgb(180, 180, 80);
+      }
+    }
+
+    &__tag-container {
+      justify-content: space-around;
+      margin-bottom: 1rem;
+    }
+  }
+}

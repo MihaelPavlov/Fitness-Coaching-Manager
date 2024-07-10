@@ -1,0 +1,51 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.contributor-library {
+  &__container {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    overflow-x: visible;
+
+    &__new-trainers {
+      flex-basis: 50%;
+      overflow-x: hidden; 
+      position: relative;
+
+      &__cards {
+        display: flex;
+        gap: 3rem;
+        scroll-behavior: smooth; 
+        overflow-x: hidden;
+        width: calc(100% - 10rem);
+        margin: 0 5rem; 
+      }
+    }
+
+    &__popular-trainers__cards {
+      flex-basis: auto;
+      overflow-y: visible; 
+      flex-wrap: wrap; 
+      justify-content: center;
+    }
+  }
+}
+
+.icons {
+  font-size: 4rem;
+  cursor: pointer; 
+  color: palette.$main-blue-darker-color;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icons:first-of-type {
+  left: 0;
+}
+
+.icons:last-of-type {
+  right: 0;
+}

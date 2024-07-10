@@ -1,0 +1,24 @@
+<h1 class="contributor-library__header mb-2">{{ pageName }}</h1>
+<div class="contributor-library__container">
+  <h2 class="mb-3 text-center">New Trainers</h2>
+  <div class="contributor-library__container__new-trainers d-flex align-items-center position-relative">
+    <span class="material-symbols-outlined icons" (click)="scrollLeft()">arrow_back_ios</span>
+    <div class="contributor-library__container__new-trainers__cards mt-1" #cardsContainer>
+      <app-contributor-card-new *ngFor="let card of cards"></app-contributor-card-new>
+    </div>
+    <span class="material-symbols-outlined icons" (click)="scrollRight()">arrow_forward_ios</span>
+  </div>
+  <div class="contributor-library__container__popular-trainers">
+    <h2 class="mb-3">Popular Trainers</h2> 
+    <div class="contributor-library__container__popular-trainers__cards mt-1 mr-6 d-flex g-6">
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+        <app-contributor-card-popular></app-contributor-card-popular>
+    </div>
+  </div>
+</div>

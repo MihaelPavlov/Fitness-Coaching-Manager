@@ -35,6 +35,13 @@ export const ROUTES: Routes = [
             (m) => m.RegisterModule
           ),
       },
+      {
+        path: 'contributor',
+        loadChildren: () =>
+          import('../../pages/contributor/contributor.module').then(
+            (m) => m.ContributorModule
+          ),
+      },
     ],
   },
   {

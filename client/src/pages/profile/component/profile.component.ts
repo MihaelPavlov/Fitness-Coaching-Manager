@@ -35,13 +35,22 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.profileUserId = params['userId'];
 
+      // Check for authentication for private profile
+      this.userService.isAuth$.subscribe((isAuth) => {
+        if (!params['userId']) {
+          if (!isAuth) {
+            this.router.navigate(['/login']);
+          }
+        }
+      });
+
       this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
         if(userInfo) {
           this.isAuth = true;
           if (!params['userId'] || userInfo.id == params['userId']) {
             // Same user trying to access his public profile - not allowed
             // Do different builder request for private
-            this.fetchPrivateProfileUser();
+            this.fetchPrivateProfileUser(userInfo.id);
             // Set profile state to private
             this.profileState = 'private';
           }
@@ -126,7 +135,34 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private fetchPrivateProfileUser(): void {} // Must be done from other PR
+  private fetchPrivateProfileUser(userId: number): void {
+    const queryParams: IQueryParams = {
+      what: {
+        [USERS_FIELDS.users.firstName]: 1,
+        [USERS_FIELDS.users.lastName]: 1,
+        [USERS_FIELDS.user_specs.BMI]: 1,
+        [USERS_FIELDS.user_specs.workoutCount]: 1,
+        [USERS_FIELDS.user_specs.fitnessLevel]: 1,
+        [USERS_FIELDS.user_specs.weight]: 1,
+        [USERS_FIELDS.user_specs.weightGoal]: 1,
+        [USERS_FIELDS.user_specs.preferences]: 1,
+        [USERS_FIELDS.users.profilePicture]: 1,
+      },
+      id: userId
+    }
+
+    this.userService.getDetail(queryParams).subscribe({
+      next: (res: IRequestResult<IPublicUserDetails> | null) => {
+        if (!res?.data) {
+          this.router.navigate(['/']);
+        }
+        this.user = res?.data;
+      },
+      error: (err) => {
+        console.log('Could not find user');
+      },
+    });
+  } // Must be done from other PR
 
   private fetchContributorWorkouts(contributorId: number): void {
     const queryParams: IQueryParams = {

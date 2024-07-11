@@ -1,4 +1,4 @@
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 import { AbstractBuilder } from "./common/abstract.builder";
 import {
   AssociationItem,

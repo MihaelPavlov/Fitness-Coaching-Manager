@@ -4,8 +4,6 @@ import { formatString } from "./../helpers/string-format.helper";
 import { GenderType } from "./../models/enums/gender-list.enum";
 import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
 
-console.log(Object.values(FitnessLevels))
-
 export const createUserValidators: ValidationChain[] = checkSchema({
     username: {
         in: ["body"],

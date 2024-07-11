@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from '../../entities/services/user.service';
+import { UserService } from '../../entities/users/services/user.service';
 
 @Component({
   selector: 'app-layout',

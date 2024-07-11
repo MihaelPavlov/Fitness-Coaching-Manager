@@ -3,11 +3,18 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { UserService } from '../../../entities/services/user.service';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { UserService } from '../../../entities/users/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { GenderType } from '../../../shared/enums/gender-list.enum';
 import { FitnessLevels } from '../../../shared/enums/fitness-levels.enum';
+import { AuthService } from '../../../entities/users/services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -33,7 +40,7 @@ export class RegisterComponent implements OnInit {
 
   protected isLoading: boolean = false;
   protected hasRegisterError: boolean = false;
-  protected registerErrorMsg: string = "";
+  protected registerErrorMsg: string = '';
 
   protected registerForm = this.fb.group({
     userRole: [this.userRole, [Validators.required]],
@@ -54,20 +61,26 @@ export class RegisterComponent implements OnInit {
     language: [optionArrays.preferredLanguage[0], [Validators.required]],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    phoneNumber: ['', [Validators.required]]
+    phoneNumber: ['', [Validators.required]],
   });
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
-    private readonly userService: UserService,
+    private readonly authService: AuthService,
     private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.selectedRegistrationType = params['registrationType'];
-      this.registerForm.get("userRole")?.setValue(this.selectedRegistrationType === RegistrationType.User ? UserRoles.User : UserRoles.Coach);
+      this.registerForm
+        .get('userRole')
+        ?.setValue(
+          this.selectedRegistrationType === RegistrationType.User
+            ? UserRoles.User
+            : UserRoles.Coach
+        );
       this.updateFormValidators();
     });
   }
@@ -96,13 +109,13 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
 
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.value)
+      console.log(this.registerForm.value);
       this.isLoading = false;
       return;
     }
 
-    if (this.registerForm.get("sex")?.value === GenderType.None) {
-      this.registerForm.get("sex")?.setValue("None");
+    if (this.registerForm.get('sex')?.value === GenderType.None) {
+      this.registerForm.get('sex')?.setValue('None');
     }
 
     const requestBody = {
@@ -112,7 +125,7 @@ export class RegisterComponent implements OnInit {
 
     delete requestBody['passGroup'];
 
-    this.userService.register(requestBody).subscribe({
+    this.authService.register(requestBody).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasRegisterError = false;
@@ -128,15 +141,15 @@ export class RegisterComponent implements OnInit {
 
   private updateFormValidators(): void {
     const role_controls = {
-      user: ["fitnessLevel"],
-      coach: ["firstName", "lastName", "phoneNumber"]
-    }
+      user: ['fitnessLevel'],
+      coach: ['firstName', 'lastName', 'phoneNumber'],
+    };
 
     if (this.registerForm.value.userRole === UserRoles.Coach) {
-      this.registerForm.get("fitnessLevel")?.setValue(null);
+      this.registerForm.get('fitnessLevel')?.setValue(null);
       this.addValidators(role_controls.coach);
       this.removeValidators(role_controls.user);
-    };
+    }
     if (this.registerForm.value.userRole === UserRoles.User) {
       this.addValidators(role_controls.user);
       this.removeValidators(role_controls.coach);
@@ -144,14 +157,14 @@ export class RegisterComponent implements OnInit {
   }
 
   private addValidators(controls: string[]): void {
-    controls.forEach(control => {
+    controls.forEach((control) => {
       this.registerForm.get(control)?.setValidators([Validators.required]);
       this.registerForm.get(control)?.updateValueAndValidity();
     });
   }
 
   private removeValidators(controls: string[]): void {
-    controls.forEach(control => {
+    controls.forEach((control) => {
       this.registerForm.get(control)?.clearValidators();
       this.registerForm.get(control)?.updateValueAndValidity();
     });

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UserService } from '../../../entities/services/user.service';
+import { UserService } from '../../../entities/users/services/user.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../entities/users/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly userService: UserService,
+    private readonly authService: AuthService,
     private readonly router: Router
   ) {}
 
@@ -47,8 +48,11 @@ export class LoginComponent {
       return;
     }
 
-    this.userService
-      .login(this.loginForm.value.email as string, this.loginForm.value.password as string)
+    this.authService
+      .login(
+        this.loginForm.value.email as string,
+        this.loginForm.value.password as string
+      )
       .subscribe({
         next: () => {
           this.isLoading = false;

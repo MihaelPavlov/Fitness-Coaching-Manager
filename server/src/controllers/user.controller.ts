@@ -25,6 +25,7 @@ router.get(
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
       data: {
+        id: req.user.id,
         username,
         role: req.user.role,
       },
@@ -46,16 +47,14 @@ router.get(
   }
 );
 
-router.get(
+router.post(
   PATH.USERS.GET_DETAILS,
   async (req: express.Request, res: express.Response) => {
     const user = await userService.getUser(req.body);
 
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
-      data: {
-        user,
-      },
+      data: user[0]
     });
   }
 );
@@ -113,5 +112,77 @@ router.post(
     }
   }
 );
+
+router.post(
+  PATH.USERS.SUBSCRIBE + "/:contributorId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.subscribeToContributor(req.user.id, req.params.contributorId);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          message: "Successfully subscribed."
+        }
+      })
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message
+        }
+      })
+    }
+  }
+)
+
+router.post(
+  PATH.USERS.UNSUBSCRIBE + "/:contributorId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.unsubscribeToContributor(req.user.id, req.params.contributorId);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          message: "Successfully unsubscribed."
+        }
+      })
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message
+        }
+      })
+    }
+  }
+)
+
+router.get(
+  PATH.USERS.HAS_SUBSCRIBED + "/:contributorId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      const hasSubscribed = await userService.hasUserSubscribed(req.user.id, req.params.contributorId);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          hasSubscribed
+        }
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message
+        }
+      })
+    }
+  }
+)
 
 export default router;

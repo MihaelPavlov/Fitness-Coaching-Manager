@@ -101,7 +101,8 @@ export const isAuth = (req: any, res: Response, next: NextFunction) => {
 };
 
 export const isCoach = (req: any, res: Response, next: NextFunction) => {
-  if (!req.user || req.user.role !== 1) {
+  console.log(req.user.role)
+  if (req.user.role !== 1) {
     return res.status(401).json({
       status: RESPONSE_STATUS.FAILED,
       data: {

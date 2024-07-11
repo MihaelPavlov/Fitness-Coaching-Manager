@@ -7,8 +7,15 @@ export const ROUTES: Routes = [
     path: '',
     component: AppLayoutComponent,
     children: [
-      {
+      { // Private profile
         path: 'profile',
+        loadChildren: () =>
+          import('../../pages/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+      },
+      { // Public profile
+        path: 'profile/:userId',
         loadChildren: () =>
           import('../../pages/profile/profile.module').then(
             (m) => m.ProfileModule

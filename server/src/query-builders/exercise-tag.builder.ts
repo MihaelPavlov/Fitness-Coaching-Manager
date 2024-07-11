@@ -1,4 +1,4 @@
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 import { AbstractBuilder } from "./common/abstract.builder";
 import {
   AssociationItem,
@@ -21,9 +21,7 @@ export class ExerciseTagBuilder extends AbstractBuilder {
   override defaultSelect: Record<string, number> | null;
   override defaultCondition: Condition;
   override entityById: number | null = null;
-  override associations: Array<AssociationItem> = [
-    //Add object for user
-  ];
+  override associations: Array<AssociationItem> = [];
 
   constructor(queryParams: QueryParams | null = null) {
     super(queryParams);

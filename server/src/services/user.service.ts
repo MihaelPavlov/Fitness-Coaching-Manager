@@ -6,9 +6,10 @@ import {
   generatePasswordHash,
   createTokensAndSession,
 } from "./../helpers/auth.helper";
-import { TABLE } from "../database/constants/tables.contant";
+import { TABLE } from "../database/constants/tables.constant";
 import { EXCEPTION } from "../constants/exceptions.constants";
 import { UserRoles } from "./../models/enums/user-roles.enum";
+import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -43,6 +44,7 @@ export const registerUser = async (data: Record<string, any>) => {
       country: data.country,
       phone_number: data?.phoneNumber || null,
       language: data.language,
+      profile_picture_url: "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
     })
   ).at(0);
 
@@ -50,7 +52,10 @@ export const registerUser = async (data: Record<string, any>) => {
   await db(TABLE.USER_SPECS).insert({
     user_id: createdUserID,
     sex: data.sex,
-    fitness_level: data?.fitnessLevel || null,
+    fitness_level:
+      data.userRole === UserRoles.Coach
+        ? FitnessLevels.Elite
+        : data?.fitnessLevel || null,
   });
 
   // Coach user
@@ -70,7 +75,7 @@ export const registerUser = async (data: Record<string, any>) => {
 
   return createTokensAndSession({
     id: createdUserID,
-    role: data?.userRole || UserRoles.User,
+    user_role: data?.userRole || UserRoles.User,
     username: data?.username,
   });
 };
@@ -88,5 +93,49 @@ export const loginUser = async (data: Record<string, any>) => {
     throw new Error(EXCEPTION.INVALID_LOGIN);
   }
 
-  return createTokensAndSession(user);
+  return createTokensAndSession({
+    id: user.id,
+    user_role: user.user_role,
+    username: user.username
+  });
 };
+
+export const subscribeToContributor = async (
+  userId: number,
+  contributorId: number
+) => {
+  if (await hasUserSubscribed(userId, contributorId)) {
+    throw new Error("You are already subscribed to this contributor");
+  }
+
+  await db(TABLE.CONTRIBUTORS_SUBSCRIBERS).insert({
+    contributor_id: contributorId,
+    user_id: userId,
+  });
+};
+
+export const unsubscribeToContributor = async (
+  userId: number,
+  contributorId: number
+) => {
+  if (!await hasUserSubscribed(userId, contributorId)) {
+    throw new Error("You are not subscribed");
+  }
+
+  await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
+    .where("contributor_id", "=", contributorId)
+    .andWhere("user_id", "=", userId)
+    .del();
+};
+
+export const hasUserSubscribed = async (userId: number, contributorId: number) => {
+  const hasSubscribed =
+    (
+      await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
+        .select("*")
+        .where("contributor_id", "=", contributorId)
+        .andWhere("user_id", "=", userId)
+    ).length > 0;
+  
+  return hasSubscribed;
+}

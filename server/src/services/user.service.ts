@@ -44,6 +44,7 @@ export const registerUser = async (data: Record<string, any>) => {
       country: data.country,
       phone_number: data?.phoneNumber || null,
       language: data.language,
+      profile_picture_url: "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
     })
   ).at(0);
 

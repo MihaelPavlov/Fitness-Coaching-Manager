@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string("email", 45).notNullable().unique();
         table.string("username", 45).notNullable().unique();
         table.string("password", 255).notNullable();
-        table.string("profile_picture_url", 255).defaultTo(null);
+        table.string("profile_picture_url", 255).defaultTo("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg");
         table.string("country", 45).defaultTo(null);
         table.string("language", 255).notNullable();
         table.string("phone_number", 25).defaultTo(null);

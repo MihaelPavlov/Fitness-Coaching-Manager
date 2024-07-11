@@ -1,5 +1,7 @@
-<div
+<form
   class="profile-container__inputs-flex-container pt-2 d-flex align-items-center flex-direction-column"
+  [formGroup]="updateUserForm"
+  (ngSubmit)="onUpdate()"
 >
   <div class="profile-container__inputs-flex-container-first-item text-center">
     <h2 class="m-0">Personal Information</h2>
@@ -13,7 +15,14 @@
     >
       <div class="control__wrapper">
         <label for="lastName" class="control__label">Last Name</label>
-        <input [type]="InputType.Text" id="lastName" placeholder="Last Name" name="lastName" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="lastName"
+          placeholder="Last Name"
+          name="lastName"
+          class="control w-100 d-block align-items-start"
+          formControlName="lastName"
+        />
       </div>
     </div>
     <div
@@ -21,7 +30,14 @@
     >
       <div class="control__wrapper">
         <label for="firstName" class="control__label">First Name</label>
-        <input [type]="InputType.Text" id="firstName" placeholder="First Name" name="firstName" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="firstName"
+          placeholder="First Name"
+          name="firstName"
+          class="control w-100 d-block align-items-start"
+          formControlName="firstName"
+        />
       </div>
     </div>
   </div>
@@ -34,7 +50,14 @@
     >
       <div class="control__wrapper">
         <label for="dateOfBirth" class="control__label">Date of Birth</label>
-        <input [type]="InputType.Text" id="dateOfBirth" placeholder="Date of birth" name="dateOfBirth" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="dateOfBirth"
+          placeholder="Date of birth"
+          name="dateOfBirth"
+          class="control w-100 d-block align-items-start"
+          formControlName="birthDate"
+        />
       </div>
     </div>
     <div
@@ -42,7 +65,14 @@
     >
       <div class="control__wrapper">
         <label for="email" class="control__label">Email</label>
-        <input [type]="InputType.Text" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="email"
+          placeholder="Email"
+          name="email"
+          class="control w-100 d-block align-items-start"
+          formControlName="email"
+        />
       </div>
     </div>
   </div>
@@ -55,7 +85,14 @@
     >
       <div class="control__wrapper">
         <label for="weightGoal" class="control__label">Weight Goal</label>
-        <input [type]="InputType.Text" id="weightGoal" placeholder="Weight Goal" name="weightGoal" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="weightGoal"
+          placeholder="Weight Goal"
+          name="weightGoal"
+          class="control w-100 d-block align-items-start"
+          formControlName="weightGoal"
+        />
       </div>
     </div>
     <div
@@ -63,7 +100,14 @@
     >
       <div class="control__wrapper">
         <label for="weight" class="control__label">Weight</label>
-        <input [type]="InputType.Text" id="weight" placeholder="Weight" name="weight" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="weight"
+          placeholder="Weight"
+          name="weight"
+          class="control w-100 d-block align-items-start"
+          formControlName="weight"
+        />
       </div>
     </div>
   </div>
@@ -71,8 +115,6 @@
   <div
     class="profile-container__inputs-flex-container-last-item align-self-center text-center mt-4"
   >
-    <button class="btn border-hover w-auto">
-      Edit
-    </button>
+    <button class="btn border-hover w-auto">Edit</button>
   </div>
-</div>
+</form>

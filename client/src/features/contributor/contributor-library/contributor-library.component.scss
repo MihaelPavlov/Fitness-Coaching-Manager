@@ -46,7 +46,7 @@
     }
 
     &__popular-trainers {
-      text-align: center;
+      text-align: start;
       h2 {
         @include mixins.respond(Phone) {
           font-size: 1.3rem;
@@ -55,8 +55,11 @@
     }
 
     &__popular-trainers__cards {
-      flex-basis: auto;
       overflow-y: visible;
+      margin-left: 6rem;
+      @include mixins.respond(Phone) {
+        margin-left: 0;
+      }
     }
   }
 }

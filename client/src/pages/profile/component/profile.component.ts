@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { UserService } from '../../../entities/users/services/user.service';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
-import { IPublicUserDetails } from '../../../entities/users/models/user-details.interface';
+import { IUserDetails } from '../../../entities/users/models/user-details.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USERS_FIELDS } from '../../../entities/users/models/fields/users-fields.constant';
 import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-cards.interface';
@@ -17,7 +17,7 @@ import { UserInfo } from '../../../entities/models/user.interface';
 export class ProfileComponent implements OnInit {
   profileState: 'public' | 'private' = 'public';
 
-  public user: IPublicUserDetails | undefined;
+  public user: IUserDetails | undefined;
   public profileUserId?: number;
   protected isAuth: boolean = false;
   protected isSubscribed: boolean = false;
@@ -53,9 +53,10 @@ export class ProfileComponent implements OnInit {
             this.fetchPrivateProfileUser(userInfo.id);
             // Set profile state to private
             this.profileState = 'private';
+          } else {
+            // Logged-in user see other profile
+            this.fetchPublicProfileUser(params);
           }
-          // Logged-in user see other profile
-          this.fetchPublicProfileUser(params);
         } else {
           this.fetchPublicProfileUser(params);
         }
@@ -123,7 +124,7 @@ export class ProfileComponent implements OnInit {
     };
 
     this.userService.getDetail(queryParams).subscribe({
-      next: (res: IRequestResult<IPublicUserDetails> | null) => {
+      next: (res: IRequestResult<IUserDetails> | null) => {
         if (!res?.data) {
           this.router.navigate(['/']);
         }
@@ -147,16 +148,19 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.user_specs.weightGoal]: 1,
         [USERS_FIELDS.user_specs.preferences]: 1,
         [USERS_FIELDS.users.profilePicture]: 1,
+        [USERS_FIELDS.user_specs.birthDate]: 1,
+        [USERS_FIELDS.users.email]: 1,
       },
       id: userId
     }
 
     this.userService.getDetail(queryParams).subscribe({
-      next: (res: IRequestResult<IPublicUserDetails> | null) => {
+      next: (res: IRequestResult<IUserDetails> | null) => {
         if (!res?.data) {
           this.router.navigate(['/']);
         }
         this.user = res?.data;
+        console.log(this.user)
       },
       error: (err) => {
         console.log('Could not find user');

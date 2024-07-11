@@ -1,4 +1,4 @@
-export interface IPublicUserDetails {
+export interface IUserDetails {
   firstName: string;
   lastName: string;
   BMI: number;
@@ -8,16 +8,7 @@ export interface IPublicUserDetails {
   weightGoal: number;
   profilePicture?: string;
   preferences?: string;
+  birthDate?: string;
+  email?: string;
 }
-export interface IPrivateUserDetails {
-  firstName: string;
-  lastName: string;
-  BMI: number;
-  workoutCount: number;
-  fitnessLevel?: string;
-  weight: number;
-  weightGoal: number;
-  profilePicture?: string;
-  preferences?: string;
-  birthDate?: string
-}
+

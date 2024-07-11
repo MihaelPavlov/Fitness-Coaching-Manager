@@ -115,6 +115,6 @@
   <div
     class="profile-container__inputs-flex-container-last-item align-self-center text-center mt-4"
   >
-    <button class="btn border-hover w-auto">Edit</button>
+    <button class="btn border-hover w-auto" [disabled]="this.updateUserForm.invalid">Edit</button>
   </div>
 </form>

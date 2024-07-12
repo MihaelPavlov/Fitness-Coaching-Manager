@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { IUserDetails } from '../../../../entities/users/models/user-details.interface';
 import { FormBuilder, Validators } from '@angular/forms';
-import { UserService } from '../../../../entities/users/services/user.service';
+
 @Component({
   selector: 'app-profile-form',
   templateUrl: './profile-form.component.html',
@@ -11,7 +11,7 @@ import { UserService } from '../../../../entities/users/services/user.service';
 export class ProfileFormComponent implements OnChanges {
   @Input() user: IUserDetails | undefined;
 
-  constructor(private readonly fb: FormBuilder, private readonly userService: UserService) {}
+  constructor(private readonly fb: FormBuilder) {}
 
   public InputType = InputType;
 

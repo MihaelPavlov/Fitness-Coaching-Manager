@@ -48,7 +48,7 @@ export class ProfileFormComponent implements OnChanges {
     this.isLoading = true;
 
     this.userService.updateUser(this.updateUserForm.value).subscribe({
-      next: (res: any) => {
+      next: () => {
         this.hasUpdateError = false;
         this.userService.fetchUserInfo();
         this.isLoading = false;

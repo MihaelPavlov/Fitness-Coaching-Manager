@@ -29,6 +29,10 @@ export class UserService {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
   }
 
+  public updateUser(data: Record<string, any>): Observable<any> {
+    return this.apiService.put(PATH.USERS.UPDATE, data);
+  }
+
   public fetchUserInfo(): Subscription {
     return this.fetchCurrentUserInfo().subscribe((res: any) => {
       this.userInfoSubject$.next({

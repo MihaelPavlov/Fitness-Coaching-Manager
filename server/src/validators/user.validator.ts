@@ -133,6 +133,8 @@ export const createCoachValidators: ValidationChain[] = checkSchema({
     },
 });
 
+const dateRegex = /[1-9][0-9][0-9]{2}\/([0][1-9]|[1][0-2])\/([1-2][0-9]|[0][1-9]|[3][0-1])/gm;
+
 export const updateUserValidators: ValidationChain[] = checkSchema({
     firstName: {
         in: ["body"],
@@ -180,8 +182,9 @@ export const updateUserValidators: ValidationChain[] = checkSchema({
         exists: {
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "birthDate")
         },
-        isDate: {
+        custom: {
+            options: (value: any) => dateRegex.test(value),
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "birthDate")
-        }
+        },
     },
 });

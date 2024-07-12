@@ -1,0 +1,87 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.contributor-library {
+  &__header {
+    @include mixins.respond(Phone) {
+      text-align: center;
+    }
+  }
+
+  &__container {
+    height: auto;
+    overflow-x: visible;
+
+    h2 {
+      @include mixins.respond(Phone) {
+        font-size: 1.3rem;
+      }
+    }
+
+    &__new-trainers {
+      flex-basis: 50%;
+      overflow-x: hidden;
+      position: relative;
+      @include mixins.respond(Phone) {
+        span {
+          display: none;
+        }
+        margin-bottom: 1rem;
+      }
+
+      &__cards {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+        width: calc(100% - 10rem);
+        margin: 0 5rem 1.7rem;
+
+        @include mixins.respond(Phone) {
+          width: auto;
+          margin: 0;
+          overflow-x: scroll;
+          gap: 1rem;
+          scrollbar-width: none;
+        }
+      }
+    }
+
+    &__popular-trainers {
+      text-align: start;
+      h2 {
+        @include mixins.respond(Phone) {
+          font-size: 1.3rem;
+        }
+      }
+    }
+
+    &__popular-trainers__cards {
+      overflow-y: visible;
+      margin-left: 6rem;
+      @include mixins.respond(Phone) {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.icons {
+  font-size: 4rem;
+  cursor: pointer;
+  color: palette.$main-blue-darker-color;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.icons:first-of-type {
+  left: 0;
+}
+
+.icons:last-of-type {
+  right: 0;
+}
+
+body::-webkit-scrollbar {
+  display: none; /* WebKit (Chrome, Safari) */
+}

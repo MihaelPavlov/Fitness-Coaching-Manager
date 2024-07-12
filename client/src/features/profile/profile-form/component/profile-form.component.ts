@@ -15,6 +15,9 @@ export class ProfileFormComponent implements OnChanges {
 
   public InputType = InputType;
 
+  public hasUpdateError: boolean = false;
+  public updateError: string = "";
+
   public updateUserForm = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
@@ -38,6 +41,7 @@ export class ProfileFormComponent implements OnChanges {
   public onUpdate(): void {
     if (this.updateUserForm.invalid) {
       console.log("Invalid form");
+      return;
     }
   }
 

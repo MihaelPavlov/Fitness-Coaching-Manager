@@ -8,6 +8,7 @@ import { ProfileFormComponent } from '../../features/profile/profile-form/compon
 import { ProfileCardListComponent } from '../../features/profile/profile-cards/component/profile-cards.component';
 import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ErrorModule } from "../../shared/components/error/error.module";
 
 @NgModule({
     declarations: [
@@ -16,12 +17,13 @@ import { ReactiveFormsModule } from '@angular/forms';
         ProfileCardListComponent
     ],
     imports: [
-        CommonModule,
-        TagModule,
-        ProfileRoutingModule,
-        WorkoutCardModule,
-        ReactiveFormsModule
-    ],
+    CommonModule,
+    TagModule,
+    ProfileRoutingModule,
+    WorkoutCardModule,
+    ReactiveFormsModule,
+    ErrorModule
+],
     exports: [
         ProfileComponent
     ]

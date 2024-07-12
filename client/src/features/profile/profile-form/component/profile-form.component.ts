@@ -16,6 +16,7 @@ export class ProfileFormComponent implements OnChanges {
 
   public InputType = InputType;
 
+  public isLoading: boolean = false;
   public hasUpdateError: boolean = false;
   public updateError: string = "";
 
@@ -44,15 +45,18 @@ export class ProfileFormComponent implements OnChanges {
       console.log("Invalid form");
       return;
     }
+    this.isLoading = true;
 
     this.userService.updateUser(this.updateUserForm.value).subscribe({
       next: (res: any) => {
         this.hasUpdateError = false;
         this.userService.fetchUserInfo();
+        this.isLoading = false;
       },
       error: (err) => {
         this.hasUpdateError = true;
         this.updateError = err.error.data[0].message;
+        this.isLoading = false;
       }
     })
   }

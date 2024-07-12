@@ -1,3 +1,4 @@
+<app-loader *ngIf="isLoading"></app-loader>
 <form
   class="profile-container__inputs-flex-container pt-2 d-flex align-items-center flex-direction-column"
   [formGroup]="updateUserForm"
@@ -133,7 +134,7 @@
   <div
     class="profile-container__inputs-flex-container-last-item align-self-center text-center mt-4"
   >
-    <button class="btn border-hover w-auto" [disabled]="this.updateUserForm.invalid">Edit</button>
+    <button class="btn border-hover w-auto" [disabled]="this.updateUserForm.invalid || isLoading">Edit</button>
     <app-error *ngIf="hasUpdateError" [errorMessageText]="updateError"></app-error>
   </div>
 </form>

@@ -9,6 +9,7 @@ import { ProfileCardListComponent } from '../../features/profile/profile-cards/c
 import { WorkoutCardModule } from '../../widgets/workout-card/card.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ErrorModule } from "../../shared/components/error/error.module";
+import { LoaderModule } from "../../shared/components/loader/loader.module";
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { ErrorModule } from "../../shared/components/error/error.module";
     ProfileRoutingModule,
     WorkoutCardModule,
     ReactiveFormsModule,
-    ErrorModule
+    ErrorModule,
+    LoaderModule
 ],
     exports: [
         ProfileComponent

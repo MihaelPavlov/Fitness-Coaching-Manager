@@ -113,6 +113,30 @@ router.post(
   }
 );
 
+router.put(
+  PATH.USERS.UPDATE,
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.updateUser(req.user.id, req.body);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          message: "Successfully updated user!"
+        }
+      });
+    } catch (err) {
+      return res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message,
+        },
+      });
+    }
+  }
+)
+
 router.post(
   PATH.USERS.SUBSCRIBE + "/:contributorId",
   isAuth,

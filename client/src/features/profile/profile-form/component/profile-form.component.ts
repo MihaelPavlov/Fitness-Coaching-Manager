@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { IUserDetails } from '../../../../entities/users/models/user-details.interface';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-profile-form',
@@ -21,7 +21,7 @@ export class ProfileFormComponent implements OnChanges {
   public updateUserForm = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    birthDate: ['', [Validators.required]],
+    birthDate: ['', [Validators.required, this.dateValidator()]],
     email: ['', [Validators.required, Validators.email]],
     weightGoal: ['', [Validators.required]],
     weight: ['', [Validators.required]]
@@ -47,5 +47,14 @@ export class ProfileFormComponent implements OnChanges {
 
   private formatDateValue(date: Date): string {
     return `${date.getFullYear()}/${date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)}/${date.getDate() > 9 ? date.getDate() : '0' + date.getDate()}`;
+  }
+
+  private dateValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      console.log(control);
+      const dateRegex = /[1-9][0-9][0-9]{2}\/([0][1-9]|[1][0-2])\/([1-2][0-9]|[0][1-9]|[3][0-1])/gm;
+
+      return dateRegex.test(control?.value) ? null : { invalidDate: true }
+    }
   }
 }

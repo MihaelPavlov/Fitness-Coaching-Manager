@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { IUserDetails } from '../../../../entities/users/models/user-details.interface';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { UserService } from '../../../../entities/users/services/user.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -11,7 +12,7 @@ import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators
 export class ProfileFormComponent implements OnChanges {
   @Input() user: IUserDetails | undefined;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(private readonly fb: FormBuilder, private readonly userService: UserService) {}
 
   public InputType = InputType;
 
@@ -43,6 +44,17 @@ export class ProfileFormComponent implements OnChanges {
       console.log("Invalid form");
       return;
     }
+
+    this.userService.updateUser(this.updateUserForm.value).subscribe({
+      next: (res: any) => {
+        this.hasUpdateError = false;
+        this.userService.fetchUserInfo();
+      },
+      error: (err) => {
+        this.hasUpdateError = true;
+        this.updateError = err.error.data[0].message;
+      }
+    })
   }
 
   private formatDateValue(date: Date): string {
@@ -51,7 +63,6 @@ export class ProfileFormComponent implements OnChanges {
 
   private dateValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      console.log(control);
       const dateRegex = /[1-9][0-9][0-9]{2}\/([0][1-9]|[1][0-2])\/([1-2][0-9]|[0][1-9]|[3][0-1])/gm;
 
       return dateRegex.test(control?.value) ? null : { invalidDate: true }

@@ -28,7 +28,7 @@ export class ProfileFormComponent implements OnChanges {
       if (changes['user']) {
         for (let [field, value] of Object.entries(this.user as object)) {
           if (field === "birthDate") {
-            value = new Date(value).toLocaleDateString();
+            value = this.formatDateValue(new Date(value));
           }
           this.updateUserForm.get(field)?.setValue(value);
         }
@@ -39,5 +39,9 @@ export class ProfileFormComponent implements OnChanges {
     if (this.updateUserForm.invalid) {
       console.log("Invalid form");
     }
+  }
+
+  private formatDateValue(date: Date): string {
+    return `${date.getFullYear()}/${date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)}/${date.getDate() > 9 ? date.getDate() : '0' + date.getDate()}`;
   }
 }

@@ -3,6 +3,7 @@ import { InputType } from '../../../../shared/enums/input-types.enum';
 import { IUserDetails } from '../../../../entities/users/models/user-details.interface';
 import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { UserService } from '../../../../entities/users/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-form',
@@ -12,7 +13,7 @@ import { UserService } from '../../../../entities/users/services/user.service';
 export class ProfileFormComponent implements OnChanges {
   @Input() user: IUserDetails | undefined;
 
-  constructor(private readonly fb: FormBuilder, private readonly userService: UserService) {}
+  constructor(private readonly fb: FormBuilder, private readonly userService: UserService, private readonly router: Router) {}
 
   public InputType = InputType;
 
@@ -23,7 +24,7 @@ export class ProfileFormComponent implements OnChanges {
   public updateUserForm = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    birthDate: ['', [Validators.required, this.dateValidator()]],
+    birthDate: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     weightGoal: ['', [Validators.required]],
     weight: ['', [Validators.required]]
@@ -33,7 +34,7 @@ export class ProfileFormComponent implements OnChanges {
       if (changes['user']) {
         for (let [field, value] of Object.entries(this.user as object)) {
           if (field === "birthDate") {
-            value = this.formatDateValue(new Date(value));
+            value = new Date(value.replace('22', '24')).toISOString().split('T')[0];
           }
           this.updateUserForm.get(field)?.setValue(value);
         }
@@ -54,22 +55,14 @@ export class ProfileFormComponent implements OnChanges {
         this.isLoading = false;
       },
       error: (err) => {
+        if (err.status === 401) {
+          this.isLoading = false;
+          this.router.navigate(['/login']);
+        }
         this.hasUpdateError = true;
         this.updateError = err.error.data[0].message;
         this.isLoading = false;
       }
     })
-  }
-
-  private formatDateValue(date: Date): string {
-    return `${date.getFullYear()}/${date.getMonth() + 1 > 9 ? date.getMonth() + 1 : '0' + (date.getMonth() + 1)}/${date.getDate() > 9 ? date.getDate() : '0' + date.getDate()}`;
-  }
-
-  private dateValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const dateRegex = /[1-9][0-9][0-9]{2}\/([0][1-9]|[1][0-2])\/([1-2][0-9]|[0][1-9]|[3][0-1])/gm;
-
-      return dateRegex.test(control?.value) ? null : { invalidDate: true }
-    }
   }
 }

@@ -107,7 +107,7 @@ export const updateUser = async (userId: number, data: Record<string, any>) => {
     last_name: data?.lastName,
     email: data?.email
   });
-  console.log(new Date("2006/01/26"))
+  
   await db(TABLE.USER_SPECS).where("user_id", "=", userId).update({
     weight: data?.weight,
     weight_goal: data?.weightGoal,

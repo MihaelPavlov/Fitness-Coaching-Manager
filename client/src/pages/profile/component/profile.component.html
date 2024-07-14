@@ -13,7 +13,7 @@
       class="profile-container__img-container-icon-public material-symbols-outlined">chat</span>
   </div>
 
-  <p class="profile-container__profile-name mb-3">{{user?.firstName ?? "Set"}} {{user?.lastName ?? "Name"}}</p>
+  <p class="profile-container__profile-name mb-3">{{user?.firstName}} {{user?.lastName}}</p>
 
   <div class="profile-container__tags d-flex g-2 justify-content-center mb-3">
     <ng-container *ngFor="let tag of user?.preferences?.split(',')">

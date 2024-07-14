@@ -62,6 +62,7 @@ export class ProfileComponent implements OnInit {
         }
       });
 
+      if (this.profileState === 'public') {
       this.userService
         .hasUserSubscribedToContributor(params['userId'])
         .subscribe({
@@ -72,8 +73,11 @@ export class ProfileComponent implements OnInit {
             console.log(err);
           },
         });
+      }
 
-      this.fetchContributorWorkouts(params['userId']);
+      if (this.profileState === 'public') {
+        this.fetchContributorWorkouts(params['userId']);
+      }
     });
   }
 

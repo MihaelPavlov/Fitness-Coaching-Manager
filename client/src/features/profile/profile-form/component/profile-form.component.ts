@@ -43,7 +43,6 @@ export class ProfileFormComponent implements OnChanges {
 
   public onUpdate(): void {
     if (this.updateUserForm.invalid) {
-      console.log("Invalid form");
       return;
     }
     this.isLoading = true;

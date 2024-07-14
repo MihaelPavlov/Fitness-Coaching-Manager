@@ -10,6 +10,11 @@ const knexConfig: { [key: string]: Knex.Config } = {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       port: +process.env.DB_PORT,
+      timezone: 'utc',
+      typeCast: (field:any, next:any) => {
+        if (field.type === 'DATE') return field.string();
+        return next();
+      }
     },
     migrations: {
       directory: "./src/database/migrations",

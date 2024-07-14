@@ -1,25 +1,28 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { IUserDetails } from '../../../../entities/users/models/user-details.interface';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { UserService } from '../../../../entities/users/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-form',
   templateUrl: './profile-form.component.html',
-  styleUrls: ['./profile-form.component.scss']
+  styleUrls: ['./profile-form.component.scss'],
 })
 export class ProfileFormComponent implements OnChanges {
   @Input() user: IUserDetails | undefined;
 
-  constructor(private readonly fb: FormBuilder, private readonly userService: UserService, private readonly router: Router) {}
-
   public InputType = InputType;
-
   public isLoading: boolean = false;
   public hasUpdateError: boolean = false;
-  public updateError: string = "";
+  public updateError: string = '';
+
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly userService: UserService,
+    private readonly router: Router
+  ) {}
 
   public updateUserForm = this.fb.group({
     firstName: ['', [Validators.required]],
@@ -27,15 +30,13 @@ export class ProfileFormComponent implements OnChanges {
     birthDate: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     weightGoal: ['', [Validators.required]],
-    weight: ['', [Validators.required]]
+    weight: ['', [Validators.required]],
   });
 
-  ngOnChanges(changes: SimpleChanges): void {
-      if (changes['user']) {
-        for (let [field, value] of Object.entries(this.user as object)) {
-          this.updateUserForm.get(field)?.setValue(value);
-        }
-      }
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['user']) {
+      this.updateFormValues(this.user);
+    }
   }
 
   public onUpdate(): void {
@@ -58,7 +59,15 @@ export class ProfileFormComponent implements OnChanges {
         this.hasUpdateError = true;
         this.updateError = err.error.data[0].message;
         this.isLoading = false;
+      },
+    });
+  }
+
+  private updateFormValues(user: any): void {
+    Object.entries(user).forEach(([field, value]) => {
+      if (this.updateUserForm.get(field)) {
+        this.updateUserForm.get(field)?.setValue(value);
       }
-    })
+    });
   }
 }

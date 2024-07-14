@@ -33,7 +33,6 @@ export class ProfileFormComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
       if (changes['user']) {
         for (let [field, value] of Object.entries(this.user as object)) {
-          if (field === 'birthDate') value = value.split('T')[0]
           this.updateUserForm.get(field)?.setValue(value);
         }
       }

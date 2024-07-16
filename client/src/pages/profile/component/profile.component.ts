@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
       if (this.profileState === 'public') {
         this.userService.hasUserSubscribed(params['userId']).subscribe({
           next: (res: any) => {
-            if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed) {
+            if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed && !this.profileContributorId) {
               this.router.navigate(['/'])
             }
             this.isSubscribed = res?.data?.hasSubscribed;
@@ -78,10 +78,6 @@ export class ProfileComponent implements OnInit {
             console.log(err);
           },
         });
-      }
-
-      if (this.profileState === 'public') {
-        this.fetchContributorWorkouts(params['userId']);
       }
     });
   }
@@ -144,6 +140,9 @@ export class ProfileComponent implements OnInit {
           res?.data.userRole === UserRoles.User
         ) {
           this.router.navigate(['/']);
+        }
+        if (res?.data.userRole === UserRoles.Coach) {
+          this.fetchContributorWorkouts(res?.data.contributorId as number);
         }
         this.profileContributorId = res?.data.contributorId;
         this.user = res?.data;
@@ -213,7 +212,7 @@ export class ProfileComponent implements OnInit {
       ],
     };
 
-    this.workoutService.getContributorWorkouts(queryParams).subscribe({
+    this.workoutService.getWorkouts(queryParams).subscribe({
       next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
         console.log(res?.data);
         this.workouts = res?.data ?? [];
@@ -222,5 +221,9 @@ export class ProfileComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  private fetchUserRelatedWorkouts(userId: number) {
+
   }
 }

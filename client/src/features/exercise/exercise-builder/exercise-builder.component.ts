@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -12,7 +12,7 @@ import { difficultyList } from '../../../shared/option-arrays/difficulty-list';
   styleUrl: './exercise-builder.component.scss',
   encapsulation: ViewEncapsulation.None,
 })
-export class ExerciseBuidlerComponent {
+export class ExerciseBuidlerComponent implements OnInit {
   public InputType = InputType;
   public isLoading: boolean = false;
   public optionArrays = optionArrays;
@@ -35,6 +35,15 @@ export class ExerciseBuidlerComponent {
     private readonly exerciseService: ExerciseService,
     private readonly router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.exerciseService.getEquipmentList({
+      what: {
+        uid: 1,
+        name: 1,
+      },
+    });
+  }
 
   protected create(): void {
     this.isLoading = true;

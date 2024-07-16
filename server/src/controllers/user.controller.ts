@@ -194,7 +194,7 @@ router.get(
     try {
       let hasSubscribed;
       if (req.user.role === UserRoles.Coach) {
-        hasSubscribed = await userService.hasUserSubscribed(req.params.id, req.user.id);
+        hasSubscribed = await userService.hasUserSubscribed(req.params.id, await getContributorId(req.user.id));
       } else {
         hasSubscribed = await userService.hasUserSubscribed(req.user.id, await getContributorId(req.params.id));
       }

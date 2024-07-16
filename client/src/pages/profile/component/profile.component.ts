@@ -8,6 +8,7 @@ import { USERS_FIELDS } from '../../../entities/users/models/fields/users-fields
 import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-cards.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { UserInfo } from '../../../entities/models/user.interface';
+import { UserRoles } from '../../../shared/enums/user-roles.enum';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,7 @@ export class ProfileComponent implements OnInit {
   public profileUserId?: number;
   protected isAuth: boolean = false;
   protected isSubscribed: boolean = false;
+  protected visitorRole: number = UserRoles.User;
 
   public workouts!: IWorkoutCardsFields[];
 
@@ -47,6 +49,7 @@ export class ProfileComponent implements OnInit {
       this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
         if(userInfo) {
           this.isAuth = true;
+          this.visitorRole = userInfo.role;
           if (!params['userId'] || userInfo.id == params['userId']) {
             // Same user trying to access his public profile - not allowed
             // Do different builder request for private

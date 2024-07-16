@@ -67,12 +67,6 @@ export class ProfileComponent implements OnInit {
       });
 
       if (this.profileState === 'public') {
-        let id;
-        if (this.visitorRole === UserRoles.User) {
-          id = this.profileContributorId;
-        } else {
-
-        }
         this.userService.hasUserSubscribed(params['userId']).subscribe({
           next: (res: any) => {
             if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed) {

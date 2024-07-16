@@ -58,11 +58,11 @@ export class UserService {
     );
   }
 
-  public hasUserSubscribedToContributor(
-    contributorId: number
+  public hasUserSubscribed(
+    id: number
   ): Observable<any> {
     return this.apiService.get(
-      PATH.USERS.HAS_SUBSCRIBED + `/${contributorId}`
+      PATH.USERS.HAS_SUBSCRIBED + `/${id}`
     );
   }
 

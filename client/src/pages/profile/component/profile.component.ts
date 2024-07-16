@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
       });
 
       this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
-        if(userInfo) {
+        if (userInfo) {
           this.isAuth = true;
           this.visitorRole = userInfo.role;
           if (!params['userId'] || userInfo.id == params['userId']) {
@@ -66,10 +66,11 @@ export class ProfileComponent implements OnInit {
       });
 
       if (this.profileState === 'public') {
-      this.userService
-        .hasUserSubscribedToContributor(params['userId'])
-        .subscribe({
+        this.userService.hasUserSubscribed(params['userId']).subscribe({
           next: (res: any) => {
+            if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed) {
+              this.router.navigate(['/'])
+            }
             this.isSubscribed = res?.data?.hasSubscribed;
           },
           error: (err) => {
@@ -126,7 +127,7 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.user_specs.weightGoal]: 1,
         [USERS_FIELDS.user_specs.preferences]: 1,
         [USERS_FIELDS.users.profilePicture]: 1,
-        [USERS_FIELDS.users.userRole]: 1
+        [USERS_FIELDS.users.userRole]: 1,
       },
       id: params['userId'] || null,
     };
@@ -136,7 +137,10 @@ export class ProfileComponent implements OnInit {
         if (!res?.data) {
           this.router.navigate(['/']);
         }
-        if (this.visitorRole === UserRoles.User && res?.data.userRole === UserRoles.User) {
+        if (
+          this.visitorRole === UserRoles.User &&
+          res?.data.userRole === UserRoles.User
+        ) {
           this.router.navigate(['/']);
         }
         this.user = res?.data;
@@ -162,8 +166,8 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.user_specs.birthDate]: 1,
         [USERS_FIELDS.users.email]: 1,
       },
-      id: userId
-    }
+      id: userId,
+    };
 
     this.userService.getDetail(queryParams).subscribe({
       next: (res: IRequestResult<IUserDetails> | null) => {
@@ -171,7 +175,7 @@ export class ProfileComponent implements OnInit {
           this.router.navigate(['/']);
         }
         this.user = res?.data;
-        console.log(this.user)
+        console.log(this.user);
       },
       error: (err) => {
         console.log('Could not find user');
@@ -179,9 +183,10 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private hasContributorSubscriber(contributorId: number, userId: number): any {
-
-  }
+  private hasContributorSubscriber(
+    contributorId: number,
+    userId: number
+  ): any {}
 
   private fetchContributorWorkouts(contributorId: number): void {
     const queryParams: IQueryParams = {
@@ -205,9 +210,9 @@ export class ProfileComponent implements OnInit {
       order: [
         {
           field: 'rating',
-          direction: 'DESC'
-        }
-      ]
+          direction: 'DESC',
+        },
+      ],
     };
 
     this.workoutService.getContributorWorkouts(queryParams).subscribe({

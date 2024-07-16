@@ -4,6 +4,7 @@ import { optionArrays } from '../../../shared/option-arrays';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { Router } from '@angular/router';
+import { difficultyList } from '../../../shared/option-arrays/difficulty-list';
 
 @Component({
   selector: 'app-exercise-builder',
@@ -17,6 +18,8 @@ export class ExerciseBuidlerComponent {
   public optionArrays = optionArrays;
   protected hasExerciseError: boolean = false;
   protected createExerciseErrorMsg: string = '';
+
+  protected difficultyArr = Object.entries(difficultyList);
 
   protected exerciseForm = this.fb.group({
     title: ['', Validators.required],
@@ -50,7 +53,7 @@ export class ExerciseBuidlerComponent {
       },
       error: (err) => {
         this.isLoading = false;
-        this.createExerciseErrorMsg = err.error.data.error;
+        this.createExerciseErrorMsg = err.error.data[0].message;
         this.hasExerciseError = true;
       },
     });

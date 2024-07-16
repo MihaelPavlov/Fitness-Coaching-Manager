@@ -54,10 +54,10 @@
           >
             <option
               class="control__option"
-              *ngFor="let option of optionArrays.difficultyList"
-              [value]="option"
+              *ngFor="let option of difficultyArr"
+              [value]="option[1]"
             >
-              {{ option }}
+              {{ option[0] }}
             </option>
           </select>
         </div>
@@ -113,11 +113,11 @@
       >
         <button type="button" class="btn btn-large">Cancel</button>
         <button type="submit" class="btn btn-large">Create</button>
-        <app-error
+      </div>
+      <app-error
           *ngIf="hasExerciseError"
           [errorMessageText]="createExerciseErrorMsg"
         ></app-error>
-      </div>
     </div>
     <div class="exercise-form__links d-flex flex-direction-column"></div>
   </form>

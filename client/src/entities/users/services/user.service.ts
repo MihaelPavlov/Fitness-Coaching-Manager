@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { UserInfo } from '../../models/user.interface';
 import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
-import { IPublicUserDetails } from '../models/user-details.interface';
+import { IUserDetails } from '../models/user-details.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +25,12 @@ export class UserService {
 
   public getDetail(
     queryParams: IQueryParams
-  ): Observable<IRequestResult<IPublicUserDetails> | null> {
+  ): Observable<IRequestResult<IUserDetails> | null> {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams);
+  }
+
+  public updateUser(data: Record<string, any>): Observable<any> {
+    return this.apiService.put(PATH.USERS.UPDATE, data);
   }
 
   public fetchUserInfo(): Subscription {

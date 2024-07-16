@@ -1,5 +1,8 @@
-<div
+<app-loader *ngIf="isLoading"></app-loader>
+<form
   class="profile-container__inputs-flex-container pt-2 d-flex align-items-center flex-direction-column"
+  [formGroup]="updateUserForm"
+  (ngSubmit)="onUpdate()"
 >
   <div class="profile-container__inputs-flex-container-first-item text-center">
     <h2 class="m-0">Personal Information</h2>
@@ -13,7 +16,17 @@
     >
       <div class="control__wrapper">
         <label for="lastName" class="control__label">Last Name</label>
-        <input [type]="InputType.Text" id="lastName" placeholder="Last Name" name="lastName" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="lastName"
+          placeholder="Last Name"
+          name="lastName"
+          class="control w-100 d-block align-items-start"
+          formControlName="lastName"
+        />
+        <ng-container *ngIf="updateUserForm.get('lastName')?.touched">
+          <p *ngIf="updateUserForm.get('lastName')?.errors">Invalid Field</p>
+        </ng-container>
       </div>
     </div>
     <div
@@ -21,7 +34,17 @@
     >
       <div class="control__wrapper">
         <label for="firstName" class="control__label">First Name</label>
-        <input [type]="InputType.Text" id="firstName" placeholder="First Name" name="firstName" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="firstName"
+          placeholder="First Name"
+          name="firstName"
+          class="control w-100 d-block align-items-start"
+          formControlName="firstName"
+        />
+        <ng-container *ngIf="updateUserForm.get('firstName')?.touched">
+          <p *ngIf="updateUserForm.get('firstName')?.errors">Invalid Field</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -34,7 +57,17 @@
     >
       <div class="control__wrapper">
         <label for="dateOfBirth" class="control__label">Date of Birth</label>
-        <input [type]="InputType.Text" id="dateOfBirth" placeholder="Date of birth" name="dateOfBirth" class="control w-100 d-block align-items-start">
+        <input
+          type="date"
+          id="dateOfBirth"
+          placeholder="Date of birth"
+          name="dateOfBirth"
+          class="control w-100 d-block align-items-start"
+          formControlName="birthDate"
+        />
+        <ng-container *ngIf="updateUserForm.get('birthDate')?.touched">
+          <p *ngIf="updateUserForm.get('birthDate')?.errors">Invalid Field (yyyy/mm/dd)</p>
+        </ng-container>
       </div>
     </div>
     <div
@@ -42,7 +75,17 @@
     >
       <div class="control__wrapper">
         <label for="email" class="control__label">Email</label>
-        <input [type]="InputType.Text" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="email"
+          placeholder="Email"
+          name="email"
+          class="control w-100 d-block align-items-start"
+          formControlName="email"
+        />
+        <ng-container *ngIf="updateUserForm.get('email')?.touched">
+          <p *ngIf="updateUserForm.get('email')?.errors">Invalid Field</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -55,7 +98,17 @@
     >
       <div class="control__wrapper">
         <label for="weightGoal" class="control__label">Weight Goal</label>
-        <input [type]="InputType.Text" id="weightGoal" placeholder="Weight Goal" name="weightGoal" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="weightGoal"
+          placeholder="Weight Goal"
+          name="weightGoal"
+          class="control w-100 d-block align-items-start"
+          formControlName="weightGoal"
+        />
+        <ng-container *ngIf="updateUserForm.get('weightGoal')?.touched">
+          <p *ngIf="updateUserForm.get('weightGoal')?.errors">Invalid Field</p>
+        </ng-container>
       </div>
     </div>
     <div
@@ -63,16 +116,25 @@
     >
       <div class="control__wrapper">
         <label for="weight" class="control__label">Weight</label>
-        <input [type]="InputType.Text" id="weight" placeholder="Weight" name="weight" class="control w-100 d-block align-items-start">
+        <input
+          [type]="InputType.Text"
+          id="weight"
+          placeholder="Weight"
+          name="weight"
+          class="control w-100 d-block align-items-start"
+          formControlName="weight"
+        />
+        <ng-container *ngIf="updateUserForm.get('weight')?.touched">
+          <p *ngIf="updateUserForm.get('weight')?.errors">Invalid Field</p>
+        </ng-container>
       </div>
     </div>
   </div>
 
   <div
-    class="profile-container__inputs-flex-container-last-item align-self-center text-center mt-4"
+    class="profile-container__inputs-flex-container-last-item align-self-center text-center my-4"
   >
-    <button class="btn border-hover w-auto">
-      Edit
-    </button>
+    <button class="btn border-hover w-auto" [disabled]="this.updateUserForm.invalid || isLoading">Edit</button>
+    <app-error *ngIf="hasUpdateError" [errorMessageText]="updateError"></app-error>
   </div>
-</div>
+</form>

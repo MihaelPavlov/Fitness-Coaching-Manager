@@ -1,6 +1,6 @@
 import express from "express";
 import * as exerciseService from "./../services/exercise.service";
-import { isCoach } from "./../middlewares/auth.middleware";
+import { isAuth, isCoach } from "./../middlewares/auth.middleware";
 import { inputValidationMiddleware } from "../middlewares/validation.middleware";
 import { createExerciseValidators } from "../validators/exercise.validator";
 import { RESPONSE_STATUS } from "../constants/response.constants";
@@ -10,15 +10,16 @@ const router = express.Router();
 
 router.post(
   PATH.EXERCISES.CREATE,
-  //isCoach,
+  isAuth,
+  isCoach,
   inputValidationMiddleware(createExerciseValidators),
   async (
-    req: express.Request,
+    req: any,
     res: express.Response,
     next: express.NextFunction
   ) => {
     try {
-      const createdExerciseID = await exerciseService.addExercise(req.body);
+      const createdExerciseID = await exerciseService.addExercise(req.user.id,req.body);
 
       res.status(201).json({
         status: RESPONSE_STATUS.SUCCESS,

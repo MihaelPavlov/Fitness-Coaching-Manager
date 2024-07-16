@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post(
   PATH.EXERCISES.CREATE,
-  // isCoach,
+  //isCoach,
   inputValidationMiddleware(createExerciseValidators),
   async (
     req: express.Request,

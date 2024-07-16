@@ -7,6 +7,12 @@
   margin-bottom: 0.2rem;
 }
 
+.control__label.required::after {
+  content: '*';
+  display: inline;
+  color: palette.$main-form-error-message;
+}
+
 .control {
   background-color: palette.$main-background-color;
   border-bottom: palette.$main-blue-darker-color 0.3rem solid;
@@ -21,9 +27,14 @@
   color: palette.$main-blue-darker-color;
 
   @include mixins.respond(Phone) {
-    background-color: white;
+    background-color: palette.$main-background-color;
     font-size: 0.6rem;
   }
+}
+
+.control + p {
+  color: palette.$main-form-error-message;
+  font-size: 0.9rem;
 }
 
 select.control {

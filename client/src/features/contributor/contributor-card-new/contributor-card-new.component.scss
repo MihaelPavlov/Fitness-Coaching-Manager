@@ -1,0 +1,36 @@
+@use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
+.card-new__container {
+  height: 22rem;
+  width: 15rem;
+  @include mixins.respond(Phone) {
+    height: 19rem;
+    width: 14rem;
+  }
+  background-color: white;
+  border: 0.15rem solid palette.$main-blue-darker-color;
+  border-radius: 5px;
+  img {
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__information-container {
+    flex-basis: 40%;
+
+    h2 {
+      margin: 1rem 0 0.5rem 0.8rem;
+    }
+
+    &__star-container {
+      font-size: 1.3rem;
+      margin: 0 0 2rem 0.8rem;
+      span {
+        color: rgb(180, 180, 80);
+      }
+    }
+  }
+}

@@ -1,33 +1,23 @@
-<div class="card-container pt-5 position-relative" [ngStyle]="{'--background-url': 'url(' + imageUrl + ')'}">
-    <p class="card-container__workout-name mt-0 uppercase">Weight Loss</p>
-    <p class="card-container__workout-trainer">Mihael</p>
+<div class="card-container pt-5 position-relative" [ngStyle]="{'--background-url': 'url(' + workout?.imageUri + ')'}">
+    <p class="card-container__workout-name mt-0 uppercase">{{workout?.title}}</p>
+    <p class="card-container__workout-trainer">{{workout?.owner?.firstName}}</p>
 
     <div class="card-container__difficulty d-flex g-4 align-items-center">
         <p class="card-container__difficulty-text">
             Beginner
         </p>
         <div class="card-container__difficulty-stars">
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
+            <ng-container *ngFor="let i of starsCount()">
+              <span class="card-container__difficulty-stars-star material-symbols-outlined">
                 star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
-            <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-            </span>
+              </span>
+            </ng-container>
         </div>
     </div>
     <div class="card-container__tags d-flex g-2">
-        <app-tag text="Gym" [backgroundColor]="'main-blue-color'"></app-tag>
-        <app-tag text="Back" [backgroundColor]="'main-blue-color'"></app-tag>
-        <app-tag text="Legs" [backgroundColor]="'main-blue-color'"></app-tag>
+        <ng-container *ngFor="let tag of workout?.tags">
+          <app-tag [text]="tag.name" [backgroundColor]="'main-blue-color'"></app-tag>
+        </ng-container>
     </div>
     <span class="card-container__add-btn align-items-center d-flex justify-content-center material-symbols-outlined">
         add

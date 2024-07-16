@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
-import { LoginComponent } from '../../pages/login/component/login.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
 
 export const ROUTES: Routes = [
@@ -8,8 +7,15 @@ export const ROUTES: Routes = [
     path: '',
     component: AppLayoutComponent,
     children: [
-      {
+      { // Private profile
         path: 'profile',
+        loadChildren: () =>
+          import('../../pages/profile/profile.module').then(
+            (m) => m.ProfileModule
+          ),
+      },
+      { // Public profile
+        path: 'profile/:userId',
         loadChildren: () =>
           import('../../pages/profile/profile.module').then(
             (m) => m.ProfileModule
@@ -18,15 +24,15 @@ export const ROUTES: Routes = [
       {
         path: 'workout',
         loadChildren: () =>
-          import('../../pages/workout-library/workout-library.module').then(
-            (m) => m.WorkoutLibraryModule
+          import('../../pages/workout/workout.module').then(
+            (m) => m.WorkoutModule
           ),
       },
       {
         path: 'exercise',
         loadChildren: () =>
-          import('../../pages/exercise-library/exercise-library.module').then(
-            (m) => m.ExerciseLibraryModule
+          import('../../pages/exercise/exercise.module').then(
+            (m) => m.ExerciseModule
           ),
       },
       {
@@ -36,7 +42,18 @@ export const ROUTES: Routes = [
             (m) => m.RegisterModule
           ),
       },
+      {
+        path: 'contributor',
+        loadChildren: () =>
+          import('../../pages/contributor/contributor.module').then(
+            (m) => m.ContributorModule
+          ),
+      },
     ],
+  },
+  {
+    path: 'register',
+    component: LandingComponent
   },
   {
     path: 'home',

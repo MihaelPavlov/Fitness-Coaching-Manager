@@ -5,7 +5,7 @@
 
   <div class="profile-container__img-container pt-4">
     <img class="profile-container__img-container-img"
-      src="https://images.pexels.com/photos/771742/pexels-photo-771742.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+      src="{{user?.profilePicture}}"
       alt="Img" />
     <span *ngIf="profileState === 'private'"><i
         class="profile-container__img-container-icon-private material-icons">photo_camera</i></span>
@@ -13,39 +13,39 @@
       class="profile-container__img-container-icon-public material-symbols-outlined">chat</span>
   </div>
 
-  <p class="profile-container__profile-name mb-3">Mihael Pavlov</p>
+  <p class="profile-container__profile-name mb-3">{{user?.firstName}} {{user?.lastName}}</p>
 
   <div class="profile-container__tags d-flex g-2 justify-content-center mb-3">
-    <app-tag text="Gym"></app-tag>
-    <app-tag text="Back"></app-tag>
-    <app-tag text="Legs"></app-tag>
+    <ng-container *ngFor="let tag of user?.preferences?.split(',')">
+      <app-tag text="{{tag}}"></app-tag>
+    </ng-container>
   </div>
 
   <div class="profile-container__inforamtion-container d-flex justify-content-evenly mb-3">
     <div class="profile-container__inforamtion-container-box">
-      <p class="profile-container__inforamtion-container-box-data">18</p>
+      <p class="profile-container__inforamtion-container-box-data">{{user?.BMI}}</p>
       <p class="profile-container__inforamtion-container-box-label">BMI</p>
     </div>
     <div class="profile-container__inforamtion-container-box">
-      <p class="profile-container__inforamtion-container-box-data">100</p>
+      <p class="profile-container__inforamtion-container-box-data">{{user?.workoutCount}}</p>
       <p class="profile-container__inforamtion-container-box-label">
         Total Workouts
       </p>
     </div>
     <div class="profile-container__inforamtion-container-box d-flex flex-direction-column align-items-center">
       <p class="profile-container__inforamtion-container-box-data-level">
-        Intermediate
+        {{user?.fitnessLevel}}
       </p>
       <p class="profile-container__inforamtion-container-box-label">
         Fitness Level
       </p>
     </div>
     <div class="profile-container__inforamtion-container-box">
-      <p class="profile-container__inforamtion-container-box-data">90</p>
+      <p class="profile-container__inforamtion-container-box-data">{{user?.weight}}</p>
       <p class="profile-container__inforamtion-container-box-label">Weight</p>
     </div>
     <div class="profile-container__inforamtion-container-box">
-      <p class="profile-container__inforamtion-container-box-data">100</p>
+      <p class="profile-container__inforamtion-container-box-data">{{user?.weightGoal}}</p>
       <p class="profile-container__inforamtion-container-box-label">
         Weight Goal
       </p>
@@ -56,7 +56,7 @@
 </div>
 
 <ng-template #public>
-  <app-profile-cards></app-profile-cards>
+  <app-profile-card-list [workouts]="workouts"></app-profile-card-list>
 </ng-template>
 
 <ng-template #private>
@@ -65,12 +65,11 @@
 
 <ng-template #subscribeBtn>
   <div class="profile-container__public-btn">
-    <button class="btn w-auto">
+    <button *ngIf="!isSubscribed" class="btn w-auto sub-btn" (click)="onSubscribe()">
       Subscribe
     </button>
-    <!-- <app-button text="Subscribe" padding="0.8rem 5rem" [hoverTextColor]="'main-blue-darker-color'"
-      [hoverBackgroundColor]="'white'" [showBorderOnHover]="true" [hoverBorderColor]="'main-blue-darker-color'"
-      [width]="'auto'">
-    </app-button> -->
+    <button *ngIf="isAuth && isSubscribed" class="btn w-auto sub-btn" (click)="onUnsubscribe()">
+      Unsubscribe
+    </button>
   </div>
 </ng-template>

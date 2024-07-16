@@ -3,23 +3,54 @@
 
 .btn {
   display: inline-block;
-    background-color: palette.$main-blue-darker-color;
-    color: palette.$main-background-color;
-    text-align: center;
-    border: none;
-    padding: 0.6rem 0;
-    font-size: 0.9rem;
-    font-weight: 600;
-    transition: all 0.4s;
+  background-color: palette.$main-blue-darker-color;
+  color: palette.$main-background-color;
+  text-align: center;
+  border: none;
+  padding: 0.6rem 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.4s;
 
-    &:hover {
-        cursor: pointer;
-        color: palette.$main-blue-darker-color;
-        background-color: palette.$main-background-color;
-        transform: scale(1.1);
-    }
+  &:hover {
+    cursor: pointer;
+    color: palette.$main-blue-darker-color;
+    background-color: palette.$main-background-color;
+    transform: scale(1.1);
+  }
+}
+
+button:disabled, button[disabled] {
+  background-color: #a89997;
+  color: #fff;
+
+  &:hover {
+    cursor: default;
+    color: #fff;
+    background-color: #a89997;
+    transform: scale(1);
+  }
 }
 
 .border-hover:hover {
   outline: 0.2rem solid palette.$main-blue-darker-color;
+}
+
+.btn-small {
+  padding: 0.5rem 0;
+}
+
+.btn-medium {
+  padding: 0.5rem 2rem 0.5rem 2rem;
+}
+
+.btn-large {
+  padding: 0.7rem 3rem 0.7rem 3em;
+  font-size: 1rem;
+}
+
+.btn-full-width-mobile {
+  @include mixins.respond(Phone) {
+    width: 100%;
+  }
 }

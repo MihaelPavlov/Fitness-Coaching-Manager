@@ -1,0 +1,80 @@
+@use "../../../shared/styles/mixins";
+@use "../../../shared/styles/palette";
+
+.workout-session-header__h1 {
+  @include mixins.respond(Phone) {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+}
+
+.workout-session-container {
+  height: 40rem;
+
+  @include mixins.respond(Phone) {
+    flex-direction: column;
+    gap: 1rem;
+    height: 45rem;
+  }
+
+  &__img-container {
+    flex-basis: 40%;
+    overflow: hidden;
+    border-radius: 0.9rem;
+    border: solid 0.15rem palette.$main-blue-color;
+
+    @include mixins.respond(Phone) {
+      overflow: hidden;
+      border: none;
+      border-radius: 0;
+    }
+
+    img {
+      height: 100%;
+      width: auto;
+
+      @include mixins.respond(Phone) {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  &__information {
+    flex-basis: 60%;
+
+    &__instructions {
+      flex-basis: 30%;
+
+      &__heading {
+        @include mixins.respond(Phone) {
+          text-align: center;
+          font-size: 1.3rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      &__container {
+        &__text {
+          font-size: 1.1rem;
+          font-weight: 500;
+
+          @include mixins.respond(Phone) {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+
+    &__circles {
+      flex-basis: 65%;
+    }
+
+    &__btn {
+      flex-basis: 5%;
+      @include mixins.respond(Phone) {
+        margin-top: 2rem;
+      }
+    }
+  }
+}

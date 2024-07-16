@@ -12,5 +12,11 @@ export const PATH = {
     GET_DETAILS: "/getDetail",
     REGISTER: "/register",
     LOGIN: "/login",
+    SUBSCRIBE: "/subscribe",
+    UNSUBSCRIBE: "/unsubscribe",
+    HAS_SUBSCRIBED: "/hasSubscribed"
   },
+  WORKOUTS: {
+    CREATE_WORKOUT: "/add"
+  }
 };

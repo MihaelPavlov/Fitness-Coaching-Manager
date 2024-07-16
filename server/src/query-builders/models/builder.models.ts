@@ -1,9 +1,10 @@
 export interface QueryParams {
-  limit: number | null;
-  offset: number | null;
-  what: Record<string, number>;
+  limit?: number | null;
+  offset?: number | null;
+  what?: Record<string, number>;
   condition?: Condition,
-  id: number | null
+  order?: Array<OrderItem>,
+  id?: number | null
 }
 
 export interface Condition {

@@ -1,0 +1,106 @@
+<div
+  class="exercise-container d-flex align-items-center justify-content-center"
+>
+  <form
+    class="exercise-form d-flex flex-direction-column mw-100"
+    [formGroup]="exerciseForm"
+    (ngSubmit)="create()"
+  >
+    <div class="exercise-form__heading-box mb-5 text-center">
+      <h1 class="exercise-form__heading-box-text mt-0">Create Exercise</h1>
+      <div class="exercise-form__heading-box-border d-inline-block"></div>
+    </div>
+    <div class="exercise-form__elements">
+      <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
+        <div class="control__wrapper w-100">
+          <label for="name" class="control__label w-100">New Exercise</label>
+          <input
+            [type]="InputType.Text"
+            id="name"
+            placeholder="New Exercise"
+            formControlName="title"
+            name="name"
+            class="control w-100 d-block align-items-start"
+          />
+        </div>
+        <div
+          class="control__wrapper w-100 exercise-form__elements__custom-button"
+        >
+          <label for="thumb" class="control__label">Gif/Video</label>
+          <input
+            [type]="InputType.Text"
+            id="thumb"
+            placeholder="Gif/Video"
+            formControlName="title"
+            name="thumb"
+            class="control w-100 d-block align-items-start"
+          />
+        </div>
+      </div>
+      <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
+        <div class="control__wrapper w-100">
+          <label for="difficulty" class="control__label">Difficulty</label>
+          <select
+            id="difficulty"
+            name="difficulty"
+            class="control w-100 d-block"
+          >
+            <option
+              class="control__option"
+              *ngFor="let option of optionArrays.difficultyList"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <div class="control__wrapper w-100">
+          <label for="equipment" class="control__label">Equipment</label>
+          <select id="equipment" name="equipment" class="control w-100 d-block">
+            <option
+              class="control__option"
+              *ngFor="let option of optionArrays.exerciseEquipmentList"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
+        <div class="control__wrapper w-100">
+          <label for="equipment" class="control__label">Tag</label>
+          <select id="equipment" name="tags" class="control w-100 d-block">
+            <option
+              class="control__option"
+              *ngFor="let option of optionArrays.tagsList"
+              [value]="option"
+            >
+              {{ option }}
+            </option>
+          </select>
+        </div>
+        <div
+          class="control__wrapper w-100 exercise-form__elements__inputs__description"
+        >
+          <label for="description" class="control__label">Description</label>
+          <input
+            [type]="InputType.Text"
+            id="description"
+            placeholder="Description"
+            name="description"
+            class="control w-100 d-block align-items-start"
+          />
+        </div>
+      </div>
+
+      <div
+        class="exercise-form__elements__buttons mt-6 justify-content-center d-flex g-4 flex-wrap"
+      >
+        <button class="btn btn-large">Cancel</button>
+        <button class="btn btn-large">Create</button>
+      </div>
+    </div>
+    <div class="exercise-form__links d-flex flex-direction-column"></div>
+  </form>
+</div>

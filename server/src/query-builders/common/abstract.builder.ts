@@ -57,6 +57,7 @@ export abstract class AbstractBuilder {
     this.defaultOffset = queryParams.offset ?? this.defaultOffset;
     this.defaultSelect = queryParams.what ?? this.defaultSelect;
     this.defaultCondition = queryParams.condition ?? this.defaultCondition;
+    this.defaultOrder = queryParams.order ?? this.defaultOrder;
   }
 
   /**
@@ -93,6 +94,8 @@ export abstract class AbstractBuilder {
 
     query = this.buildLimitClause(query);
     query = this.buildOffsetClause(query);
+
+    query = this.buildOrder(query, this.defaultOrder);
 
     return query;
   }
@@ -213,6 +216,28 @@ export abstract class AbstractBuilder {
    */
   private buildOffsetClause(query: Knex.QueryBuilder): Knex.QueryBuilder {
     return this.defaultOffset ? query.offset(this.defaultOffset) : query;
+  }
+
+  /**
+   * Build the ORDER clause of the SQL query.
+   *
+   * @param query - The knex query builder instance.
+   * @param order - The array containing order items to apply to ORDER clause
+   * @returns The query builder instance with the ORDER clause.
+   */
+  private buildOrder(query: Knex.QueryBuilder, order?: Array<OrderItem>): Knex.QueryBuilder {
+    if (!order) {
+      if (!this.defaultOrder) {
+        return query;
+      }
+      order = this.defaultOrder;
+    }
+    
+    order.forEach(orderItem => {
+      query = query.orderBy(this.resolveFieldReference(orderItem.field, this.mainTable), orderItem.direction.toLowerCase());
+    });
+
+    return query;
   }
 
   /**

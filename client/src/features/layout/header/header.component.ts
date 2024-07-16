@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Input } from '@angular/core';
-import { UserService } from '../../../entities/services/user.service';
+import { UserService } from '../../../entities/users/services/user.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -9,15 +9,14 @@ import { Observable } from 'rxjs';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
+  @Input() pageName: string = 'Header';
+
+  public userInfo$: Observable<any> = this.userService.userInfo$;
+  public isAuth$ = this.userService.isAuth$;
+
   constructor(private userService: UserService) {}
 
-  protected userInfo$: Observable<any> = this.userService.userInfo$;
-
-  ngOnInit(): void {
-      this.userService.fetchUserInfo();
+  public ngOnInit(): void {
+    this.userService.fetchUserInfo();
   }
-
-  protected isAuth = this.userService.isAuth();
-
-  @Input() pageName: string = 'Header';
 }

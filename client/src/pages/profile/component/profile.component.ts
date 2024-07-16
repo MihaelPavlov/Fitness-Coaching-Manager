@@ -143,6 +143,8 @@ export class ProfileComponent implements OnInit {
         }
         if (res?.data.userRole === UserRoles.Coach) {
           this.fetchContributorWorkouts(res?.data.contributorId as number);
+        } else if (res?.data.userRole === UserRoles.User) {
+          this.fetchUserRelatedWorkouts(this.profileUserId as number);
         }
         this.profileContributorId = res?.data.contributorId;
         this.user = res?.data;
@@ -224,6 +226,40 @@ export class ProfileComponent implements OnInit {
   }
 
   private fetchUserRelatedWorkouts(userId: number) {
+    const queryParams: IQueryParams = {
+      what: {
+        title: 1,
+        owner: 1,
+        tags: 1,
+        rating: 1,
+        imageUri: 1,
+      },
+      condition: {
+        type: 'AND',
+        items: [
+          {
+            field: 'relatedStudent',
+            operation: 'EQ',
+            value: userId,
+          },
+        ],
+      },
+      order: [
+        {
+          field: 'rating',
+          direction: 'DESC',
+        },
+      ],
+    };
 
+    this.workoutService.getWorkouts(queryParams).subscribe({
+      next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
+        console.log(res?.data);
+        this.workouts = res?.data ?? [];
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

@@ -10,5 +10,6 @@ export interface IUserDetails {
   preferences?: string;
   birthDate?: string;
   email?: string;
+  userRole: number;
 }
 

@@ -126,6 +126,7 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.user_specs.weightGoal]: 1,
         [USERS_FIELDS.user_specs.preferences]: 1,
         [USERS_FIELDS.users.profilePicture]: 1,
+        [USERS_FIELDS.users.userRole]: 1
       },
       id: params['userId'] || null,
     };
@@ -133,6 +134,9 @@ export class ProfileComponent implements OnInit {
     this.userService.getDetail(queryParams).subscribe({
       next: (res: IRequestResult<IUserDetails> | null) => {
         if (!res?.data) {
+          this.router.navigate(['/']);
+        }
+        if (this.visitorRole === UserRoles.User && res?.data.userRole === UserRoles.User) {
           this.router.navigate(['/']);
         }
         this.user = res?.data;
@@ -173,7 +177,11 @@ export class ProfileComponent implements OnInit {
         console.log('Could not find user');
       },
     });
-  } // Must be done from other PR
+  }
+
+  private hasContributorSubscriber(contributorId: number, userId: number): any {
+
+  }
 
   private fetchContributorWorkouts(contributorId: number): void {
     const queryParams: IQueryParams = {

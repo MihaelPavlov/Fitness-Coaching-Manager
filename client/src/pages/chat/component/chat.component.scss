@@ -231,10 +231,8 @@ img {
 .chat-area {
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
   justify-content: center;
-  @include scrollbar.scrollbar();
   &-header {
     display: flex;
     position: sticky;
@@ -258,6 +256,9 @@ img {
   }
   &-main {
     flex-grow: 1;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    @include scrollbar.scrollbar();
   }
 }
 
@@ -368,7 +369,6 @@ img {
   border-radius: 0.375rem;
   font-size: 0.9375rem;
   width: 95%;
- 
 }
 
 .colors {

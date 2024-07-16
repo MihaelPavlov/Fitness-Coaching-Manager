@@ -11,5 +11,6 @@ export interface IUserDetails {
   birthDate?: string;
   email?: string;
   userRole: number;
+  contributorId?: number;
 }
 

@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
 
   public user: IUserDetails | undefined;
   public profileUserId?: number;
+  public profileContributorId?: number;
   protected isAuth: boolean = false;
   protected isSubscribed: boolean = false;
   protected visitorRole: number = UserRoles.User;
@@ -66,6 +67,12 @@ export class ProfileComponent implements OnInit {
       });
 
       if (this.profileState === 'public') {
+        let id;
+        if (this.visitorRole === UserRoles.User) {
+          id = this.profileContributorId;
+        } else {
+
+        }
         this.userService.hasUserSubscribed(params['userId']).subscribe({
           next: (res: any) => {
             if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed) {
@@ -91,7 +98,7 @@ export class ProfileComponent implements OnInit {
     }
 
     this.userService
-      .subscribeToContributor(this.profileUserId as number)
+      .subscribeToContributor(this.profileContributorId as number)
       .subscribe({
         next: (res: any) => {
           this.isSubscribed = true;
@@ -104,7 +111,7 @@ export class ProfileComponent implements OnInit {
 
   public onUnsubscribe(): void {
     this.userService
-      .unsubscribeToContributor(this.profileUserId as number)
+      .unsubscribeToContributor(this.profileContributorId as number)
       .subscribe({
         next: (res: any) => {
           this.isSubscribed = false;
@@ -128,6 +135,7 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.user_specs.preferences]: 1,
         [USERS_FIELDS.users.profilePicture]: 1,
         [USERS_FIELDS.users.userRole]: 1,
+        [USERS_FIELDS.contributors.contributorId]: 1
       },
       id: params['userId'] || null,
     };
@@ -143,6 +151,7 @@ export class ProfileComponent implements OnInit {
         ) {
           this.router.navigate(['/']);
         }
+        this.profileContributorId = res?.data.contributorId;
         this.user = res?.data;
       },
       error: (err) => {
@@ -182,11 +191,6 @@ export class ProfileComponent implements OnInit {
       },
     });
   }
-
-  private hasContributorSubscriber(
-    contributorId: number,
-    userId: number
-  ): any {}
 
   private fetchContributorWorkouts(contributorId: number): void {
     const queryParams: IQueryParams = {

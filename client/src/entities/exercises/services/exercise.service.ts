@@ -51,7 +51,7 @@ export class ExerciseService {
   }
 
   public create(
-    exercise: CreateExercise
+    exercise: Record<string, any>
   ): Observable<IRequestResult<number> | null> {
     return this.api.post(PATH.EXERCISES.CREATE, exercise);
   }

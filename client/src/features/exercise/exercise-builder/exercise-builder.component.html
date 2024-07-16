@@ -1,3 +1,4 @@
+<app-loader *ngIf="isLoading"></app-loader>
 <div
   class="exercise-container d-flex align-items-center justify-content-center"
 >
@@ -22,6 +23,9 @@
             name="name"
             class="control w-100 d-block align-items-start"
           />
+          <ng-container *ngIf="exerciseForm.get('title')?.touched">
+            <p *ngIf="exerciseForm.get('title')?.errors">Invalid field</p>
+          </ng-container>
         </div>
         <div
           class="control__wrapper w-100 exercise-form__elements__custom-button"
@@ -31,10 +35,13 @@
             [type]="InputType.Text"
             id="thumb"
             placeholder="Gif/Video"
-            formControlName="title"
+            formControlName="thumbUri"
             name="thumb"
             class="control w-100 d-block align-items-start"
           />
+          <ng-container *ngIf="exerciseForm.get('thumbUri')?.touched">
+            <p *ngIf="exerciseForm.get('thumbUri')?.errors">Invalid field</p>
+          </ng-container>
         </div>
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
@@ -42,7 +49,7 @@
           <label for="difficulty" class="control__label">Difficulty</label>
           <select
             id="difficulty"
-            name="difficulty"
+            formControlName="difficulty"
             class="control w-100 d-block"
           >
             <option
@@ -56,7 +63,11 @@
         </div>
         <div class="control__wrapper w-100">
           <label for="equipment" class="control__label">Equipment</label>
-          <select id="equipment" name="equipment" class="control w-100 d-block">
+          <select
+            id="equipment"
+            formControlName="equipment"
+            class="control w-100 d-block"
+          >
             <option
               class="control__option"
               *ngFor="let option of optionArrays.exerciseEquipmentList"
@@ -69,8 +80,8 @@
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper w-100">
-          <label for="equipment" class="control__label">Tag</label>
-          <select id="equipment" name="tags" class="control w-100 d-block">
+          <label for="tag" class="control__label">Tag</label>
+          <select id="tag" formControlName="tag" class="control w-100 d-block">
             <option
               class="control__option"
               *ngFor="let option of optionArrays.tagsList"
@@ -88,17 +99,24 @@
             [type]="InputType.Text"
             id="description"
             placeholder="Description"
+            formControlName="description"
             name="description"
             class="control w-100 d-block align-items-start"
           />
+          <ng-container *ngIf="exerciseForm.get('description')?.touched">
+            <p *ngIf="exerciseForm.get('description')?.errors">Invalid field</p>
+          </ng-container>
         </div>
       </div>
-
       <div
         class="exercise-form__elements__buttons mt-6 justify-content-center d-flex g-4 flex-wrap"
       >
-        <button class="btn btn-large">Cancel</button>
-        <button class="btn btn-large">Create</button>
+        <button type="button" class="btn btn-large">Cancel</button>
+        <button type="submit" class="btn btn-large">Create</button>
+        <app-error
+          *ngIf="hasExerciseError"
+          [errorMessageText]="createExerciseErrorMsg"
+        ></app-error>
       </div>
     </div>
     <div class="exercise-form__links d-flex flex-direction-column"></div>

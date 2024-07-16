@@ -14,12 +14,12 @@ router.post(
   isCoach,
   inputValidationMiddleware(createExerciseValidators),
   async (
-    req: express.Request,
+    req: any,
     res: express.Response,
     next: express.NextFunction
   ) => {
     try {
-      const createdExerciseID = await exerciseService.addExercise(req.body);
+      const createdExerciseID = await exerciseService.addExercise(req.user.contributorId, req.body);
 
       res.status(201).json({
         status: RESPONSE_STATUS.SUCCESS,

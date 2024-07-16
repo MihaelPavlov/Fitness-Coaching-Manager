@@ -5,6 +5,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { Router } from '@angular/router';
 import { difficultyList } from '../../../shared/option-arrays/difficulty-list';
+import { Observable,} from 'rxjs';
+import { map } from 'rxjs/operators'
+import { IRequestResult } from '../../../entities/models/request-result.interface';
+import { IExerciseEquipment } from '../../../entities/exercises/models/exercise-equipment.interface';
+import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 
 @Component({
   selector: 'app-exercise-builder',
@@ -18,9 +23,11 @@ export class ExerciseBuidlerComponent implements OnInit {
   public optionArrays = optionArrays;
   protected hasExerciseError: boolean = false;
   protected createExerciseErrorMsg: string = '';
-
   protected difficultyArr = Object.entries(difficultyList);
 
+  protected exersices$!: Observable<IExerciseEquipment[]>;
+  protected tags$!: Observable<IExerciseTag[]>;
+  
   protected exerciseForm = this.fb.group({
     title: ['', Validators.required],
     thumbUri: ['', Validators.required],
@@ -37,12 +44,26 @@ export class ExerciseBuidlerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.exerciseService.getEquipmentList({
-      what: {
-        uid: 1,
-        name: 1,
-      },
-    });
+    this.exersices$ = this.exerciseService
+      .getEquipmentList({
+        what: {
+          uid: 1,
+          title: 1,
+        },
+      }).pipe(
+        map((response: IRequestResult<IExerciseEquipment[]> | null) => response?.data ?? [])
+      );
+      
+
+      this.tags$ = this.exerciseService
+      .getTagList({
+        what: {
+          uid: 1,
+          name: 1,
+        },
+      }).pipe(
+        map((response: IRequestResult<IExerciseTag[]> | null) => response?.data ?? [])
+      );
   }
 
   protected create(): void {

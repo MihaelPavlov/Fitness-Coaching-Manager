@@ -70,10 +70,10 @@
           >
             <option
               class="control__option"
-              *ngFor="let option of optionArrays.exerciseEquipmentList"
-              [value]="option"
+              *ngFor="let exericse of exersices$ | async"
+              [value]="exericse.uid"
             >
-              {{ option }}
+              {{ exericse.title }}
             </option>
           </select>
         </div>
@@ -84,10 +84,10 @@
           <select id="tag" formControlName="tag" class="control w-100 d-block">
             <option
               class="control__option"
-              *ngFor="let option of optionArrays.tagsList"
-              [value]="option"
+              *ngFor="let tag of tags$ | async"
+              [value]="tag.uid"
             >
-              {{ option }}
+              {{ tag.name }}
             </option>
           </select>
         </div>
@@ -115,9 +115,9 @@
         <button type="submit" class="btn btn-large">Create</button>
       </div>
       <app-error
-          *ngIf="hasExerciseError"
-          [errorMessageText]="createExerciseErrorMsg"
-        ></app-error>
+        *ngIf="hasExerciseError"
+        [errorMessageText]="createExerciseErrorMsg"
+      ></app-error>
     </div>
     <div class="exercise-form__links d-flex flex-direction-column"></div>
   </form>

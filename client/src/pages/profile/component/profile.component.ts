@@ -69,9 +69,7 @@ export class ProfileComponent implements OnInit {
       if (this.profileState === 'public') {
         this.userService.hasUserSubscribed(params['userId']).subscribe({
           next: (res: any) => {
-            console.log("has", res?.data)
             if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed && !this.profileContributorId) {
-              console.log('yes')
               this.router.navigate(['/'])
             }
             this.isSubscribed = res?.data?.hasSubscribed;

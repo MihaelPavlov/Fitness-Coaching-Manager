@@ -9,6 +9,8 @@ import { Secret } from "jsonwebtoken";
 import { Session } from "../models/session.model";
 import { EXCEPTION } from "../constants/exceptions.constants";
 import { RESPONSE_STATUS } from "../constants/response.constants";
+import { getContributorId } from "./../services/contributor.service";
+import { UserRoles } from "./../models/enums/user-roles.enum";
 
 const verifyToken = async (token: string, secret: Secret) => {
   return await jwt.verify(token, secret);
@@ -100,8 +102,7 @@ export const isAuth = (req: any, res: Response, next: NextFunction) => {
   next();
 };
 
-export const isCoach = (req: any, res: Response, next: NextFunction) => {
-  console.log(req.user.role)
+export const isCoach = async (req: any, res: Response, next: NextFunction) => {
   if (req.user.role !== 1) {
     return res.status(401).json({
       status: RESPONSE_STATUS.FAILED,
@@ -110,6 +111,7 @@ export const isCoach = (req: any, res: Response, next: NextFunction) => {
       },
     });
   }
+  req.user.contributorId = await getContributorId(req.user.id);
 
   next();
 };

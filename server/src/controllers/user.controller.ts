@@ -4,8 +4,9 @@ import { isAuth } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
 import { inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
-import { createCoachValidators, createUserValidators } from "./../validators/user.validator";
+import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
+import { getContributorId } from "./../services/contributor.service";
 
 const router = express.Router();
 
@@ -113,6 +114,31 @@ router.post(
   }
 );
 
+router.put(
+  PATH.USERS.UPDATE,
+  isAuth,
+  inputValidationMiddleware(updateUserValidators),
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.updateUser(req.user.id, req.body);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          message: "Successfully updated user!"
+        }
+      });
+    } catch (err) {
+      return res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message,
+        },
+      });
+    }
+  }
+)
+
 router.post(
   PATH.USERS.SUBSCRIBE + "/:contributorId",
   isAuth,
@@ -162,11 +188,16 @@ router.post(
 )
 
 router.get(
-  PATH.USERS.HAS_SUBSCRIBED + "/:contributorId",
+  PATH.USERS.HAS_SUBSCRIBED + "/:id",
   isAuth,
   async (req: any, res: express.Response) => {
     try {
-      const hasSubscribed = await userService.hasUserSubscribed(req.user.id, req.params.contributorId);
+      let hasSubscribed;
+      if (req.user.role === UserRoles.Coach) {
+        hasSubscribed = await userService.hasUserSubscribed(req.params.id, await getContributorId(req.user.id));
+      } else {
+        hasSubscribed = await userService.hasUserSubscribed(req.user.id, await getContributorId(req.params.id));
+      }
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,

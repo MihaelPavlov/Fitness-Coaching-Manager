@@ -2,6 +2,7 @@ export const PATH = {
   USERS: {
     LOGIN: "users/login",
     REGISTER: "users/register",
+    UPDATE: "users/update",
     CURRENT_USER: "users/getUserInfo",
     GET_DETAIL: "users/getDetail",
     SUBSCRIBE: "users/subscribe",
@@ -16,6 +17,6 @@ export const PATH = {
     GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
   },
   WORKOUTS: {
-    GET_CONTRIBUTOR_WORKOUTS: "workouts/getWorkouts"
+    GET_WORKOUTS: "workouts/getWorkouts"
   }
 }

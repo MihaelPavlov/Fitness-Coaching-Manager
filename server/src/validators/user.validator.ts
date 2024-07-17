@@ -132,3 +132,58 @@ export const createCoachValidators: ValidationChain[] = checkSchema({
         }
     },
 });
+
+const dateRegex = /[1-9][0-9][0-9]{2}\/([0][1-9]|[1][0-2])\/([1-2][0-9]|[0][1-9]|[3][0-1])/gm;
+
+export const updateUserValidators: ValidationChain[] = checkSchema({
+    firstName: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "firstName")
+        }
+    },
+    lastName: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "lastName")
+        }
+    },
+    email: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "email")
+        },
+        isEmail: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "email")
+        }
+    },
+    weight: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "weight")
+        },
+        isInt: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "weight"),
+            options: { min: 0 }
+        },
+    },
+    weightGoal: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "weightGoal")
+        },
+        isInt: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "weightGoal"),
+            options: { min: 0 }
+        },
+    },
+    birthDate: {
+        in: ["body"],
+        exists: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "birthDate")
+        },
+        isDate: {
+            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "birthDate")
+        }
+    },
+});

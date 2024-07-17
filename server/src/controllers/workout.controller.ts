@@ -34,7 +34,7 @@ router.post(
     inputValidationMiddleware(createWorkoutExercisesValidators),
     async (req: any, res: express.Response) => {
         try {
-            const createdWorkout = await createWorkoutSession(req.user.id, req.body);
+            const createdWorkout = await createWorkoutSession(req.user.contributorId, req.body);
 
             res.status(201).json({
                 status: RESPONSE_STATUS.SUCCESS,

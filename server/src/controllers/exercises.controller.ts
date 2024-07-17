@@ -19,7 +19,7 @@ router.post(
     next: express.NextFunction
   ) => {
     try {
-      const createdExerciseID = await exerciseService.addExercise(req.user.id,req.body);
+      const createdExerciseID = await exerciseService.addExercise(req.user.contributorId, req.body);
 
       res.status(201).json({
         status: RESPONSE_STATUS.SUCCESS,

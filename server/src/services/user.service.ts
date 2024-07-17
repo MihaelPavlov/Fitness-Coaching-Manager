@@ -44,7 +44,8 @@ export const registerUser = async (data: Record<string, any>) => {
       country: data.country,
       phone_number: data?.phoneNumber || null,
       language: data.language,
-      profile_picture_url: "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg"
+      profile_picture_url:
+        "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
     })
   ).at(0);
 
@@ -96,7 +97,21 @@ export const loginUser = async (data: Record<string, any>) => {
   return createTokensAndSession({
     id: user.id,
     user_role: user.user_role,
-    username: user.username
+    username: user.username,
+  });
+};
+
+export const updateUser = async (userId: number, data: Record<string, any>) => {
+  await db(TABLE.USERS).where("id", "=", userId).update({
+    first_name: data?.firstName,
+    last_name: data?.lastName,
+    email: data?.email
+  });
+  
+  await db(TABLE.USER_SPECS).where("user_id", "=", userId).update({
+    weight: data?.weight,
+    weight_goal: data?.weightGoal,
+    date_of_birth: new Date(data?.birthDate)
   });
 };
 
@@ -104,6 +119,10 @@ export const subscribeToContributor = async (
   userId: number,
   contributorId: number
 ) => {
+  if (await isContributorSubscribing(userId)) {
+    throw new Error("Contributors can't subscribe to other contributors");
+  }
+
   if (await hasUserSubscribed(userId, contributorId)) {
     throw new Error("You are already subscribed to this contributor");
   }
@@ -118,7 +137,11 @@ export const unsubscribeToContributor = async (
   userId: number,
   contributorId: number
 ) => {
-  if (!await hasUserSubscribed(userId, contributorId)) {
+  if (await isContributorSubscribing(userId)) {
+    throw new Error("Contributors can't unsubscribe to other contributors");
+  }
+
+  if (!(await hasUserSubscribed(userId, contributorId))) {
     throw new Error("You are not subscribed");
   }
 
@@ -128,7 +151,10 @@ export const unsubscribeToContributor = async (
     .del();
 };
 
-export const hasUserSubscribed = async (userId: number, contributorId: number) => {
+export const hasUserSubscribed = async (
+  userId: number,
+  contributorId: number
+) => {
   const hasSubscribed =
     (
       await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)
@@ -136,6 +162,14 @@ export const hasUserSubscribed = async (userId: number, contributorId: number) =
         .where("contributor_id", "=", contributorId)
         .andWhere("user_id", "=", userId)
     ).length > 0;
-  
+
   return hasSubscribed;
+};
+
+const isContributorSubscribing = async (userId: number) => {
+  return (
+    await db(TABLE.CONTRIBUTORS)
+        .select("*")
+        .where("user_id", "=", userId)
+  ).length > 0;
 }

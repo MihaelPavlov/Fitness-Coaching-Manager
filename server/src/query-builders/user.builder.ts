@@ -50,9 +50,6 @@ export class UserBuilder extends AbstractBuilder {
       contributor: "contributor_id",
       subscriber: "user_id",
     },
-    [TABLE.CONTRIBUTORS]:{
-      
-    }
   };
   override mainTable: string = TABLE.USERS;
   override defaultLimit: number | null = 20; // Specify default limit here, otherwise it will not be reflected on the query

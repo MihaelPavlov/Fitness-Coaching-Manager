@@ -99,13 +99,13 @@ export class ExerciseBuidlerComponent implements OnInit {
     ).map(String).join(',');
 
     const submissionData = {
-      ...formValue,
+      ...this.exerciseForm.value,
       equipmentIds,
       tagIds,
     };
 
     console.log(submissionData);
-    
+
     this.exerciseService.create(submissionData).subscribe({
       next: () => {
         this.isLoading = false;

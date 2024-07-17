@@ -10,6 +10,7 @@ import { ExerciseBuidlerComponent } from '../../features/exercise/exercise-build
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
 import { ErrorModule } from '../../shared/components/error/error.module';
+import { MultiSelectComponent, NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [ExerciseLibraryComponent,ExerciseBuidlerComponent,ExerciseDetailsComponent],
@@ -21,7 +22,8 @@ import { ErrorModule } from '../../shared/components/error/error.module';
     TagModule,
     ReactiveFormsModule,
     LoaderModule,
-    ErrorModule
+    ErrorModule,
+    NgMultiSelectDropDownModule
   ],
   exports: [ExerciseLibraryComponent],
 })

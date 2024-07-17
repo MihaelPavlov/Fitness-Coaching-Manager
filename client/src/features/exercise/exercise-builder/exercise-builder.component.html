@@ -63,33 +63,29 @@
         </div>
         <div class="control__wrapper w-100">
           <label for="equipment" class="control__label">Equipment</label>
-          <select
-            id="equipment"
-            formControlName="equipment"
-            class="control w-100 d-block"
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Equipment'"
+            [settings]="equipmentSettings"
+            [data]="(equipmentList$ | async) ?? []"
+            class="custom-dropdown"
+            (onSelect)="onItemSelect($event)"
+            (onSelectAll)="onEquipmentSelectAll($event)"
+            (onDeSelect)="onEquipmentDeselect($event)"
+            (onDeSelectAll)="onEquipmentDeselectAll($event)"
           >
-            <option
-              class="control__option"
-              *ngFor="let exericse of exersices$ | async"
-              [value]="exericse.uid"
-            >
-              {{ exericse.title }}
-            </option>
-          </select>
+          </ng-multiselect-dropdown>
         </div>
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper w-100">
           <label for="tag" class="control__label">Tag</label>
-          <select id="tag" formControlName="tag" class="control w-100 d-block">
-            <option
-              class="control__option"
-              *ngFor="let tag of tags$ | async"
-              [value]="tag.uid"
-            >
-              {{ tag.name }}
-            </option>
-          </select>
+          <ng-multiselect-dropdown
+            [placeholder]="'Select Tags'"
+            [settings]="tagSettings"
+            [data]="(tagList$ | async) ?? []"
+            class="custom-dropdown"
+          >
+          </ng-multiselect-dropdown>
         </div>
         <div
           class="control__wrapper w-100 exercise-form__elements__inputs__description"

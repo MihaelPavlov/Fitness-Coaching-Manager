@@ -8,7 +8,6 @@ import { IRequestResult } from '../../models/request-result.interface';
 import { IExercise } from '../models/exercise.interface';
 import { IExerciseTag } from '../models/exercise-tag.interface';
 import { IExerciseEquipment } from '../models/exercise-equipment.interface';
-import { CreateExercise } from '../models/create-exercise.model';
 
 @Injectable({
   providedIn: 'root',

@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { Router } from '@angular/router';
 import { difficultyList } from '../../../shared/option-arrays/difficulty-list';
-import { Observable,} from 'rxjs';
-import { map } from 'rxjs/operators'
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IExerciseEquipment } from '../../../entities/exercises/models/exercise-equipment.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-exercise-builder',
@@ -25,15 +26,25 @@ export class ExerciseBuidlerComponent implements OnInit {
   protected createExerciseErrorMsg: string = '';
   protected difficultyArr = Object.entries(difficultyList);
 
-  protected exersices$!: Observable<IExerciseEquipment[]>;
-  protected tags$!: Observable<IExerciseTag[]>;
-  
+  protected equipmentList$!: Observable<IExerciseEquipment[]>;
+  protected tagList$!: Observable<IExerciseTag[]>;
+
+  equipmentSettings: IDropdownSettings = {
+    idField: 'uid',
+    textField: 'title',
+  };
+
+  tagSettings: IDropdownSettings = {
+    idField: 'uid',
+    textField: 'name',
+  };
+
   protected exerciseForm = this.fb.group({
     title: ['', Validators.required],
     thumbUri: ['', Validators.required],
     difficulty: ['', Validators.required],
-    equipment: ['', Validators.required],
-    tag: ['', Validators.required],
+    equipment: [[], Validators.required],
+    tag: [[], Validators.required],
     description: ['', Validators.required],
   });
 
@@ -44,25 +55,28 @@ export class ExerciseBuidlerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.exersices$ = this.exerciseService
+    this.equipmentList$ = this.exerciseService
       .getEquipmentList({
         what: {
           uid: 1,
           title: 1,
         },
-      }).pipe(
-        map((response: IRequestResult<IExerciseEquipment[]> | null) => response?.data ?? [])
+      })
+      .pipe(
+        map(
+          (res: IRequestResult<IExerciseEquipment[]> | null) => res?.data ?? []
+        )
       );
-      
 
-      this.tags$ = this.exerciseService
+    this.tagList$ = this.exerciseService
       .getTagList({
         what: {
           uid: 1,
           name: 1,
         },
-      }).pipe(
-        map((response: IRequestResult<IExerciseTag[]> | null) => response?.data ?? [])
+      })
+      .pipe(
+        map((res: IRequestResult<IExerciseTag[]> | null) => res?.data ?? [])
       );
   }
 
@@ -87,5 +101,35 @@ export class ExerciseBuidlerComponent implements OnInit {
         this.hasExerciseError = true;
       },
     });
+  }
+
+  onItemSelect(item: any) {
+    const equipmentFormArray = this.exerciseForm.get(
+      'equipment'
+    ) as FormControl;
+    equipmentFormArray.value.push(item);
+  }
+
+  onEquipmentDeselect(item: any) {
+    const equipmentArray = this.exerciseForm.get('equipment') as FormControl;
+    const index = equipmentArray.value.findIndex(
+      (e: any) => e.uid === item.uid
+    );
+    if (index !== -1) {
+      const updatedEquipment = [...equipmentArray.value];
+      updatedEquipment.splice(index, 1);
+      equipmentArray.setValue(updatedEquipment);
+    }
+  }
+
+  onEquipmentSelectAll(items: any[]) {
+    const equipmentArray = this.exerciseForm.get('equipment') as FormControl;
+    equipmentArray.setValue(items);
+  }
+
+  // Method to handle deselection of all equipment
+  onEquipmentDeselectAll(items: any[]) {
+    const equipmentArray = this.exerciseForm.get('equipment') as FormControl;
+    equipmentArray.setValue([]);
   }
 }

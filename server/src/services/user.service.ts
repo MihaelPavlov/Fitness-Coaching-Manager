@@ -119,6 +119,10 @@ export const subscribeToContributor = async (
   userId: number,
   contributorId: number
 ) => {
+  if (await isContributorSubscribing(userId)) {
+    throw new Error("Contributors can't subscribe to other contributors");
+  }
+
   if (await hasUserSubscribed(userId, contributorId)) {
     throw new Error("You are already subscribed to this contributor");
   }
@@ -133,6 +137,10 @@ export const unsubscribeToContributor = async (
   userId: number,
   contributorId: number
 ) => {
+  if (await isContributorSubscribing(userId)) {
+    throw new Error("Contributors can't unsubscribe to other contributors");
+  }
+
   if (!(await hasUserSubscribed(userId, contributorId))) {
     throw new Error("You are not subscribed");
   }
@@ -157,3 +165,11 @@ export const hasUserSubscribed = async (
 
   return hasSubscribed;
 };
+
+const isContributorSubscribing = async (userId: number) => {
+  return (
+    await db(TABLE.CONTRIBUTORS)
+        .select("*")
+        .where("user_id", "=", userId)
+  ).length > 0;
+}

@@ -9,7 +9,7 @@ import { BadRequestException } from "../models/exceptions/bad-request.exception"
 export const executeExerciseBuilder = async (payload: QueryParams) =>
   await new ExerciseBuilder(payload).buildQuery();
 
-export const addExercise = async (exerciseData: any) => {
+export const addExercise = async (contributorId: number, exerciseData: any) => {
   const equipmentIds = exerciseData.equipmentIds
     ? exerciseData.equipmentIds.split(",")
     : [];
@@ -36,7 +36,7 @@ export const addExercise = async (exerciseData: any) => {
 
   const createdExerciseID = (
     await db(TABLE.EXERCISES).insert({
-      contributor_id: exerciseData.contributorId,
+      contributor_id: contributorId,
       title: exerciseData.title,
       thumb_uri: exerciseData.thumbUri,
       difficulty: exerciseData.difficulty,

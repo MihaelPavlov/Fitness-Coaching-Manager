@@ -13,11 +13,11 @@ import { RestApiService } from "../../../shared/services/rest-api.service";
 export class WorkoutService {
   constructor(private readonly apiService: RestApiService) {}
 
-  public getContributorWorkouts(
+  public getWorkouts(
     queryParams: IQueryParams
   ): Observable<IRequestResult<IWorkoutCardsFields[]> | null> {
     return this.apiService.post(
-      PATH.WORKOUTS.GET_CONTRIBUTOR_WORKOUTS,
+      PATH.WORKOUTS.GET_WORKOUTS,
       queryParams
     );
   }

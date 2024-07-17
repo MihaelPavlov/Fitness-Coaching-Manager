@@ -6,6 +6,7 @@ import { PATH } from "../constants/path.constants";
 import { inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
 import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
+import { getContributorId } from "./../services/contributor.service";
 
 const router = express.Router();
 
@@ -187,11 +188,16 @@ router.post(
 )
 
 router.get(
-  PATH.USERS.HAS_SUBSCRIBED + "/:contributorId",
+  PATH.USERS.HAS_SUBSCRIBED + "/:id",
   isAuth,
   async (req: any, res: express.Response) => {
     try {
-      const hasSubscribed = await userService.hasUserSubscribed(req.user.id, req.params.contributorId);
+      let hasSubscribed;
+      if (req.user.role === UserRoles.Coach) {
+        hasSubscribed = await userService.hasUserSubscribed(req.params.id, await getContributorId(req.user.id));
+      } else {
+        hasSubscribed = await userService.hasUserSubscribed(req.user.id, await getContributorId(req.params.id));
+      }
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,

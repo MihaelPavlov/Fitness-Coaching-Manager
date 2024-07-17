@@ -93,10 +93,10 @@ export class ExerciseBuidlerComponent implements OnInit {
 
     const equipmentIds = (formValue.equipmentIds ?? []).map(
       (item: { uid: string }) => item.uid
-    );
+    ).map(String).join(',');
     const tagIds = (formValue.tagIds ?? []).map(
       (item: { uid: string }) => item.uid
-    );
+    ).map(String).join(',');
 
     const submissionData = {
       ...formValue,

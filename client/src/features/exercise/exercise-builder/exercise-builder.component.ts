@@ -124,7 +124,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     const equipmentFormArray = this.exerciseForm.get(
       'equipmentIds'
     ) as FormControl;
-    equipmentFormArray.value.push(item);
+    equipmentFormArray.setValue([...equipmentFormArray.value, item]);
   }
 
   onEquipmentDeselect(item: any) {
@@ -142,7 +142,6 @@ export class ExerciseBuidlerComponent implements OnInit {
   onEquipmentSelectAll(items: any[]) {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     equipmentArray.setValue(items);
-    console.log(equipmentArray.value);
   }
 
   onEquipmentDeselectAll(items: any[]) {
@@ -153,6 +152,7 @@ export class ExerciseBuidlerComponent implements OnInit {
   onTagItemSelect(item: any) {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.value.push(item);
+    tagFormArray.setValue([...tagFormArray.value, item]);
   }
 
   onTagDeselect(item: any) {

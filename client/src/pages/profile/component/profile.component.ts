@@ -39,46 +39,11 @@ export class ProfileComponent implements OnInit {
       this.profileUserId = params['userId'];
 
       // Check for authentication for private profile
-      this.userService.isAuth$.subscribe((isAuth) => {
-        if (!params['userId']) {
-          if (!isAuth) {
-            this.router.navigate(['/login']);
-          }
-        }
-      });
+      this.checkAuthentication(params);
 
-      this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
-        if (userInfo) {
-          this.isAuth = true;
-          this.visitorRole = userInfo.role;
-          if (!params['userId'] || userInfo.id == params['userId']) {
-            // Same user trying to access his public profile - not allowed
-            // Do different builder request for private
-            this.fetchPrivateProfileUser(userInfo.id);
-            // Set profile state to private
-            this.profileState = 'private';
-          } else {
-            // Logged-in user see other profile
-            this.fetchPublicProfileUser(params);
-          }
-        } else {
-          this.fetchPublicProfileUser(params);
-        }
-      });
+      this.fetchUserProfile(params);
 
-      if (this.profileState === 'public') {
-        this.userService.hasUserSubscribed(params['userId']).subscribe({
-          next: (res: any) => {
-            if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed && !this.profileContributorId) {
-              this.router.navigate(['/'])
-            }
-            this.isSubscribed = res?.data?.hasSubscribed;
-          },
-          error: (err) => {
-            console.log(err);
-          },
-        });
-      }
+      this.checkSubscription(params);
     });
   }
 
@@ -112,6 +77,53 @@ export class ProfileComponent implements OnInit {
       });
   }
 
+  private checkAuthentication(params: any): void {
+    this.userService.isAuth$.subscribe((isAuth) => {
+      if (!params['userId']) {
+        if (!isAuth) {
+          this.router.navigate(['/login']);
+        }
+      }
+    });
+  }
+
+  private fetchUserProfile(params: any): void {
+    this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
+      if (userInfo) {
+        this.isAuth = true;
+        this.visitorRole = userInfo.role;
+        if (!params['userId'] || userInfo.id == params['userId']) {
+          // Same user trying to access his public profile - not allowed
+          // Do different builder request for private
+          this.fetchPrivateProfileUser(userInfo.id);
+          // Set profile state to private
+          this.profileState = 'private';
+        } else {
+          // Logged-in user see other profile
+          this.fetchPublicProfileUser(params);
+        }
+      } else {
+        this.fetchPublicProfileUser(params);
+      }
+    });
+  }
+
+  private checkSubscription(params: any): void {
+    if (this.profileState === 'public') {
+      this.userService.hasUserSubscribed(params['userId']).subscribe({
+        next: (res: any) => {
+          if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed && !this.profileContributorId) {
+            this.router.navigate(['/']) //TODO: Show not found page.
+          }
+          this.isSubscribed = res?.data?.hasSubscribed;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
+  }
+
   private fetchPublicProfileUser(params: any): void {
     const queryParams: IQueryParams = {
       what: {
@@ -133,13 +145,13 @@ export class ProfileComponent implements OnInit {
     this.userService.getDetail(queryParams).subscribe({
       next: (res: IRequestResult<IUserDetails> | null) => {
         if (!res?.data) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/']); //TODO: Show not found page.
         }
         if (
           this.visitorRole === UserRoles.User &&
           res?.data.userRole === UserRoles.User
         ) {
-          this.router.navigate(['/']);
+          this.router.navigate(['/']); //TODO: Show not found page.
         }
         if (res?.data.userRole === UserRoles.Coach) {
           this.fetchContributorWorkouts(res?.data.contributorId as number);

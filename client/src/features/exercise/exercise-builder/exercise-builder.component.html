@@ -68,7 +68,7 @@
             [settings]="equipmentSettings"
             [data]="(equipmentList$ | async) ?? []"
             class="custom-dropdown"
-            (onSelect)="onItemSelect($event)"
+            (onSelect)="onEqipmentItemSelect($event)"
             (onSelectAll)="onEquipmentSelectAll($event)"
             (onDeSelect)="onEquipmentDeselect($event)"
             (onDeSelectAll)="onEquipmentDeselectAll($event)"
@@ -84,6 +84,10 @@
             [settings]="tagSettings"
             [data]="(tagList$ | async) ?? []"
             class="custom-dropdown"
+            (onSelect)="onTagItemSelect($event)"
+            (onSelectAll)="onTagSelectAll($event)"
+            (onDeSelect)="onTagDeselect($event)"
+            (onDeSelectAll)="onTagDeselectAll($event)"
           >
           </ng-multiselect-dropdown>
         </div>

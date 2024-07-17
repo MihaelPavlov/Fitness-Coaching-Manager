@@ -74,10 +74,10 @@
 }
 
 .custom-dropdown .multiselect-dropdown .dropdown-btn {
-  background-color: palette.$main-background-color; /* Custom background color for the dropdown button */
-  color: palette.$main-blue-darker-color; /* Custom text color */
+  background-color: palette.$main-background-color; 
+  color: palette.$main-blue-darker-color; 
   border: 0 !important;
-  padding-right: 0 !important; /* Custom padding */
+  padding-right: 0 !important; 
   margin-top: 0.2rem !important;
   border-radius: 0 !important;
   border-bottom: 0.3rem solid palette.$main-blue-darker-color !important;

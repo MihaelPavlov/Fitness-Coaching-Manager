@@ -144,7 +144,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     equipmentArray.setValue(items);
   }
 
-  onEquipmentDeselectAll(items: any[]) {
+  onEquipmentDeselectAll() {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     equipmentArray.setValue([]);
   }
@@ -171,7 +171,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     console.log(tagFormArray.value);
   }
 
-  onTagDeselectAll(items: any[]) {
+  onTagDeselectAll() {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue([]);
   }

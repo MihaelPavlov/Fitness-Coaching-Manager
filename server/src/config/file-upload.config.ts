@@ -1,8 +1,11 @@
 import multer from "multer";
+import * as fs from "fs";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/"); // specify the directory where files will be saved
+    const uploadPath = "C:/uploads/AthleansApp/Documents"
+    if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath)
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);

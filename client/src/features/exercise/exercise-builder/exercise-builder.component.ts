@@ -11,6 +11,17 @@ import { IRequestResult } from '../../../entities/models/request-result.interfac
 import { IExerciseEquipment } from '../../../entities/exercises/models/exercise-equipment.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
+
+interface Equipment extends ListItem {
+  uid?: number;
+  title?: string;
+}
+
+interface Tag extends ListItem {
+  uid?: number;
+  name?: string;
+}
 
 @Component({
   selector: 'app-exercise-builder',
@@ -119,14 +130,14 @@ export class ExerciseBuidlerComponent implements OnInit {
     });
   }
 
-  public onEqipmentItemSelect(item: any): void {
+  public onEqipmentItemSelect(item: Equipment): void {
     const equipmentFormArray = this.exerciseForm.get(
       'equipmentIds'
     ) as FormControl;
     equipmentFormArray.setValue([...equipmentFormArray.value, item]);
   }
 
-  public onEquipmentDeselect(item: any): void {
+  public onEquipmentDeselect(item: Equipment): void {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     const index = equipmentArray.value.findIndex(
       (e: any) => e.uid === item.uid
@@ -138,7 +149,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
   }
 
-  public onEquipmentSelectAll(items: any[]): void {
+  public onEquipmentSelectAll(items: Equipment[]): void {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     equipmentArray.setValue(items);
   }
@@ -148,12 +159,12 @@ export class ExerciseBuidlerComponent implements OnInit {
     equipmentArray.setValue([]);
   }
 
-  public onTagItemSelect(item: any): void {
+  public onTagItemSelect(item: Tag): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue([...tagFormArray.value, item]);
   }
 
-  public onTagDeselect(item: any): void {
+  public onTagDeselect(item: Tag): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     const index = tagFormArray.value.findIndex((e: any) => e.uid === item.uid);
     if (index !== -1) {
@@ -163,7 +174,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
   }
 
-  public onTagSelectAll(items: any[]): void {
+  public onTagSelectAll(items: Tag[]): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue(items);
   }

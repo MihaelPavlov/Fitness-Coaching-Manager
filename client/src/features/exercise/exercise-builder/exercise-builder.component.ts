@@ -84,27 +84,26 @@ export class ExerciseBuidlerComponent implements OnInit {
     this.isLoading = true;
 
     if (this.exerciseForm.invalid) {
-      console.log(this.exerciseForm.value);
       this.isLoading = false;
       return;
     }
 
     const formValue = this.exerciseForm.value;
 
-    const equipmentIds = (formValue.equipmentIds ?? []).map(
-      (item: { uid: string }) => item.uid
-    ).map(String).join(',');
-    const tagIds = (formValue.tagIds ?? []).map(
-      (item: { uid: string }) => item.uid
-    ).map(String).join(',');
+    const equipmentIds = (formValue.equipmentIds ?? [])
+      .map((item: { uid: string }) => item.uid)
+      .map(String)
+      .join(',');
+    const tagIds = (formValue.tagIds ?? [])
+      .map((item: { uid: string }) => item.uid)
+      .map(String)
+      .join(',');
 
     const submissionData = {
       ...this.exerciseForm.value,
       equipmentIds,
       tagIds,
     };
-
-    console.log(submissionData);
 
     this.exerciseService.create(submissionData).subscribe({
       next: () => {
@@ -120,14 +119,14 @@ export class ExerciseBuidlerComponent implements OnInit {
     });
   }
 
-  onEqipmentItemSelect(item: any) {
+  public onEqipmentItemSelect(item: any): void {
     const equipmentFormArray = this.exerciseForm.get(
       'equipmentIds'
     ) as FormControl;
     equipmentFormArray.setValue([...equipmentFormArray.value, item]);
   }
 
-  onEquipmentDeselect(item: any) {
+  public onEquipmentDeselect(item: any): void {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     const index = equipmentArray.value.findIndex(
       (e: any) => e.uid === item.uid
@@ -139,23 +138,22 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
   }
 
-  onEquipmentSelectAll(items: any[]) {
+  public onEquipmentSelectAll(items: any[]): void {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     equipmentArray.setValue(items);
   }
 
-  onEquipmentDeselectAll() {
+  public onEquipmentDeselectAll(): void {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
     equipmentArray.setValue([]);
   }
 
-  onTagItemSelect(item: any) {
+  public onTagItemSelect(item: any): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
-    tagFormArray.value.push(item);
     tagFormArray.setValue([...tagFormArray.value, item]);
   }
 
-  onTagDeselect(item: any) {
+  public onTagDeselect(item: any): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     const index = tagFormArray.value.findIndex((e: any) => e.uid === item.uid);
     if (index !== -1) {
@@ -165,13 +163,12 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
   }
 
-  onTagSelectAll(items: any[]) {
+  public onTagSelectAll(items: any[]): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue(items);
-    console.log(tagFormArray.value);
   }
 
-  onTagDeselectAll() {
+  public onTagDeselectAll(): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue([]);
   }

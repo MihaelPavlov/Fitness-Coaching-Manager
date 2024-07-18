@@ -7,6 +7,8 @@ import { inputValidationMiddleware, registrationMiddlware } from "./../middlewar
 import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
+import multer from "multer";
+import upload from "./../config/file-upload.config";
 
 const router = express.Router();
 
@@ -62,9 +64,12 @@ router.post(
 
 router.post(
   PATH.USERS.REGISTER,
+  upload.any(),
   registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
-    try {
+    console.log("files", req.files);
+    res.end();
+    /* try {
       const [accessToken, refreshToken, session] =
         await userService.registerUser(req.body);
 
@@ -83,7 +88,7 @@ router.post(
           error: err.message,
         },
       });
-    }
+    } */
   }
 );
 

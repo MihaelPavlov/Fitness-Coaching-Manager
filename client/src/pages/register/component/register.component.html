@@ -253,7 +253,14 @@
       </div>
         <div [class]="attachDocument ? 'fadeIn' : 'fadeOut' " class="control__wrapper register-container__form__details-container__general-details__input-field">
           <label for="attachDocument" class="control__label">Attach Document</label>
-          <input [type]="InputType.File" id="attachDocument" placeholder="Attach Document" name="attachDocument" class="control w-100 d-block align-items-start">
+          <input
+            [type]="InputType.File"
+            id="attachDocument"
+            placeholder="Attach Document"
+            name="attachDocument"
+            class="control w-100 d-block align-items-start"
+            (change)="onDocumentUpload($event)"
+          >
         </div>
     </div>
   </div>

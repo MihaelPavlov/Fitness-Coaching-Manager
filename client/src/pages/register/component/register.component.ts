@@ -6,6 +6,8 @@ import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
+  FormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -62,6 +64,8 @@ export class RegisterComponent implements OnInit {
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required]],
+    files: [[], [Validators.required]],
+    links: [[]],
   });
 
   constructor(
@@ -105,6 +109,12 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.invalid;
   }
 
+  public onDocumentUpload(event: Event) {
+    const file = (event?.target as HTMLInputElement).files?.item(0);
+    const selectedFiles = this.registerForm.get('files') as FormControl;
+    selectedFiles?.setValue([...selectedFiles.value, file]);
+  }
+
   public register(): void {
     this.isLoading = true;
 
@@ -124,8 +134,9 @@ export class RegisterComponent implements OnInit {
     };
 
     delete requestBody['passGroup'];
+    console.log(requestBody);
 
-    this.authService.register(requestBody).subscribe({
+    this.authService.register(this.toFormData(requestBody)).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasRegisterError = false;
@@ -142,7 +153,7 @@ export class RegisterComponent implements OnInit {
   private updateFormValidators(): void {
     const role_controls = {
       user: ['fitnessLevel'],
-      coach: ['firstName', 'lastName', 'phoneNumber'],
+      coach: ['firstName', 'lastName', 'phoneNumber', 'files'],
     };
 
     if (this.registerForm.value.userRole === UserRoles.Coach) {
@@ -179,5 +190,21 @@ export class RegisterComponent implements OnInit {
         ? null
         : { matchPasswordsValidator: true };
     };
+  }
+
+  private toFormData(form: any) {
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(form)) {
+      if (key === 'files') {
+        for (let file of form['files']) {
+          formData.append(key, file);
+        }
+        continue;
+      }
+      formData.append(key, value as File | string);
+    }
+
+    return formData;
   }
 }

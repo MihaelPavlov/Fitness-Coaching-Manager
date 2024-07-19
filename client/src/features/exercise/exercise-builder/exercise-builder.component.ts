@@ -43,11 +43,15 @@ export class ExerciseBuidlerComponent implements OnInit {
   equipmentSettings: IDropdownSettings = {
     idField: 'uid',
     textField: 'title',
+    itemsShowLimit:2,
+    noDataAvailablePlaceholderText:'No equipments available'
   };
 
   tagSettings: IDropdownSettings = {
     idField: 'uid',
     textField: 'name',
+    itemsShowLimit:2,
+    noDataAvailablePlaceholderText:'No tags available'
   };
 
   protected exerciseForm = this.fb.group({
@@ -116,6 +120,8 @@ export class ExerciseBuidlerComponent implements OnInit {
       tagIds,
     };
 
+    console.log(submissionData);
+    
     this.exerciseService.create(submissionData).subscribe({
       next: () => {
         this.isLoading = false;

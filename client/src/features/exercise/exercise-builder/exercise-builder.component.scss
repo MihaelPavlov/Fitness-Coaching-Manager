@@ -1,5 +1,10 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared/styles/mixins";
+@use "../../../shared/styles/multiselect";
+
+.exercise-container {
+  height: 50rem;
+}
 
 .exercise-form {
   background-color: palette.$main-font-white-color;
@@ -73,40 +78,3 @@
   }
 }
 
-.custom-dropdown .multiselect-dropdown .dropdown-btn {
-  background-color: palette.$main-background-color; 
-  color: palette.$main-blue-darker-color; 
-  border: 0 !important;
-  padding-right: 0 !important; 
-  margin-top: 0.2rem !important;
-  border-radius: 0 !important;
-  border-bottom: 0.3rem solid palette.$main-blue-darker-color !important;
-  padding: 0.6rem 0.6rem !important;
-  font-size: 0.8rem !important;
-}
-
-.custom-dropdown .multiselect-dropdown {
-  width: 92% !important;
-}
-
-.custom-dropdown .multiselect-dropdown .dropdown-btn .selected-item {
-  background-color: palette.$main-blue-darker-color !important;
-}
-
-.custom-dropdown
-  .multiselect-dropdown
-  .dropdown-btn
-  span
-  .dropdown-multiselect__caret {
-  padding: 0 !important ;
-  border-color: #ff1c1c transparent !important;
-  top: 10% !important;
-  left: 89% !important;
-}
-
-.custom-dropdown .multiselect-dropdown .dropdown-list {
-  background-color: palette.$main-background-color;
-  padding-top: 0 !important ;
-  border-radius: 0 !important;
-  color: palette.$main-blue-darker-color;
-}

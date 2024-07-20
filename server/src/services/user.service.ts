@@ -24,7 +24,22 @@ export const getUser = async (payload: QueryParams) => {
   return await builder.buildQuery();
 };
 
-export const registerUser = async (data: Record<string, any>) => {
+/* 
+files [
+  {
+    fieldname: 'files',
+    originalname: '11.png',
+    encoding: '7bit',
+    mimetype: 'image/png',
+    destination: 'uploads/',
+    filename: '1721414189730-11.png',
+    path: 'uploads\\1721414189730-11.png',
+    size: 204653
+  }
+]
+*/
+
+export const registerUser = async (data: Record<string, any>, files: Express.Multer.File[] | {[fieldname: string]: Express.Multer.File[]}) => {
   const user = await db(TABLE.USERS)
     .select("*")
     .where("email", "=", data.email);
@@ -68,10 +83,18 @@ export const registerUser = async (data: Record<string, any>) => {
       })
     ).at(0);
 
-    /* await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
+    let filenames: Array<string> = [];
+    
+    if (files && Array.isArray(files)) {
+      files.forEach(file => {
+        filenames.push(file.filename);
+      })
+    }
+
+    await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
       contributor_id: createdContributorID,
-      item_uri: data.item_uri,
-    });  */
+      item_uri: filenames.join(","),
+    }); 
   }
 
   return createTokensAndSession({

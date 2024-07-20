@@ -63,14 +63,13 @@ router.post(
 
 router.post(
   PATH.USERS.REGISTER,
-  upload.array('files'),
+  upload.array('files', 5),
   registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
     console.log("files", req.files);
-    res.end();
-    /* try {
+    try {
       const [accessToken, refreshToken, session] =
-        await userService.registerUser(req.body);
+        await userService.registerUser(req.body, req.files);
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
@@ -87,7 +86,7 @@ router.post(
           error: err.message,
         },
       });
-    } */
+    }
   }
 );
 

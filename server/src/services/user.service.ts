@@ -83,7 +83,7 @@ export const registerUser = async (data: Record<string, any>, files: Express.Mul
       })
     ).at(0);
 
-    let filenames: Array<string> = [];
+    const filenames: Array<string> = [];
     
     if (files && Array.isArray(files)) {
       files.forEach(file => {

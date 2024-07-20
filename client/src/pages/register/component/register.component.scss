@@ -200,6 +200,7 @@
 
 .expand {
     height: 12rem;
+    max-height: max-content;
 
     @include mixins.respond(Phone) {
         height: 19rem;
@@ -209,6 +210,7 @@
 
 .expandDropdown {
     height: 17rem;
+    max-height: max-content;
 
     @include mixins.respond(Phone) {
         height: 27rem;
@@ -250,4 +252,9 @@
     visibility: visible;
     opacity: 1;
     transition: visibility 0s linear 0s, opacity 300ms;
+}
+
+.test {
+  min-height: auto;
+  max-height: max-content;
 }

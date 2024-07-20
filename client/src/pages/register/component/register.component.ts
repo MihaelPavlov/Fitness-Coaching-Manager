@@ -35,8 +35,8 @@ export class RegisterComponent implements OnInit {
   public showAdditionalDetails = false;
   public showProofOfRightsDetails = false;
   public showDropDownMenu = false;
-  public attachDocument = false;
   public attachLink = false;
+  public attachedDocuments: Array<number> = [];
 
   private userRole!: number;
 
@@ -103,6 +103,10 @@ export class RegisterComponent implements OnInit {
 
   public toggleDropDownMenu(): void {
     this.showDropDownMenu = !this.showDropDownMenu;
+  }
+
+  public addAttachDocumentField(): void {
+    this.attachedDocuments.push(this.attachedDocuments[this.attachedDocuments.length-1] + 1 || 1);
   }
 
   public isDisabled(): boolean {

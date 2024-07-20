@@ -63,10 +63,9 @@ router.post(
 
 router.post(
   PATH.USERS.REGISTER,
-  upload.array('files', 5),
+  upload.array('files'),
   registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
-    console.log("files", req.files);
     try {
       const [accessToken, refreshToken, session] =
         await userService.registerUser(req.body, req.files);

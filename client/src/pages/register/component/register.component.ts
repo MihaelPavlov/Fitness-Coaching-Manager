@@ -12,7 +12,6 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../../entities/users/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { GenderType } from '../../../shared/enums/gender-list.enum';
 import { FitnessLevels } from '../../../shared/enums/fitness-levels.enum';
@@ -35,8 +34,8 @@ export class RegisterComponent implements OnInit {
   public showAdditionalDetails = false;
   public showProofOfRightsDetails = false;
   public showDropDownMenu = false;
-  public attachLink = false;
   public attachedDocuments: Array<number> = [];
+  public attachedLinks: Array<number> = [];
 
   private userRole!: number;
 
@@ -107,6 +106,10 @@ export class RegisterComponent implements OnInit {
 
   public addAttachDocumentField(): void {
     this.attachedDocuments.push(this.attachedDocuments[this.attachedDocuments.length-1] + 1 || 1);
+  }
+
+  public addAttachLinkField(): void {
+    this.attachedLinks.push(this.attachedLinks[this.attachedLinks.length-1] + 1 || 1);
   }
 
   public isDisabled(): boolean {

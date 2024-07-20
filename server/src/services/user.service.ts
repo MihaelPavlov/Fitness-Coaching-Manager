@@ -89,6 +89,8 @@ export const registerUser = async (data: Record<string, any>, files: Express.Mul
       files.forEach(file => {
         filenames.push(file.filename);
       })
+    } else {
+      throw new Error("You must upload proof of rights to be a coach!");
     }
 
     await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({

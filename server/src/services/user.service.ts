@@ -24,22 +24,10 @@ export const getUser = async (payload: QueryParams) => {
   return await builder.buildQuery();
 };
 
-/* 
-files [
-  {
-    fieldname: 'files',
-    originalname: '11.png',
-    encoding: '7bit',
-    mimetype: 'image/png',
-    destination: 'uploads/',
-    filename: '1721414189730-11.png',
-    path: 'uploads\\1721414189730-11.png',
-    size: 204653
-  }
-]
-*/
-
-export const registerUser = async (data: Record<string, any>, files: Express.Multer.File[] | {[fieldname: string]: Express.Multer.File[]}) => {
+export const registerUser = async (
+  data: Record<string, any>,
+  files: Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[] }
+) => {
   const user = await db(TABLE.USERS)
     .select("*")
     .where("email", "=", data.email);
@@ -84,19 +72,21 @@ export const registerUser = async (data: Record<string, any>, files: Express.Mul
     ).at(0);
 
     const filenames: Array<string> = [];
-    
+
     if (files && Array.isArray(files)) {
-      files.forEach(file => {
+      files.forEach((file) => {
         filenames.push(file.filename);
-      })
-    } else {
-      throw new Error("You must upload proof of rights to be a coach!");
+      });
     }
+
+    Array(data?.links)
+      .filter((el) => el !== "")
+      .forEach((link) => filenames.push(link));
 
     await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
       contributor_id: createdContributorID,
       item_uri: filenames.join(","),
-    }); 
+    });
   }
 
   return createTokensAndSession({
@@ -130,14 +120,16 @@ export const updateUser = async (userId: number, data: Record<string, any>) => {
   await db(TABLE.USERS).where("id", "=", userId).update({
     first_name: data?.firstName,
     last_name: data?.lastName,
-    email: data?.email
+    email: data?.email,
   });
-  
-  await db(TABLE.USER_SPECS).where("user_id", "=", userId).update({
-    weight: data?.weight,
-    weight_goal: data?.weightGoal,
-    date_of_birth: new Date(data?.birthDate)
-  });
+
+  await db(TABLE.USER_SPECS)
+    .where("user_id", "=", userId)
+    .update({
+      weight: data?.weight,
+      weight_goal: data?.weightGoal,
+      date_of_birth: new Date(data?.birthDate),
+    });
 };
 
 export const subscribeToContributor = async (
@@ -193,8 +185,7 @@ export const hasUserSubscribed = async (
 
 const isContributorSubscribing = async (userId: number) => {
   return (
-    await db(TABLE.CONTRIBUTORS)
-        .select("*")
-        .where("user_id", "=", userId)
-  ).length > 0;
-}
+    (await db(TABLE.CONTRIBUTORS).select("*").where("user_id", "=", userId))
+      .length > 0
+  );
+};

@@ -8,6 +8,7 @@ import { createCoachValidators, createUserValidators, updateUserValidators } fro
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
 import upload from "./../config/file-upload.config";
+import { registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
@@ -64,6 +65,7 @@ router.post(
 router.post(
   PATH.USERS.REGISTER,
   upload.array('files'),
+  registrationFileValidationMiddleware,
   registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
     try {
@@ -82,7 +84,7 @@ router.post(
       return res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {
-          error: err.message,
+          message: err.message,
         },
       });
     }

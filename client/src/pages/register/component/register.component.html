@@ -244,7 +244,14 @@
       <div class="register-container__form__details-container__general-details__link-container proof-inputs-container">
           <div *ngFor="let i of attachedLinks" class="control__wrapper register-container__form__details-container__general-details__input-field">
             <label for="linkUrl" class="control__label">Link Url #{{i}}</label>
-            <input [type]="InputType.Url" id="linkUrl" placeholder="Link Url" name="linkUrl" class="control w-100 d-block align-items-start">
+            <input
+              [type]="InputType.Url"
+              id="linkUrl"
+              placeholder="Link Url"
+              name="linkUrl"
+              class="control w-100 d-block align-items-start"
+              (input)="onLinkChange($event, i-1)"
+            >
           </div>
       </div>
       <div class="proof-inputs-container">

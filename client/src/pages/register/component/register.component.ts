@@ -7,7 +7,6 @@ import {
   AbstractControl,
   FormBuilder,
   FormControl,
-  FormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -63,7 +62,7 @@ export class RegisterComponent implements OnInit {
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required]],
-    files: [[], [Validators.required]],
+    files: [[]],
     links: [[]],
   });
 
@@ -110,6 +109,10 @@ export class RegisterComponent implements OnInit {
 
   public addAttachLinkField(): void {
     this.attachedLinks.push(this.attachedLinks[this.attachedLinks.length-1] + 1 || 1);
+    const currentLinks = this.registerForm.get('links') as FormControl;
+    const currentLinksArr = currentLinks.value.slice();
+    currentLinksArr.push("");
+    currentLinks.setValue(currentLinksArr);
   }
 
   public isDisabled(): boolean {
@@ -120,6 +123,16 @@ export class RegisterComponent implements OnInit {
     const file = (event?.target as HTMLInputElement).files?.item(0);
     const selectedFiles = this.registerForm.get('files') as FormControl;
     selectedFiles?.setValue([...selectedFiles.value, file]);
+  }
+
+  public onLinkChange(event: Event, index: number) {
+    const currentLinks = this.registerForm.get('links') as FormControl;
+    let currentLinksArr: Array<string> = currentLinks.value.slice();
+    currentLinksArr = currentLinksArr.map((el, i) => {
+      if (i === index) return (event.target as HTMLInputElement).value
+      return el;
+    })
+    currentLinks.setValue(currentLinksArr);
   }
 
   public register(): void {
@@ -151,7 +164,7 @@ export class RegisterComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.registerErrorMsg = err.error.data.error;
+        this.registerErrorMsg = err.error.data.message;
         this.hasRegisterError = true;
       },
     });
@@ -160,7 +173,7 @@ export class RegisterComponent implements OnInit {
   private updateFormValidators(): void {
     const role_controls = {
       user: ['fitnessLevel'],
-      coach: ['firstName', 'lastName', 'phoneNumber', 'files'],
+      coach: ['firstName', 'lastName', 'phoneNumber'],
     };
 
     if (this.registerForm.value.userRole === UserRoles.Coach) {

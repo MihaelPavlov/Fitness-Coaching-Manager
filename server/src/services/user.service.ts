@@ -79,9 +79,9 @@ export const registerUser = async (
       });
     }
 
-    Array(data?.links)
-      .filter((el) => el !== "")
-      .forEach((link) => filenames.push(link));
+    Array(data?.links.split(",")[0])
+        .filter(el => el !== "")
+        .forEach(link => filenames.push(link))
 
     await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
       contributor_id: createdContributorID,

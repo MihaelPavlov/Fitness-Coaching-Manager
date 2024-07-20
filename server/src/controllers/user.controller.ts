@@ -16,23 +16,32 @@ router.get(
   PATH.USERS.GET_USER_INFO,
   isAuth,
   async (req: any, res: express.Response) => {
-    const user = await userService.getUser({
-      what: {
-        userName: 1,
-      },
-      id: req.user.id,
-      limit: 20,
-      offset: 0,
-    });
-    const username = user[0].userName;
-    res.status(200).json({
-      status: RESPONSE_STATUS.SUCCESS,
-      data: {
+    try {
+      const user = await userService.getUser({
+        what: {
+          userName: 1,
+        },
         id: req.user.id,
-        username,
-        role: req.user.role,
-      },
-    });
+        limit: 20,
+        offset: 0,
+      });
+      const username = user[0].userName;
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          id: req.user.id,
+          username,
+          role: req.user.role,
+        },
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          message: err.message
+        }
+      })
+    }
   }
 );
 

@@ -83,10 +83,12 @@ export const registerUser = async (
         .filter(el => el !== "")
         .forEach(link => filenames.push(link))
 
-    await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
-      contributor_id: createdContributorID,
-      item_uri: filenames.join(","),
-    });
+    filenames.forEach(async (filename) => {
+      await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
+        contributor_id: createdContributorID,
+        item_uri: filename,
+      });
+    })
   }
 
   return createTokensAndSession({

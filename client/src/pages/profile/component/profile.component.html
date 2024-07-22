@@ -5,8 +5,9 @@
 
   <div class="profile-container__img-container pt-4">
     <img class="profile-container__img-container-img"
-      src="{{user?.profilePicture}}"
+      src="http://localhost:3000/files/1721339425087-12.png"
       alt="Img" />
+    <!-- C:/uploads/AthleansApp/Documents/1721342119935-12.png {{user?.profilePicture}} -->
     <span *ngIf="profileState === 'private'"><i
         class="profile-container__img-container-icon-private material-icons">photo_camera</i></span>
     <span *ngIf="profileState === 'public'"

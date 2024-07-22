@@ -61,7 +61,7 @@ export const registrationMiddlware = async (
   res: Response,
   next: NextFunction
 ) => {
-  const validators: ValidationChain[] = req.body.userRole === UserRoles.Coach ? createCoachValidators : createUserValidators;
+  const validators: ValidationChain[] = +req.body.userRole === UserRoles.Coach ? createCoachValidators : createUserValidators;
 
   await Promise.all(
     validators.map((validator) => validator.run(req))

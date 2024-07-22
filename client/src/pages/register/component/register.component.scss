@@ -46,6 +46,7 @@
         }
 
         &__details-container {
+            max-height: max-content;
 
             &__general-details {
                 width: 34rem;
@@ -199,7 +200,8 @@
 }
 
 .expand {
-    height: 12rem;
+    min-height: 12rem;
+    height: max-content;
 
     @include mixins.respond(Phone) {
         height: 19rem;
@@ -208,7 +210,8 @@
 }
 
 .expandDropdown {
-    height: 17rem;
+    min-height: 17rem;
+    height: max-content;
 
     @include mixins.respond(Phone) {
         height: 27rem;
@@ -217,10 +220,9 @@
 }
 
 .expandProofOfRights {
-
+    margin-bottom: 1rem;
     @include mixins.respond(Phone) {
         height: 17rem;
-        margin-bottom: 1rem;
     }
 }
 
@@ -251,3 +253,10 @@
     opacity: 1;
     transition: visibility 0s linear 0s, opacity 300ms;
 }
+
+.proof-inputs-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  max-height: max-content;
+}
+

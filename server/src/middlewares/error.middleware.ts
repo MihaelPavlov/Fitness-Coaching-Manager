@@ -3,6 +3,7 @@ import { BadRequestException } from "../models/exceptions/bad-request.exception"
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { NotFoundException } from "../models/exceptions/not-found.exception";
 import { InternalServerException } from "../models/exceptions/internal-server.exception";
+import multer from "multer";
 
 export const errorHandler = (
   error: Error,
@@ -19,6 +20,11 @@ export const errorHandler = (
     return res.status(error.code).send({
       status: RESPONSE_STATUS.FAILED,
       message: error.message,
+    });
+  } else if (error instanceof multer.MulterError) {
+    return res.status(409).json({
+      status: RESPONSE_STATUS.FAILED,
+      message: error.message
     });
   } else {
     const internalError = new InternalServerException();

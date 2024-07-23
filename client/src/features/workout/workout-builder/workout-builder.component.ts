@@ -76,7 +76,7 @@ export class WorkoutBuilderComponent implements OnInit {
     }
     // Append exercise to workout exercises
     const currentExercises = this.createWorkoutForm.get('exercises') as FormControl;
-    currentExercises.setValue([...currentExercises.value, this.addExerciseForm.value]);
+    currentExercises.setValue([...currentExercises.value, this.convertExerciseStringFieldsToNumbers(this.addExerciseForm.value)]);
     // Hide form
     this.showExerciseFormPopup = false;
   }
@@ -118,6 +118,10 @@ export class WorkoutBuilderComponent implements OnInit {
         [EXERCISE_FIELDS.exercises.thumbUri]: 1
       }
     })
+  }
+
+  private convertExerciseStringFieldsToNumbers(exercise: any): void {
+    return { ...exercise, repetitions: +exercise.repetitions, duration: +exercise.duration }
   }
 
   onPrivateChange(event: Event) {

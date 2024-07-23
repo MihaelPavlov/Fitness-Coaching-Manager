@@ -280,7 +280,8 @@
       </div>
       <div class="control__wrapper mb-3">
         <label for="equipment" class="control__label">Exercises</label>
-        <select id="equipment" name="equipment" class="control w-100 d-block" (change)="onExerciseSelect($event)">
+        <p *ngIf="exercises.length == 0">There are no exercises</p>
+        <select id="equipment" name="equipment" class="control w-100 d-block" (change)="onExerciseSelect($event)" *ngIf="exercises.length > 0">
           <option
             class="control__option"
             *ngFor="let exercise of exercises"

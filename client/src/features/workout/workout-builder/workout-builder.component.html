@@ -161,6 +161,7 @@
             <input
               [type]="InputType.Checkbox"
               (change)="onActiveChange($event)"
+              formControlName="active"
             />
           </div>
           <span class="description">(publicly visible)</span>
@@ -173,6 +174,7 @@
             <input
               [type]="InputType.Checkbox"
               (change)="onPrivateChange($event)"
+              formControlName="private"
             />
           </div>
           <span class="description">(publicly visible)</span>
@@ -280,10 +282,10 @@
         <select id="equipment" name="equipment" class="control w-100 d-block">
           <option
             class="control__option"
-            *ngFor="let option of optionArrays.exerciseEquipmentList"
-            [value]="option"
+            *ngFor="let exercise of exercises"
+            [value]="exercise.uid"
           >
-            {{ option }}
+            {{ exercise.title }}
           </option>
         </select>
       </div>

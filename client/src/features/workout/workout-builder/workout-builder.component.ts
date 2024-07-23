@@ -1,15 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { toFormData } from '../../../shared/utils/formTransformer';
+import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
+import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-workout-builder',
   templateUrl: './workout-builder.component.html',
   styleUrl: './workout-builder.component.scss',
 })
-export class WorkoutBuilderComponent {
+export class WorkoutBuilderComponent implements OnInit {
   public InputType = InputType;
   public optionArrays = optionArrays;
   public showWorkoutDetails = false;
@@ -29,10 +32,24 @@ export class WorkoutBuilderComponent {
     exercises: [[], [Validators.required]]
   });
 
+  public exercises: any;
+
   public isPrivate: boolean = false;
   isExerciseFormVisible: boolean = false;
 
-  constructor(private readonly fb: FormBuilder) {}
+  constructor(private readonly fb: FormBuilder, private readonly exerciseService: ExerciseService) {}
+
+  ngOnInit(): void {
+    this.fetchExercises().subscribe({
+      next: (res: any) => {
+        console.log(res)
+        this.exercises = res.data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
 
   public onCreateWorkout(): void {
     console.log(this.createWorkoutForm.value);
@@ -45,14 +62,25 @@ export class WorkoutBuilderComponent {
     selectedImage.setValue(file);
   }
 
+  private fetchExercises(): Observable<any> {
+    return this.exerciseService.getList({
+      what: {
+        [EXERCISE_FIELDS.exercises.uid]: 1,
+        [EXERCISE_FIELDS.exercises.title]: 1,
+        [EXERCISE_FIELDS.exercises.thumbUri]: 1
+      }
+    })
+  }
+
   onPrivateChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = checkbox.checked;
+    this.changeCheckBoxStatuses(this.isPrivate);
   }
 
   onActiveChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-    //Active checkbox logic goes here
+    this.changeCheckBoxStatuses(!checkbox.checked);
   }
 
   public workoutDetailsVisibility(): void {
@@ -81,5 +109,18 @@ export class WorkoutBuilderComponent {
   onHasTimingChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
+  }
+
+  private changeCheckBoxStatuses(isPrivate: boolean): void {
+    const isPrivateSelected = this.createWorkoutForm.get('private') as FormControl;
+    const isActiveSelected = this.createWorkoutForm.get('active') as FormControl;
+
+    if(isPrivate) {
+      isPrivateSelected.setValue(true);
+      isActiveSelected.setValue(false);
+    } else {
+      isPrivateSelected.setValue(false);
+      isActiveSelected.setValue(true);
+    }
   }
 }

@@ -15,7 +15,8 @@ export const getWorkouts = async (payload: QueryParams) => {
 
 export const createWorkoutSession = async (
   contributorId: number,
-  data: Record<string, any>
+  data: Record<string, any>,
+  file?: Express.Multer.File
 ) => {
   const workoutSessionId = (
     await db(TABLE.WORKOUT_SESSION).insert({

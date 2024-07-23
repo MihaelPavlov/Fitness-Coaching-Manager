@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
-import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -26,6 +24,7 @@ export class WorkoutBuilderComponent {
     pauseBetweenExercises: ['', [Validators.required]],
     active: [false, [Validators.required]],
     private: [false, [Validators.required]],
+    relatedStudent: [null],
     exercises: [[], [Validators.required]]
   });
 
@@ -33,6 +32,10 @@ export class WorkoutBuilderComponent {
   isExerciseFormVisible: boolean = false;
 
   constructor(private readonly fb: FormBuilder) {}
+
+  public onCreateWorkout(): void {
+    console.log(this.createWorkoutForm.value);
+  }
 
   onPrivateChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
@@ -59,9 +62,6 @@ export class WorkoutBuilderComponent {
     this.showWorkoutDetails = false;
   }
 
-  //public submitHandler(): void {
-   // console.log(this.formData);
-  //}
 
   showExerciseFormPopup = false;
   showExerciseForm() {

@@ -2,11 +2,12 @@ import express from "express";
 import * as contributorService from "./../services/contributor.service";
 import { isAuth, isCoach } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "./../constants/response.constants";
+import { PATH } from "./../constants/path.constants";
 
 const router = express.Router();
 
 router.post(
-    "/getSubscribers",
+    PATH.CONTRIBUTORS.GET_SUBSCRIBERS,
     isAuth,
     isCoach,
     async (req: any, res: express.Response, next: express.NextFunction) => {

@@ -19,6 +19,18 @@ export class WorkoutBuilderComponent implements OnInit {
   public showExercise = false;
   public hasTiming = false;
 
+  public tagsDropdownSettings = {
+    singleSelection: false,
+    idField: 'uid',
+    textField: 'name',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 10,
+    //allowSearchFilter: true
+  }
+
+  public tags: any;
+
   public createWorkoutForm = this.fb.group({
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
@@ -65,6 +77,15 @@ export class WorkoutBuilderComponent implements OnInit {
         console.log(err);
       },
     });
+    this.fetchExerciseTags().subscribe({
+      next: (res: any) => {
+        console.log("tags", res);
+        this.tags = res.data;
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   public onCreateWorkout(): void {
@@ -178,6 +199,15 @@ export class WorkoutBuilderComponent implements OnInit {
         [EXERCISE_FIELDS.exercises.title]: 1,
         [EXERCISE_FIELDS.exercises.thumbUri]: 1,
       },
+    });
+  }
+
+  private fetchExerciseTags(): Observable<any> {
+    return this.exerciseService.getTagList({
+      what: {
+        [EXERCISE_FIELDS.exercise_tags.uid]: 1,
+        [EXERCISE_FIELDS.exercise_tags.name]: 1,
+      }
     });
   }
 

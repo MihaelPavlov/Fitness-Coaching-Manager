@@ -98,16 +98,13 @@
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="equipment" class="control__label">Tag</label>
-        <select id="equipment" name="equipment" class="control w-100 d-block" formControlName="tags">
-          <option
-            class="control__option"
-            *ngFor="let option of optionArrays.tagsList"
-            [value]="option"
-          >
-            {{ option }}
-          </option>
-        </select>
+        <label for="equipment" class="control__label">Tags</label>
+        <ng-multiselect-dropdown
+          class="d-block custom-dropdown dropdown"
+          placeholder="Tags"
+          [settings]="tagsDropdownSettings"
+          [data]="tags"
+        ></ng-multiselect-dropdown>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"

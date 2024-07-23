@@ -44,7 +44,7 @@ export class WorkoutBuilderComponent implements OnInit {
     duration: [0, [Validators.required]]
   });
 
-  public exercises: any;
+  public exercises: Array<any> = [];
 
   public isPrivate: boolean = false;
   isExerciseFormVisible: boolean = false;
@@ -56,7 +56,7 @@ export class WorkoutBuilderComponent implements OnInit {
       next: (res: any) => {
         console.log(res)
         this.exercises = res.data;
-        this.changeExerciseSelect(res.data[0]);
+        this.changeExerciseSelect(res.data[0].uid);
       },
       error: (err) => {
         console.log(err);
@@ -93,14 +93,21 @@ export class WorkoutBuilderComponent implements OnInit {
     this.changeExerciseSelect(selectValue);
   }
 
-  public changeExerciseSelect(value: any): void {
+  public changeExerciseSelect(exerciseId: any): void {
     const currentExerciseId = this.addExerciseForm.get('exerciseId') as FormControl;
     const currentExerciseTitle = this.addExerciseForm.get('title') as FormControl;
     const currentExerciseThumb = this.addExerciseForm.get('thumbUri') as FormControl;
 
-    currentExerciseId.setValue(value.uid);
-    currentExerciseTitle.setValue(value.title);
-    currentExerciseThumb.setValue(value.thumbUri);
+    currentExerciseId.setValue(exerciseId);
+    currentExerciseTitle.setValue(this.exercises.filter(el => el.uid == exerciseId).at(0)?.title);
+    currentExerciseThumb.setValue(this.exercises.filter(el => el.uid == exerciseId).at(0)?.thumbUri);
+  }
+
+  public onRemoveExercise(exercise: any): void {
+    const currentExercises = this.createWorkoutForm.get('exercises') as FormControl;
+    const currentExercisesArr: Array<any> = currentExercises.value ?? [];
+    const newExercises = currentExercisesArr.filter(el => el.exerciseId != exercise?.exerciseId);
+    currentExercises.setValue(newExercises);
   }
 
   private fetchExercises(): Observable<any> {

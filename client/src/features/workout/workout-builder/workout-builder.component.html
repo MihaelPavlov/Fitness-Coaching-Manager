@@ -283,7 +283,7 @@
           <option
             class="control__option"
             *ngFor="let exercise of exercises"
-            [value]="exercise"
+            [value]="exercise.uid"
           >
             {{ exercise.title }}
           </option>
@@ -348,6 +348,7 @@
       class="m-3"
       [exercise]="exercise"
       [numberOfSets]="createWorkoutForm.get('numberOfSets')?.value || 0"
+      (removeExercise)="onRemoveExercise(exercise)"
     ></app-workout-edit-card>
   </div>
 </ng-template>

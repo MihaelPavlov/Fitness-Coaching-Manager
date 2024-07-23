@@ -47,8 +47,8 @@ export class WorkoutBuilderComponent implements OnInit {
     numberOfSets: ['', [Validators.required]],
     pauseBetweenSets: ['', [Validators.required]],
     pauseBetweenExercises: ['', [Validators.required]],
-    active: [false, [Validators.required]],
-    private: [false, [Validators.required]],
+    is_active: [false, [Validators.required]],
+    is_private: [false, [Validators.required]],
     relatedStudent: [null],
     exercises: [[], [Validators.required]],
   });
@@ -249,10 +249,10 @@ export class WorkoutBuilderComponent implements OnInit {
 
   private changeCheckBoxStatuses(isPrivate: boolean): void {
     const isPrivateSelected = this.createWorkoutForm.get(
-      'private'
+      'is_private'
     ) as FormControl;
     const isActiveSelected = this.createWorkoutForm.get(
-      'active'
+      'is_active'
     ) as FormControl;
 
     if (isPrivate) {

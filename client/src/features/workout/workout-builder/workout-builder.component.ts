@@ -17,6 +17,7 @@ export class WorkoutBuilderComponent implements OnInit {
   public optionArrays = optionArrays;
   public showWorkoutDetails = false;
   public showExercise = false;
+  public hasTiming = false;
 
   public createWorkoutForm = this.fb.group({
     title: ['', [Validators.required]],
@@ -54,6 +55,7 @@ export class WorkoutBuilderComponent implements OnInit {
       next: (res: any) => {
         console.log(res)
         this.exercises = res.data;
+        this.changeExerciseSelect(res.data[0]);
       },
       error: (err) => {
         console.log(err);
@@ -65,13 +67,29 @@ export class WorkoutBuilderComponent implements OnInit {
     console.log(this.createWorkoutForm.value);
   }
 
-  public onAddExercise(): void {}
+  public onAddExercise(): void {
+    const addedExercises = Array(this.createWorkoutForm.get('exercises')?.value).length;
+    console.log(this.addExerciseForm.value);
+  }
 
   public onImageUpload(event: Event): void {
     const filesLength = (event?.target as HTMLInputElement).files?.length;
     const file = (event?.target as HTMLInputElement)?.files?.item((filesLength as number) - 1);
     const selectedImage = this.createWorkoutForm.get('imageUri') as FormControl;
     selectedImage.setValue(file);
+  }
+
+  public onExerciseSelect(event: Event) {
+    const selectValue = (event.target as HTMLInputElement).value;
+    this.changeExerciseSelect(selectValue);
+  }
+
+  public changeExerciseSelect(value: any): void {
+    const currentExerciseId = this.addExerciseForm.get('exerciseId') as FormControl;
+    const currentExerciseTitle = this.addExerciseForm.get('title') as FormControl;
+
+    currentExerciseId.setValue(value.uid);
+    currentExerciseTitle.setValue(value.title);
   }
 
   private fetchExercises(): Observable<any> {
@@ -114,13 +132,12 @@ export class WorkoutBuilderComponent implements OnInit {
   showExerciseFormPopup = false;
   showExerciseForm() {
     this.showExerciseFormPopup = !this.showExerciseFormPopup;
-    console.log('Popup visibility toggled:', this.showExerciseFormPopup); // Add this line to debug
   }
 
-  hasTiming = false;
   onHasTimingChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
+    this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked);
   }
 
   private changeCheckBoxStatuses(isPrivate: boolean): void {

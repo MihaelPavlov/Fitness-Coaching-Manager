@@ -263,7 +263,7 @@
 </ng-template>
 
 <ng-template #exerciseFormPopup>
-  <div class="popup" id="popup" [ngClass]="{ show: showExerciseFormPopup }">
+  <div class="popup" id="popup" [ngClass]="{ show: showExerciseFormPopup }" [formGroup]="addExerciseForm">
     <div
       class="popup__content d-flex flex-direction-column align-items-center text-center"
     >
@@ -279,7 +279,7 @@
       </div>
       <div class="control__wrapper mb-3">
         <label for="equipment" class="control__label">Exercises</label>
-        <select id="equipment" name="equipment" class="control w-100 d-block">
+        <select id="equipment" name="equipment" class="control w-100 d-block" (change)="onExerciseSelect($event)">
           <option
             class="control__option"
             *ngFor="let exercise of exercises"
@@ -304,6 +304,18 @@
           placeholder="Seconds"
           name="pause-exercises"
           class="control w-100 d-block align-items-start"
+          formControlName="duration"
+        />
+      </div>
+      <div *ngIf="!hasTiming" class="control__wrapper mb-3">
+        <label class="control__label">Repetitions</label>
+        <input
+          [type]="InputType.Number"
+          id="pause-exercises"
+          placeholder="Reps"
+          name="pause-exercises"
+          class="control w-100 d-block align-items-start"
+          formControlName="repetitions"
         />
       </div>
       <div class="control__wrapper mb-4">
@@ -314,11 +326,13 @@
           placeholder="Description"
           name="pause-sets"
           class="control w-100 d-block align-items-start"
+          formControlName="description"
         />
       </div>
       <button
         class="btn btn-medium text-center landing-page-container__buttons-container__button"
-        type="submit"
+        type="button"
+        (click)="onAddExercise()"
       >
         Add
       </button>

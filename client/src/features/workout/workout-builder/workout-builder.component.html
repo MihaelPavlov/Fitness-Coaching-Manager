@@ -185,15 +185,10 @@
         *ngIf="isPrivate"
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label">Related student</label>
-        <input
-          [type]="InputType.Number"
-          id="pause-exercises"
-          placeholder="Related Student"
-          name="pause-exercises"
-          class="control w-100 d-block align-items-start"
-          formControlName="relatedStudent"
-        />
+        <label for="relatedStudent" class="control__label">Related student</label>
+        <select name="relatedStudent" id="relatedStudent" class="control w-100 d-block" formControlName="relatedStudent">
+          <option value="1">Mario Nikolov</option>
+        </select>
       </div>
     </div>
   </div>

@@ -12,3 +12,11 @@ export const getContributorId = async (id: number) => {
   const contributorId = (await builder.buildQuery()).at(0).contributorId;
   return contributorId;
 };
+
+export const getContributorSubscribers = async (contributorId: number) => {
+  const queryParams: QueryParams = {
+    what: {
+      
+    }
+  }
+}

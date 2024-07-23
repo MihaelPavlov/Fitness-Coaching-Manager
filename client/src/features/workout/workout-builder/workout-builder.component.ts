@@ -40,6 +40,7 @@ export class WorkoutBuilderComponent implements OnInit {
   };
 
   public tags: any;
+  public subscribers: Array<any> = [];
 
   public createWorkoutForm = this.fb.group({
     title: ['', [Validators.required]],
@@ -67,7 +68,6 @@ export class WorkoutBuilderComponent implements OnInit {
   });
 
   public exercises: Array<any> = [];
-  public subscribers: Array<any> = [];
 
   public isPrivate: boolean = false;
   isExerciseFormVisible: boolean = false;
@@ -115,6 +115,10 @@ export class WorkoutBuilderComponent implements OnInit {
     );
     const selectedImage = this.createWorkoutForm.get('imageUri') as FormControl;
     selectedImage.setValue(file);
+  }
+
+  public setRelatedStudent(event: Event) {
+    console.log((event.target as HTMLInputElement).value)
   }
 
   public onTagSelect(item: Tag): void {

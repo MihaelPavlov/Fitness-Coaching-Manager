@@ -186,10 +186,17 @@
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
         <label for="relatedStudent" class="control__label">Related student</label>
-        <select name="relatedStudent" id="relatedStudent" class="control w-100 d-block" formControlName="relatedStudent">
+        <select
+          name="relatedStudent"
+          id="relatedStudent"
+          class="control w-100 d-block"
+          formControlName="relatedStudent"
+          (change)="setRelatedStudent($event)"
+        >
           <option
+          class="control__option"
           *ngFor="let subscriber of subscribers"
-          value="subscriber.uid"
+          [value]="subscriber.uid"
           >{{subscriber.userName}}</option>
         </select>
       </div>

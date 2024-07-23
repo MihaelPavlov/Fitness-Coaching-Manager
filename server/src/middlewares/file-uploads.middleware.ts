@@ -20,3 +20,20 @@ export const registrationFileValidationMiddleware = (
 
     next();
 };
+
+export const hasFileValidationMiddleware = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    if(!req.file) {
+        return res.status(422).json({
+            status: RESPONSE_STATUS.FAILED,
+            data: {
+                message: "You must upload a file"
+            }
+        })
+    }
+
+    next();
+}

@@ -30,7 +30,7 @@ export class WorkoutBuilderComponent implements OnInit {
     active: [false, [Validators.required]],
     private: [false, [Validators.required]],
     relatedStudent: [null],
-    exercises: [[], [Validators.required]]
+    exercises: [[], [Validators.required]],
   });
 
   public addExerciseForm = this.fb.group({
@@ -41,7 +41,7 @@ export class WorkoutBuilderComponent implements OnInit {
     hasTiming: [false, [Validators.required]],
     description: ['', [Validators.required]],
     repetitions: [0, [Validators.required]],
-    duration: [0, [Validators.required]]
+    duration: [0, [Validators.required]],
   });
 
   public exercises: Array<any> = [];
@@ -49,19 +49,22 @@ export class WorkoutBuilderComponent implements OnInit {
   public isPrivate: boolean = false;
   isExerciseFormVisible: boolean = false;
 
-  constructor(private readonly fb: FormBuilder, private readonly exerciseService: ExerciseService) {}
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly exerciseService: ExerciseService
+  ) {}
 
   ngOnInit(): void {
     this.fetchExercises().subscribe({
       next: (res: any) => {
-        console.log(res)
+        console.log(res);
         this.exercises = res.data;
         this.changeExerciseSelect(res.data[0].uid);
       },
       error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   public onCreateWorkout(): void {
@@ -72,18 +75,25 @@ export class WorkoutBuilderComponent implements OnInit {
     const addedExercises = this.createWorkoutForm.get('exercises')?.value ?? [];
     this.addExerciseForm.get('rank')?.setValue(addedExercises.length + 1);
     if (this.addExerciseForm.invalid) {
-      return
+      return;
     }
     // Append exercise to workout exercises
-    const currentExercises = this.createWorkoutForm.get('exercises') as FormControl;
-    currentExercises.setValue([...currentExercises.value, this.convertExerciseStringFieldsToNumbers(this.addExerciseForm.value)]);
+    const currentExercises = this.createWorkoutForm.get(
+      'exercises'
+    ) as FormControl;
+    currentExercises.setValue([
+      ...currentExercises.value,
+      this.convertExerciseStringFieldsToNumbers(this.addExerciseForm.value),
+    ]);
     // Hide form
     this.showExerciseFormPopup = false;
   }
 
   public onImageUpload(event: Event): void {
     const filesLength = (event?.target as HTMLInputElement).files?.length;
-    const file = (event?.target as HTMLInputElement)?.files?.item((filesLength as number) - 1);
+    const file = (event?.target as HTMLInputElement)?.files?.item(
+      (filesLength as number) - 1
+    );
     const selectedImage = this.createWorkoutForm.get('imageUri') as FormControl;
     selectedImage.setValue(file);
   }
@@ -94,19 +104,33 @@ export class WorkoutBuilderComponent implements OnInit {
   }
 
   public changeExerciseSelect(exerciseId: any): void {
-    const currentExerciseId = this.addExerciseForm.get('exerciseId') as FormControl;
-    const currentExerciseTitle = this.addExerciseForm.get('title') as FormControl;
-    const currentExerciseThumb = this.addExerciseForm.get('thumbUri') as FormControl;
+    const currentExerciseId = this.addExerciseForm.get(
+      'exerciseId'
+    ) as FormControl;
+    const currentExerciseTitle = this.addExerciseForm.get(
+      'title'
+    ) as FormControl;
+    const currentExerciseThumb = this.addExerciseForm.get(
+      'thumbUri'
+    ) as FormControl;
 
     currentExerciseId.setValue(exerciseId);
-    currentExerciseTitle.setValue(this.exercises.filter(el => el.uid == exerciseId).at(0)?.title);
-    currentExerciseThumb.setValue(this.exercises.filter(el => el.uid == exerciseId).at(0)?.thumbUri);
+    currentExerciseTitle.setValue(
+      this.exercises.filter((el) => el.uid == exerciseId).at(0)?.title
+    );
+    currentExerciseThumb.setValue(
+      this.exercises.filter((el) => el.uid == exerciseId).at(0)?.thumbUri
+    );
   }
 
   public onRemoveExercise(exercise: any): void {
-    const currentExercises = this.createWorkoutForm.get('exercises') as FormControl;
+    const currentExercises = this.createWorkoutForm.get(
+      'exercises'
+    ) as FormControl;
     const currentExercisesArr: Array<any> = currentExercises.value ?? [];
-    const newExercises = currentExercisesArr.filter(el => el.exerciseId != exercise?.exerciseId);
+    const newExercises = currentExercisesArr.filter(
+      (el) => el.exerciseId != exercise?.exerciseId
+    );
     currentExercises.setValue(newExercises);
   }
 
@@ -136,7 +160,6 @@ export class WorkoutBuilderComponent implements OnInit {
     this.showWorkoutDetails = false;
   }
 
-
   showExerciseFormPopup = false;
   showExerciseForm() {
     this.showExerciseFormPopup = !this.showExerciseFormPopup;
@@ -153,20 +176,28 @@ export class WorkoutBuilderComponent implements OnInit {
       what: {
         [EXERCISE_FIELDS.exercises.uid]: 1,
         [EXERCISE_FIELDS.exercises.title]: 1,
-        [EXERCISE_FIELDS.exercises.thumbUri]: 1
-      }
-    })
+        [EXERCISE_FIELDS.exercises.thumbUri]: 1,
+      },
+    });
   }
 
   private convertExerciseStringFieldsToNumbers(exercise: any): void {
-    return { ...exercise, repetitions: +exercise.repetitions, duration: +exercise.duration }
+    return {
+      ...exercise,
+      repetitions: +exercise.repetitions,
+      duration: +exercise.duration,
+    };
   }
 
   private changeCheckBoxStatuses(isPrivate: boolean): void {
-    const isPrivateSelected = this.createWorkoutForm.get('private') as FormControl;
-    const isActiveSelected = this.createWorkoutForm.get('active') as FormControl;
+    const isPrivateSelected = this.createWorkoutForm.get(
+      'private'
+    ) as FormControl;
+    const isActiveSelected = this.createWorkoutForm.get(
+      'active'
+    ) as FormControl;
 
-    if(isPrivate) {
+    if (isPrivate) {
       isPrivateSelected.setValue(true);
       isActiveSelected.setValue(false);
     } else {

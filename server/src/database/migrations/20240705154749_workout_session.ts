@@ -5,7 +5,7 @@ export async function up(knex: Knex): Promise<void> {
         table.increments('id').primary().unsigned().notNullable().unique();
         table.integer('contributor_id').unsigned().notNullable();
         table.foreign('contributor_id').references('contributors.id');
-        table.integer('related_user_id').unsigned().notNullable();
+        table.integer('related_user_id').unsigned().defaultTo(null);
         table.foreign('related_user_id').references('users.id');
         table.integer('type_id').unsigned().notNullable().defaultTo(1);
         table.string('name', 45).notNullable().defaultTo('NEW SESSION');

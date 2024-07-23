@@ -8,6 +8,8 @@ import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exerc
 import { Observable } from 'rxjs';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
+import { UserService } from '../../../entities/users/services/user.service';
+import { ContributorService } from '../../../entities/contributors/services/contributor.service';
 
 interface Tag extends ListItem {
   uid?: number;
@@ -35,7 +37,7 @@ export class WorkoutBuilderComponent implements OnInit {
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 10,
     //allowSearchFilter: true
-  }
+  };
 
   public tags: any;
 
@@ -65,6 +67,7 @@ export class WorkoutBuilderComponent implements OnInit {
   });
 
   public exercises: Array<any> = [];
+  public subscribers: Array<any> = [];
 
   public isPrivate: boolean = false;
   isExerciseFormVisible: boolean = false;
@@ -72,7 +75,9 @@ export class WorkoutBuilderComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly workoutService: WorkoutService,
-    private readonly exerciseService: ExerciseService
+    private readonly exerciseService: ExerciseService,
+    private readonly userService: UserService,
+    private readonly contributorService: ContributorService
   ) {}
 
   ngOnInit(): void {
@@ -88,13 +93,14 @@ export class WorkoutBuilderComponent implements OnInit {
     });
     this.fetchWorkoutTags().subscribe({
       next: (res: any) => {
-        console.log("tags", res);
+        console.log('tags', res);
         this.tags = res.data;
       },
       error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
+    this.fetchSubscribers();
   }
 
   public onCreateWorkout(): void {
@@ -235,8 +241,26 @@ export class WorkoutBuilderComponent implements OnInit {
       what: {
         uid: 1,
         name: 1,
-      }
+      },
     });
+  }
+
+  private fetchSubscribers() {
+    this.contributorService
+      .getSubscribers({
+        what: {
+          subscriber: 1,
+        },
+      })
+      .subscribe({
+        next: (res) => {
+          console.log(res);
+          this.subscribers = res?.data;
+        },
+        error: (error) => {
+          console.log(error);
+        },
+      });
   }
 
   private convertExerciseStringFieldsToNumbers(exercise: any): void {

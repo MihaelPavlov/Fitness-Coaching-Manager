@@ -187,7 +187,10 @@
       >
         <label for="relatedStudent" class="control__label">Related student</label>
         <select name="relatedStudent" id="relatedStudent" class="control w-100 d-block" formControlName="relatedStudent">
-          <option value="1">Mario Nikolov</option>
+          <option
+          *ngFor="let subscriber of subscribers"
+          value="subscriber.uid"
+          >{{subscriber.userName}}</option>
         </select>
       </div>
     </div>

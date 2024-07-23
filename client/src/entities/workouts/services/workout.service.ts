@@ -22,6 +22,12 @@ export class WorkoutService {
     );
   }
 
+  public createWorkout(
+    data: Record<string, any>
+  ): Observable<any> {
+    return this.apiService.post(PATH.WORKOUTS.CREATE_WORKOUT, data);
+  }
+
   public getWorkoutTags(
     queryParams: IQueryParams
   ) : Observable<IRequestResult<any> | null> {

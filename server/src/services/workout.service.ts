@@ -19,6 +19,10 @@ export const createWorkoutSession = async (
   data: Record<string, any>,
   file?: Express.Multer.File
 ) => {
+  if(data?.private && !data?.relatedStudent) {
+    throw new Error("You must provide related student for private workouts");
+  }
+
   const workoutSessionId = (
     await db(TABLE.WORKOUT_SESSION).insert({
       contributor_id: contributorId,

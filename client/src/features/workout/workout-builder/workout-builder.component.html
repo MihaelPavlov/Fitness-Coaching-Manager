@@ -333,6 +333,7 @@
         class="btn btn-medium text-center landing-page-container__buttons-container__button"
         type="button"
         (click)="onAddExercise()"
+        [disabled]="addExerciseForm.invalid"
       >
         Add
       </button>
@@ -342,13 +343,10 @@
 
 <ng-template #exerciseEditCards>
   <div class="d-flex flex-wrap justify-content-center">
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card
+      *ngFor="let exercise of createWorkoutForm.get('exercises')?.value || []"
+      class="m-3"
+      [exercise]="exercise"
+    ></app-workout-edit-card>
   </div>
 </ng-template>

@@ -35,13 +35,14 @@ export class WorkoutBuilderComponent implements OnInit {
 
   public addExerciseForm = this.fb.group({
     exerciseId: [null, [Validators.required]],
-    rank: [1, [Validators.required]],
+    thumbUri: [''],
+    rank: [0, [Validators.required]],
     title: ['', [Validators.required]],
     hasTiming: [false, [Validators.required]],
     description: ['', [Validators.required]],
-    repetitions: [null, [Validators.required]],
-    duration: [null, [Validators.required]]
-  })
+    repetitions: [0, [Validators.required]],
+    duration: [0, [Validators.required]]
+  });
 
   public exercises: any;
 
@@ -68,8 +69,16 @@ export class WorkoutBuilderComponent implements OnInit {
   }
 
   public onAddExercise(): void {
-    const addedExercises = Array(this.createWorkoutForm.get('exercises')?.value).length;
-    console.log(this.addExerciseForm.value);
+    const addedExercises = this.createWorkoutForm.get('exercises')?.value ?? [];
+    this.addExerciseForm.get('rank')?.setValue(addedExercises.length + 1);
+    if (this.addExerciseForm.invalid) {
+      return
+    }
+    // Append exercise to workout exercises
+    const currentExercises = this.createWorkoutForm.get('exercises') as FormControl;
+    currentExercises.setValue([...currentExercises.value, this.addExerciseForm.value]);
+    // Hide form
+    this.showExerciseFormPopup = false;
   }
 
   public onImageUpload(event: Event): void {
@@ -87,9 +96,11 @@ export class WorkoutBuilderComponent implements OnInit {
   public changeExerciseSelect(value: any): void {
     const currentExerciseId = this.addExerciseForm.get('exerciseId') as FormControl;
     const currentExerciseTitle = this.addExerciseForm.get('title') as FormControl;
+    const currentExerciseThumb = this.addExerciseForm.get('thumbUri') as FormControl;
 
     currentExerciseId.setValue(value.uid);
     currentExerciseTitle.setValue(value.title);
+    currentExerciseThumb.setValue(value.thumbUri);
   }
 
   private fetchExercises(): Observable<any> {

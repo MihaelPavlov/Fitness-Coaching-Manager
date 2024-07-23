@@ -110,20 +110,6 @@ export class WorkoutBuilderComponent implements OnInit {
     currentExercises.setValue(newExercises);
   }
 
-  private fetchExercises(): Observable<any> {
-    return this.exerciseService.getList({
-      what: {
-        [EXERCISE_FIELDS.exercises.uid]: 1,
-        [EXERCISE_FIELDS.exercises.title]: 1,
-        [EXERCISE_FIELDS.exercises.thumbUri]: 1
-      }
-    })
-  }
-
-  private convertExerciseStringFieldsToNumbers(exercise: any): void {
-    return { ...exercise, repetitions: +exercise.repetitions, duration: +exercise.duration }
-  }
-
   onPrivateChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = checkbox.checked;
@@ -160,6 +146,20 @@ export class WorkoutBuilderComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
     this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked);
+  }
+
+  private fetchExercises(): Observable<any> {
+    return this.exerciseService.getList({
+      what: {
+        [EXERCISE_FIELDS.exercises.uid]: 1,
+        [EXERCISE_FIELDS.exercises.title]: 1,
+        [EXERCISE_FIELDS.exercises.thumbUri]: 1
+      }
+    })
+  }
+
+  private convertExerciseStringFieldsToNumbers(exercise: any): void {
+    return { ...exercise, repetitions: +exercise.repetitions, duration: +exercise.duration }
   }
 
   private changeCheckBoxStatuses(isPrivate: boolean): void {

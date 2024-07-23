@@ -347,6 +347,7 @@
       *ngFor="let exercise of createWorkoutForm.get('exercises')?.value || []"
       class="m-3"
       [exercise]="exercise"
+      [numberOfSets]="createWorkoutForm.get('numberOfSets')?.value || 0"
     ></app-workout-edit-card>
   </div>
 </ng-template>

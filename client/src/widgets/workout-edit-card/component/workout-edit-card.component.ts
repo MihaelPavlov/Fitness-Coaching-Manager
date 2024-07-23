@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class WorkoutEditCardComponent {
   @Input() exercise: any;
+  @Input() numberOfSets?: number | string = 0;
 }

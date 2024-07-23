@@ -61,7 +61,9 @@ img {
   position: relative;
   display: flex;
   align-items: center;
-
+  @include mixins.respond(Phone) {
+    width: 100%;
+  }
   input {
     height: 60%;
     background-color: palette.$main-font-white-color;
@@ -74,6 +76,9 @@ img {
     font-weight: 600;
     font-size: 0.9375rem;
     border: solid 0.1rem palette.$main-blue-darker-color;
+    @include mixins.respond(Phone) {
+      width: 100%;
+    }
   }
 }
 
@@ -260,8 +265,6 @@ img {
     justify-content: space-between;
     padding: 0.65rem 1.25rem 0.65rem 1.25rem;
     background-color: white;
-    border-bottom: 0.1rem solid palette.$main-blue-darker-color;
-    border-top: 0.1rem solid palette.$main-blue-darker-color;
   }
   &-profile {
     width: 2rem;
@@ -357,7 +360,6 @@ img {
 
 .chat-area-footer {
   display: flex;
-  border-top: 0.0625rem solid palette.$main-blue-darker-color;
   width: 100%;
   padding: 0.4rem 0.5rem;
   align-items: center;
@@ -431,5 +433,12 @@ img {
     align-items: center;
     font-size: 0.875rem;
     font-weight: 500;
+  }
+}
+
+
+@include mixins.respond(Phone) {
+  .header {
+    display: none;
   }
 }

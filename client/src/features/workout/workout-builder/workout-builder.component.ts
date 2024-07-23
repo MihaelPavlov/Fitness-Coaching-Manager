@@ -117,10 +117,6 @@ export class WorkoutBuilderComponent implements OnInit {
     selectedImage.setValue(file);
   }
 
-  public setRelatedStudent(event: Event) {
-    console.log((event.target as HTMLInputElement).value)
-  }
-
   public onTagSelect(item: Tag): void {
     const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
     tagsArr.setValue([...tagsArr.value, item]);

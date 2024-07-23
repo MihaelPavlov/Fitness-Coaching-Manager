@@ -24,7 +24,7 @@ export const createWorkoutSession = async (
       related_user_id: data?.relatedStudent,
       name: data?.title,
       description: data?.description,
-      image_uri: data?.imageUri,
+      image_uri: file.filename,
       set_count: data?.numberOfSets,
       set_pause_time: data?.pauseBetweenSets,
       exercise_pause_time: data?.pauseBetweenExercises,

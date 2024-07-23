@@ -3,6 +3,7 @@ import db from "../database/database-connector";
 import { QueryParams } from "./../query-builders/models/builder.models";
 import { WorkoutBuilder } from "./../query-builders/workout.builder";
 import { mapWorkouts } from "./../helpers/workout.helper";
+import { WorkoutTagsBuilder } from "./../query-builders/workout-tags.builder";
 
 export const executeWorkoutBuilder = async (payload: QueryParams) => await new WorkoutBuilder(payload).buildQuery();
 
@@ -56,3 +57,5 @@ export const createWorkoutTags = async (data: Record<string, any>) => {
         tag_color: data?.tagColor
     });
 }
+
+export const getWorkoutTags = async (tagData: any) => await new WorkoutTagsBuilder(tagData).buildQuery();

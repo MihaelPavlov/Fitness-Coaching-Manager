@@ -18,6 +18,7 @@ export const PATH = {
     HAS_SUBSCRIBED: "/hasSubscribed"
   },
   WORKOUTS: {
-    CREATE_WORKOUT: "/add"
+    CREATE_WORKOUT: "/add",
+    GET_TAG_LIST: "/getTagList"
   }
 };

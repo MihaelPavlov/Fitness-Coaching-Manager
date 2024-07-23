@@ -7,6 +7,7 @@ import { ExerciseService } from '../../../entities/exercises/services/exercise.s
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { Observable } from 'rxjs';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
+import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 
 interface Tag extends ListItem {
   uid?: number;
@@ -70,6 +71,7 @@ export class WorkoutBuilderComponent implements OnInit {
 
   constructor(
     private readonly fb: FormBuilder,
+    private readonly workoutService: WorkoutService,
     private readonly exerciseService: ExerciseService
   ) {}
 
@@ -84,7 +86,7 @@ export class WorkoutBuilderComponent implements OnInit {
         console.log(err);
       },
     });
-    this.fetchExerciseTags().subscribe({
+    this.fetchWorkoutTags().subscribe({
       next: (res: any) => {
         console.log("tags", res);
         this.tags = res.data;
@@ -228,11 +230,11 @@ export class WorkoutBuilderComponent implements OnInit {
     });
   }
 
-  private fetchExerciseTags(): Observable<any> {
-    return this.exerciseService.getTagList({
+  private fetchWorkoutTags(): Observable<any> {
+    return this.workoutService.getWorkoutTags({
       what: {
-        [EXERCISE_FIELDS.exercise_tags.uid]: 1,
-        [EXERCISE_FIELDS.exercise_tags.name]: 1,
+        uid: 1,
+        name: 1,
       }
     });
   }

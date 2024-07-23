@@ -21,4 +21,10 @@ export class WorkoutService {
       queryParams
     );
   }
+
+  public getWorkoutTags(
+    queryParams: IQueryParams
+  ) : Observable<IRequestResult<any> | null> {
+    return this.apiService.post(PATH.WORKOUTS.GET_TAG_LIST, queryParams);
+  }
 }

@@ -27,22 +27,25 @@
 
   .main-body {
     order: 2;
-    display: flex;
+    //display: flex; //Remove for chat
     justify-content: center;
     flex: 1;
     height: 100vh;
 
     .main-content {
-      max-width: 90.6rem; // 1400px;
-      width: 90.6rem;
-      margin: 2rem 0;
-      margin-right: 10rem;
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
+      max-width:89.3%; // 1400px;
+      @include mixins.respond(Phone) {
+        max-width: 100%;
+        padding-left: 0;
+       }
+      //margin: 2rem 0; //Remove for chat
+      //margin-right: 10rem;//Remove for chat
+      padding-left: 0.5rem;//Remove for chat
+      //padding-right: 1.5rem;//Remove for chat
       overflow: hidden;
 
       @include mixins.respond(Phone) {
-        margin: 2rem auto;
+        //margin: 2rem auto;
       }
     }
   }

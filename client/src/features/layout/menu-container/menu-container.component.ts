@@ -56,6 +56,14 @@ export class MenuContainerComponent {
         icon: 'build',
         route: '/builders/list',
       },
+      {
+        label: 'Chat',
+        class: page == '/chat' ? 'active' : '',
+        enabled: true,
+        visible: true,
+        icon: 'chat',
+        route: '/chat',
+      },
     ];
   }
 

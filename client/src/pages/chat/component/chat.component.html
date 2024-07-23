@@ -1,12 +1,16 @@
 <div class="app">
     <div class="header">
-     <div class="search-bar">
+      <div class="search-bar" *ngIf="!inChat || !isMobile">
       <input type="text" placeholder="Search..." />
      </div>
     </div>
     <div class="wrapper">
-     <div class="conversation-area">
-      <div class="msg online">
+      <div 
+      class="conversation-area" 
+      *ngIf="!inChat || !isMobile"
+      [ngClass]="{ 'mobile-hidden': inChat && isMobile }"
+    >
+      <div class="msg online" (click)="goInChat()">
        <img class="msg-profile" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%281%29.png" alt="" />
        <div class="msg-detail">
         <div class="msg-username">Madison Jones</div>
@@ -121,10 +125,16 @@
         </div>
        </div>
       </div>
-      <div class="overlay"></div>
      </div>
-     <div class="chat-area">
+     <div 
+     class="chat-area" 
+     *ngIf="inChat || !isMobile"
+     [ngClass]="{ 'mobile-hidden': !inChat && isMobile }"
+   >
       <div class="chat-area-header">
+        <span class="material-symbols-outlined chat-area-icon" *ngIf="isMobile" (click)="goBack()">
+          arrow_back
+          </span>
        <div class="chat-area-title">Miroslav Ivanov</div>
        <div class="chat-area-group">
         <img class="chat-area-profile" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3364143/download+%283%29+%281%29.png" alt="" />

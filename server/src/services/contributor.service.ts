@@ -1,6 +1,7 @@
 import { UserBuilder } from "./../query-builders/user.builder";
 import { QueryParams } from "./../query-builders/models/builder.models";
 import { ContributorSubscribersBuilder } from "./../query-builders/contributor-subscribers.builder";
+import { mapSubscribers } from "./../helpers/contributor.helper";
 
 export const getContributorId = async (id: number) => {
   const queryParams: QueryParams = {
@@ -27,5 +28,5 @@ export const getContributorSubscribers = async (contributorId: number, queryPara
     ]
   };
 
-  return await builder.buildQuery();
+  return await mapSubscribers(await builder.buildQuery());
 }

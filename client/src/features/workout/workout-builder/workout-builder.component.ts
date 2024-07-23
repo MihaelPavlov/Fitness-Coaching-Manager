@@ -3,6 +3,7 @@ import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-workout-builder',
@@ -15,8 +16,23 @@ export class WorkoutBuilderComponent {
   public showWorkoutDetails = false;
   public showExercise = false;
 
+  public createWorkoutForm = this.fb.group({
+    title: ['', [Validators.required]],
+    description: ['', [Validators.required]],
+    imageUri: [null, [Validators.required]],
+    tags: ['', [Validators.required]],
+    numberOfSets: ['', [Validators.required]],
+    pauseBetweenSets: ['', [Validators.required]],
+    pauseBetweenExercises: ['', [Validators.required]],
+    active: [false, [Validators.required]],
+    private: [false, [Validators.required]],
+    exercises: [[], [Validators.required]]
+  });
+
   public isPrivate: boolean = false;
   isExerciseFormVisible: boolean = false;
+
+  constructor(private readonly fb: FormBuilder) {}
 
   onPrivateChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;

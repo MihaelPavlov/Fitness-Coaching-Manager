@@ -5,11 +5,10 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { toFormData } from '../../../shared/utils/formTransformer';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
-import { Observable } from 'rxjs';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
-import { UserService } from '../../../entities/users/services/user.service';
 import { ContributorService } from '../../../entities/contributors/services/contributor.service';
+import { Router } from '@angular/router';
 
 interface Tag extends ListItem {
   uid?: number;
@@ -28,6 +27,7 @@ export class WorkoutBuilderComponent implements OnInit {
   public showExercise = false;
   public hasTiming = false;
   public showExerciseFormPopup = false;
+  public isLoading: boolean = false;
 
   public tagsDropdownSettings = {
     singleSelection: false,
@@ -46,22 +46,25 @@ export class WorkoutBuilderComponent implements OnInit {
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
     imageUri: [null, [Validators.required]],
-    tag_ids: [[], [Validators.required]],
+    tags: [[], [Validators.required]],
     numberOfSets: ['', [Validators.required]],
     pauseBetweenSets: ['', [Validators.required]],
     pauseBetweenExercises: ['', [Validators.required]],
-    is_active: [false, [Validators.required]],
-    is_private: [false, [Validators.required]],
+    active: [0, [Validators.required]],
+    private: [0, [Validators.required]],
     relatedStudent: [null],
     exercises: [[], [Validators.required]],
   });
+
+  public createWorkoutErr: string = "";
+  public hasCreateWorkoutErr: boolean = false;
 
   public addExerciseForm = this.fb.group({
     exerciseId: [null, [Validators.required]],
     thumbUri: [''],
     rank: [0, [Validators.required]],
     title: ['', [Validators.required]],
-    hasTiming: [false, [Validators.required]],
+    hasTiming: [0, [Validators.required]],
     description: ['', [Validators.required]],
     repetitions: [0, [Validators.required]],
     duration: [0, [Validators.required]],
@@ -76,8 +79,8 @@ export class WorkoutBuilderComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly workoutService: WorkoutService,
     private readonly exerciseService: ExerciseService,
-    private readonly userService: UserService,
-    private readonly contributorService: ContributorService
+    private readonly contributorService: ContributorService,
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -87,7 +90,30 @@ export class WorkoutBuilderComponent implements OnInit {
   }
 
   public onCreateWorkout(): void {
-    console.log(this.createWorkoutForm.value);
+    this.isLoading = true;
+    if (this.createWorkoutForm.invalid) {
+      this.isLoading = false;
+      return
+    }
+
+    const requestBody = {
+      ...this.createWorkoutForm.value,
+      tag_ids: this.transformFormTags()
+    }
+
+    this.workoutService.createWorkout(toFormData(this.createWorkoutForm.value)).subscribe({
+      next: (res) => {
+        this.isLoading = false;
+        this.hasCreateWorkoutErr = false;
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.hasCreateWorkoutErr = true;
+        this.createWorkoutErr = err.message;
+        console.log("Create workout err", err);
+      }
+    })
   }
 
   public onAddExercise(): void {
@@ -118,22 +144,22 @@ export class WorkoutBuilderComponent implements OnInit {
   }
 
   public onTagSelect(item: Tag): void {
-    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    const tagsArr = this.createWorkoutForm.get('tags') as FormControl;
     tagsArr.setValue([...tagsArr.value, item]);
   }
 
   public onTagSelectAll(items: Tag[]): void {
-    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    const tagsArr = this.createWorkoutForm.get('tags') as FormControl;
     tagsArr.setValue(items);
   }
 
   public onTagDeselect(item: Tag): void {
-    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    const tagsArr = this.createWorkoutForm.get('tags') as FormControl;
     tagsArr.setValue(tagsArr.value.filter((el: Tag) => el.uid != item.uid));
   }
 
   public onTagDeselectAll(): void {
-    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    const tagsArr = this.createWorkoutForm.get('tags') as FormControl;
     tagsArr.setValue([]);
   }
 
@@ -206,7 +232,15 @@ export class WorkoutBuilderComponent implements OnInit {
   public onHasTimingChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
-    this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked);
+    this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked ? 1 : 0);
+  }
+
+  private transformFormTags() {
+    const tags = this.createWorkoutForm.get('tags') as FormControl;
+    tags.setValue(tags.value.map((el: any) => el.uid).join(","))
+    /* let tagsArr: Array<number | undefined> = [];
+    tags.value.forEach((tag: Tag) => tagsArr.push(tag.uid));
+    return tagsArr.join(","); */
   }
 
   private fetchExercises() {
@@ -277,18 +311,18 @@ export class WorkoutBuilderComponent implements OnInit {
 
   private changeCheckBoxStatuses(isPrivate: boolean): void {
     const isPrivateSelected = this.createWorkoutForm.get(
-      'is_private'
+      'private'
     ) as FormControl;
     const isActiveSelected = this.createWorkoutForm.get(
-      'is_active'
+      'active'
     ) as FormControl;
 
     if (isPrivate) {
-      isPrivateSelected.setValue(true);
-      isActiveSelected.setValue(false);
+      isPrivateSelected.setValue(1);
+      isActiveSelected.setValue(0);
     } else {
-      isPrivateSelected.setValue(false);
-      isActiveSelected.setValue(true);
+      isPrivateSelected.setValue(0);
+      isActiveSelected.setValue(1);
     }
   }
 }

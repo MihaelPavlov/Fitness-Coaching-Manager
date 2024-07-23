@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { toFormData } from '../../../shared/utils/formTransformer';
 
 @Component({
   selector: 'app-workout-builder',
@@ -35,6 +36,13 @@ export class WorkoutBuilderComponent {
 
   public onCreateWorkout(): void {
     console.log(this.createWorkoutForm.value);
+  }
+
+  public onImageUpload(event: Event): void {
+    const filesLength = (event?.target as HTMLInputElement).files?.length;
+    const file = (event?.target as HTMLInputElement)?.files?.item((filesLength as number) - 1);
+    const selectedImage = this.createWorkoutForm.get('imageUri') as FormControl;
+    selectedImage.setValue(file);
   }
 
   onPrivateChange(event: Event) {

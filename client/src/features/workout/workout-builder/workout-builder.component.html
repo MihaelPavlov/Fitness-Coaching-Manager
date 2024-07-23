@@ -5,6 +5,7 @@
     <form
       class="create-workout-container__form w-100 d-flex flex-direction-column"
       [formGroup]="createWorkoutForm"
+      (ngSubmit)="onCreateWorkout()"
     >
       <ng-container
         *ngTemplateOutlet="
@@ -31,7 +32,7 @@
 
 <!-- General details template -->
 <ng-template #workoutDetails>
-  <div class="create-workout-container__form__details-container">
+  <div class="create-workout-container__form__details-container" [formGroup]="createWorkoutForm">
     <div
       class="create-workout-container__form__details-container__heading-container d-flex justify-content-between pb-5"
       (click)="workoutDetailsVisibility()"
@@ -65,6 +66,7 @@
           placeholder="Name"
           name="name"
           class="control w-100 d-block align-items-start"
+          formControlName="title"
         />
       </div>
       <div
@@ -77,6 +79,7 @@
           placeholder="Description"
           name="description"
           class="control w-100 d-block align-items-start"
+          formControlName="description"
         />
       </div>
       <div
@@ -89,13 +92,14 @@
           placeholder="Password"
           name="password"
           class="control w-100 d-block align-items-start"
+          (change)="onImageUpload($event)"
         />
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
         <label for="equipment" class="control__label">Tag</label>
-        <select id="equipment" name="equipment" class="control w-100 d-block">
+        <select id="equipment" name="equipment" class="control w-100 d-block" formControlName="tags">
           <option
             class="control__option"
             *ngFor="let option of optionArrays.tagsList"
@@ -115,6 +119,7 @@
           placeholder="Number"
           name="number-sets"
           class="control w-100 d-block align-items-start"
+          formControlName="numberOfSets"
         />
       </div>
       <div
@@ -127,6 +132,7 @@
           placeholder="Higher than 0"
           name="pause-sets"
           class="control w-100 d-block align-items-start"
+          formControlName="pauseBetweenSets"
         />
       </div>
       <div
@@ -141,6 +147,7 @@
           placeholder="Seconds"
           name="pause-exercises"
           class="control w-100 d-block align-items-start"
+          formControlName="pauseBetweenExercises"
         />
       </div>
       <div
@@ -150,7 +157,7 @@
           class="control__wrapper create-workout-container__form__details-container__general-details__input-field-checkbox d-flex flex-direction-column"
         >
           <div class="d-flex align-items-center g-2">
-            <label class="control__label">Acttive</label>
+            <label class="control__label">Active</label>
             <input
               [type]="InputType.Checkbox"
               (change)="onActiveChange($event)"
@@ -179,9 +186,10 @@
         <input
           [type]="InputType.Number"
           id="pause-exercises"
-          placeholder="Seconds"
+          placeholder="Related Student"
           name="pause-exercises"
           class="control w-100 d-block align-items-start"
+          formControlName="relatedStudent"
         />
       </div>
     </div>

@@ -32,6 +32,16 @@ export class WorkoutBuilderComponent implements OnInit {
     exercises: [[], [Validators.required]]
   });
 
+  public addExerciseForm = this.fb.group({
+    exerciseId: [null, [Validators.required]],
+    rank: [1, [Validators.required]],
+    title: ['', [Validators.required]],
+    hasTiming: [false, [Validators.required]],
+    description: ['', [Validators.required]],
+    repetitions: [null, [Validators.required]],
+    duration: [null, [Validators.required]]
+  })
+
   public exercises: any;
 
   public isPrivate: boolean = false;
@@ -54,6 +64,8 @@ export class WorkoutBuilderComponent implements OnInit {
   public onCreateWorkout(): void {
     console.log(this.createWorkoutForm.value);
   }
+
+  public onAddExercise(): void {}
 
   public onImageUpload(event: Event): void {
     const filesLength = (event?.target as HTMLInputElement).files?.length;

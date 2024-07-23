@@ -81,25 +81,8 @@ export class WorkoutBuilderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.fetchExercises().subscribe({
-      next: (res: any) => {
-        console.log(res);
-        this.exercises = res.data;
-        this.changeExerciseSelect(res.data[0].uid);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-    this.fetchWorkoutTags().subscribe({
-      next: (res: any) => {
-        console.log('tags', res);
-        this.tags = res.data;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.fetchExercises();
+    this.fetchWorkoutTags();
     this.fetchSubscribers();
   }
 
@@ -226,23 +209,44 @@ export class WorkoutBuilderComponent implements OnInit {
     this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked);
   }
 
-  private fetchExercises(): Observable<any> {
-    return this.exerciseService.getList({
-      what: {
-        [EXERCISE_FIELDS.exercises.uid]: 1,
-        [EXERCISE_FIELDS.exercises.title]: 1,
-        [EXERCISE_FIELDS.exercises.thumbUri]: 1,
-      },
-    });
+  private fetchExercises() {
+    return this.exerciseService
+      .getList({
+        what: {
+          [EXERCISE_FIELDS.exercises.uid]: 1,
+          [EXERCISE_FIELDS.exercises.title]: 1,
+          [EXERCISE_FIELDS.exercises.thumbUri]: 1,
+        },
+      })
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          this.exercises = res.data;
+          this.changeExerciseSelect(res.data[0].uid);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
-  private fetchWorkoutTags(): Observable<any> {
-    return this.workoutService.getWorkoutTags({
-      what: {
-        uid: 1,
-        name: 1,
-      },
-    });
+  private fetchWorkoutTags() {
+    return this.workoutService
+      .getWorkoutTags({
+        what: {
+          uid: 1,
+          name: 1,
+        },
+      })
+      .subscribe({
+        next: (res: any) => {
+          console.log('tags', res);
+          this.tags = res.data;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   private fetchSubscribers() {

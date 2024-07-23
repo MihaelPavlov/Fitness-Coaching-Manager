@@ -6,6 +6,12 @@ import { toFormData } from '../../../shared/utils/formTransformer';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { Observable } from 'rxjs';
+import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
+
+interface Tag extends ListItem {
+  uid?: number;
+  name?: string;
+}
 
 @Component({
   selector: 'app-workout-builder',
@@ -18,6 +24,7 @@ export class WorkoutBuilderComponent implements OnInit {
   public showWorkoutDetails = false;
   public showExercise = false;
   public hasTiming = false;
+  public showExerciseFormPopup = false;
 
   public tagsDropdownSettings = {
     singleSelection: false,
@@ -35,7 +42,7 @@ export class WorkoutBuilderComponent implements OnInit {
     title: ['', [Validators.required]],
     description: ['', [Validators.required]],
     imageUri: [null, [Validators.required]],
-    tags: ['', [Validators.required]],
+    tag_ids: [[], [Validators.required]],
     numberOfSets: ['', [Validators.required]],
     pauseBetweenSets: ['', [Validators.required]],
     pauseBetweenExercises: ['', [Validators.required]],
@@ -119,6 +126,26 @@ export class WorkoutBuilderComponent implements OnInit {
     selectedImage.setValue(file);
   }
 
+  public onTagSelect(item: Tag): void {
+    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    tagsArr.setValue([...tagsArr.value, item]);
+  }
+
+  public onTagSelectAll(items: Tag[]): void {
+    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    tagsArr.setValue(items);
+  }
+
+  public onTagDeselect(item: Tag): void {
+    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    tagsArr.setValue(tagsArr.value.filter((el: Tag) => el.uid != item.uid));
+  }
+
+  public onTagDeselectAll(): void {
+    const tagsArr = this.createWorkoutForm.get('tag_ids') as FormControl;
+    tagsArr.setValue([]);
+  }
+
   public onExerciseSelect(event: Event) {
     const selectValue = (event.target as HTMLInputElement).value;
     this.changeExerciseSelect(selectValue);
@@ -155,13 +182,13 @@ export class WorkoutBuilderComponent implements OnInit {
     currentExercises.setValue(newExercises);
   }
 
-  onPrivateChange(event: Event) {
+  public onPrivateChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = checkbox.checked;
     this.changeCheckBoxStatuses(this.isPrivate);
   }
 
-  onActiveChange(event: Event) {
+  public onActiveChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.changeCheckBoxStatuses(!checkbox.checked);
   }
@@ -181,12 +208,11 @@ export class WorkoutBuilderComponent implements OnInit {
     this.showWorkoutDetails = false;
   }
 
-  showExerciseFormPopup = false;
-  showExerciseForm() {
+  public showExerciseForm() {
     this.showExerciseFormPopup = !this.showExerciseFormPopup;
   }
 
-  onHasTimingChange(event: Event) {
+  public onHasTimingChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
     this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked);

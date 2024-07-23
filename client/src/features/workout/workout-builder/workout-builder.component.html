@@ -104,6 +104,10 @@
           placeholder="Tags"
           [settings]="tagsDropdownSettings"
           [data]="tags"
+          (onSelect)="onTagSelect($event)"
+          (onSelectAll)="onTagSelectAll($event)"
+          (onDeSelect)="onTagDeselect($event)"
+          (onDeSelectAll)="onTagDeselectAll()"
         ></ng-multiselect-dropdown>
       </div>
       <div

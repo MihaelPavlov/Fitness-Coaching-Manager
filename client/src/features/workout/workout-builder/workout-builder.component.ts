@@ -191,7 +191,7 @@ export class WorkoutBuilderComponent implements OnInit {
     ) as FormControl;
     const currentExercisesArr: Array<any> = currentExercises.value ?? [];
     const newExercises = currentExercisesArr.filter(
-      (el) => el.exerciseId != exercise?.exerciseId
+      (el) => el.rank != exercise?.rank
     );
     currentExercises.setValue(newExercises);
   }

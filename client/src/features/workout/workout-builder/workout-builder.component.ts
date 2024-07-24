@@ -9,6 +9,8 @@ import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { ContributorService } from '../../../entities/contributors/services/contributor.service';
 import { Router } from '@angular/router';
+import { IContributorSubscriber } from '../../../entities/contributors/models/contributor-subscriber.interface';
+import { IRequestResult } from '../../../entities/models/request-result.interface';
 
 interface Tag extends ListItem {
   uid?: number;
@@ -40,7 +42,14 @@ export class WorkoutBuilderComponent implements OnInit {
   };
 
   public tags: any;
-  public subscribers: Array<any> = [];
+  public subscribers: Array<IContributorSubscriber> = [];
+  public exercises: Array<any> = [];
+
+  public createWorkoutErr: string = "";
+  public hasCreateWorkoutErr: boolean = false;
+
+  public isPrivate: boolean = false;
+  public isExerciseFormVisible: boolean = false;
 
   public createWorkoutForm = this.fb.group({
     title: ['', [Validators.required]],
@@ -56,9 +65,6 @@ export class WorkoutBuilderComponent implements OnInit {
     exercises: [[], [Validators.required]],
   });
 
-  public createWorkoutErr: string = "";
-  public hasCreateWorkoutErr: boolean = false;
-
   public addExerciseForm = this.fb.group({
     exerciseId: [null, [Validators.required]],
     thumbUri: [''],
@@ -69,11 +75,6 @@ export class WorkoutBuilderComponent implements OnInit {
     repetitions: [0, [Validators.required]],
     duration: [0, [Validators.required]],
   });
-
-  public exercises: Array<any> = [];
-
-  public isPrivate: boolean = false;
-  isExerciseFormVisible: boolean = false;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -292,9 +293,9 @@ export class WorkoutBuilderComponent implements OnInit {
         },
       })
       .subscribe({
-        next: (res) => {
+        next: (res: IRequestResult<IContributorSubscriber[]> | null) => {
           console.log(res);
-          this.subscribers = res?.data;
+          this.subscribers = res?.data || [];
         },
         error: (error) => {
           console.log(error);

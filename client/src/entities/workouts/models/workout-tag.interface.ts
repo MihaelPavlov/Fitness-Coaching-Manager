@@ -1,4 +1,4 @@
-export interface WorkoutTag {
+export interface IWorkoutTag {
   uid: number;
   name: string;
 }

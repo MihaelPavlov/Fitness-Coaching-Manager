@@ -5,6 +5,7 @@ import { IRequestResult } from "../../models/request-result.interface";
 import { IWorkoutCardsFields } from "../models/workout-cards.interface";
 import { PATH } from "../../../shared/configs/path.config";
 import { RestApiService } from "../../../shared/services/rest-api.service";
+import { IWorkoutTag } from "../models/workout-tag.interface";
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,7 @@ export class WorkoutService {
 
   public getWorkoutTags(
     queryParams: IQueryParams
-  ) : Observable<IRequestResult<any> | null> {
+  ) : Observable<IRequestResult<IWorkoutTag[]> | null> {
     return this.apiService.post(PATH.WORKOUTS.GET_TAG_LIST, queryParams);
   }
 }

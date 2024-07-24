@@ -11,6 +11,7 @@ import { ContributorService } from '../../../entities/contributors/services/cont
 import { Router } from '@angular/router';
 import { IContributorSubscriber } from '../../../entities/contributors/models/contributor-subscriber.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
+import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.interface';
 
 interface Tag extends ListItem {
   uid?: number;
@@ -275,9 +276,9 @@ export class WorkoutBuilderComponent implements OnInit {
         },
       })
       .subscribe({
-        next: (res: any) => {
+        next: (res: IRequestResult<IWorkoutTag[]> | null) => {
           console.log('tags', res);
-          this.tags = res.data;
+          this.tags = res?.data;
         },
         error: (err) => {
           console.log(err);

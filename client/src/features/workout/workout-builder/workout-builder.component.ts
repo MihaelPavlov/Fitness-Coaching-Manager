@@ -12,11 +12,7 @@ import { Router } from '@angular/router';
 import { IContributorSubscriber } from '../../../entities/contributors/models/contributor-subscriber.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.interface';
-
-interface Tag extends ListItem {
-  uid?: number;
-  name?: string;
-}
+import { Tag } from '../../../entities/models/tag.interface';
 
 @Component({
   selector: 'app-workout-builder',
@@ -166,7 +162,7 @@ export class WorkoutBuilderComponent implements OnInit {
     tagsArr.setValue([]);
   }
 
-  public onExerciseSelect(event: Event) {
+  public onExerciseSelect(event: Event): void {
     const selectValue = (event.target as HTMLInputElement).value;
     this.changeExerciseSelect(selectValue);
   }
@@ -202,13 +198,13 @@ export class WorkoutBuilderComponent implements OnInit {
     currentExercises.setValue(newExercises);
   }
 
-  public onPrivateChange(event: Event) {
+  public onPrivateChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = checkbox.checked;
     this.changeCheckBoxStatuses(this.isPrivate);
   }
 
-  public onActiveChange(event: Event) {
+  public onActiveChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = false;
     this.changeCheckBoxStatuses(!checkbox.checked);
@@ -229,17 +225,17 @@ export class WorkoutBuilderComponent implements OnInit {
     this.showWorkoutDetails = false;
   }
 
-  public showExerciseForm() {
+  public showExerciseForm(): void {
     this.showExerciseFormPopup = !this.showExerciseFormPopup;
   }
 
-  public onHasTimingChange(event: Event) {
+  public onHasTimingChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
     this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked ? 1 : 0);
   }
 
-  private transformFormTags() {
+  private transformFormTags(): string {
     const tags = this.createWorkoutForm.get('tags') as FormControl;
     let tagsArr: Array<number | undefined> = [];
     tags.value.forEach((tag: Tag) => tagsArr.push(tag.uid));

@@ -109,7 +109,7 @@ export class WorkoutBuilderComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.hasCreateWorkoutErr = true;
-        this.createWorkoutErr = err.error.data.error || "Bad Request";
+        this.createWorkoutErr = err.error.data.error || err.error.data.message || "Bad Request";
         console.log("Create workout err", err);
       }
     })

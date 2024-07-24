@@ -9,7 +9,7 @@ import {
 import { RESPONSE_STATUS } from "./../constants/response.constants";
 import { inputValidationMiddleware } from "./../middlewares/validation.middleware";
 import upload from "./../config/file-upload.config";
-import { hasFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
+import { hasFileValidationMiddleware, isFileImageMiddleware } from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
@@ -40,6 +40,7 @@ router.post(
   isCoach,
   upload.single("imageUri"),
   hasFileValidationMiddleware,
+  isFileImageMiddleware,
   inputValidationMiddleware(createWorkoutValidators),
   inputValidationMiddleware(createWorkoutExercisesValidators),
   async (req: any, res: express.Response) => {

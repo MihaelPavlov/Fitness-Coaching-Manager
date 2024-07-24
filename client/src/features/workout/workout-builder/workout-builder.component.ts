@@ -5,7 +5,6 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { toFormData } from '../../../shared/utils/formTransformer';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
-import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { ContributorService } from '../../../entities/contributors/services/contributor.service';
 import { Router } from '@angular/router';

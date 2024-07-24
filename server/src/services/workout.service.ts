@@ -28,7 +28,7 @@ export const createWorkoutSession = async (
   const workoutSessionId = (
     await db(TABLE.WORKOUT_SESSION).insert({
       contributor_id: contributorId,
-      related_user_id: data?.relatedStudent || null,
+      related_user_id: data?.relatedStudent == "null" || data?.relatedStudent == null ? null : data?.relatedStudent,
       name: data?.title,
       description: data?.description,
       image_uri: file.filename,

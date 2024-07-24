@@ -98,10 +98,11 @@ export class WorkoutBuilderComponent implements OnInit {
 
     const requestBody = {
       ...this.createWorkoutForm.value,
-      tag_ids: this.transformFormTags()
+      tags: this.transformFormTags()
     }
+    console.log(requestBody)
 
-    this.workoutService.createWorkout(toFormData(this.createWorkoutForm.value)).subscribe({
+    this.workoutService.createWorkout(toFormData(requestBody)).subscribe({
       next: (res) => {
         this.isLoading = false;
         this.hasCreateWorkoutErr = false;
@@ -110,7 +111,7 @@ export class WorkoutBuilderComponent implements OnInit {
       error: (err) => {
         this.isLoading = false;
         this.hasCreateWorkoutErr = true;
-        this.createWorkoutErr = err.message;
+        this.createWorkoutErr = err.error.data.message;
         console.log("Create workout err", err);
       }
     })
@@ -237,10 +238,11 @@ export class WorkoutBuilderComponent implements OnInit {
 
   private transformFormTags() {
     const tags = this.createWorkoutForm.get('tags') as FormControl;
-    tags.setValue(tags.value.map((el: any) => el.uid).join(","))
-    /* let tagsArr: Array<number | undefined> = [];
+    /* const tagsArr: Array<any> = tags.value || []
+    tags.setValue(tagsArr.map((el: any) => el.uid).join(",")) */
+    let tagsArr: Array<number | undefined> = [];
     tags.value.forEach((tag: Tag) => tagsArr.push(tag.uid));
-    return tagsArr.join(","); */
+    return tagsArr.join(",");
   }
 
   private fetchExercises() {

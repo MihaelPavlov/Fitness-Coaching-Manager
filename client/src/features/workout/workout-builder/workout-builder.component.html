@@ -175,7 +175,7 @@
             <input
               [type]="InputType.Checkbox"
               (change)="onPrivateChange($event)"
-              
+
             />
           </div>
           <span class="description">(publicly visible)</span>
@@ -257,6 +257,7 @@
         Create
       </button>
     </div>
+    <p *ngIf="hasCreateWorkoutErr">{{ createWorkoutErr }}</p>
   </div>
 </ng-template>
 

@@ -208,6 +208,7 @@ export class WorkoutBuilderComponent implements OnInit {
 
   public onActiveChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
+    this.isPrivate = false;
     this.changeCheckBoxStatuses(!checkbox.checked);
   }
 

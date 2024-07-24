@@ -163,7 +163,7 @@
             <input
               [type]="InputType.Checkbox"
               (change)="onActiveChange($event)"
-
+              [checked]="!isPrivate"
             />
           </div>
           <span class="description">(publicly visible)</span>
@@ -176,7 +176,7 @@
             <input
               [type]="InputType.Checkbox"
               (change)="onPrivateChange($event)"
-
+              [checked]="isPrivate"
             />
           </div>
           <span class="description">(publicly visible)</span>

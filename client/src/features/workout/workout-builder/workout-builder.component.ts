@@ -239,8 +239,6 @@ export class WorkoutBuilderComponent implements OnInit {
 
   private transformFormTags() {
     const tags = this.createWorkoutForm.get('tags') as FormControl;
-    /* const tagsArr: Array<any> = tags.value || []
-    tags.setValue(tagsArr.map((el: any) => el.uid).join(",")) */
     let tagsArr: Array<number | undefined> = [];
     tags.value.forEach((tag: Tag) => tagsArr.push(tag.uid));
     return tagsArr.join(",");

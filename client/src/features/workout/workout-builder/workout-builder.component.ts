@@ -35,7 +35,6 @@ export class WorkoutBuilderComponent implements OnInit {
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
     itemsShowLimit: 10,
-    //allowSearchFilter: true
   };
 
   public tags: any;

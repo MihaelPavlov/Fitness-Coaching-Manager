@@ -236,6 +236,11 @@ export class WorkoutBuilderComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
     this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked ? 1 : 0);
+    if (this.hasTiming) {
+      this.addExerciseForm.get('repetitions')?.setValue(0);
+    } else {
+      this.addExerciseForm.get('duration')?.setValue(0);
+    }
   }
 
   private transformFormTags(): string {

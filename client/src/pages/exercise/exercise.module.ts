@@ -7,6 +7,10 @@ import { ExerciseCardModule } from '../../widgets/exercise-card/exercise-card.mo
 import { ExerciseDetailsComponent } from '../../features/exercise/exercise-details/exercise-details.component';
 import { TagModule } from '../../widgets/tag/tag.module';
 import { ExerciseBuidlerComponent } from '../../features/exercise/exercise-builder/exercise-builder.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { LoaderModule } from '../../shared/components/loader/loader.module';
+import { ErrorModule } from '../../shared/components/error/error.module';
+import { MultiSelectComponent, NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
   declarations: [ExerciseLibraryComponent,ExerciseBuidlerComponent,ExerciseDetailsComponent],
@@ -16,6 +20,10 @@ import { ExerciseBuidlerComponent } from '../../features/exercise/exercise-build
     SearchModule,
     ExerciseCardModule,
     TagModule,
+    ReactiveFormsModule,
+    LoaderModule,
+    ErrorModule,
+    NgMultiSelectDropDownModule
   ],
   exports: [ExerciseLibraryComponent],
 })

@@ -69,6 +69,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="title"
         />
+        <ng-container *ngIf="createWorkoutForm.get('title')?.touched">
+          <p *ngIf="createWorkoutForm.get('title')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
@@ -82,6 +85,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="description"
         />
+        <ng-container *ngIf="createWorkoutForm.get('description')?.touched">
+          <p *ngIf="createWorkoutForm.get('description')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
@@ -123,6 +129,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="numberOfSets"
         />
+        <ng-container *ngIf="createWorkoutForm.get('numberOfSets')?.touched">
+          <p *ngIf="createWorkoutForm.get('numberOfSets')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
@@ -136,6 +145,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="pauseBetweenSets"
         />
+        <ng-container *ngIf="createWorkoutForm.get('pauseBetweenSets')?.touched">
+          <p *ngIf="createWorkoutForm.get('pauseBetweenSets')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
@@ -151,6 +163,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="pauseBetweenExercises"
         />
+        <ng-container *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.touched">
+          <p *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field d-flex align-items-end"
@@ -200,6 +215,9 @@
           [value]="subscriber.uid"
           >{{subscriber.userName}}</option>
         </select>
+        <ng-container *ngIf="createWorkoutForm.get('relatedStudent')?.touched">
+          <p *ngIf="createWorkoutForm.get('relatedStudent')?.errors">Invalid field</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -316,6 +334,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="duration"
         />
+        <ng-container *ngIf="addExerciseForm.get('duration')?.touched">
+          <p *ngIf="addExerciseForm.get('duration')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div *ngIf="!hasTiming" class="control__wrapper mb-3">
         <label class="control__label required">Repetitions</label>
@@ -327,6 +348,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="repetitions"
         />
+        <ng-container *ngIf="addExerciseForm.get('repetitions')?.touched">
+          <p *ngIf="addExerciseForm.get('repetitions')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div class="control__wrapper mb-4">
         <label for="password" class="control__label required">Description</label>
@@ -338,6 +362,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="description"
         />
+        <ng-container *ngIf="addExerciseForm.get('description')?.touched">
+          <p *ngIf="addExerciseForm.get('description')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <button
         class="btn btn-medium text-center landing-page-container__buttons-container__button"

@@ -200,6 +200,11 @@ export class WorkoutBuilderComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = checkbox.checked;
     this.changeCheckBoxStatuses(this.isPrivate);
+    if (this.isPrivate) {
+      this.createWorkoutForm.get('relatedStudent')?.setValidators([Validators.required]);
+    } else {
+      this.createWorkoutForm.get('relatedStudent')?.removeValidators([Validators.required]);
+    }
   }
 
   public onActiveChange(event: Event): void {

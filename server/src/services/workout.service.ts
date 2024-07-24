@@ -21,7 +21,7 @@ export const createWorkoutSession = async (
   file?: Express.Multer.File
 ) => {
   console.log("exercises", data.exercises);
-  if (data?.private && !data?.relatedStudent) {
+  if (data?.private == 1 && (data?.relatedStudent == "null" || data?.relatedStudent == null)) {
     throw new Error("You must provide related student for private workouts");
   }
 

@@ -303,3 +303,10 @@
   padding-left: 0.4rem;
   color: palette.$main-blue-darker-color;
 }
+
+.error-txt {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  color: palette.$main-form-error-message;
+}

@@ -13,6 +13,7 @@ import { WorkoutBuilderComponent } from '../../features/workout/workout-builder/
 import { WorkoutEditCardModule } from '../../widgets/workout-edit-card/workout-edit-card.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { LoaderModule } from '../../shared/components/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     ExerciseSetCardModule,
     CircleModule,
     WorkoutEditCardModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    LoaderModule
   ],
   exports: [WorkoutComponent],
 })

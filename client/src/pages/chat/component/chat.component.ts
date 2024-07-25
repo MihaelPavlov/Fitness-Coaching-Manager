@@ -1,11 +1,11 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit,OnDestroy {
   public inChat: boolean = false;
   public isMobile: boolean = false;
 
@@ -20,6 +20,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkScreenSize();
+    document.querySelector('.main-page')?.classList.add('chat-active');
   }
 
   private checkScreenSize(): void {
@@ -36,5 +37,9 @@ export class ChatComponent implements OnInit {
     if (this.isMobile) {
       this.inChat = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    document.querySelector('.main-page')?.classList.remove('chat-active');
   }
 }

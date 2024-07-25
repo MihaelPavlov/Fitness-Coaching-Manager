@@ -38,8 +38,10 @@ export class WorkoutSessionComponent implements OnInit {
   }
 
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
-    console.log("begin workout!")
-    console.log(exercises);
+    console.log("begin workout!");
+    for (let exercise of exercises) {
+      console.log(exercise);
+    }
   }
 
   private fetchWorkoutSession(workoutId: any) {

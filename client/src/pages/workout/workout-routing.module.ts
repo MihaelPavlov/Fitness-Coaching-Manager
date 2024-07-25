@@ -15,7 +15,7 @@ const routes: Routes = [
     component: WorkoutDetailsComponent,
   },
   {
-    path: 'session',
+    path: 'session/:workoutId',
     component: WorkoutSessionComponent,
   },
   {

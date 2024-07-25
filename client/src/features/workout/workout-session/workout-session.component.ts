@@ -26,12 +26,11 @@ export class WorkoutSessionComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.fetchWorkoutInfo(params['workoutId']);
-      this.fetchExercises(params['workoutId']);
+      this.fetchWorkoutSession(params['workoutId']);
     });
   }
 
-  private fetchWorkoutInfo(workoutId: any) {
+  private fetchWorkoutSession(workoutId: any) {
     const queryParams: IQueryParams = {
       what: {
         title: 1,
@@ -53,11 +52,12 @@ export class WorkoutSessionComponent implements OnInit {
 
     this.workoutService.getWorkouts(queryParams).subscribe({
       next: (res) => {
-        console.log("workout", res?.data.at(0));
         this.workoutName = res?.data.at(0)?.title;
         this.numberOfSets = res?.data.at(0)?.numberOfSets;
         this.pauseBetweenExercises = res?.data.at(0)?.pauseBetweenExercises;
         this.pauseBetweenSets = res?.data.at(0)?.pauseBetweenSets;
+        // Fetch exercises here - easier for mapping
+        this.fetchExercises(workoutId);
       },
       error: (err) => {
         console.log("Fetch workout error -", err);

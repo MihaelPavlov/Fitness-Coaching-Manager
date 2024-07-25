@@ -2,7 +2,7 @@ import { EXCEPTION } from "../constants/exceptions.constants";
 import { formatString } from "../helpers/string-format.helper";
 import { ValidationChain, checkSchema } from "express-validator";
 
-export const createExerciseValidators: ValidationChain[] = checkSchema({
+export const exerciseValidators: ValidationChain[] = checkSchema({
   title: {
     in: ["body"],
     exists: {

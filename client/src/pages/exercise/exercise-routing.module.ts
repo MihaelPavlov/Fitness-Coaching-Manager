@@ -10,14 +10,17 @@ const routes: Routes = [
     component: ExerciseLibraryComponent
   },
   {
-    path: 'details/1',
+    path: 'details/:exerciseId',
     component: ExerciseDetailsComponent
   },
    {
     path: 'create',
     component: ExerciseBuidlerComponent
   },
-
+  {
+    path:'edit/:exerciseId',
+    component: ExerciseBuidlerComponent
+  }
 ];
 
 @NgModule({

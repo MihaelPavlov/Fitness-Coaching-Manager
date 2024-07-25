@@ -2,7 +2,7 @@ import express from "express";
 import * as exerciseService from "./../services/exercise.service";
 import { isAuth, isCoach } from "./../middlewares/auth.middleware";
 import { inputValidationMiddleware } from "../middlewares/validation.middleware";
-import { createExerciseValidators } from "../validators/exercise.validator";
+import { exerciseValidators } from "../validators/exercise.validator";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
 
@@ -12,7 +12,7 @@ router.post(
   PATH.EXERCISES.CREATE,
   isAuth,
   isCoach,
-  inputValidationMiddleware(createExerciseValidators),
+  inputValidationMiddleware(exerciseValidators),
   async (
     req: any,
     res: express.Response,
@@ -108,4 +108,48 @@ router.post(
   }
 );
 
+router.post(
+  PATH.EXERCISES.GET_DETAILS,
+  async (req: any, res: express.Response) => {
+    try {
+      const exerciseDetails = await exerciseService.getExercise(req.body);
+
+      res.status(201).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: exerciseDetails,
+      });
+    } catch (error) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        message: error.message,
+      });
+    }
+  }
+);
+
+router.put(
+  PATH.EXERCISES.UPDATE,
+  isAuth,
+  isCoach,
+  inputValidationMiddleware(exerciseValidators),
+  async (req: any, res: express.Response) => {
+    try {
+      await exerciseService.updateExercise(req.params.exerciseId,req.body,req.user.id);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          message: "Successfully updated exercise!"
+        }
+      });
+    } catch (err) {
+      return res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message,
+        },
+      });
+    }
+  }
+)
 export default router;

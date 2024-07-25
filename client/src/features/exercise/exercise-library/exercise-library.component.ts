@@ -32,7 +32,6 @@ export class ExerciseLibraryComponent implements OnInit {
     this.exerciseService
       .getList(queryParamsGetList)
       .subscribe((exercises: IRequestResult<IExercise[]> | null) => {
-        console.log(exercises?.data);
         this.exercises = exercises?.data ?? [];
       });
 
@@ -46,7 +45,6 @@ export class ExerciseLibraryComponent implements OnInit {
     this.exerciseService
       .getTagList(queryParamsGetTagList)
       .subscribe((tags: IRequestResult<IExerciseTag[]> | null) => {
-        console.log(tags?.data);
         this.tags = tags?.data ?? [];
       });
   }

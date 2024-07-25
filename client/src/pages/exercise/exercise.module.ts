@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
 import { ErrorModule } from '../../shared/components/error/error.module';
 import { MultiSelectComponent, NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [ExerciseLibraryComponent,ExerciseBuidlerComponent,ExerciseDetailsComponent],
@@ -23,7 +24,8 @@ import { MultiSelectComponent, NgMultiSelectDropDownModule } from 'ng-multiselec
     ReactiveFormsModule,
     LoaderModule,
     ErrorModule,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    RouterModule
   ],
   exports: [ExerciseLibraryComponent],
 })

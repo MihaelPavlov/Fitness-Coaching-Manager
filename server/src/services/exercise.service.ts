@@ -51,8 +51,63 @@ export const addExercise = async (contributorId: number, exerciseData: any) => {
   return createdExerciseID;
 };
 
+export const updateExercise = async (exerciseId: number, exerciseData: any, userId:any) => {
+
+  if(!(await isExerciseOwner(exerciseId,userId))){
+    throw new Error('You are unauthorized!');
+  }
+
+  const equipmentIds = exerciseData.equipmentIds
+    ? exerciseData.equipmentIds.split(",")
+    : [];
+  const tagIds = exerciseData.tagIds ? exerciseData.tagIds.split(",") : [];
+
+  if (equipmentIds.length > 0) {
+    const equipmentCount = await db(TABLE.EXERCISE_EQUIPMENTS)
+      .whereIn("id", equipmentIds)
+      .count("* as count")
+      .first();
+    if (equipmentCount.count !== equipmentIds.length)
+      throw new BadRequestException();
+  }
+
+  if (tagIds.length > 0) {
+    const tagCount = await db(TABLE.EXERCISE_TAGS)
+      .whereIn("id", tagIds)
+      .count("* as count")
+      .first();
+    if (tagCount.count !== tagIds.length) throw new BadRequestException();
+  }
+
+  const currentDate = new Date().toISOString().split("T")[0];
+
+  const createdExerciseID = (
+    await db(TABLE.EXERCISES).where("id", "=", exerciseId).update({
+      title: exerciseData.title,
+      thumb_uri: exerciseData.thumbUri,
+      difficulty: exerciseData.difficulty,
+      equipment_ids: exerciseData.equipmentIds,
+      description: exerciseData.description,
+      tag_ids: exerciseData.tagIds,
+      date_modified: currentDate,
+    })
+  );
+
+  return createdExerciseID;
+};
+
 export const getTags = async (tagData: any) =>
   await new ExerciseTagBuilder(tagData).buildQuery();
 
 export const getEquipments = async (equipmentData: any) =>
   await new ExerciseEquipmentBuilder(equipmentData).buildQuery();
+
+export const getExercise = async (exerciseData: any) =>
+  await new ExerciseBuilder(exerciseData).buildQuery();
+
+
+const isExerciseOwner = async(exerciseId:any,userId:any):Promise<boolean> => {
+    const exercise = (await db(TABLE.EXERCISES).select('*').where('id','=',exerciseId)).at(0);
+    if(exercise.contributor_id == userId) return true;
+    return false
+};

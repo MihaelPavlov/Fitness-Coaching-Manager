@@ -55,6 +55,10 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.CREATE, exercise);
   }
 
+  public updateUser(exerciseId: Record<string, any>): Observable<any> {
+    return this.api.put(PATH.EXERCISES.UPDATE,exerciseId);
+  }
+
   private buildPayload(queryParams: IQueryParams, fields: any): any {
     const payload: any = {};
     if (queryParams.limit !== null) {
@@ -65,6 +69,9 @@ export class ExerciseService {
     }
     if (queryParams.id !== null) {
       payload.id = queryParams.id;
+    }
+    if (queryParams.condition !== null) {
+      payload.condition = queryParams.condition;
     }
     payload.what = {};
     for (const key in queryParams.what) {

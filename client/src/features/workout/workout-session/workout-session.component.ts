@@ -5,7 +5,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { ISessionExercise, ISessionPracticalExercise } from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, delay, interval, timer } from 'rxjs';
 
 @Component({
   selector: 'app-workout-session',
@@ -19,6 +19,14 @@ export class WorkoutSessionComponent implements OnInit {
   public pauseBetweenExercises?: number;
   public sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
   public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
+  public totalWorkoutTime: number = 0;
+  public totalTimeInterval: any;
+
+  public get totalTime(): string {
+    const minutes = Math.floor(this.totalWorkoutTime / 60);
+    const seconds = this.totalWorkoutTime % 60;
+    return `${minutes}:${seconds < 10 ? `0${seconds}`: seconds}`;
+  }
 
   // Current Exercise Variables
   public currentExerciseName?: string;
@@ -50,6 +58,7 @@ export class WorkoutSessionComponent implements OnInit {
 
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
     console.log("begin workout!");
+    this.startGlobalTimeCounter();
     for (let exercise of exercises) {
       if (exercise.repetitions) {
         // Do logic for repetitions exercises
@@ -57,6 +66,18 @@ export class WorkoutSessionComponent implements OnInit {
         // Do logic for duration exercises
       }
     }
+  }
+
+  private startGlobalTimeCounter(): void {
+    this.totalTimeInterval = interval(1000).subscribe(
+      () => {
+        this.totalWorkoutTime = this.totalWorkoutTime + 1;
+      }
+    )
+  }
+
+  private endGlobalTimeCounter(): void {
+    this.totalTimeInterval.unsubscribe();
   }
 
   private fetchWorkoutSession(workoutId: any) {

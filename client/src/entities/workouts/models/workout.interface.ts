@@ -5,6 +5,8 @@ export interface IWorkout {
   rating: number,
   imageUri: string,
   numberOfSets?: number,
+  pauseBetweenExercises?: number;
+  pauseBetweenSets?: number
 }
 
 interface ITagInterface {

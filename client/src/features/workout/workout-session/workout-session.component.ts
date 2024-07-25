@@ -56,6 +56,8 @@ export class WorkoutSessionComponent implements OnInit {
         console.log("workout", res?.data.at(0));
         this.workoutName = res?.data.at(0)?.title;
         this.numberOfSets = res?.data.at(0)?.numberOfSets;
+        this.pauseBetweenExercises = res?.data.at(0)?.pauseBetweenExercises;
+        this.pauseBetweenSets = res?.data.at(0)?.pauseBetweenSets;
       },
       error: (err) => {
         console.log("Fetch workout error -", err);

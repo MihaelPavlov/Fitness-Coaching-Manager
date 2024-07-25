@@ -200,11 +200,6 @@ export class WorkoutBuilderComponent implements OnInit {
     const checkbox = event.target as HTMLInputElement;
     this.isPrivate = checkbox.checked;
     this.changeCheckBoxStatuses(this.isPrivate);
-    if (this.isPrivate) {
-      this.createWorkoutForm.get('relatedStudent')?.setValidators([Validators.required]);
-    } else {
-      this.createWorkoutForm.get('relatedStudent')?.removeValidators([Validators.required]);
-    }
   }
 
   public onActiveChange(event: Event): void {
@@ -327,9 +322,13 @@ export class WorkoutBuilderComponent implements OnInit {
     if (isPrivate) {
       isPrivateSelected.setValue(1);
       isActiveSelected.setValue(0);
+      this.createWorkoutForm.get('relatedStudent')?.setValidators([Validators.required]);
+      this.createWorkoutForm.get('relatedStudent')?.updateValueAndValidity();
     } else {
       isPrivateSelected.setValue(0);
       isActiveSelected.setValue(1);
+      this.createWorkoutForm.get('relatedStudent')?.removeValidators([Validators.required]);
+      this.createWorkoutForm.get('relatedStudent')?.updateValueAndValidity();
     }
   }
 }

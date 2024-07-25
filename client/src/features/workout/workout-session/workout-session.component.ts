@@ -20,6 +20,16 @@ export class WorkoutSessionComponent implements OnInit {
   public sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
   public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
 
+  // Current Exercise Variables
+  public currentExerciseName?: string;
+  public currentExerciseDescription?: string;
+  public currentExerciseCurrentSet?: number;
+  public currentExerciseRepetitions?: number;
+  public currentExerciseDuration?: number;
+  public hasTiming?: boolean;
+  public isRestTime?: boolean;
+  public isWorkTime?: boolean;
+
   constructor(
     private readonly sessionService: SessionService,
     private readonly workoutService: WorkoutService,
@@ -31,6 +41,7 @@ export class WorkoutSessionComponent implements OnInit {
       this.fetchWorkoutSession(params['workoutId']);
     });
     this.sessionExercises$.subscribe((exercises) => {
+      // Start workout when everything is fetched and ready
       if (exercises.length > 0) {
         this.beginWorkout(exercises);
       }

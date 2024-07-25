@@ -10,7 +10,7 @@ img {
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  height: 94vh;
+  height: 93vh;
   @include mixins.respond(Phone) {
     height: 86vh;
   }

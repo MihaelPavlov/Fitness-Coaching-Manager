@@ -40,7 +40,11 @@ export class WorkoutSessionComponent implements OnInit {
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
     console.log("begin workout!");
     for (let exercise of exercises) {
-      console.log(exercise);
+      if (exercise.repetitions) {
+        // Do logic for repetitions exercises
+      } else {
+        // Do logic for duration exercises
+      }
     }
   }
 

@@ -1,9 +1,10 @@
-export interface IWorkoutCardsFields {
+export interface IWorkout {
   title: string,
   owner: WorkoutOwner,
   tags: Array<ITagInterface>,
   rating: number,
-  imageUri: string
+  imageUri: string,
+  numberOfSets?: number,
 }
 
 interface ITagInterface {

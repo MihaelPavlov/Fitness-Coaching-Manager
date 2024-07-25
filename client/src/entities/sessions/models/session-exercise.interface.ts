@@ -8,3 +8,13 @@ export interface ISessionExercise {
   title: string;
   thumbUri: string;
 }
+
+export interface ISessionPracticalExercise {
+  sets?: number;
+  rest?: number;
+  description?: string;
+  title?: string;
+  thumbUri?: string;
+  duration?: number;
+  repetitions?: number;
+}

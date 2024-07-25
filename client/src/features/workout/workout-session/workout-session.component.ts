@@ -3,7 +3,7 @@ import { SessionService } from '../../../entities/sessions/services/session.serv
 import { ActivatedRoute } from '@angular/router';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
-import { ISessionExercise } from '../../../entities/sessions/models/session-exercise.interface';
+import { ISessionExercise, ISessionPracticalExercise } from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 
 @Component({
@@ -89,7 +89,8 @@ export class WorkoutSessionComponent implements OnInit {
 
     this.sessionService.getSessionExercises(queryParams).subscribe({
       next: (res: IRequestResult<ISessionExercise[]> | null) => {
-        console.log(res?.data);
+        const exercises = res?.data;
+        console.log("mapped -", this.mapExercisesArray(exercises));
       },
       error: (err) => {
         console.log("fetch exercises error - ", err);
@@ -97,7 +98,22 @@ export class WorkoutSessionComponent implements OnInit {
     })
   }
 
-  private mapExercisesArray(exercises: ISessionExercise[]): any {
+  private mapExercisesArray(exercises: ISessionExercise[] | undefined): ISessionPracticalExercise[] | undefined {
+    const practicalExercises = exercises?.map((exercise) => {
+      const practicalExercise: ISessionPracticalExercise = {};
+      practicalExercise["sets"] = this.numberOfSets;
+      practicalExercise["rest"] = this.pauseBetweenSets;
+      practicalExercise["description"] = exercise.description;
+      practicalExercise["title"] = exercise.title;
+      practicalExercise["thumbUri"] = exercise.thumbUri;
+      if (exercise.hasTiming === 1) {
+        practicalExercise["duration"] = exercise.duration;
+      } else {
+        practicalExercise["repetitions"] = exercise.repetitions;
+      }
+      return practicalExercise;
+    });
 
+    return practicalExercises;
   }
 }

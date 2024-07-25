@@ -5,6 +5,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { ISessionExercise, ISessionPracticalExercise } from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-workout-session',
@@ -16,7 +17,8 @@ export class WorkoutSessionComponent implements OnInit {
   public numberOfSets?: number;
   public pauseBetweenSets?: number;
   public pauseBetweenExercises?: number;
-  public sessionExercises?: ISessionPracticalExercise[];
+  private sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
+  public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
 
   constructor(
     private readonly sessionService: SessionService,
@@ -28,6 +30,16 @@ export class WorkoutSessionComponent implements OnInit {
     this.route.params.subscribe((params) => {
       this.fetchWorkoutSession(params['workoutId']);
     });
+    this.sessionExercises$.subscribe((exercises) => {
+      if (exercises.length > 0) {
+        this.beginWorkout(exercises);
+      }
+    })
+  }
+
+  public beginWorkout(exercises: ISessionPracticalExercise[]) {
+    console.log("begin workout!")
+    console.log(exercises);
   }
 
   private fetchWorkoutSession(workoutId: any) {
@@ -90,7 +102,7 @@ export class WorkoutSessionComponent implements OnInit {
     this.sessionService.getSessionExercises(queryParams).subscribe({
       next: (res: IRequestResult<ISessionExercise[]> | null) => {
         const exercises = res?.data;
-        console.log("mapped -", this.mapExercisesArray(exercises));
+        this.sessionExercisesSubject$.next(this.mapExercisesArray(exercises))
       },
       error: (err) => {
         console.log("fetch exercises error - ", err);
@@ -98,7 +110,7 @@ export class WorkoutSessionComponent implements OnInit {
     })
   }
 
-  private mapExercisesArray(exercises: ISessionExercise[] | undefined): ISessionPracticalExercise[] | undefined {
+  private mapExercisesArray(exercises: ISessionExercise[] | undefined): ISessionPracticalExercise[] {
     const practicalExercises = exercises?.map((exercise) => {
       const practicalExercise: ISessionPracticalExercise = {};
       practicalExercise["sets"] = this.numberOfSets;
@@ -114,6 +126,6 @@ export class WorkoutSessionComponent implements OnInit {
       return practicalExercise;
     });
 
-    return practicalExercises;
+    return practicalExercises || [];
   }
 }

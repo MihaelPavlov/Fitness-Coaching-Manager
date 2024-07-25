@@ -17,7 +17,7 @@ export class WorkoutSessionComponent implements OnInit {
   public numberOfSets?: number;
   public pauseBetweenSets?: number;
   public pauseBetweenExercises?: number;
-  private sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
+  public sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
   public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
 
   constructor(

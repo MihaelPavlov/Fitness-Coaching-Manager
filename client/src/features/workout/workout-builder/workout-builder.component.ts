@@ -129,6 +129,17 @@ export class WorkoutBuilderComponent implements OnInit {
     ]);
     // Hide form
     this.showExerciseFormPopup = false;
+    // Clear form
+    this.addExerciseForm.setValue({
+      repetitions: 0,
+      duration: 0,
+      description: "",
+      exerciseId: this.addExerciseForm.get('exerciseId')?.value || null,
+      hasTiming: 0,
+      title: this.addExerciseForm.get('title')?.value || null,
+      rank: 0,
+      thumbUri: this.addExerciseForm.get('thumbUri')?.value || null
+    });
   }
 
   public onImageUpload(event: Event): void {

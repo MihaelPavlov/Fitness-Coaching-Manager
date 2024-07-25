@@ -16,7 +16,7 @@ export class WorkoutSessionComponent implements OnInit {
   public numberOfSets?: number;
   public pauseBetweenSets?: number;
   public pauseBetweenExercises?: number;
-  public sessionExercises?: Array<any>;
+  public sessionExercises?: ISessionPracticalExercise[];
 
   constructor(
     private readonly sessionService: SessionService,

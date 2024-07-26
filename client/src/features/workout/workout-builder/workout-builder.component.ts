@@ -334,12 +334,12 @@ export class WorkoutBuilderComponent implements OnInit {
       isPrivateSelected.setValue(1);
       isActiveSelected.setValue(0);
       this.createWorkoutForm.get('relatedStudent')?.setValidators([Validators.required]);
-      this.createWorkoutForm.get('relatedStudent')?.setValue(null);
       this.createWorkoutForm.get('relatedStudent')?.updateValueAndValidity();
     } else {
       isPrivateSelected.setValue(0);
       isActiveSelected.setValue(1);
       this.createWorkoutForm.get('relatedStudent')?.removeValidators([Validators.required]);
+      this.createWorkoutForm.get('relatedStudent')?.setValue(null);
       this.createWorkoutForm.get('relatedStudent')?.updateValueAndValidity();
     }
   }

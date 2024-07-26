@@ -59,13 +59,7 @@ export class WorkoutSessionComponent implements OnInit {
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
     console.log("begin workout!");
     this.startGlobalTimeCounter();
-    for (let exercise of exercises) {
-      if (exercise.repetitions) {
-        // Do logic for repetitions exercises
-      } else {
-        // Do logic for duration exercises
-      }
-    }
+    // Do logic here
   }
 
   private startGlobalTimeCounter(): void {

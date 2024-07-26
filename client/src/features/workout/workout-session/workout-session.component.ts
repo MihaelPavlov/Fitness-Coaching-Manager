@@ -5,7 +5,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { ISessionExercise, ISessionPracticalExercise } from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
-import { BehaviorSubject, delay, interval, timer } from 'rxjs';
+import { BehaviorSubject, interval } from 'rxjs';
 
 @Component({
   selector: 'app-workout-session',

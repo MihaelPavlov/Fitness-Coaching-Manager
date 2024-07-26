@@ -1,5 +1,10 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared/styles/mixins";
+@use "../../../shared/styles/multiselect";
+
+.exercise-container {
+  height: 50rem;
+}
 
 .exercise-form {
   background-color: palette.$main-font-white-color;
@@ -72,3 +77,4 @@
     }
   }
 }
+

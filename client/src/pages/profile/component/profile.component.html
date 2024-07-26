@@ -5,8 +5,9 @@
 
   <div class="profile-container__img-container pt-4">
     <img class="profile-container__img-container-img"
-      src="{{user?.profilePicture}}"
+      src="http://localhost:3000/files/1721339425087-12.png"
       alt="Img" />
+    <!-- C:/uploads/AthleansApp/Documents/1721342119935-12.png {{user?.profilePicture}} -->
     <span *ngIf="profileState === 'private'"><i
         class="profile-container__img-container-icon-private material-icons">photo_camera</i></span>
     <span *ngIf="profileState === 'public'"
@@ -56,7 +57,7 @@
 </div>
 
 <ng-template #public>
-  <app-profile-card-list [workouts]="workouts"></app-profile-card-list>
+  <app-profile-card-list [workouts]="workouts" [isUser]="!profileContributorId"></app-profile-card-list>
 </ng-template>
 
 <ng-template #private>
@@ -65,10 +66,10 @@
 
 <ng-template #subscribeBtn>
   <div class="profile-container__public-btn">
-    <button *ngIf="!isSubscribed" class="btn w-auto sub-btn" (click)="onSubscribe()">
+    <button *ngIf="!isSubscribed && visitorRole !== 1" class="btn w-auto sub-btn" (click)="onSubscribe()">
       Subscribe
     </button>
-    <button *ngIf="isAuth && isSubscribed" class="btn w-auto sub-btn" (click)="onUnsubscribe()">
+    <button *ngIf="isAuth && isSubscribed && visitorRole !== 1" class="btn w-auto sub-btn" (click)="onUnsubscribe()">
       Unsubscribe
     </button>
   </div>

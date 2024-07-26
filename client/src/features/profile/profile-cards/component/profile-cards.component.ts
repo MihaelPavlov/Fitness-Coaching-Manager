@@ -8,4 +8,5 @@ import { IWorkoutCardsFields } from '../../../../entities/workouts/models/workou
 })
 export class ProfileCardListComponent {
   @Input() workouts!: IWorkoutCardsFields[];
+  @Input() isUser!: boolean;
 }

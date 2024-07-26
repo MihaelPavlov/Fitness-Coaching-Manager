@@ -6,15 +6,16 @@ import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import {
   AbstractControl,
   FormBuilder,
+  FormControl,
   ValidationErrors,
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { UserService } from '../../../entities/users/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { GenderType } from '../../../shared/enums/gender-list.enum';
 import { FitnessLevels } from '../../../shared/enums/fitness-levels.enum';
 import { AuthService } from '../../../entities/users/services/auth.service';
+import { toFormData } from '../../../shared/utils/formTransformer';
 
 @Component({
   selector: 'app-register',
@@ -33,8 +34,8 @@ export class RegisterComponent implements OnInit {
   public showAdditionalDetails = false;
   public showProofOfRightsDetails = false;
   public showDropDownMenu = false;
-  public attachDocument = false;
-  public attachLink = false;
+  public attachedDocuments: Array<number> = [];
+  public attachedLinks: Array<number> = [];
 
   private userRole!: number;
 
@@ -62,6 +63,8 @@ export class RegisterComponent implements OnInit {
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required]],
+    files: [[]],
+    links: [[]],
   });
 
   constructor(
@@ -101,8 +104,36 @@ export class RegisterComponent implements OnInit {
     this.showDropDownMenu = !this.showDropDownMenu;
   }
 
+  public addAttachDocumentField(): void {
+    this.attachedDocuments.push(this.attachedDocuments[this.attachedDocuments.length-1] + 1 || 1);
+  }
+
+  public addAttachLinkField(): void {
+    this.attachedLinks.push(this.attachedLinks[this.attachedLinks.length-1] + 1 || 1);
+    const currentLinks = this.registerForm.get('links') as FormControl;
+    const currentLinksArr = currentLinks.value.slice();
+    currentLinksArr.push("");
+    currentLinks.setValue(currentLinksArr);
+  }
+
   public isDisabled(): boolean {
     return this.registerForm.invalid;
+  }
+
+  public onDocumentUpload(event: Event) {
+    const file = (event?.target as HTMLInputElement).files?.item(0);
+    const selectedFiles = this.registerForm.get('files') as FormControl;
+    selectedFiles?.setValue([...selectedFiles.value, file]);
+  }
+
+  public onLinkChange(event: Event, index: number) {
+    const currentLinks = this.registerForm.get('links') as FormControl;
+    let currentLinksArr: Array<string> = currentLinks.value.slice();
+    currentLinksArr = currentLinksArr.map((el, i) => {
+      if (i === index) return (event.target as HTMLInputElement).value
+      return el;
+    })
+    currentLinks.setValue(currentLinksArr);
   }
 
   public register(): void {
@@ -124,8 +155,9 @@ export class RegisterComponent implements OnInit {
     };
 
     delete requestBody['passGroup'];
+    console.log(requestBody);
 
-    this.authService.register(requestBody).subscribe({
+    this.authService.register(toFormData(requestBody)).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasRegisterError = false;
@@ -133,7 +165,7 @@ export class RegisterComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.registerErrorMsg = err.error.data.error;
+        this.registerErrorMsg = err.error.data.message;
         this.hasRegisterError = true;
       },
     });

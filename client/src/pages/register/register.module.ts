@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { ErrorModule } from '../../shared/components/error/error.module';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
 
+
 @NgModule({
   declarations: [RegisterComponent],
   imports: [

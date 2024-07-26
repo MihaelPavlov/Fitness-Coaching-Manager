@@ -6,6 +6,9 @@ import { PATH } from "../constants/path.constants";
 import { inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
 import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
+import { getContributorId } from "./../services/contributor.service";
+import upload from "./../config/file-upload.config";
+import { registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
@@ -13,23 +16,32 @@ router.get(
   PATH.USERS.GET_USER_INFO,
   isAuth,
   async (req: any, res: express.Response) => {
-    const user = await userService.getUser({
-      what: {
-        userName: 1,
-      },
-      id: req.user.id,
-      limit: 20,
-      offset: 0,
-    });
-    const username = user[0].userName;
-    res.status(200).json({
-      status: RESPONSE_STATUS.SUCCESS,
-      data: {
+    try {
+      const user = await userService.getUser({
+        what: {
+          userName: 1,
+        },
         id: req.user.id,
-        username,
-        role: req.user.role,
-      },
-    });
+        limit: 20,
+        offset: 0,
+      });
+      const username = user[0].userName;
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {
+          id: req.user.id,
+          username,
+          role: req.user.role,
+        },
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          message: err.message
+        }
+      })
+    }
   }
 );
 
@@ -61,11 +73,13 @@ router.post(
 
 router.post(
   PATH.USERS.REGISTER,
+  upload.array('files'),
+  registrationFileValidationMiddleware,
   registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
     try {
       const [accessToken, refreshToken, session] =
-        await userService.registerUser(req.body);
+        await userService.registerUser(req.body, req.files);
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
@@ -79,7 +93,7 @@ router.post(
       return res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {
-          error: err.message,
+          message: err.message,
         },
       });
     }
@@ -187,11 +201,16 @@ router.post(
 )
 
 router.get(
-  PATH.USERS.HAS_SUBSCRIBED + "/:contributorId",
+  PATH.USERS.HAS_SUBSCRIBED + "/:id",
   isAuth,
   async (req: any, res: express.Response) => {
     try {
-      const hasSubscribed = await userService.hasUserSubscribed(req.user.id, req.params.contributorId);
+      let hasSubscribed;
+      if (req.user.role === UserRoles.Coach) {
+        hasSubscribed = await userService.hasUserSubscribed(req.params.id, await getContributorId(req.user.id));
+      } else {
+        hasSubscribed = await userService.hasUserSubscribed(req.user.id, await getContributorId(req.params.id));
+      }
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,

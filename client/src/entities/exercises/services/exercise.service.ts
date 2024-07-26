@@ -8,7 +8,6 @@ import { IRequestResult } from '../../models/request-result.interface';
 import { IExercise } from '../models/exercise.interface';
 import { IExerciseTag } from '../models/exercise-tag.interface';
 import { IExerciseEquipment } from '../models/exercise-equipment.interface';
-import { CreateExercise } from '../models/create-exercise.model';
 
 @Injectable({
   providedIn: 'root',
@@ -51,7 +50,7 @@ export class ExerciseService {
   }
 
   public create(
-    exercise: CreateExercise
+    exercise: Record<string, any>
   ): Observable<IRequestResult<number> | null> {
     return this.api.post(PATH.EXERCISES.CREATE, exercise);
   }

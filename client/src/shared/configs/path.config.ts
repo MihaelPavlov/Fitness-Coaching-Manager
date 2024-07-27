@@ -1,5 +1,6 @@
 export const PATH = {
   USERS: {
+    GET_LIST: "users/getList",
     LOGIN: "users/login",
     REGISTER: "users/register",
     UPDATE: "users/update",

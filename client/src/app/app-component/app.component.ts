@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, HostListener, OnDestroy } from '@angular/core';
 import { UserService } from '../../entities/users/services/user.service';
+import { SocketService } from '../../entities/chat/services/socket.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,16 @@ import { UserService } from '../../entities/users/services/user.service';
 export class AppComponent {
   title = 'client';
 
-  constructor(private readonly userService: UserService) {
+  constructor(
+    private readonly userService: UserService,
+    private readonly socketService: SocketService
+  ) {
     if (!this.userService.getUser) {
       this.userService.fetchUserInfo();
     }
+  }
+  @HostListener('window:onbeforeunload', ['$event'])
+  public cleanup(): void {
+    this.socketService.disconnect();
   }
 }

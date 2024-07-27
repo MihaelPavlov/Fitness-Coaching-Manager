@@ -1,6 +1,8 @@
 export interface IUserDetails {
-  firstName: string;
-  lastName: string;
+  uid: number;
+  firstName?: string;
+  lastName?: string;
+  userName: string;
   BMI: number;
   workoutCount: number;
   fitnessLevel?: string;
@@ -13,4 +15,3 @@ export interface IUserDetails {
   userRole: number;
   contributorId?: number;
 }
-

@@ -15,13 +15,20 @@ export const PATH = {
     UPDATE: "/update",
     SUBSCRIBE: "/subscribe",
     UNSUBSCRIBE: "/unsubscribe",
-    HAS_SUBSCRIBED: "/hasSubscribed"
+    HAS_SUBSCRIBED: "/hasSubscribed",
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: "/getSubscribers"
   },
   WORKOUTS: {
     CREATE_WORKOUT: "/add",
-    GET_TAG_LIST: "/getTagList"
-  }
+        GET_TAG_LIST: "/getTagList"
+  },
+  CHAT: {
+    CREATE: "/add",
+    GET_USER_CHATS: "/getUserChats",
+    GET_CHAT: "/getChat",
+    CREATE_MESSAGE: "/addMessage",
+    GET_MESSAGES: "/getMessages"
+  },
 };

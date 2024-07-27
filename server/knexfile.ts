@@ -22,7 +22,7 @@ const knexConfig: { [key: string]: Knex.Config } = {
     seeds: {
       directory: './seeds'
     },
-    debug: true // Enable debugging
+    debug: false // Enable debugging
   },
   production: {
     client: 'mysql',

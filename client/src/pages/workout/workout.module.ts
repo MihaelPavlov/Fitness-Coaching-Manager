@@ -11,6 +11,9 @@ import { WorkoutSessionComponent } from '../../features/workout/workout-session/
 import { CircleModule } from '../../widgets/circle/circle.module';
 import { WorkoutBuilderComponent } from '../../features/workout/workout-builder/workout-builder.component';
 import { WorkoutEditCardModule } from '../../widgets/workout-edit-card/workout-edit-card.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { LoaderModule } from '../../shared/components/loader/loader.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +25,15 @@ import { WorkoutEditCardModule } from '../../widgets/workout-edit-card/workout-e
   ],
   imports: [
     SharedModule,
+    ReactiveFormsModule,
     WorkoutRoutingModule,
     SearchModule,
     WorkoutCardModule,
     ExerciseSetCardModule,
     CircleModule,
     WorkoutEditCardModule,
+    NgMultiSelectDropDownModule,
+    LoaderModule
   ],
   exports: [WorkoutComponent],
 })

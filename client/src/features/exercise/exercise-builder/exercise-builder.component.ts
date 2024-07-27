@@ -12,16 +12,13 @@ import { IExerciseEquipment } from '../../../entities/exercises/models/exercise-
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
+import { Tag } from '../../../entities/models/tag.interface';
 
 interface Equipment extends ListItem {
   uid?: number;
   title?: string;
 }
 
-interface Tag extends ListItem {
-  uid?: number;
-  name?: string;
-}
 
 @Component({
   selector: 'app-exercise-builder',
@@ -121,7 +118,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     };
 
     console.log(submissionData);
-    
+
     this.exerciseService.create(submissionData).subscribe({
       next: () => {
         this.isLoading = false;

@@ -9,6 +9,9 @@ export const PATH = {
     UNSUBSCRIBE: "users/unsubscribe",
     HAS_SUBSCRIBED: "users/hasSubscribed"
   },
+  CONTRIBUTORS: {
+    GET_SUBSCRIBERS: "contributors/getSubscribers"
+  },
   EXERCISES: {
     GET_LIST: 'exercises/getList',
     GET_DETAILS: 'exercises/getDetail',
@@ -17,6 +20,8 @@ export const PATH = {
     GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
   },
   WORKOUTS: {
-    GET_WORKOUTS: "workouts/getWorkouts"
+    GET_WORKOUTS: "workouts/getWorkouts",
+    GET_TAG_LIST: "workouts/getTagList",
+    CREATE_WORKOUT: "workouts/add"
   }
 }

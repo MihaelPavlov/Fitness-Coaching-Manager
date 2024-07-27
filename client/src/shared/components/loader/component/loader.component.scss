@@ -1,9 +1,9 @@
 @use "../../../styles/palette";
 
 .loader-wrapper {
-  position: absolute;
+  position: fixed;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   max-height: inherit;
   z-index: 1000;
   background-color: rgba(0, 0, 0, 0.3);

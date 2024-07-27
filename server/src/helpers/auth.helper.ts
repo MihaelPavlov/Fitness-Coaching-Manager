@@ -49,12 +49,12 @@ export const createTokensAndSession = async (user: Record<string, any>) => {
     user,
     session.sessionId,
     ACCESS_TOKEN_SECRET_KEY,
-    "2m"
+    "20m"
   );
   const refreshToken = await generateRefreshToken(
     session.sessionId,
     REFRESH_TOKEN_SECRET_KEY,
-    "10m"
+    "40m"
   );
   return [accessToken, refreshToken, session];
 }

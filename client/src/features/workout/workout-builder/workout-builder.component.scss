@@ -181,6 +181,7 @@
 
 .expand {
   height: auto;
+  overflow: visible;
   @include mixins.respond(Phone) {
     height: auto;
     margin-bottom: 1rem;
@@ -289,4 +290,23 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
   }
+}
+
+.dropdown {
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  font-size: 0.8rem;
+  width: 16rem;
+  height: 2.5rem;
+  margin: 0.1rem;
+  padding-left: 0.4rem;
+  color: palette.$main-blue-darker-color;
+}
+
+.error-txt {
+  text-align: center;
+  font-size: 1.1rem;
+  margin-top: 1rem;
+  color: palette.$main-form-error-message;
 }

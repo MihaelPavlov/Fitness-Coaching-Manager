@@ -89,6 +89,11 @@
       >NEXT SET</button>
       <button
         class="btn btn-large btn-full-width-mobile"
+        *ngIf="isRestTime"
+        (click)="skipRest()"
+      >SKIP</button>
+      <button
+        class="btn btn-large btn-full-width-mobile"
         *ngIf="!isRestTime && currentExerciseCurrentSet == numberOfSets"
         (click)="nextExercise()"
       >NEXT EXERCISE</button>

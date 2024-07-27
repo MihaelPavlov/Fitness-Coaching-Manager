@@ -5,7 +5,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { ISessionExercise, ISessionPracticalExercise } from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
-import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-workout-session',
@@ -45,11 +45,21 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public currentExerciseRestSecondsLeft$ = this.currentExerciseRestSecondsLeftSubject$.asObservable();
   public currentExerciseRestSecondsLeft?: number = 0;
 
+  public hasTimingSubject$ = new BehaviorSubject<boolean>(false);
+  public hasTiming$ = this.hasTimingSubject$.asObservable();
   public hasTiming?: boolean = false;
 
   public isRestTimeSubject$ = new BehaviorSubject<boolean>(false);
   public isRestTime$ = this.isRestTimeSubject$.asObservable();
   public isRestTime?: boolean = false;
+
+  // Subscriptions
+  public setSubscription?: Subscription;
+  public secondsSubscription?: Subscription;
+  public restSecondsSubscription?: Subscription;
+  public isRestSubscription?: Subscription;
+
+  public durationInterval?: Subscription;
 
   constructor(
     private readonly sessionService: SessionService,
@@ -68,10 +78,12 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       }
     });
     this.isRestTime$.subscribe((isRest) => {
-      console.log("change", isRest)
       this.isRestTime = isRest
     });
-    this.currentExerciseCurrentSet$.subscribe((currentSet) => this.currentExerciseCurrentSet = currentSet)
+    this.currentExerciseCurrentSet$.subscribe((currentSet) => this.currentExerciseCurrentSet = currentSet);
+    this.hasTiming$.subscribe((has) => {
+      this.hasTiming = has
+    });
   }
 
   ngOnDestroy(): void {
@@ -91,28 +103,30 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseDescription = exercise.description;
       this.currentExerciseCurrentSetSubject$.next(1);
 
-      this.currentExerciseCurrentSet$.subscribe((currentSet) => {
-        this.currentExerciseCurrentSet = currentSet;
-
+      this.setSubscription = this.currentExerciseCurrentSet$.subscribe((currentSet) => {
         if (exercise.repetitions) {
           this.currentExerciseRepetitions = exercise.repetitions;
-          this.hasTiming = false;
+          this.hasTimingSubject$.next(false);
         } else {
-          this.currentExerciseSecondsLeftSubjcet$.next(exercise.duration || 0);
+          this.hasTimingSubject$.next(true);
           let currentDur = exercise.duration || 0;
-          this.hasTiming = true;
+          this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
 
-          const currentInterval = interval(1000).subscribe(() => {
+          this.durationInterval = interval(1000).subscribe(() => {
             currentDur -= 1;
             this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
           });
 
-          this.currentExerciseSecondsLeft$.subscribe((seconds) => {
+          this.secondsSubscription = this.currentExerciseSecondsLeft$.subscribe((seconds) => {
             this.currentExerciseSecondsLeft = seconds;
             if (seconds == 0) {
-              currentInterval.unsubscribe();
-              // Go to rest
-
+              this.durationInterval?.unsubscribe();
+              // Go to or wait to trigger new exercise
+              if (this.currentExerciseCurrentSet == this.numberOfSets) {
+                return;
+              } else {
+                this.goRest();
+              }
             }
           })
         }
@@ -124,9 +138,12 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
   public nextExercise(): void {
     this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
+    this.restSecondsSubscription?.unsubscribe();
   }
 
   public nextSet() {
+    this.secondsSubscription?.unsubscribe();
+    this.durationInterval?.unsubscribe();
     if (this.currentExerciseCurrentSet || 0 <= this.numberOfSets) {
       if (this.isRestTime) this.goWork();
       else this.goRest();
@@ -139,6 +156,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     console.log('go work')
     this.isRestTimeSubject$.next(false);
     this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
+    this.restSecondsSubscription?.unsubscribe();
   }
 
   public goRest(): void {
@@ -152,14 +170,20 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
     });
 
-    this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
+    this.restSecondsSubscription = this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
       this.currentExerciseRestSecondsLeft = seconds;
 
       if (seconds == 0) {
         restInterval.unsubscribe();
-        this.nextSet();
+        this.goWork();
       };
     });
+  }
+
+  public skipRest(): void {
+    this.currentExerciseRestSecondsLeftSubject$.next(0);
+    this.isRestTimeSubject$.next(false);
+    this.restSecondsSubscription?.unsubscribe();
   }
 
   private startGlobalTimeCounter(): void {

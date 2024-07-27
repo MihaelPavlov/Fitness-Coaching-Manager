@@ -58,7 +58,6 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public secondsSubscription?: Subscription;
   public restSecondsSubscription?: Subscription;
   public isRestSubscription?: Subscription;
-
   public durationInterval?: Subscription;
 
   constructor(
@@ -134,6 +133,27 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
       this.previousExerciseIndex = currentIndex;
     })
+  }
+
+  public nextExerciseRest(): void {
+    this.isRestTimeSubject$.next(true);
+    this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenExercises || 0);
+    let currentSeconds = this.pauseBetweenExercises || 0;
+
+    const restInterval = interval(1000).subscribe(() => {
+      currentSeconds = currentSeconds - 1;
+      this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
+    });
+
+    this.restSecondsSubscription = this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
+      this.currentExerciseRestSecondsLeft = seconds;
+
+      if (seconds == 0) {
+        restInterval.unsubscribe();
+        this.isRestTimeSubject$.next(false);
+        this.nextExercise();
+      };
+    });
   }
 
   public nextExercise(): void {

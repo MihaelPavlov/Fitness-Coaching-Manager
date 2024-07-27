@@ -60,6 +60,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public restSecondsSubscription?: Subscription;
   public isRestSubscription?: Subscription;
   public durationInterval?: Subscription;
+  public restingInterval?: Subscription
 
   constructor(
     private readonly sessionService: SessionService,
@@ -161,7 +162,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenExercises || 0);
     let currentSeconds = this.pauseBetweenExercises || 0;
 
-    const restInterval = interval(1000).subscribe(() => {
+    this.restingInterval = interval(1000).subscribe(() => {
       currentSeconds = currentSeconds - 1;
       this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
     });
@@ -170,7 +171,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseRestSecondsLeft = seconds;
 
       if (seconds == 0) {
-        restInterval.unsubscribe();
+        this.restingInterval?.unsubscribe();
         this.isRestTimeSubject$.next(false);
         this.nextExercise();
       };
@@ -206,7 +207,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenSets || 0);
     let currentSeconds = this.pauseBetweenSets || 0;
 
-    const restInterval = interval(1000).subscribe(() => {
+    this.restingInterval = interval(1000).subscribe(() => {
       currentSeconds = currentSeconds - 1;
       this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
     });
@@ -215,7 +216,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseRestSecondsLeft = seconds;
 
       if (seconds == 0) {
-        restInterval.unsubscribe();
+        this.restingInterval?.unsubscribe();
         this.goWork();
       };
     });
@@ -225,6 +226,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.currentExerciseRestSecondsLeftSubject$.next(0);
     this.isRestTimeSubject$.next(false);
     this.restSecondsSubscription?.unsubscribe();
+    this.restingInterval?.unsubscribe();
   }
 
   private startGlobalTimeCounter(): void {

@@ -37,7 +37,7 @@
       >
         <!-- Repetitions circle -->
         <app-circle
-          *ngIf="!hasTiming && isWorkTime"
+          *ngIf="!hasTiming && !isRestTime"
           [width]="'small'"
           [height]="'small'"
           text="Repetition"
@@ -45,7 +45,7 @@
         ></app-circle>
         <!-- Duration circle -->
         <app-circle
-          *ngIf="hasTiming && isWorkTime"
+          *ngIf="hasTiming && !isRestTime"
           [width]="'small'"
           [height]="'small'"
           text="Duration"

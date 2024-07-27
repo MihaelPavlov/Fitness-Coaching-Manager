@@ -47,7 +47,6 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
   public hasTiming?: boolean = false;
   public isRestTime?: boolean = false;
-  public isWorkTime?: boolean = true;
 
   constructor(
     private readonly sessionService: SessionService,
@@ -105,11 +104,11 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
             if (seconds == 0) {
               currentInterval.unsubscribe();
               // Go to rest
-              this.nextSet();
+
             }
           })
         }
-      })
+      });
 
       this.previousExerciseIndex = currentIndex;
     })
@@ -120,28 +119,48 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public nextSet() {
-    this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
-    if (this.currentExerciseCurrentSet || 0 <= this.numberOfSets) {
-      this.isRestTime = true;
-      this.isWorkTime = false;
-      this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenSets || 0);
-      let currentSeconds = this.pauseBetweenSets || 0;
+    this.currentExerciseCurrentSet$.subscribe((currentSet) => {
+      console.log(currentSet)
+      if (currentSet || 0 <= this.numberOfSets) {
+        if (this.isRestTime) this.goWork();
+        else this.goRest();
+      } else {
+        console.log("stop");
+      }
+    });
+  }
 
-      const restInterval = interval(1000).subscribe(() => {
-        currentSeconds = currentSeconds - 1;
-        this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
-      });
+  public goWork(): void {
+    this.currentExerciseRestSecondsLeftSubject$.next(0);
 
-      this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
-        this.currentExerciseRestSecondsLeft = seconds;
+    this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
+      if (seconds == 0) {
+        this.isRestTime = false;
+        this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
+      };
+    });
+  }
 
-        if (seconds == 0) {
-          restInterval.unsubscribe();
-          this.isRestTime = false;
-          this.isWorkTime = true;
-        };
-      });
-    }
+  public goRest(): void {
+    this.isRestTime = true;
+
+    this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenSets || 0);
+    let currentSeconds = this.pauseBetweenSets || 0;
+
+    const restInterval = interval(1000).subscribe(() => {
+      currentSeconds = currentSeconds - 1;
+      this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
+    });
+
+    this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
+      this.currentExerciseRestSecondsLeft = seconds;
+
+      if (seconds == 0) {
+        restInterval.unsubscribe();
+        this.isRestTime = false;
+        this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
+      };
+    });
   }
 
   private startGlobalTimeCounter(): void {

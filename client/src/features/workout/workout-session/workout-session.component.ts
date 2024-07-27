@@ -22,6 +22,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public totalWorkoutTime: number = 0;
   public totalTimeInterval: any;
 
+  public isLastExercise: boolean = false;
   public isWorkoutDone: boolean = false;
 
   // Current Exercise Variables
@@ -95,8 +96,24 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.performWorkout(exercises);
   }
 
+  public finishWorkout(): void {
+    this.isWorkoutDone = true;
+  }
+
   performWorkout(exercises: ISessionPracticalExercise[]) {
     this.currentExerciseIndex$.subscribe((currentIndex) => {
+      if (currentIndex >= exercises.length) {
+        // Finish workout
+        this.endGlobalTimeCounter();
+        this.finishWorkout();
+        return;
+      }
+
+      // Last exercise
+      if (currentIndex + 1 == exercises.length) {
+        this.isLastExercise = true;
+      }
+
       const exercise = exercises[currentIndex];
       this.currentExerciseName = exercise.title;
       this.currentExerciseDescription = exercise.description;
@@ -136,6 +153,10 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public nextExerciseRest(): void {
+    if (this.isLastExercise) {
+      return this.nextExercise();
+    }
+
     this.isRestTimeSubject$.next(true);
     this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenExercises || 0);
     let currentSeconds = this.pauseBetweenExercises || 0;

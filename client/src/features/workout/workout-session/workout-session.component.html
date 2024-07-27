@@ -96,7 +96,7 @@
         class="btn btn-large btn-full-width-mobile"
         *ngIf="!isRestTime && currentExerciseCurrentSet == numberOfSets"
         (click)="nextExerciseRest()"
-      >NEXT EXERCISE</button>
+      >{{ isLastExercise ? "FINISH WORKOUT" : "NEXT EXERCISE"}}</button>
     </div>
   </div>
 </div>

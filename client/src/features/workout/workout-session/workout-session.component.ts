@@ -46,6 +46,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public currentExerciseRestSecondsLeft?: number = 0;
 
   public hasTiming?: boolean = false;
+
+  public isRestTimeSubject$ = new BehaviorSubject<boolean>(false);
+  public isRestTime$ = this.isRestTimeSubject$.asObservable();
   public isRestTime?: boolean = false;
 
   constructor(
@@ -63,7 +66,12 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       if (exercises.length > 0) {
         this.beginWorkout(exercises);
       }
-    })
+    });
+    this.isRestTime$.subscribe((isRest) => {
+      console.log("change", isRest)
+      this.isRestTime = isRest
+    });
+    this.currentExerciseCurrentSet$.subscribe((currentSet) => this.currentExerciseCurrentSet = currentSet)
   }
 
   ngOnDestroy(): void {
@@ -119,30 +127,22 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public nextSet() {
-    this.currentExerciseCurrentSet$.subscribe((currentSet) => {
-      console.log(currentSet)
-      if (currentSet || 0 <= this.numberOfSets) {
-        if (this.isRestTime) this.goWork();
-        else this.goRest();
-      } else {
-        console.log("stop");
-      }
-    });
+    if (this.currentExerciseCurrentSet || 0 <= this.numberOfSets) {
+      if (this.isRestTime) this.goWork();
+      else this.goRest();
+    } else {
+      console.log("stop");
+    }
   }
 
   public goWork(): void {
-    this.currentExerciseRestSecondsLeftSubject$.next(0);
-
-    this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
-      if (seconds == 0) {
-        this.isRestTime = false;
-        this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
-      };
-    });
+    console.log('go work')
+    this.isRestTimeSubject$.next(false);
+    this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
   }
 
   public goRest(): void {
-    this.isRestTime = true;
+    this.isRestTimeSubject$.next(true);
 
     this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenSets || 0);
     let currentSeconds = this.pauseBetweenSets || 0;
@@ -157,8 +157,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
       if (seconds == 0) {
         restInterval.unsubscribe();
-        this.isRestTime = false;
-        this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
+        this.nextSet();
       };
     });
   }

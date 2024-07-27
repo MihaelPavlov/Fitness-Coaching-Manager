@@ -97,6 +97,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public finishWorkout(): void {
+    this.endGlobalTimeCounter();
     this.isWorkoutDone = true;
   }
 
@@ -104,7 +105,6 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.currentExerciseIndex$.subscribe((currentIndex) => {
       if (currentIndex >= exercises.length) {
         // Finish workout
-        this.endGlobalTimeCounter();
         this.finishWorkout();
         return;
       }

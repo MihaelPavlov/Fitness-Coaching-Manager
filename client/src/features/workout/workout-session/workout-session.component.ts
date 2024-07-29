@@ -32,7 +32,6 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public workoutId?: number;
   public workoutName?: string;
   public numberOfSets: number = 0;
-  public currentNumberOfSets: number = 0;
   public pauseBetweenSets?: number;
   public pauseBetweenExercises?: number;
   public sessionExercisesSubject$ = new BehaviorSubject<
@@ -102,6 +101,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public durationInterval?: Subscription;
   public restingInterval?: Subscription;
   public exerciseTotalDurationInterval?: Subscription;
+  public durationRestSubscription?: Subscription;
 
   // Getters
   public get averageExerciseTime(): string {
@@ -179,28 +179,31 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       }
 
       const exercise = exercises[currentIndex];
+      console.log(exercise)
       this.currentExerciseName = exercise.title;
       this.currentExerciseDescription = exercise.description;
       this.currentExerciseThumb = exercise.thumbUri;
       this.currentExerciseCurrentSetSubject$.next(1);
       this.currentExerciseTotalDuration = 0;
-      this.currentNumberOfSets = this.numberOfSets;
       this.currentExerciseStaticDuration = exercise.duration || 0;
-
-      if (exercise.duration && !exercise.repetitions) {
-        this.currentNumberOfSets = 1;
-      }
 
       this.exerciseTotalDurationInterval = interval(1000).subscribe(() => {
         this.currentExerciseTotalDuration += 1;
       });
 
-      this.setSubscription = this.currentExerciseCurrentSet$.subscribe(
-        (currentSet) => {
-          if (exercise.repetitions) {
+      if (exercise.repetitions) {
+        this.durationRestSubscription?.unsubscribe();
+        this.setSubscription = this.currentExerciseCurrentSet$.subscribe(
+          (currentSet) => {
             this.currentExerciseRepetitions = exercise.repetitions;
             this.hasTimingSubject$.next(false);
-          } else {
+          }
+        );
+      } else {
+        this.setSubscription?.unsubscribe();
+        this.durationRestSubscription = this.isRestTime$.subscribe((value) => {
+          if (!value && !exercise.repetitions) {
+            console.log('yes go');
             this.hasTimingSubject$.next(true);
             let currentDur = exercise.duration || 0;
             this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
@@ -215,17 +218,15 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
                 this.currentExerciseSecondsLeft = seconds;
                 if (seconds == 0) {
                   this.durationInterval?.unsubscribe();
-                  // Go to or wait to trigger new exercise
-                  if (this.currentExerciseCurrentSet == this.currentNumberOfSets) {
-                    return;
-                  } else {
-                    this.goRest();
-                  }
+                  // Wait for next exercise button
+                  return;
                 }
               });
+          } else {
+            return;
           }
-        }
-      );
+        });
+      }
 
       this.previousExerciseIndex = currentIndex;
     });
@@ -235,11 +236,11 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.exerciseTotalDurationInterval?.unsubscribe();
     this.exerciseDurationTimes.push(this.currentExerciseTotalDuration);
 
-    this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
-
     if (this.isLastExercise) {
       return this.nextExercise();
     }
+
+    this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
 
     this.durationInterval?.unsubscribe();
 
@@ -267,14 +268,15 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public nextExercise(): void {
-    //this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
+    !this.hasTiming && this.durationInterval?.unsubscribe();
     this.restSecondsSubscription?.unsubscribe();
   }
 
   public nextSet() {
+    this.durationRestSubscription?.unsubscribe();
     this.secondsSubscription?.unsubscribe();
     this.durationInterval?.unsubscribe();
-    if (this.currentExerciseCurrentSet || 0 <= this.currentNumberOfSets) {
+    if (this.currentExerciseCurrentSet || 0 <= this.numberOfSets) {
       if (this.isRestTime) this.goWork();
       else this.goRest();
     } else {

@@ -75,7 +75,7 @@
             [width]="'small'"
             [height]="'small'"
             [borderColor]="'orange'"
-            [text]="'Rest before set - ' + currentExerciseCurrentSet + '/' + numberOfSets"
+            [text]="hasTiming ? 'Rest' : 'Rest before set - ' + currentExerciseCurrentSet + '/' + numberOfSets"
             [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
           ></app-circle>
           <!-- Time left circle -->
@@ -94,7 +94,7 @@
       >
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="!isRestTime && currentExerciseCurrentSet != numberOfSets"
+          *ngIf="!isRestTime && (currentExerciseCurrentSet != numberOfSets && !hasTiming)"
           (click)="nextSet()"
         >
           NEXT SET
@@ -108,7 +108,7 @@
         </button>
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="!isRestTime && currentExerciseCurrentSet == numberOfSets"
+          *ngIf="!isRestTime && (currentExerciseCurrentSet == numberOfSets || hasTiming)"
           (click)="nextExerciseRest()"
         >
           {{ isLastExercise ? "FINISH WORKOUT" : "NEXT EXERCISE" }}

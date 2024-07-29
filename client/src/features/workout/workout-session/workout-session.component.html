@@ -35,7 +35,7 @@
         >
           <!-- Repetitions circle -->
           <app-circle
-            *ngIf="!hasTiming && !isRestTime"
+            *ngIf="!hasTiming"
             [width]="'small'"
             [height]="'small'"
             text="Repetition"
@@ -49,14 +49,6 @@
             text="Duration"
             [value]="formatTime(currentExerciseSecondsLeft || 0)"
           ></app-circle>
-          <!-- Rest circle -->
-          <app-circle
-            *ngIf="isRestTime"
-            [width]="'small'"
-            [height]="'small'"
-            text="Rest"
-            [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
-          ></app-circle>
         </div>
         <div class="workout-session-container__information__circles__time">
           <app-circle
@@ -68,12 +60,23 @@
         <div
           class="workout-session-container__information__circles__sets align-self-flex-end"
         >
+          <!-- Sets circle -->
           <app-circle
+            *ngIf="!isRestTime"
             [width]="'small'"
             [height]="'small'"
             [borderColor]="'orange'"
             text="Sets made"
             [value]="currentExerciseCurrentSet + '/' + numberOfSets"
+          ></app-circle>
+          <!-- Rest circle -->
+          <app-circle
+            *ngIf="isRestTime"
+            [width]="'small'"
+            [height]="'small'"
+            [borderColor]="'orange'"
+            [text]="'Rest before set - ' + currentExerciseCurrentSet + '/' + numberOfSets"
+            [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
           ></app-circle>
         </div>
       </div>

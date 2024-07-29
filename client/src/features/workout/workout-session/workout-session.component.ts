@@ -274,15 +274,16 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
   public goWork(): void {
     this.isRestTimeSubject$.next(false);
-    this.currentExerciseCurrentSetSubject$.next(
-      (this.currentExerciseCurrentSet || 0) + 1
-    );
     this.restSecondsSubscription?.unsubscribe();
   }
 
   public goRest(): void {
     this.durationInterval?.unsubscribe();
     this.isRestTimeSubject$.next(true);
+
+    this.currentExerciseCurrentSetSubject$.next(
+      (this.currentExerciseCurrentSet || 0) + 1
+    );
 
     this.currentExerciseRestSecondsLeftSubject$.next(
       this.pauseBetweenSets || 0

@@ -435,7 +435,6 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
         ]
       },
     }
-    console.log(queryParams)
 
     this.exerciseService.getDetails(queryParams).subscribe({
       next: (res) => {

@@ -13,6 +13,7 @@ import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
   styleUrl: './workout-session.component.scss',
 })
 export class WorkoutSessionComponent implements OnInit, OnDestroy {
+  public workoutId?: number;
   public workoutName?: string;
   public numberOfSets: number = 0;
   public pauseBetweenSets?: number;
@@ -74,6 +75,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      this.workoutId = params['workoutId'];
       this.fetchWorkoutSession(params['workoutId']);
     });
     this.sessionExercises$.subscribe((exercises) => {
@@ -112,9 +114,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.endGlobalTimeCounter();
     this.isWorkoutDone = true;
     this.endTime = new Date();
-    console.log('start time -', this.startTime?.toISOString());
-    console.log('end time -', this.endTime.toISOString());
-    console.log('total time -', this.totalWorkoutTime);
+    this.finishWorkoutSession();
   }
 
   performWorkout(exercises: ISessionPracticalExercise[]) {
@@ -174,6 +174,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       return this.nextExercise();
     }
 
+    this.durationInterval?.unsubscribe();
+
     this.isRestTimeSubject$.next(true);
     this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenExercises || 0);
     let currentSeconds = this.pauseBetweenExercises || 0;
@@ -218,6 +220,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public goRest(): void {
+    this.durationInterval?.unsubscribe();
     this.isRestTimeSubject$.next(true);
 
     this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenSets || 0);
@@ -348,5 +351,20 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     });
 
     return practicalExercises || [];
+  }
+
+  private finishWorkoutSession() {
+    this.sessionService.finishSession(this.workoutId || 0, {
+      timeDuration: this.totalWorkoutTime,
+      startTime: this.startTime?.toISOString().slice(0, 19).replace('T', ' '),
+      endTime: this.endTime?.toISOString().slice(0, 19).replace('T', ' ')
+    }).subscribe({
+      next: () => {
+        console.log("finished workout!")
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 }

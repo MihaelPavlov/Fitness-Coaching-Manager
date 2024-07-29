@@ -40,7 +40,12 @@ router.post(
                 }
             })
         } catch (err) {
-            next(err);
+            res.status(400).json({
+                status: RESPONSE_STATUS.FAILED,
+                data: {
+                    error: err.message
+                }
+            })
         }
     }
 )

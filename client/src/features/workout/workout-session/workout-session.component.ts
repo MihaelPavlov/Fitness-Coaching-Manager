@@ -19,7 +19,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public pauseBetweenExercises?: number;
   public sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
   public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
-  public startTime: Date = new Date();
+  public startTime?: Date;
   public endTime?: Date;
   public totalWorkoutTime: number = 0;
   public totalTimeInterval: any;
@@ -28,6 +28,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public isWorkoutDone: boolean = false;
 
   // Current Exercise Variables
+  public currentExerciseThumb?: string;
+
   public currentExerciseIndexSubject$ = new BehaviorSubject<number>(0);
   public currentExerciseIndex$ = this.currentExerciseIndexSubject$.asObservable();
   public previousExerciseIndex: number = 0;
@@ -102,12 +104,17 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
     this.startGlobalTimeCounter();
     // Do logic here
+    this.startTime = new Date();
     this.performWorkout(exercises);
   }
 
   public finishWorkout(): void {
     this.endGlobalTimeCounter();
     this.isWorkoutDone = true;
+    this.endTime = new Date();
+    console.log('start time -', this.startTime?.toISOString());
+    console.log('end time -', this.endTime.toISOString());
+    console.log('total time -', this.totalWorkoutTime);
   }
 
   performWorkout(exercises: ISessionPracticalExercise[]) {
@@ -126,6 +133,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       const exercise = exercises[currentIndex];
       this.currentExerciseName = exercise.title;
       this.currentExerciseDescription = exercise.description;
+      this.currentExerciseThumb = exercise.thumbUri;
       this.currentExerciseCurrentSetSubject$.next(1);
 
       this.setSubscription = this.currentExerciseCurrentSet$.subscribe((currentSet) => {

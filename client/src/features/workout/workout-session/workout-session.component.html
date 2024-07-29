@@ -108,10 +108,17 @@
         </button>
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="!isRestTime && (currentExerciseCurrentSet == numberOfSets || hasTiming)"
+          *ngIf="!isRestTime && (currentExerciseCurrentSet == numberOfSets || hasTiming) && !isLastExercise"
           (click)="nextExerciseRest()"
         >
-          {{ isLastExercise ? "FINISH WORKOUT" : "NEXT EXERCISE" }}
+          NEXT EXERCISE
+        </button>
+        <button
+          class="btn btn-large btn-full-width-mobile"
+          *ngIf="!isRestTime && (currentExerciseCurrentSet == numberOfSets || hasTiming) && isLastExercise"
+          (click)="finishWorkout()"
+        >
+          FINISH WORKOUT
         </button>
       </div>
     </div>

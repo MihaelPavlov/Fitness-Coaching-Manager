@@ -158,7 +158,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public finishWorkout(): void {
-    console.log(this.exerciseDurationTimes);
+    this.exerciseDurationTimes.push(this.currentExerciseTotalDuration);
+    //console.log(this.exerciseDurationTimes);
     this.endGlobalTimeCounter();
     this.isWorkoutDone = true;
     this.endTime = new Date();
@@ -209,7 +210,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
             this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
 
             this.durationInterval = interval(1000).subscribe(() => {
-              currentDur -= 1;
+              currentDur > 0 ? currentDur -= 1 : currentDur;
               this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
             });
 

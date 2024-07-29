@@ -89,6 +89,12 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
       this.isWorkoutDone = true;
+      this.setSubscription?.unsubscribe();
+      this.secondsSubscription?.unsubscribe();
+      this.restSecondsSubscription?.unsubscribe();
+      this.isRestSubscription?.unsubscribe();
+      this.durationInterval?.unsubscribe();
+      this.restingInterval?.unsubscribe();
   }
 
   public beginWorkout(exercises: ISessionPracticalExercise[]) {

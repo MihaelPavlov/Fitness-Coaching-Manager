@@ -4,6 +4,8 @@ import * as sessionService from "./../services/session.service";
 import { RESPONSE_STATUS } from "./../constants/response.constants";
 import { PATH } from "./../constants/path.constants";
 import { isAuth } from "./../middlewares/auth.middleware";
+import { inputValidationMiddleware } from "./../middlewares/validation.middleware";
+import { finishSessionValidators } from "./../validators/session.validator";
 
 const router = express.Router();
 
@@ -26,6 +28,7 @@ router.post(
 router.post(
     PATH.SESSIONS.FINISH_SESSION,
     isAuth,
+    inputValidationMiddleware(finishSessionValidators),
     async (req: any, res: express.Response, next: NextFunction) => {
         try {
             await sessionService.finishSession(req.user.id, req.params.workoutId, req.body);

@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../../entities/sessions/services/session.service';
 import { ActivatedRoute } from '@angular/router';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
@@ -13,6 +13,13 @@ import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
   styleUrl: './workout-session.component.scss',
 })
 export class WorkoutSessionComponent implements OnInit, OnDestroy {
+  @HostListener('window:beforeunload')
+  canDeactivate(): Observable<boolean> | boolean {
+    // return false for showing confirm window
+    // return true for not showing confirm window and exit
+    return false;
+  }
+
   public workoutId?: number;
   public workoutName?: string;
   public numberOfSets: number = 0;

@@ -3,6 +3,7 @@ import express, { NextFunction } from "express";
 import * as sessionService from "./../services/session.service";
 import { RESPONSE_STATUS } from "./../constants/response.constants";
 import { PATH } from "./../constants/path.constants";
+import { isAuth } from "./../middlewares/auth.middleware";
 
 const router = express.Router();
 
@@ -18,6 +19,25 @@ router.post(
             })
         } catch (err) {
             next(err)
+        }
+    }
+)
+
+router.post(
+    PATH.SESSIONS.FINISH_SESSION,
+    isAuth,
+    async (req: any, res: express.Response, next: NextFunction) => {
+        try {
+            await sessionService.finishSession(req.user.id, req.params.workoutId, req.body);
+
+            res.status(200).json({
+                status: RESPONSE_STATUS.SUCCESS,
+                data: {
+                    message: "Successfully finished workout"
+                }
+            })
+        } catch (err) {
+            next(err);
         }
     }
 )

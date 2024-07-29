@@ -25,6 +25,7 @@ export const PATH = {
     GET_TAG_LIST: "/getTagList"
   },
   SESSIONS: {
-    GET_EXERCISES: "/getExercises"
+    GET_EXERCISES: "/getExercises",
+    FINISH_SESSION: "/finish/:workoutId"
   }
 };

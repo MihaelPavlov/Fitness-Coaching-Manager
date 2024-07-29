@@ -213,7 +213,6 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public goWork(): void {
-    console.log('go work')
     this.isRestTimeSubject$.next(false);
     this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
     this.restSecondsSubscription?.unsubscribe();

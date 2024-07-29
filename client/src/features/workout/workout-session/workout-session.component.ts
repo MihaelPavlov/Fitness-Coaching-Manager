@@ -32,6 +32,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public workoutId?: number;
   public workoutName?: string;
   public numberOfSets: number = 0;
+  public currentNumberOfSets: number = 0;
   public pauseBetweenSets?: number;
   public pauseBetweenExercises?: number;
   public sessionExercisesSubject$ = new BehaviorSubject<
@@ -51,6 +52,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public exerciseDurationTimes: Array<number> = [];
 
   // Current Exercise Variables
+  public currentExerciseStaticDuration: number = 0;
   public currentExerciseThumb?: string;
 
   public currentExerciseTotalDurationSubject$ = new BehaviorSubject<number>(0);
@@ -182,6 +184,12 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseThumb = exercise.thumbUri;
       this.currentExerciseCurrentSetSubject$.next(1);
       this.currentExerciseTotalDuration = 0;
+      this.currentNumberOfSets = this.numberOfSets;
+      this.currentExerciseStaticDuration = exercise.duration || 0;
+
+      if (exercise.duration && !exercise.repetitions) {
+        this.currentNumberOfSets = 1;
+      }
 
       this.exerciseTotalDurationInterval = interval(1000).subscribe(() => {
         this.currentExerciseTotalDuration += 1;
@@ -208,7 +216,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
                 if (seconds == 0) {
                   this.durationInterval?.unsubscribe();
                   // Go to or wait to trigger new exercise
-                  if (this.currentExerciseCurrentSet == this.numberOfSets) {
+                  if (this.currentExerciseCurrentSet == this.currentNumberOfSets) {
                     return;
                   } else {
                     this.goRest();
@@ -226,6 +234,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public nextExerciseRest(): void {
     this.exerciseTotalDurationInterval?.unsubscribe();
     this.exerciseDurationTimes.push(this.currentExerciseTotalDuration);
+
+    this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
 
     if (this.isLastExercise) {
       return this.nextExercise();
@@ -257,14 +267,14 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public nextExercise(): void {
-    this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
+    //this.currentExerciseIndexSubject$.next(this.previousExerciseIndex + 1);
     this.restSecondsSubscription?.unsubscribe();
   }
 
   public nextSet() {
     this.secondsSubscription?.unsubscribe();
     this.durationInterval?.unsubscribe();
-    if (this.currentExerciseCurrentSet || 0 <= this.numberOfSets) {
+    if (this.currentExerciseCurrentSet || 0 <= this.currentNumberOfSets) {
       if (this.isRestTime) this.goWork();
       else this.goRest();
     } else {

@@ -38,16 +38,16 @@
             *ngIf="!hasTiming"
             [width]="'small'"
             [height]="'small'"
-            text="Repetition"
+            text="Repetitions"
             [value]="currentExerciseRepetitions || 0"
           ></app-circle>
-          <!-- Duration circle -->
+          <!-- Static Duration circle -->
           <app-circle
-            *ngIf="hasTiming && !isRestTime"
+            *ngIf="hasTiming"
             [width]="'small'"
             [height]="'small'"
             text="Duration"
-            [value]="formatTime(currentExerciseSecondsLeft || 0)"
+            [value]="formatTime(currentExerciseStaticDuration)"
           ></app-circle>
         </div>
         <div class="workout-session-container__information__circles__time">
@@ -62,7 +62,7 @@
         >
           <!-- Sets circle -->
           <app-circle
-            *ngIf="!isRestTime"
+            *ngIf="!isRestTime && !hasTiming"
             [width]="'small'"
             [height]="'small'"
             [borderColor]="'orange'"
@@ -77,6 +77,15 @@
             [borderColor]="'orange'"
             [text]="'Rest before set - ' + currentExerciseCurrentSet + '/' + numberOfSets"
             [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
+          ></app-circle>
+          <!-- Time left circle -->
+          <app-circle
+            *ngIf="hasTiming && !isRestTime"
+            [width]="'small'"
+            [height]="'small'"
+            [borderColor]="'orange'"
+            text="Exercise Time"
+            [value]="formatTime(currentExerciseSecondsLeft || 0)"
           ></app-circle>
         </div>
       </div>

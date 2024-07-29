@@ -19,6 +19,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public pauseBetweenExercises?: number;
   public sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
   public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
+  public startTime: Date = new Date();
+  public endTime?: Date;
   public totalWorkoutTime: number = 0;
   public totalTimeInterval: any;
 

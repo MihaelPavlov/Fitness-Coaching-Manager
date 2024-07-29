@@ -356,8 +356,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   private finishWorkoutSession() {
     this.sessionService.finishSession(this.workoutId || 0, {
       timeDuration: this.totalWorkoutTime,
-      startTime: this.startTime?.toISOString().slice(0, 19).replace('T', ' '),
-      endTime: this.endTime?.toISOString().slice(0, 19).replace('T', ' ')
+      startTime: this.formatDateForDB(this.startTime),
+      endTime: this.formatDateForDB(this.endTime)
     }).subscribe({
       next: () => {
         console.log("finished workout!")
@@ -366,5 +366,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
         console.log(err);
       }
     })
+  }
+
+  private formatDateForDB(date?: Date) {
+    return date?.toISOString().slice(0, 19).replace('T', ' ');
   }
 }

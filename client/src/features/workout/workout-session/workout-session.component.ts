@@ -15,6 +15,8 @@ import {
 } from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
+import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
+import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 
 @Component({
   selector: 'app-workout-session',
@@ -113,6 +115,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly workoutService: WorkoutService,
+    private readonly exerciseService: ExerciseService,
     private readonly route: ActivatedRoute
   ) {}
 
@@ -182,7 +185,13 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       const exercise = exercises[currentIndex];
       console.log(exercise)
       this.currentExerciseName = exercise.title;
-      this.currentExerciseDescription = exercise.description;
+
+      if (exercise.description && exercise.description !== '') {
+        this.currentExerciseDescription = exercise.description;
+      } else {
+        this.fetchExerciseDescription(exercise.exerciseId);
+      }
+
       this.currentExerciseThumb = exercise.thumbUri;
       this.currentExerciseCurrentSetSubject$.next(1);
       this.currentExerciseTotalDuration = 0;
@@ -410,11 +419,40 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     });
   }
 
+  private fetchExerciseDescription(exerciseId: any) {
+    const queryParams: IQueryParams = {
+      what: {
+        [EXERCISE_FIELDS.exercises.description]: 1
+      },
+      condition: {
+        type: "OR",
+        items: [
+          {
+            field: "uid",
+            operation: "EQ",
+            value: exerciseId
+          }
+        ]
+      },
+    }
+    console.log(queryParams)
+
+    this.exerciseService.getDetails(queryParams).subscribe({
+      next: (res) => {
+        this.currentExerciseDescription = res?.data[0].description;
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+
   private mapExercisesArray(
     exercises: ISessionExercise[] | undefined
   ): ISessionPracticalExercise[] {
     const practicalExercises = exercises?.map((exercise) => {
       const practicalExercise: ISessionPracticalExercise = {};
+      practicalExercise['exerciseId'] = exercise.exerciseId;
       practicalExercise['sets'] = this.numberOfSets;
       practicalExercise['rest'] = this.pauseBetweenSets;
       practicalExercise['description'] = exercise.description;

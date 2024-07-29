@@ -10,6 +10,7 @@ export interface ISessionExercise {
 }
 
 export interface ISessionPracticalExercise {
+  exerciseId?: number;
   sets?: number;
   rest?: number;
   description?: string;

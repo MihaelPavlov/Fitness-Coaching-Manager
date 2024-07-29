@@ -24,6 +24,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public endTime?: Date;
   public totalWorkoutTime: number = 0;
   public totalTimeInterval: any;
+  public totalExercises: number = 0;
 
   public isLastExercise: boolean = false;
   public isWorkoutDone: boolean = false;
@@ -75,6 +76,13 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public restingInterval?: Subscription;
   public exerciseTotalDurationInterval?: Subscription;
 
+  // Getters
+  public get averageExerciseTime(): string {
+    const totalTimes = this.exerciseDurationTimes.reduce((a, b) => a + b);
+    const totalTimesLength = this.exerciseDurationTimes.length;
+    return this.formatTime(Math.floor(totalTimes / totalTimesLength));
+  }
+
   constructor(
     private readonly sessionService: SessionService,
     private readonly workoutService: WorkoutService,
@@ -89,6 +97,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.sessionExercises$.subscribe((exercises) => {
       // Start workout when everything is fetched and ready
       if (exercises.length > 0) {
+        this.totalExercises = exercises.length;
         this.beginWorkout(exercises);
       }
     });

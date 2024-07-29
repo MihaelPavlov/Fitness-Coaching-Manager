@@ -1,102 +1,147 @@
-<h1 class="workout-session-header__h1 mb-4">{{ workoutName }}</h1>
+<ng-container *ngIf="!isWorkoutDone">
+  <h1 class="workout-session-header__h1 mb-4">{{ workoutName }}</h1>
 
-<div class="workout-session-container d-flex g-8">
-  <div
-    class="workout-session-container__img-container d-flex align-items-center"
-  >
-    <img
-      [src]="currentExerciseThumb"
-      alt=""
-    />
-  </div>
-  <div
-    class="workout-session-container__information d-flex flex-direction-column"
-  >
-    <div class="workout-session-container__information__instructions">
-      <h2
-        class="workout-session-container__information__instructions__heading mb-2"
-      >
-        {{ currentExerciseName }}
-      </h2>
-      <!-- for looped here -->
-      <div
-        class="workout-session-container__information__instructions__container d-flex g-2 flex-direction-column"
-      >
-        <p
-          class="workout-session-container__information__instructions__container__text"
+  <div class="workout-session-container d-flex g-8">
+    <div
+      class="workout-session-container__img-container d-flex align-items-center"
+    >
+      <img [src]="currentExerciseThumb" alt="" />
+    </div>
+    <div
+      class="workout-session-container__information d-flex flex-direction-column"
+    >
+      <div class="workout-session-container__information__instructions">
+        <h2
+          class="workout-session-container__information__instructions__heading mb-2"
         >
-          {{ currentExerciseDescription }}
-        </p>
+          {{ currentExerciseName }}
+        </h2>
+        <!-- for looped here -->
+        <div
+          class="workout-session-container__information__instructions__container d-flex g-2 flex-direction-column"
+        >
+          <p
+            class="workout-session-container__information__instructions__container__text"
+          >
+            {{ currentExerciseDescription }}
+          </p>
+        </div>
       </div>
-    </div>
-    <div
-      class="workout-session-container__information__circles d-flex g-6 justify-content-center align-items-center"
-    >
       <div
-        class="workout-session-container__information__circles__reps align-self-flex-end"
+        class="workout-session-container__information__circles d-flex g-6 justify-content-center align-items-center"
       >
-        <!-- Repetitions circle -->
-        <app-circle
-          *ngIf="!hasTiming && !isRestTime"
-          [width]="'small'"
-          [height]="'small'"
-          text="Repetition"
-          [value]="currentExerciseRepetitions || 0"
-        ></app-circle>
-        <!-- Duration circle -->
-        <app-circle
-          *ngIf="hasTiming && !isRestTime"
-          [width]="'small'"
-          [height]="'small'"
-          text="Duration"
-          [value]="formatTime(currentExerciseSecondsLeft || 0)"
-        ></app-circle>
-        <!-- Rest circle -->
-        <app-circle
+        <div
+          class="workout-session-container__information__circles__reps align-self-flex-end"
+        >
+          <!-- Repetitions circle -->
+          <app-circle
+            *ngIf="!hasTiming && !isRestTime"
+            [width]="'small'"
+            [height]="'small'"
+            text="Repetition"
+            [value]="currentExerciseRepetitions || 0"
+          ></app-circle>
+          <!-- Duration circle -->
+          <app-circle
+            *ngIf="hasTiming && !isRestTime"
+            [width]="'small'"
+            [height]="'small'"
+            text="Duration"
+            [value]="formatTime(currentExerciseSecondsLeft || 0)"
+          ></app-circle>
+          <!-- Rest circle -->
+          <app-circle
+            *ngIf="isRestTime"
+            [width]="'small'"
+            [height]="'small'"
+            text="Rest"
+            [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
+          ></app-circle>
+        </div>
+        <div class="workout-session-container__information__circles__time">
+          <app-circle
+            [borderColor]="'green'"
+            text="Total Time"
+            [value]="formatTime(totalWorkoutTime)"
+          ></app-circle>
+        </div>
+        <div
+          class="workout-session-container__information__circles__sets align-self-flex-end"
+        >
+          <app-circle
+            [width]="'small'"
+            [height]="'small'"
+            [borderColor]="'orange'"
+            text="Sets made"
+            [value]="currentExerciseCurrentSet + '/' + numberOfSets"
+          ></app-circle>
+        </div>
+      </div>
+      <div
+        class="workout-session-container__information__btn mt-10 d-flex justify-content-center"
+      >
+        <button
+          class="btn btn-large btn-full-width-mobile"
+          *ngIf="!isRestTime && currentExerciseCurrentSet != numberOfSets"
+          (click)="nextSet()"
+        >
+          NEXT SET
+        </button>
+        <button
+          class="btn btn-large btn-full-width-mobile"
           *ngIf="isRestTime"
-          [width]="'small'"
-          [height]="'small'"
-          text="Rest"
-          [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
-        ></app-circle>
+          (click)="skipRest()"
+        >
+          SKIP
+        </button>
+        <button
+          class="btn btn-large btn-full-width-mobile"
+          *ngIf="!isRestTime && currentExerciseCurrentSet == numberOfSets"
+          (click)="nextExerciseRest()"
+        >
+          {{ isLastExercise ? "FINISH WORKOUT" : "NEXT EXERCISE" }}
+        </button>
       </div>
-      <div class="workout-session-container__information__circles__time">
-        <app-circle
-          [borderColor]="'green'"
-          text="Total Time"
-          [value]="formatTime(totalWorkoutTime)"
-        ></app-circle>
-      </div>
-      <div
-        class="workout-session-container__information__circles__sets align-self-flex-end"
-      >
-        <app-circle
-          [width]="'small'"
-          [height]="'small'"
-          [borderColor]="'orange'"
-          text="Sets made"
-          [value]="currentExerciseCurrentSet + '/' + numberOfSets"
-        ></app-circle>
-      </div>
-    </div>
-    <div
-      class="workout-session-container__information__btn mt-10 d-flex justify-content-center"
-    >
-      <button
-        class="btn btn-large btn-full-width-mobile"
-        *ngIf="!isRestTime && currentExerciseCurrentSet != numberOfSets"
-        (click)="nextSet()"
-      >NEXT SET</button>
-      <button
-        class="btn btn-large btn-full-width-mobile"
-        *ngIf="isRestTime"
-        (click)="skipRest()"
-      >SKIP</button>
-      <button
-        class="btn btn-large btn-full-width-mobile"
-        *ngIf="!isRestTime && currentExerciseCurrentSet == numberOfSets"
-        (click)="nextExerciseRest()"
-      >{{ isLastExercise ? "FINISH WORKOUT" : "NEXT EXERCISE"}}</button>
     </div>
   </div>
-</div>
+</ng-container>
+<ng-container *ngIf="isWorkoutDone">
+  <div class="d-flex finish-container">
+    <div>
+      <h1>Congratulations for Completed Workout</h1>
+      <h2 class="mt-6 mb-8">{{ workoutName }}</h2>
+      <div
+        class="workout-session-container__information__circles d-flex g-6 justify-content-center align-items-center"
+      >
+        <div
+          class="workout-session-container__information__circles__reps align-self-flex-end"
+        >
+          <app-circle
+            [width]="'small'"
+            [height]="'small'"
+            text="Total Exercises"
+            [value]="totalExercises"
+          ></app-circle>
+        </div>
+        <div class="workout-session-container__information__circles__time">
+          <app-circle
+            [borderColor]="'green'"
+            text="Total Time"
+            [value]="formatTime(totalWorkoutTime)"
+          ></app-circle>
+        </div>
+        <div
+          class="workout-session-container__information__circles__sets align-self-flex-end"
+        >
+          <app-circle
+            [width]="'small'"
+            [height]="'small'"
+            [borderColor]="'orange'"
+            text="Avg time per exercise"
+            [value]="averageExerciseTime"
+          ></app-circle>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

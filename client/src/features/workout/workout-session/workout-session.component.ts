@@ -28,8 +28,15 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public isLastExercise: boolean = false;
   public isWorkoutDone: boolean = false;
 
+  // Exercise statistics variables
+  public exerciseDurationTimes: Array<number> = []
+
   // Current Exercise Variables
   public currentExerciseThumb?: string;
+
+  public currentExerciseTotalDurationSubject$ = new BehaviorSubject<number>(0);
+  public currentExerciseTotalDuration$ = this.currentExerciseTotalDurationSubject$.asObservable();
+  public currentExerciseTotalDuration: number = 0;
 
   public currentExerciseIndexSubject$ = new BehaviorSubject<number>(0);
   public currentExerciseIndex$ = this.currentExerciseIndexSubject$.asObservable();
@@ -65,7 +72,8 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public restSecondsSubscription?: Subscription;
   public isRestSubscription?: Subscription;
   public durationInterval?: Subscription;
-  public restingInterval?: Subscription
+  public restingInterval?: Subscription;
+  public exerciseTotalDurationInterval?: Subscription;
 
   constructor(
     private readonly sessionService: SessionService,
@@ -101,6 +109,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.isRestSubscription?.unsubscribe();
       this.durationInterval?.unsubscribe();
       this.restingInterval?.unsubscribe();
+      this.exerciseTotalDurationInterval?.unsubscribe();
   }
 
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
@@ -111,6 +120,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public finishWorkout(): void {
+    console.log(this.exerciseDurationTimes)
     this.endGlobalTimeCounter();
     this.isWorkoutDone = true;
     this.endTime = new Date();
@@ -135,6 +145,11 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseDescription = exercise.description;
       this.currentExerciseThumb = exercise.thumbUri;
       this.currentExerciseCurrentSetSubject$.next(1);
+      this.currentExerciseTotalDuration = 0;
+
+      this.exerciseTotalDurationInterval = interval(1000).subscribe(() => {
+        this.currentExerciseTotalDuration += 1;
+      });
 
       this.setSubscription = this.currentExerciseCurrentSet$.subscribe((currentSet) => {
         if (exercise.repetitions) {
@@ -170,6 +185,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public nextExerciseRest(): void {
+    this.exerciseTotalDurationInterval?.unsubscribe();
+    this.exerciseDurationTimes.push(this.currentExerciseTotalDuration);
+
     if (this.isLastExercise) {
       return this.nextExercise();
     }

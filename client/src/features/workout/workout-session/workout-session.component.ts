@@ -1,9 +1,18 @@
-import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { SessionService } from '../../../entities/sessions/services/session.service';
 import { ActivatedRoute } from '@angular/router';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
-import { ISessionExercise, ISessionPracticalExercise } from '../../../entities/sessions/models/session-exercise.interface';
+import {
+  ISessionExercise,
+  ISessionPracticalExercise,
+} from '../../../entities/sessions/models/session-exercise.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
 
@@ -25,7 +34,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public numberOfSets: number = 0;
   public pauseBetweenSets?: number;
   public pauseBetweenExercises?: number;
-  public sessionExercisesSubject$ = new BehaviorSubject<ISessionPracticalExercise[]>([]);
+  public sessionExercisesSubject$ = new BehaviorSubject<
+    ISessionPracticalExercise[]
+  >([]);
   public sessionExercises$ = this.sessionExercisesSubject$.asObservable();
   public startTime?: Date;
   public endTime?: Date;
@@ -37,33 +48,40 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public isWorkoutDone: boolean = false;
 
   // Exercise statistics variables
-  public exerciseDurationTimes: Array<number> = []
+  public exerciseDurationTimes: Array<number> = [];
 
   // Current Exercise Variables
   public currentExerciseThumb?: string;
 
   public currentExerciseTotalDurationSubject$ = new BehaviorSubject<number>(0);
-  public currentExerciseTotalDuration$ = this.currentExerciseTotalDurationSubject$.asObservable();
+  public currentExerciseTotalDuration$ =
+    this.currentExerciseTotalDurationSubject$.asObservable();
   public currentExerciseTotalDuration: number = 0;
 
   public currentExerciseIndexSubject$ = new BehaviorSubject<number>(0);
-  public currentExerciseIndex$ = this.currentExerciseIndexSubject$.asObservable();
+  public currentExerciseIndex$ =
+    this.currentExerciseIndexSubject$.asObservable();
   public previousExerciseIndex: number = 0;
 
-  public currentExerciseName?: string = "";
-  public currentExerciseDescription?: string = "";
+  public currentExerciseName?: string = '';
+  public currentExerciseDescription?: string = '';
   public currentExerciseRepetitions?: number = 0;
 
   public currentExerciseCurrentSetSubject$ = new BehaviorSubject<number>(0);
-  public currentExerciseCurrentSet$ = this.currentExerciseCurrentSetSubject$.asObservable();
+  public currentExerciseCurrentSet$ =
+    this.currentExerciseCurrentSetSubject$.asObservable();
   public currentExerciseCurrentSet?: number = 0;
 
   public currentExerciseSecondsLeftSubjcet$ = new BehaviorSubject<number>(0);
-  public currentExerciseSecondsLeft$ = this.currentExerciseSecondsLeftSubjcet$.asObservable();
+  public currentExerciseSecondsLeft$ =
+    this.currentExerciseSecondsLeftSubjcet$.asObservable();
   public currentExerciseSecondsLeft?: number = 0;
 
-  public currentExerciseRestSecondsLeftSubject$ = new BehaviorSubject<number>(0);
-  public currentExerciseRestSecondsLeft$ = this.currentExerciseRestSecondsLeftSubject$.asObservable();
+  public currentExerciseRestSecondsLeftSubject$ = new BehaviorSubject<number>(
+    0
+  );
+  public currentExerciseRestSecondsLeft$ =
+    this.currentExerciseRestSecondsLeftSubject$.asObservable();
   public currentExerciseRestSecondsLeft?: number = 0;
 
   public hasTimingSubject$ = new BehaviorSubject<boolean>(false);
@@ -93,7 +111,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly workoutService: WorkoutService,
-    private readonly route: ActivatedRoute,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -109,23 +127,25 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       }
     });
     this.isRestTime$.subscribe((isRest) => {
-      this.isRestTime = isRest
+      this.isRestTime = isRest;
     });
-    this.currentExerciseCurrentSet$.subscribe((currentSet) => this.currentExerciseCurrentSet = currentSet);
+    this.currentExerciseCurrentSet$.subscribe(
+      (currentSet) => (this.currentExerciseCurrentSet = currentSet)
+    );
     this.hasTiming$.subscribe((has) => {
-      this.hasTiming = has
+      this.hasTiming = has;
     });
   }
 
   ngOnDestroy(): void {
-      this.isWorkoutDone = true;
-      this.setSubscription?.unsubscribe();
-      this.secondsSubscription?.unsubscribe();
-      this.restSecondsSubscription?.unsubscribe();
-      this.isRestSubscription?.unsubscribe();
-      this.durationInterval?.unsubscribe();
-      this.restingInterval?.unsubscribe();
-      this.exerciseTotalDurationInterval?.unsubscribe();
+    this.endGlobalTimeCounter();
+    this.setSubscription?.unsubscribe();
+    this.secondsSubscription?.unsubscribe();
+    this.restSecondsSubscription?.unsubscribe();
+    this.isRestSubscription?.unsubscribe();
+    this.durationInterval?.unsubscribe();
+    this.restingInterval?.unsubscribe();
+    this.exerciseTotalDurationInterval?.unsubscribe();
   }
 
   public beginWorkout(exercises: ISessionPracticalExercise[]) {
@@ -136,7 +156,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   public finishWorkout(): void {
-    console.log(this.exerciseDurationTimes)
+    console.log(this.exerciseDurationTimes);
     this.endGlobalTimeCounter();
     this.isWorkoutDone = true;
     this.endTime = new Date();
@@ -167,37 +187,40 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
         this.currentExerciseTotalDuration += 1;
       });
 
-      this.setSubscription = this.currentExerciseCurrentSet$.subscribe((currentSet) => {
-        if (exercise.repetitions) {
-          this.currentExerciseRepetitions = exercise.repetitions;
-          this.hasTimingSubject$.next(false);
-        } else {
-          this.hasTimingSubject$.next(true);
-          let currentDur = exercise.duration || 0;
-          this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
-
-          this.durationInterval = interval(1000).subscribe(() => {
-            currentDur -= 1;
+      this.setSubscription = this.currentExerciseCurrentSet$.subscribe(
+        (currentSet) => {
+          if (exercise.repetitions) {
+            this.currentExerciseRepetitions = exercise.repetitions;
+            this.hasTimingSubject$.next(false);
+          } else {
+            this.hasTimingSubject$.next(true);
+            let currentDur = exercise.duration || 0;
             this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
-          });
 
-          this.secondsSubscription = this.currentExerciseSecondsLeft$.subscribe((seconds) => {
-            this.currentExerciseSecondsLeft = seconds;
-            if (seconds == 0) {
-              this.durationInterval?.unsubscribe();
-              // Go to or wait to trigger new exercise
-              if (this.currentExerciseCurrentSet == this.numberOfSets) {
-                return;
-              } else {
-                this.goRest();
-              }
-            }
-          })
+            this.durationInterval = interval(1000).subscribe(() => {
+              currentDur -= 1;
+              this.currentExerciseSecondsLeftSubjcet$.next(currentDur);
+            });
+
+            this.secondsSubscription =
+              this.currentExerciseSecondsLeft$.subscribe((seconds) => {
+                this.currentExerciseSecondsLeft = seconds;
+                if (seconds == 0) {
+                  this.durationInterval?.unsubscribe();
+                  // Go to or wait to trigger new exercise
+                  if (this.currentExerciseCurrentSet == this.numberOfSets) {
+                    return;
+                  } else {
+                    this.goRest();
+                  }
+                }
+              });
+          }
         }
-      });
+      );
 
       this.previousExerciseIndex = currentIndex;
-    })
+    });
   }
 
   public nextExerciseRest(): void {
@@ -211,7 +234,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.durationInterval?.unsubscribe();
 
     this.isRestTimeSubject$.next(true);
-    this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenExercises || 0);
+    this.currentExerciseRestSecondsLeftSubject$.next(
+      this.pauseBetweenExercises || 0
+    );
     let currentSeconds = this.pauseBetweenExercises || 0;
 
     this.restingInterval = interval(1000).subscribe(() => {
@@ -219,15 +244,16 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
     });
 
-    this.restSecondsSubscription = this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
-      this.currentExerciseRestSecondsLeft = seconds;
+    this.restSecondsSubscription =
+      this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
+        this.currentExerciseRestSecondsLeft = seconds;
 
-      if (seconds == 0) {
-        this.restingInterval?.unsubscribe();
-        this.isRestTimeSubject$.next(false);
-        this.nextExercise();
-      };
-    });
+        if (seconds == 0) {
+          this.restingInterval?.unsubscribe();
+          this.isRestTimeSubject$.next(false);
+          this.nextExercise();
+        }
+      });
   }
 
   public nextExercise(): void {
@@ -242,13 +268,15 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       if (this.isRestTime) this.goWork();
       else this.goRest();
     } else {
-      console.log("stop");
+      console.log('stop');
     }
   }
 
   public goWork(): void {
     this.isRestTimeSubject$.next(false);
-    this.currentExerciseCurrentSetSubject$.next((this.currentExerciseCurrentSet || 0) + 1);
+    this.currentExerciseCurrentSetSubject$.next(
+      (this.currentExerciseCurrentSet || 0) + 1
+    );
     this.restSecondsSubscription?.unsubscribe();
   }
 
@@ -256,7 +284,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.durationInterval?.unsubscribe();
     this.isRestTimeSubject$.next(true);
 
-    this.currentExerciseRestSecondsLeftSubject$.next(this.pauseBetweenSets || 0);
+    this.currentExerciseRestSecondsLeftSubject$.next(
+      this.pauseBetweenSets || 0
+    );
     let currentSeconds = this.pauseBetweenSets || 0;
 
     this.restingInterval = interval(1000).subscribe(() => {
@@ -264,14 +294,15 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       this.currentExerciseRestSecondsLeftSubject$.next(currentSeconds);
     });
 
-    this.restSecondsSubscription = this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
-      this.currentExerciseRestSecondsLeft = seconds;
+    this.restSecondsSubscription =
+      this.currentExerciseRestSecondsLeft$.subscribe((seconds) => {
+        this.currentExerciseRestSecondsLeft = seconds;
 
-      if (seconds == 0) {
-        this.restingInterval?.unsubscribe();
-        this.goWork();
-      };
-    });
+        if (seconds == 0) {
+          this.restingInterval?.unsubscribe();
+          this.goWork();
+        }
+      });
   }
 
   public skipRest(): void {
@@ -282,11 +313,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   private startGlobalTimeCounter(): void {
-    this.totalTimeInterval = interval(1000).subscribe(
-      () => {
-        this.totalWorkoutTime = this.totalWorkoutTime + 1;
-      }
-    )
+    this.totalTimeInterval = interval(1000).subscribe(() => {
+      this.totalWorkoutTime = this.totalWorkoutTime + 1;
+    });
   }
 
   private endGlobalTimeCounter(): void {
@@ -296,7 +325,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public formatTime(time: number): string {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? `0${seconds}`: seconds}`;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   }
 
   private fetchWorkoutSession(workoutId: any) {
@@ -305,19 +334,19 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
         title: 1,
         numberOfSets: 1,
         pauseBetweenSets: 1,
-        pauseBetweenExercises: 1
+        pauseBetweenExercises: 1,
       },
       condition: {
-        type: "AND",
+        type: 'AND',
         items: [
           {
-            field: "uid",
-            operation: "EQ",
-            value: workoutId
-          }
-        ]
-      }
-    }
+            field: 'uid',
+            operation: 'EQ',
+            value: workoutId,
+          },
+        ],
+      },
+    };
 
     this.workoutService.getWorkouts(queryParams).subscribe({
       next: (res) => {
@@ -329,9 +358,9 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
         this.fetchExercises(workoutId);
       },
       error: (err) => {
-        console.log("Fetch workout error -", err);
-      }
-    })
+        console.log('Fetch workout error -', err);
+      },
+    });
   }
 
   private fetchExercises(workoutId: any) {
@@ -359,26 +388,28 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.sessionService.getSessionExercises(queryParams).subscribe({
       next: (res: IRequestResult<ISessionExercise[]> | null) => {
         const exercises = res?.data;
-        this.sessionExercisesSubject$.next(this.mapExercisesArray(exercises))
+        this.sessionExercisesSubject$.next(this.mapExercisesArray(exercises));
       },
       error: (err) => {
-        console.log("fetch exercises error - ", err);
-      }
-    })
+        console.log('fetch exercises error - ', err);
+      },
+    });
   }
 
-  private mapExercisesArray(exercises: ISessionExercise[] | undefined): ISessionPracticalExercise[] {
+  private mapExercisesArray(
+    exercises: ISessionExercise[] | undefined
+  ): ISessionPracticalExercise[] {
     const practicalExercises = exercises?.map((exercise) => {
       const practicalExercise: ISessionPracticalExercise = {};
-      practicalExercise["sets"] = this.numberOfSets;
-      practicalExercise["rest"] = this.pauseBetweenSets;
-      practicalExercise["description"] = exercise.description;
-      practicalExercise["title"] = exercise.title;
-      practicalExercise["thumbUri"] = exercise.thumbUri;
+      practicalExercise['sets'] = this.numberOfSets;
+      practicalExercise['rest'] = this.pauseBetweenSets;
+      practicalExercise['description'] = exercise.description;
+      practicalExercise['title'] = exercise.title;
+      practicalExercise['thumbUri'] = exercise.thumbUri;
       if (exercise.hasTiming === 1) {
-        practicalExercise["duration"] = exercise.duration;
+        practicalExercise['duration'] = exercise.duration;
       } else {
-        practicalExercise["repetitions"] = exercise.repetitions;
+        practicalExercise['repetitions'] = exercise.repetitions;
       }
       return practicalExercise;
     });
@@ -387,18 +418,20 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   private finishWorkoutSession() {
-    this.sessionService.finishSession(this.workoutId || 0, {
-      timeDuration: this.totalWorkoutTime,
-      startTime: this.formatDateForDB(this.startTime),
-      endTime: this.formatDateForDB(this.endTime)
-    }).subscribe({
-      next: () => {
-        console.log("finished workout!")
-      },
-      error: (err) => {
-        console.log(err);
-      }
-    })
+    this.sessionService
+      .finishSession(this.workoutId || 0, {
+        timeDuration: this.totalWorkoutTime,
+        startTime: this.formatDateForDB(this.startTime),
+        endTime: this.formatDateForDB(this.endTime),
+      })
+      .subscribe({
+        next: () => {
+          console.log('finished workout!');
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   private formatDateForDB(date?: Date) {

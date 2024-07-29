@@ -25,6 +25,7 @@ export const PATH = {
     CREATE_WORKOUT: "workouts/add"
   },
   SESSIONS: {
-    GET_EXERCISES: "sessions/getExercises"
+    GET_EXERCISES: "sessions/getExercises",
+    FINISH_WORKOUT: "sessions/finish/"
   }
 }

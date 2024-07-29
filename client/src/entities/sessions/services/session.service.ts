@@ -20,4 +20,14 @@ export class SessionService {
       queryParams
     )
   }
+
+  public finishSession(
+    workoutId: number,
+    body: Record<string, any>
+  ): Observable<any> {
+    return this.apiService.post(
+      PATH.SESSIONS.FINISH_WORKOUT + workoutId,
+      body
+    )
+  }
 }

@@ -28,7 +28,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   canDeactivate(): Observable<boolean> | boolean {
     // return false for showing confirm window
     // return true for not showing confirm window and exit
-    return true;
+    return false;
   }
 
   public workoutId?: number;

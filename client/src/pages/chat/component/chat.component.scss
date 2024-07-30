@@ -30,7 +30,7 @@ img {
   display: flex;
   flex-grow: 1;
   overflow: hidden;
-  border: 0.1rem solid palette.$main-blue-darker-color;
+  box-shadow: 1rem 10rem 10rem rgba(0, 0, 0, 1);
   @include mixins.respond(Phone) {
     border: none;
   }
@@ -120,6 +120,7 @@ img {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 50%;
+ 
 }
 
 .settings {
@@ -251,11 +252,10 @@ img {
 
 .chat-area {
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   overflow: hidden;
   justify-content: center;
   &-header {
-   
     display: flex;
     position: sticky;
     top: 0;
@@ -288,6 +288,10 @@ img {
   width: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
+  @include mixins.respond(Phone) {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
 }
 
 .chat-msg-profile {
@@ -333,6 +337,16 @@ img {
 .chat-msg-text {
   color: black;
   background-color: palette.$main-font-white-color;
+  max-width: 50rem;
+  min-width: 1rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+  display: inline-block;
+  @include mixins.respond(Phone) {
+    font-size: 0.8rem;
+  }
 }
 
 .owner {
@@ -346,6 +360,13 @@ img {
     background-color: palette.$main-blue-darker-color;
     color: palette.$main-font-white-color;
     border-radius: 1.25rem 1.25rem 0 1.25rem;
+    max-width: 50rem;
+    min-width: 1rem;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    white-space: normal;
+    display: inline-block;
   }
   .chat-msg-date {
     left: auto;
@@ -389,6 +410,9 @@ img {
   border-radius: 0.375rem;
   font-size: 0.9375rem;
   width: 95%;
+  @include mixins.respond(Phone) {
+    width: 80%;
+  }
 }
 
 .colors {
@@ -436,9 +460,14 @@ img {
   }
 }
 
-
 @include mixins.respond(Phone) {
   .header {
     display: none;
   }
+}
+
+.send-msg-icon {
+  cursor: pointer;
+  color: palette.$main-blue-darker-color;
+  margin-left: 0.6rem;
 }

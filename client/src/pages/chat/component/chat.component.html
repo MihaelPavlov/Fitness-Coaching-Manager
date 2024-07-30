@@ -103,6 +103,8 @@
         </div>
       </div>
       <div #chatArea class="chat-area-main">
+        <div class="mt-5">
+        </div>
         <div
           *ngFor="
             let group of currentChatMessagesSubject$.asObservable() | async
@@ -141,7 +143,11 @@
             >
               <div class="chat-msg-profile">
                 <!-- unmemoized the profile image -->
-                <img class="chat-msg-img" [src]="user.profilePicture" alt="" />
+                <img
+                  class="chat-msg-img"
+                  [src]="user.profilePicture"
+                  alt="profile_picture"
+                />
                 <!-- <div class="chat-msg-date">Message seen 1.22pm</div> -->
               </div>
               <div class="chat-msg-content">
@@ -166,6 +172,12 @@
           formControlName="message"
           placeholder="Type something here..."
         />
+        <span
+        (click)="createMessage()"
+          class="material-symbols-outlined send-msg-icon"
+        >
+          arrow_forward
+        </span>
       </form>
     </div>
   </div>

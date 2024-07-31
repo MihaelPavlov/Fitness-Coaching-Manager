@@ -39,7 +39,7 @@ export class WorkoutDetailsComponent implements OnInit {
   }
 
   public navigateToSession() {
-    this.router.navigate([`/workouts/session/${this.workoutId}`]);
+    this.router.navigate([`/workout/session/${this.workoutId}`]);
   }
 
   private fetchWorkout(workoutId: number) {

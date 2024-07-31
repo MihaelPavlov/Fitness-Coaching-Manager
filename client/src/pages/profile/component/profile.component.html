@@ -5,11 +5,20 @@
 
   <div class="profile-container__img-container pt-4">
     <img class="profile-container__img-container-img"
-      src={{user?.profilePicture}}
+      [src]="currentProfilePictureUri || user?.profilePicture"
       alt="Img" />
-    <!-- C:/uploads/AthleansApp/Documents/1721342119935-12.png {{user?.profilePicture}} -->
-    <span *ngIf="profileState === 'private'"><i
-        class="profile-container__img-container-icon-private material-icons">photo_camera</i></span>
+    <label *ngIf="profileState === 'private'" for="profilePicture"><i
+        class="profile-container__img-container-icon-private material-icons">photo_camera</i>
+    </label>
+    <input
+      *ngIf="profileState === 'private'"
+      class="d-none"
+      type="file"
+      id="profilePicture"
+      name="profilePicture"
+      (change)="onProfilePictureChange($event)"
+    />
+
     <span *ngIf="profileState === 'public'"
       class="profile-container__img-container-icon-public material-symbols-outlined">chat</span>
   </div>

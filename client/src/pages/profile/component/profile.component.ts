@@ -19,6 +19,7 @@ export class ProfileComponent implements OnInit {
   profileState: 'public' | 'private' = 'public';
 
   public user: IUserDetails | undefined;
+  public currentProfilePictureUri?: string;
   public profileUserId?: number;
   public profileContributorId?: number;
   protected isAuth: boolean = false;
@@ -45,6 +46,18 @@ export class ProfileComponent implements OnInit {
 
       this.checkSubscription(params);
     });
+  }
+
+  public onProfilePictureChange(event: Event) {
+    const files = (event.target as HTMLInputElement)?.files;
+    const file = files?.item(files.length-1);
+    const reader = new FileReader();
+    reader.readAsDataURL(file as Blob);
+
+    reader.onload = (readerEvent) => {
+      this.currentProfilePictureUri = readerEvent.target?.result as string;
+    }
+    console.log(file)
   }
 
   public onSubscribe(): void {

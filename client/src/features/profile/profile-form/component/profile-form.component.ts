@@ -31,6 +31,7 @@ export class ProfileFormComponent implements OnChanges {
     email: ['', [Validators.required, Validators.email]],
     weightGoal: ['', [Validators.required]],
     weight: ['', [Validators.required]],
+    profilePicture: ['', [Validators.required]]
   });
 
   public ngOnChanges(changes: SimpleChanges): void {

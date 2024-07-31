@@ -5,6 +5,7 @@ import { inputValidationMiddleware } from "../middlewares/validation.middleware"
 import { createExerciseValidators } from "../validators/exercise.validator";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
+import upload from "./../config/file-upload.config";
 
 const router = express.Router();
 
@@ -12,6 +13,7 @@ router.post(
   PATH.EXERCISES.CREATE,
   isAuth,
   isCoach,
+  upload.single("thumbUri"),
   inputValidationMiddleware(createExerciseValidators),
   async (
     req: any,
@@ -19,7 +21,7 @@ router.post(
     next: express.NextFunction
   ) => {
     try {
-      const createdExerciseID = await exerciseService.addExercise(req.user.contributorId, req.body);
+      const createdExerciseID = await exerciseService.addExercise(req.user.contributorId, req.body, req.file);
 
       res.status(201).json({
         status: RESPONSE_STATUS.SUCCESS,

@@ -9,7 +9,7 @@ import { BadRequestException } from "../models/exceptions/bad-request.exception"
 export const executeExerciseBuilder = async (payload: QueryParams) =>
   await new ExerciseBuilder(payload).buildQuery();
 
-export const addExercise = async (contributorId: number, exerciseData: any) => {
+export const addExercise = async (contributorId: number, exerciseData: any, file: Express.Multer.File) => {
   const equipmentIds = exerciseData.equipmentIds
     ? exerciseData.equipmentIds.split(",")
     : [];
@@ -38,7 +38,7 @@ export const addExercise = async (contributorId: number, exerciseData: any) => {
     await db(TABLE.EXERCISES).insert({
       contributor_id: contributorId,
       title: exerciseData.title,
-      thumb_uri: exerciseData.thumbUri,
+      thumb_uri: file.filename,
       difficulty: exerciseData.difficulty,
       equipment_ids: exerciseData.equipmentIds,
       description: exerciseData.description,

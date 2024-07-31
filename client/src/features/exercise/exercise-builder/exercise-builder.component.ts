@@ -13,6 +13,7 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { Tag } from '../../../entities/models/tag.interface';
+import { toFormData } from '../../../shared/utils/formTransformer';
 
 interface Equipment extends ListItem {
   uid?: number;
@@ -53,7 +54,7 @@ export class ExerciseBuidlerComponent implements OnInit {
 
   protected exerciseForm = this.fb.group({
     title: ['', Validators.required],
-    thumbUri: ['', Validators.required],
+    thumbUri: [null, Validators.required],
     difficulty: ['', Validators.required],
     equipmentIds: [[], Validators.required],
     tagIds: [[], Validators.required],
@@ -119,7 +120,7 @@ export class ExerciseBuidlerComponent implements OnInit {
 
     console.log(submissionData);
 
-    this.exerciseService.create(submissionData).subscribe({
+    this.exerciseService.create(toFormData(submissionData)).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasExerciseError = false;
@@ -131,6 +132,13 @@ export class ExerciseBuidlerComponent implements OnInit {
         this.hasExerciseError = true;
       },
     });
+  }
+
+  public onImageUpload(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    const file = files?.item(files.length - 1);
+    const selectedFile = this.exerciseForm.get('thumbUri') as FormControl;
+    selectedFile.setValue(file);
   }
 
   public onEqipmentItemSelect(item: Equipment): void {

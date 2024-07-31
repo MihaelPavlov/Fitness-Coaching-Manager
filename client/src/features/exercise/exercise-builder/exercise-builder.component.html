@@ -32,11 +32,11 @@
         >
           <label for="thumb" class="control__label">Gif/Video</label>
           <input
-            [type]="InputType.Text"
+            type="file"
             id="thumb"
             placeholder="Gif/Video"
-            formControlName="thumbUri"
             name="thumb"
+            (change)="onImageUpload($event)"
             class="control w-100 d-block align-items-start"
           />
           <ng-container *ngIf="exerciseForm.get('thumbUri')?.touched">

@@ -80,15 +80,15 @@ export const registerUser = async (
     }
 
     Array(data?.links.split(",")[0])
-        .filter(el => el !== "")
-        .forEach(link => filenames.push(link))
+      .filter((el) => el !== "")
+      .forEach((link) => filenames.push(link));
 
     filenames.forEach(async (filename) => {
       await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
         contributor_id: createdContributorID,
         item_uri: filename,
       });
-    })
+    });
   }
 
   return createTokensAndSession({
@@ -118,11 +118,16 @@ export const loginUser = async (data: Record<string, any>) => {
   });
 };
 
-export const updateUser = async (userId: number, data: Record<string, any>) => {
+export const updateUser = async (
+  userId: number,
+  data: Record<string, any>,
+  file?: Express.Multer.File
+) => {
   await db(TABLE.USERS).where("id", "=", userId).update({
     first_name: data?.firstName,
     last_name: data?.lastName,
     email: data?.email,
+    profile_picture_url: file?.filename || data?.profilePicture
   });
 
   await db(TABLE.USER_SPECS)

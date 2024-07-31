@@ -130,10 +130,11 @@ router.post(
 router.put(
   PATH.USERS.UPDATE,
   isAuth,
+  upload.single('profilePicture'),
   inputValidationMiddleware(updateUserValidators),
   async (req: any, res: express.Response) => {
     try {
-      await userService.updateUser(req.user.id, req.body);
+      await userService.updateUser(req.user.id, req.body, req.file);
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,

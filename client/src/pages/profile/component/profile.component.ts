@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
 
   public user: IUserDetails | undefined;
   public currentProfilePictureUri?: string;
+  public profilePictureFile: any;
   public profileUserId?: number;
   public profileContributorId?: number;
   protected isAuth: boolean = false;
@@ -57,7 +58,7 @@ export class ProfileComponent implements OnInit {
     reader.onload = (readerEvent) => {
       this.currentProfilePictureUri = readerEvent.target?.result as string;
     }
-    console.log(file)
+    this.profilePictureFile = file;
   }
 
   public onSubscribe(): void {

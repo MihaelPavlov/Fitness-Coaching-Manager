@@ -1,11 +1,13 @@
-<ng-container *ngIf="!isWorkoutDone">
-  <h1 class="workout-session-header__h1 mb-4">{{ previousExerciseIndex + 1 + "/" + totalExercises + " Exercise" }}</h1>
+<ng-container *ngIf="!exerciseTiming.isWorkoutDone">
+  <h1 class="workout-session-header__h1 mb-4">
+    {{ currentExercise.previousIndex + 1 + "/" + exerciseTiming.totalExercises + " Exercise" }}
+  </h1>
 
   <div class="workout-session-container d-flex g-8">
     <div
       class="workout-session-container__img-container d-flex align-items-center"
     >
-      <img [src]="currentExerciseThumb" alt="" />
+      <img [src]="currentExercise.thumb" alt="" />
     </div>
     <div
       class="workout-session-container__information d-flex flex-direction-column"
@@ -14,7 +16,7 @@
         <h2
           class="workout-session-container__information__instructions__heading mb-2"
         >
-          {{ currentExerciseName }}
+          {{ currentExercise.title }}
         </h2>
         <!-- for looped here -->
         <div
@@ -23,7 +25,7 @@
           <p
             class="workout-session-container__information__instructions__container__text"
           >
-            {{ currentExerciseDescription }}
+            {{ currentExercise.description }}
           </p>
         </div>
       </div>
@@ -35,26 +37,26 @@
         >
           <!-- Repetitions circle -->
           <app-circle
-            *ngIf="!hasTiming"
+            *ngIf="!currentExercise.hasTiming"
             [width]="'small'"
             [height]="'small'"
             text="Repetitions"
-            [value]="currentExerciseRepetitions || 0"
+            [value]="currentExercise.repetitions || 0"
           ></app-circle>
           <!-- Static Duration circle -->
           <app-circle
-            *ngIf="hasTiming"
+            *ngIf="currentExercise.hasTiming"
             [width]="'small'"
             [height]="'small'"
             text="Duration"
-            [value]="formatTime(currentExerciseStaticDuration)"
+            [value]="formatTime(currentExercise.staticDuration)"
           ></app-circle>
         </div>
         <div class="workout-session-container__information__circles__time">
           <app-circle
             [borderColor]="'green'"
             text="Total Time"
-            [value]="formatTime(totalWorkoutTime)"
+            [value]="formatTime(exerciseTiming.totalWorkoutTime)"
           ></app-circle>
         </div>
         <div
@@ -62,30 +64,37 @@
         >
           <!-- Sets circle -->
           <app-circle
-            *ngIf="!isRestTime && !hasTiming"
+            *ngIf="!currentExercise.isRestTime && !currentExercise.hasTiming"
             [width]="'small'"
             [height]="'small'"
             [borderColor]="'orange'"
             text="Sets made"
-            [value]="currentExerciseCurrentSet + '/' + numberOfSets"
+            [value]="currentExercise.currentSet + '/' + workoutInfo.numberOfSets"
           ></app-circle>
           <!-- Rest circle -->
           <app-circle
-            *ngIf="isRestTime"
+            *ngIf="currentExercise.isRestTime"
             [width]="'small'"
             [height]="'small'"
             [borderColor]="'orange'"
-            [text]="hasTiming ? 'Rest' : 'Rest before set - ' + currentExerciseCurrentSet + '/' + numberOfSets"
-            [value]="formatTime(currentExerciseRestSecondsLeft || 0)"
+            [text]="
+              currentExercise.hasTiming
+                ? 'Rest'
+                : 'Rest before set - ' +
+                  currentExercise.currentSet +
+                  '/' +
+                  workoutInfo.numberOfSets
+            "
+            [value]="formatTime(currentExercise.restSecondsLeft || 0)"
           ></app-circle>
           <!-- Time left circle -->
           <app-circle
-            *ngIf="hasTiming && !isRestTime"
+            *ngIf="currentExercise.hasTiming && !currentExercise.isRestTime"
             [width]="'small'"
             [height]="'small'"
             [borderColor]="'orange'"
             text="Exercise Time"
-            [value]="formatTime(currentExerciseSecondsLeft || 0)"
+            [value]="formatTime(currentExercise.secondsLeft || 0)"
           ></app-circle>
         </div>
       </div>
@@ -94,28 +103,39 @@
       >
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="!isRestTime && (currentExerciseCurrentSet != numberOfSets && !hasTiming)"
+          *ngIf="
+            !currentExercise.isRestTime &&
+            currentExercise.currentSet != workoutInfo.numberOfSets && !currentExercise.hasTiming
+          "
           (click)="nextSet()"
         >
           NEXT SET
         </button>
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="isRestTime"
+          *ngIf="currentExercise.isRestTime"
           (click)="skipRest()"
         >
           SKIP
         </button>
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="!isRestTime && (currentExerciseCurrentSet == numberOfSets || hasTiming) && !isLastExercise"
+          *ngIf="
+            !currentExercise.isRestTime &&
+            (currentExercise.currentSet == workoutInfo.numberOfSets || currentExercise.hasTiming) &&
+            !exerciseTiming.isLastExercise
+          "
           (click)="nextExerciseRest()"
         >
           NEXT EXERCISE
         </button>
         <button
           class="btn btn-large btn-full-width-mobile"
-          *ngIf="!isRestTime && (currentExerciseCurrentSet == numberOfSets || hasTiming) && isLastExercise"
+          *ngIf="
+            !currentExercise.isRestTime &&
+            (currentExercise.currentSet == workoutInfo.numberOfSets || currentExercise.hasTiming) &&
+            exerciseTiming.isLastExercise
+          "
           (click)="finishWorkout()"
         >
           FINISH WORKOUT
@@ -124,11 +144,11 @@
     </div>
   </div>
 </ng-container>
-<ng-container *ngIf="isWorkoutDone">
+<ng-container *ngIf="exerciseTiming.isWorkoutDone">
   <div class="d-flex finish-container">
     <div>
       <h1>Congratulations for Completed Workout</h1>
-      <h2 class="mt-6 mb-8">{{ workoutName }}</h2>
+      <h2 class="mt-6 mb-8">{{ workoutInfo.workoutName }}</h2>
       <div
         class="workout-session-container__information__circles d-flex g-6 justify-content-center align-items-center"
       >
@@ -139,14 +159,14 @@
             [width]="'small'"
             [height]="'small'"
             text="Total Exercises"
-            [value]="totalExercises"
+            [value]="exerciseTiming.totalExercises"
           ></app-circle>
         </div>
         <div class="workout-session-container__information__circles__time">
           <app-circle
             [borderColor]="'green'"
             text="Total Time"
-            [value]="formatTime(totalWorkoutTime)"
+            [value]="formatTime(exerciseTiming.totalWorkoutTime)"
           ></app-circle>
         </div>
         <div

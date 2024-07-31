@@ -7,6 +7,7 @@ export interface ISessionExercise {
   repetitions: number;
   title: string;
   thumbUri: string;
+  tags?: Array<any>
 }
 
 export interface ISessionPracticalExercise {

@@ -5,8 +5,7 @@
       <h2 class="card__information__header__heading">{{exercise?.title}}</h2>
       <p class="card__information__header__sets">4 x {{ exercise?.repetitions ? exercise?.repetitions : exercise?.duration + 's' }}</p>
       <div class="card__information__header__tags d-flex g-2">
-        <app-tag text="Gym" [backgroundColor]="'dark-grey'"></app-tag>
-        <app-tag text="Back" [backgroundColor]="'dark-grey'"></app-tag>
+        <app-tag *ngFor="let tag of exercise?.tags" [text]="tag?.name" [backgroundColor]="'dark-grey'"></app-tag>
       </div>
     </div>
     <p class="card__information__text">

@@ -1,7 +1,10 @@
 <div class="workout-details-header d-flex mb-6 justify-content-between hidden">
   <h1 class="workout-details-header__h1">{{ workoutName }}</h1>
   <div class="workout-details-header__btn-desktop">
-    <button class="btn btn-begin btn-medium btn-full-width-mobile" (click)="navigateToSession()">
+    <button
+      class="btn btn-begin btn-medium btn-full-width-mobile"
+      (click)="navigateToSession()"
+    >
       BEGIN WORKOUT
     </button>
   </div>
@@ -9,13 +12,13 @@
 
 <div class="workout-details-cards d-flex flex-direction-column g-4">
   <ng-container *ngFor="let exercise of exercises">
-    <app-exercise-set-card (click)="navigateToDetails(exercise?.exerciseId || 0)" [exercise]="exercise"></app-exercise-set-card>
+    <app-exercise-set-card
+      (click)="navigateToDetails(exercise?.exerciseId || 0)"
+      [exercise]="exercise"
+    ></app-exercise-set-card>
   </ng-container>
 </div>
 
 <div class="workout-details-header__btn-mobile">
-  <button class="btn w-100" (click)="navigateToSession()">
-    BEGIN WORKOUT
-  </button>
+  <button class="btn w-100" (click)="navigateToSession()">BEGIN WORKOUT</button>
 </div>
-

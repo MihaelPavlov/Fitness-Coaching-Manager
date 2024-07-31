@@ -106,6 +106,7 @@ export class WorkoutDetailsComponent implements OnInit {
           if (exercise.description == '' || !exercise.description) {
             this.fetchExerciseDescription(exercise);
           }
+          this.fetchExerciseTags(exercise);
         })
         this.exercises = exercises;
       },
@@ -140,5 +141,62 @@ export class WorkoutDetailsComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  private fetchExerciseTags(exercise: ISessionExercise) {
+    const queryParams: IQueryParams = {
+      what: {
+        [EXERCISE_FIELDS.exercises.tagIds]: 1,
+      },
+      condition: {
+        type: 'OR',
+        items: [
+          {
+            field: 'uid',
+            operation: 'EQ',
+            value: exercise.exerciseId,
+          },
+        ],
+      },
+    };
+
+    this.exerciseService.getDetails(queryParams).subscribe({
+      next: (res) => {
+        this.assignTags(res?.data[0].tagIds || "", exercise)
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  private assignTags(tags: string, exercise: ISessionExercise) {
+    const newTags = tags.split(",");
+
+    const queryParams: IQueryParams = {
+      what: {
+        name: 1
+      },
+      condition: {
+        type: "OR",
+        items: []
+      }
+    }
+
+    newTags.forEach((tag: any) => {
+      queryParams.condition?.items.push({
+        field: "uid",
+        operation: "EQ",
+        value: +tag
+      })
+    });
+
+    this.exerciseService.getTagList(queryParams).subscribe({
+      next: (res) => {
+        console.log("tags", res?.data);
+        exercise.tags = res?.data;
+      },
+      error: (err) => console.log(err)
+    })
   }
 }

@@ -64,6 +64,9 @@ export class WorkoutDetailsComponent implements OnInit {
 
     this.workoutService.getWorkouts(queryParams).subscribe({
       next: (res) => {
+        if (res?.data.length == 0) {
+          this.router.navigate(['/workout/list'])
+        }
         this.workoutName = res?.data.at(0)?.title || "";
         this.numberOfSets = res?.data.at(0)?.numberOfSets || 0;
         this.fetchExercises(workoutId);

@@ -8,16 +8,9 @@
 </div>
 
 <div class="workout-details-cards d-flex flex-direction-column g-4">
-  <app-exercise-set-card (click)="navigateToDetails()"></app-exercise-set-card>
-  <app-exercise-set-card (click)="navigateToDetails()"></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
-  <app-exercise-set-card></app-exercise-set-card>
+  <ng-container *ngFor="let exercise of exercises">
+    <app-exercise-set-card (click)="navigateToDetails(exercise?.exerciseId || 0)" [exercise]="exercise"></app-exercise-set-card>
+  </ng-container>
 </div>
 
 <div class="workout-details-header__btn-mobile">

@@ -34,6 +34,10 @@ export const addExercise = async (contributorId: number, exerciseData: any, file
 
   const currentDate = new Date().toISOString().split("T")[0];
 
+  if (!file) {
+    throw new Error("You must upload a thumb for the exercise")
+  }
+
   const createdExerciseID = (
     await db(TABLE.EXERCISES).insert({
       contributor_id: contributorId,

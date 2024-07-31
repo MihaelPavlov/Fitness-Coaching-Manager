@@ -99,12 +99,6 @@ export const createWorkoutExercisesValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "rank")
         }
     },
-    "exercises.*.description": {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "description")
-        },
-    },
     "exercises.*.hasTiming": {
         in: ["body"],
         exists: {

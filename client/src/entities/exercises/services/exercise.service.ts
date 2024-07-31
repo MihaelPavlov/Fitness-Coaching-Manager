@@ -45,8 +45,8 @@ export class ExerciseService {
   public getDetails(
     queryParams: IQueryParams
   ): Observable<IRequestResult<IExercise[]> | null> {
-    const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
-    return this.api.post(PATH.EXERCISES.GET_DETAILS, payload);
+    //const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
+    return this.api.post(PATH.EXERCISES.GET_DETAILS, queryParams);
   }
 
   public create(

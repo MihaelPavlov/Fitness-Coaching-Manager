@@ -26,6 +26,7 @@ export class ExerciseLibraryComponent implements OnInit {
         [EXERCISE_FIELDS.exercises.tagIds]: 1,
         [EXERCISE_FIELDS.exercises.equipmentIds]: 1,
         [EXERCISE_FIELDS.exercises.dateCreated]: 1,
+        [EXERCISE_FIELDS.exercises.thumbUri]: 1
       },
     };
 

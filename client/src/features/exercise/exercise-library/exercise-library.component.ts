@@ -5,6 +5,8 @@ import { IExercise } from '../../../entities/exercises/models/exercise.interface
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
+import { FormBuilder } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-exercise-library',
@@ -13,11 +15,29 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
 })
 export class ExerciseLibraryComponent implements OnInit {
   @Input() pageName: string = 'Exercises';
+  public exercisesSubject = new BehaviorSubject<IExercise[]>([]);
   public exercises: IExercise[] = [];
   public tags: IExerciseTag[] = [];
-  constructor(private readonly exerciseService: ExerciseService) {}
+
+  public isLoadingSubject = new BehaviorSubject<boolean>(false);
+  public isLoading: boolean = false;
+
+  constructor(
+    private readonly exerciseService: ExerciseService,
+    private readonly fb: FormBuilder
+  ) {}
+
+  public searchForm = this.fb.group({
+    title: ['']
+  });
 
   public ngOnInit(): void {
+    this.isLoadingSubject.asObservable().subscribe(value => this.isLoading = value);
+
+    this.exercisesSubject.asObservable().subscribe((values) => {
+      this.exercises = values;
+    })
+
     const queryParamsGetList: IQueryParams = {
       what: {
         [EXERCISE_FIELDS.exercises.uid]: 1,

@@ -4,6 +4,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { BehaviorSubject } from 'rxjs';
 import { IExercise } from '../../../entities/exercises/models/exercise.interface';
+import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 
 @Component({
   selector: 'app-search',
@@ -14,6 +15,7 @@ export class SearchComponent {
   @Input() toggleFilterForm: boolean = false;
   @Input() exercisesSubject?: BehaviorSubject<IExercise[]>;
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;
+  @Input() tags?: IExerciseTag[];
   public searchValue: string = "";
 
   constructor(private readonly exerciseService: ExerciseService) {}
@@ -21,6 +23,10 @@ export class SearchComponent {
   public onSearchChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchValue = value;
+  }
+
+  public onTagSelect(event: Event, tagId: any) {
+    const isChecked = (event.target as HTMLInputElement).checked;
   }
 
   public search() {

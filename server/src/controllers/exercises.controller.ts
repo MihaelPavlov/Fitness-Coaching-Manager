@@ -1,7 +1,7 @@
 import express from "express";
 import * as exerciseService from "./../services/exercise.service";
 import { isAuth, isCoach } from "./../middlewares/auth.middleware";
-import { inputValidationMiddleware } from "../middlewares/validation.middleware";
+import { fileMediaValidationMiddleware, fileSizeValidationMiddleware, inputValidationMiddleware } from "../middlewares/validation.middleware";
 import { createExerciseValidators } from "../validators/exercise.validator";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
@@ -14,6 +14,8 @@ router.post(
   isAuth,
   isCoach,
   upload.single("thumbUri"),
+  fileSizeValidationMiddleware,
+  fileMediaValidationMiddleware,
   inputValidationMiddleware(createExerciseValidators),
   async (
     req: any,

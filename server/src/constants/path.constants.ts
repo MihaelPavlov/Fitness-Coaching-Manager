@@ -5,6 +5,7 @@ export const PATH = {
     GET_DETAILS: "/getDetail",
     GET_TAG_LIST: "/getTagList",
     GET_EQUIPMENT_LIST: "/getEquipmentList",
+    SEARCH: "/search"
   },
   USERS: {
     GET_USER_INFO: "/getUserInfo",

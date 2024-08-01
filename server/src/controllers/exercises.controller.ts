@@ -75,6 +75,25 @@ router.post(
 );
 
 router.post(
+  PATH.EXERCISES.SEARCH,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const exercises = await exerciseService.searchExercises(req.body, req.query.title as string);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: exercises,
+      });
+    } catch (error) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        message: error.message,
+      });
+    }
+  }
+)
+
+router.post(
   PATH.EXERCISES.GET_TAG_LIST,
   async (req: any, res: express.Response) => {
     try {

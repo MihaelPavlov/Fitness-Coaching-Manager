@@ -33,6 +33,14 @@ export class ExerciseService {
     );
   }
 
+  public searchExercises(
+    queryParams: IQueryParams,
+    title: string
+  ): Observable<IRequestResult<IExercise[]> | null> {
+    const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
+    return this.api.post(PATH.EXERCISES.SEARCH + title, payload);
+  }
+
   public getTagList(
     queryParams: IQueryParams
   ): Observable<IRequestResult<IExerciseTag[]> | null> {

@@ -49,6 +49,13 @@ export const ROUTES: Routes = [
             (m) => m.ContributorModule
           ),
       },
+      {
+        path: 'chat',
+        loadChildren: () =>
+          import('../../pages/chat/chat.module').then(
+            (m) => m.ChatModule
+          ),
+      },
     ],
   },
   {

@@ -68,7 +68,7 @@ export class UserBuilder extends AbstractBuilder {
     {
       mainField: "id",
       relatedTable: TABLE.CONTRIBUTORS,
-      relatedField: "user_id"
+      relatedField: "user_id",
     },
   ];
 

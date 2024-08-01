@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { PATH } from '../../../shared/configs/path.config';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
@@ -6,6 +6,7 @@ import { UserInfo } from '../../models/user.interface';
 import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IUserDetails } from '../models/user-details.interface';
+import { SocketService } from '../../chat/services/socket.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,10 +18,22 @@ export class UserService {
   private isAuthSubject$ = new BehaviorSubject<boolean>(false);
   public isAuth$ = this.isAuthSubject$.asObservable();
 
-  constructor(private readonly apiService: RestApiService) {}
+  constructor(
+    private readonly apiService: RestApiService,
+    private readonly socketService: SocketService
+  ) {}
 
   public get getUser(): UserInfo | null {
     return this.userInfoSubject$.value;
+  }
+
+  public getList(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IUserDetails[]> | null> {
+    return this.apiService.post<IRequestResult<IUserDetails[]> | null>(
+      PATH.USERS.GET_LIST,
+      queryParams
+    );
   }
 
   public getDetail(
@@ -48,14 +61,14 @@ export class UserService {
         role: res.data.role,
       });
       this.isAuthSubject$.next(true);
+      this.socketService.emitEvent('addNewUser', res.data.id);
+
+      //TODO: ON LOGOUT we need to disconnect from the socket
     });
   }
 
   public subscribeToContributor(contributorId: number): Observable<any> {
-    return this.apiService.post(
-      PATH.USERS.SUBSCRIBE + `/${contributorId}`,
-      {}
-    );
+    return this.apiService.post(PATH.USERS.SUBSCRIBE + `/${contributorId}`, {});
   }
 
   public unsubscribeToContributor(contributorId: number): Observable<any> {
@@ -65,12 +78,8 @@ export class UserService {
     );
   }
 
-  public hasUserSubscribed(
-    id: number
-  ): Observable<any> {
-    return this.apiService.get(
-      PATH.USERS.HAS_SUBSCRIBED + `/${id}`
-    );
+  public hasUserSubscribed(id: number): Observable<any> {
+    return this.apiService.get(PATH.USERS.HAS_SUBSCRIBED + `/${id}`);
   }
 
   private fetchCurrentUserInfo(): Observable<any> {

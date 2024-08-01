@@ -66,7 +66,7 @@ export class WorkoutBuilderComponent implements OnInit {
     rank: [0, [Validators.required]],
     title: ['', [Validators.required]],
     hasTiming: [0, [Validators.required]],
-    description: ['', [Validators.required]],
+    description: [null],
     repetitions: [0, [Validators.required]],
     duration: [0, [Validators.required]],
   });
@@ -133,7 +133,7 @@ export class WorkoutBuilderComponent implements OnInit {
     this.addExerciseForm.setValue({
       repetitions: 0,
       duration: 0,
-      description: "",
+      description: null,
       exerciseId: this.addExerciseForm.get('exerciseId')?.value || null,
       hasTiming: 0,
       title: this.addExerciseForm.get('title')?.value || null,

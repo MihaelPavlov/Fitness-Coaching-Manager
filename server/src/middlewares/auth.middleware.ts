@@ -84,7 +84,7 @@ export const checkRefreshToken = async (
 
     next();
   } catch (err) {
-    console.error(err.message, "- REFRESH TOKEN");
+    //console.error(err.message, "- REFRESH TOKEN");
     next();
   }
 };

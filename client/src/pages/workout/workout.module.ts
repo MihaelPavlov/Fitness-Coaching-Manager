@@ -14,6 +14,7 @@ import { WorkoutEditCardModule } from '../../widgets/workout-edit-card/workout-e
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
+import { sessionLeave } from '../../shared/guards/sessionLeave.guard';
 
 @NgModule({
   declarations: [
@@ -36,5 +37,6 @@ import { LoaderModule } from '../../shared/components/loader/loader.module';
     LoaderModule
   ],
   exports: [WorkoutComponent],
+  providers: [sessionLeave]
 })
 export class WorkoutModule {}

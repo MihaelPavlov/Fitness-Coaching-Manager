@@ -52,6 +52,10 @@ export class ProfileComponent implements OnInit {
   public onProfilePictureChange(event: Event) {
     const files = (event.target as HTMLInputElement)?.files;
     const file = files?.item(files.length-1);
+    const allowedFiles = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedFiles.includes(file?.type as string)) {
+      return alert("Images only allowed");
+    }
     const reader = new FileReader();
     reader.readAsDataURL(file as Blob);
 

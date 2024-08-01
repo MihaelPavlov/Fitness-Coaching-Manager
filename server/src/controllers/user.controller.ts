@@ -8,7 +8,7 @@ import { createCoachValidators, createUserValidators, updateUserValidators } fro
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
 import upload from "./../config/file-upload.config";
-import { registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
+import { isFileImageMiddleware, registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
@@ -132,7 +132,7 @@ router.put(
   isAuth,
   upload.single('profilePicture'),
   fileSizeValidationMiddleware,
-  fileMediaValidationMiddleware,
+  isFileImageMiddleware,
   inputValidationMiddleware(updateUserValidators),
   async (req: any, res: express.Response) => {
     try {

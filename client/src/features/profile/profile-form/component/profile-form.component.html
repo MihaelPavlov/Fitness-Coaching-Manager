@@ -134,7 +134,7 @@
   <div
     class="profile-container__inputs-flex-container-last-item align-self-center text-center my-4"
   >
+    <app-error *ngIf="hasUpdateError" [errorMessageText]="updateError" class="my-2"></app-error>
     <button class="btn border-hover w-auto" [disabled]="this.updateUserForm.invalid || isLoading">Edit</button>
-    <app-error *ngIf="hasUpdateError" [errorMessageText]="updateError"></app-error>
   </div>
 </form>

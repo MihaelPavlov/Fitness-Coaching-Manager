@@ -12,7 +12,7 @@ const routes: Routes = [
     component: WorkoutLibraryComponent,
   },
   {
-    path: 'details',
+    path: 'details/:workoutId',
     component: WorkoutDetailsComponent,
   },
   {

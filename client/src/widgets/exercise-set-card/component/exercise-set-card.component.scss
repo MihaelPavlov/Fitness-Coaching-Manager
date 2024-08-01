@@ -23,11 +23,10 @@
   }
 
   &__img {
-    width: auto;
+    width: 12rem;
     height: 6rem;
     @include mixins.respond(Phone) {
       height: 100%;
-      width: auto;
     }
   }
 
@@ -78,6 +77,9 @@
   }
 
   &__icon {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
     span {
       font-size: 3rem;
       color: palette.$main-blue-color;

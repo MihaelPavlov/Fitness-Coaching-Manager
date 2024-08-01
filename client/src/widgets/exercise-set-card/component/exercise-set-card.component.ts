@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ISessionExercise } from '../../../entities/sessions/models/session-exercise.interface';
 
 @Component({
     selector: 'app-exercise-set-card',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
     styleUrls: ['./exercise-set-card.component.scss']
 })
 export class ExerciseSetCardComponent {
-    imageUrl = '../../../shared/assets/images/temporary-exercise-list-placeholder-img.png';  //Provided image
+  @Input() exercise?: ISessionExercise
 }

@@ -19,4 +19,5 @@ export const finishSession = async (userId: number, workoutId: number, data: Rec
         "start_time": data?.startTime,
         "end_time": data?.endTime
     })
+    await db(TABLE.USER_SPECS).increment("total_workouts").where("user_id", "=", userId);
 };

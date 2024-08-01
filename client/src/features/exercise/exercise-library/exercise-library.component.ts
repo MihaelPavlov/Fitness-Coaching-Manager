@@ -29,16 +29,17 @@ export class ExerciseLibraryComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
-      if (selectedTags.length == 0) this.getExercises() // No selected tags
-      if (selectedTags.length != 0 && this.exercises.length == 0) this.getExercises() // Already selected tags but lost exercises before
-      this.exercises = this.exercises.filter((exercise) => {
-        let result = false;
-        selectedTags.forEach(selectedTag => {
-          if(exercise.tagIds.split(",").includes(selectedTag.uid + "")) {
-            result = true;
-          }
-        })
-        return result;
+      this.exercisesSubject.asObservable().subscribe((exercises) => {
+        this.exercises = exercises.filter((exercise) => {
+          let result = false;
+          if (selectedTags.length == 0) return true;
+          selectedTags.forEach(selectedTag => {
+            if(exercise.tagIds.split(",").includes(selectedTag.uid + "")) {
+              result = true;
+            }
+          })
+          return result;
+        });
       })
     });
 
@@ -74,6 +75,7 @@ export class ExerciseLibraryComponent implements OnInit {
         next: (exercises: IRequestResult<IExercise[]> | null) => {
           console.log(exercises?.data);
           this.exercises = exercises?.data ?? [];
+          this.exercisesSubject.next(this.exercises)
         },
         error: (err) => console.log(err),
         complete: () => this.isLoadingSubject.next(false)

@@ -32,6 +32,7 @@ export class SearchComponent implements OnInit {
   public onSearchChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchValue = value;
+    this.search();
   }
 
   public onTagSelectChange(event: Event, tag: any) {

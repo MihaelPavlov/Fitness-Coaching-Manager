@@ -55,6 +55,15 @@ export const addExercise = async (contributorId: number, exerciseData: any, file
   return createdExerciseID;
 };
 
+export const searchExercises = async (payload: QueryParams, query: string) => {
+  const exercises = await new ExerciseBuilder(payload).buildQuery();
+
+  return exercises.filter((exercise: any) => {
+    if (exercise.title.includes(query)) return true;
+    return false;
+  })
+}
+
 export const getTags = async (tagData: any) =>
   await new ExerciseTagBuilder(tagData).buildQuery();
 

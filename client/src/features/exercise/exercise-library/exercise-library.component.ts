@@ -50,11 +50,16 @@ export class ExerciseLibraryComponent implements OnInit {
       },
     };
 
+    this.isLoadingSubject.next(true);
     this.exerciseService
       .getList(queryParamsGetList)
-      .subscribe((exercises: IRequestResult<IExercise[]> | null) => {
-        console.log(exercises?.data);
-        this.exercises = exercises?.data ?? [];
+      .subscribe({
+        next: (exercises: IRequestResult<IExercise[]> | null) => {
+          console.log(exercises?.data);
+          this.exercises = exercises?.data ?? [];
+        },
+        error: (err) => console.log(err),
+        complete: () => this.isLoadingSubject.next(false)
       });
 
     const queryParamsGetTagList: IQueryParams = {

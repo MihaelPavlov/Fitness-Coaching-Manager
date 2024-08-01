@@ -25,7 +25,6 @@ export class SearchComponent {
 
   public search() {
     this.isLoadingSubject?.next(true);
-    console.log("seach")
     const queryParams: IQueryParams = {
       what: {
         [EXERCISE_FIELDS.exercises.uid]: 1,
@@ -40,7 +39,6 @@ export class SearchComponent {
 
     this.exerciseService.searchExercises(queryParams, this.searchValue).subscribe({
       next: (res) => {
-        console.log('search', res);
         this.exercisesSubject?.next(res?.data || []);
         this.isLoadingSubject?.next(false);
       },

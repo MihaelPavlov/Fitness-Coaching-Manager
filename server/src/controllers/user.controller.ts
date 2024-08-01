@@ -3,7 +3,7 @@ import * as userService from "./../services/user.service";
 import { isAuth } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
-import { inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
+import { fileMediaValidationMiddleware, fileSizeValidationMiddleware, inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
 import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
@@ -131,6 +131,8 @@ router.put(
   PATH.USERS.UPDATE,
   isAuth,
   upload.single('profilePicture'),
+  fileSizeValidationMiddleware,
+  fileMediaValidationMiddleware,
   inputValidationMiddleware(updateUserValidators),
   async (req: any, res: express.Response) => {
     try {

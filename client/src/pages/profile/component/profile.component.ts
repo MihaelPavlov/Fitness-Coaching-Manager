@@ -19,6 +19,8 @@ export class ProfileComponent implements OnInit {
   profileState: 'public' | 'private' = 'public';
 
   public user: IUserDetails | undefined;
+  public currentProfilePictureUri?: string;
+  public profilePictureFile: any;
   public profileUserId?: number;
   public profileContributorId?: number;
   protected isAuth: boolean = false;
@@ -45,6 +47,22 @@ export class ProfileComponent implements OnInit {
 
       this.checkSubscription(params);
     });
+  }
+
+  public onProfilePictureChange(event: Event) {
+    const files = (event.target as HTMLInputElement)?.files;
+    const file = files?.item(files.length-1);
+    const allowedFiles = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedFiles.includes(file?.type as string)) {
+      return alert("Images only allowed");
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file as Blob);
+
+    reader.onload = (readerEvent) => {
+      this.currentProfilePictureUri = readerEvent.target?.result as string;
+    }
+    this.profilePictureFile = file;
   }
 
   public onSubscribe(): void {

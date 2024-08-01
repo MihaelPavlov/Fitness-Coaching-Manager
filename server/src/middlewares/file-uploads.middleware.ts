@@ -44,13 +44,15 @@ export const isFileImageMiddleware = (
   next: NextFunction
 ) => {
   const allowedFiles = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
-  if (!allowedFiles.includes(req.file.mimetype)) {
-    return res.status(422).json({
-      status: RESPONSE_STATUS.FAILED,
-      data: {
-        message: "File must be an image",
-      },
-    });
+  if (req.file) {
+    if (!allowedFiles.includes(req.file.mimetype)) {
+      return res.status(422).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          message: "File must be an image",
+        },
+      });
+    }
   }
 
   next();

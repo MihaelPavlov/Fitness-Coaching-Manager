@@ -5,7 +5,6 @@ import { IExercise } from '../../../entities/exercises/models/exercise.interface
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
-import { FormBuilder } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -26,19 +25,21 @@ export class ExerciseLibraryComponent implements OnInit {
 
   constructor(
     private readonly exerciseService: ExerciseService,
-    private readonly fb: FormBuilder
   ) {}
-
-  public searchForm = this.fb.group({
-    title: ['']
-  });
 
   public ngOnInit(): void {
     this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
-      if (selectedTags.length == 0) {
-        this.exercises
-      }
-      console.log(selectedTags);
+      if (selectedTags.length == 0) this.getExercises() // No selected tags
+      if (selectedTags.length != 0 && this.exercises.length == 0) this.getExercises() // Already selected tags but lost exercises before
+      this.exercises = this.exercises.filter((exercise) => {
+        let result = false;
+        selectedTags.forEach(selectedTag => {
+          if(exercise.tagIds.split(",").includes(selectedTag.uid + "")) {
+            result = true;
+          }
+        })
+        return result;
+      })
     });
 
     this.isLoadingSubject.asObservable().subscribe(value => this.isLoading = value);

@@ -1,9 +1,4 @@
-import {
-  Component,
-  HostListener,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { SessionService } from '../../../entities/sessions/services/session.service';
 import { ActivatedRoute } from '@angular/router';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
@@ -43,7 +38,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.sessionStateService.workoutInfo.workoutId = params['workoutId'];
       this.fetchWorkoutSession(params['workoutId']);
@@ -51,26 +46,29 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.sessionExercises$.subscribe((exercises) => {
       // Start workout when everything is fetched and ready
       if (exercises.length > 0) {
-        this.sessionStateService.exerciseTiming.totalExercises = exercises.length;
+        this.sessionStateService.exerciseTiming.totalExercises =
+          exercises.length;
         this.beginWorkout(exercises);
       }
     });
     this.sessionStateService.subscribeForGlobalVariables();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.endGlobalTimeCounter();
     this.sessionStateService.unsubscribeToSubscriptions();
   }
 
-  public beginWorkout(exercises: ISessionPracticalExercise[]) {
+  public beginWorkout(exercises: ISessionPracticalExercise[]): void {
     this.startGlobalTimeCounter();
     this.startTime = new Date();
     this.sessionStateService.performWorkout(exercises);
   }
 
   public finishWorkout(): void {
-    this.sessionStateService.exerciseTiming.exerciseDurationTimes.push(this.sessionStateService.currentExercise.totalDuration);
+    this.sessionStateService.exerciseTiming.exerciseDurationTimes.push(
+      this.sessionStateService.currentExercise.totalDuration
+    );
     this.endGlobalTimeCounter();
     this.sessionStateService.exerciseTiming.isWorkoutDone = true;
     this.endTime = new Date();
@@ -78,8 +76,11 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   }
 
   private startGlobalTimeCounter(): void {
-    this.sessionStateService.exerciseTiming.totalTimeInterval = interval(1000).subscribe(() => {
-      this.sessionStateService.exerciseTiming.totalWorkoutTime = this.sessionStateService.exerciseTiming.totalWorkoutTime + 1;
+    this.sessionStateService.exerciseTiming.totalTimeInterval = interval(
+      1000
+    ).subscribe(() => {
+      this.sessionStateService.exerciseTiming.totalWorkoutTime =
+        this.sessionStateService.exerciseTiming.totalWorkoutTime + 1;
     });
   }
 
@@ -87,7 +88,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     this.sessionStateService.exerciseTiming.totalTimeInterval.unsubscribe();
   }
 
-  private fetchWorkoutSession(workoutId: any) {
+  private fetchWorkoutSession(workoutId: any): void {
     const queryParams: IQueryParams = {
       what: {
         title: 1,
@@ -109,10 +110,14 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
 
     this.workoutService.getWorkouts(queryParams).subscribe({
       next: (res) => {
-        this.sessionStateService.workoutInfo.workoutName = res?.data.at(0)?.title || "";
-        this.sessionStateService.workoutInfo.numberOfSets = res?.data.at(0)?.numberOfSets || 0;
-        this.sessionStateService.workoutInfo.pauseBetweenExercises = res?.data.at(0)?.pauseBetweenExercises || 0;
-        this.sessionStateService.workoutInfo.pauseBetweenSets = res?.data.at(0)?.pauseBetweenSets || 0;
+        this.sessionStateService.workoutInfo.workoutName =
+          res?.data.at(0)?.title || '';
+        this.sessionStateService.workoutInfo.numberOfSets =
+          res?.data.at(0)?.numberOfSets || 0;
+        this.sessionStateService.workoutInfo.pauseBetweenExercises =
+          res?.data.at(0)?.pauseBetweenExercises || 0;
+        this.sessionStateService.workoutInfo.pauseBetweenSets =
+          res?.data.at(0)?.pauseBetweenSets || 0;
         // Fetch exercises here - easier for mapping
         this.fetchExercises(workoutId);
       },
@@ -122,7 +127,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     });
   }
 
-  private fetchExercises(workoutId: any) {
+  private fetchExercises(workoutId: any): void {
     const queryParams: IQueryParams = {
       what: {
         exerciseId: 1,
@@ -161,8 +166,10 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     const practicalExercises = exercises?.map((exercise) => {
       const practicalExercise: ISessionPracticalExercise = {};
       practicalExercise['exerciseId'] = exercise.exerciseId;
-      practicalExercise['sets'] = this.sessionStateService.workoutInfo.numberOfSets;
-      practicalExercise['rest'] = this.sessionStateService.workoutInfo.pauseBetweenSets;
+      practicalExercise['sets'] =
+        this.sessionStateService.workoutInfo.numberOfSets;
+      practicalExercise['rest'] =
+        this.sessionStateService.workoutInfo.pauseBetweenSets;
       practicalExercise['description'] = exercise.description;
       practicalExercise['title'] = exercise.title;
       practicalExercise['thumbUri'] = exercise.thumbUri;
@@ -177,7 +184,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     return practicalExercises || [];
   }
 
-  private finishWorkoutSession() {
+  private finishWorkoutSession(): void {
     this.sessionService
       .finishSession(this.sessionStateService.workoutInfo.workoutId || 0, {
         timeDuration: this.sessionStateService.exerciseTiming.totalWorkoutTime,
@@ -194,7 +201,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       });
   }
 
-  private formatDateForDB(date?: Date) {
-    return date?.toISOString().slice(0, 19).replace('T', ' ');
+  private formatDateForDB(date?: Date): string {
+    return date?.toISOString().slice(0, 19).replace('T', ' ') ?? '';
   }
 }

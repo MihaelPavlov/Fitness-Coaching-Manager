@@ -353,7 +353,7 @@
         </ng-container>
       </div>
       <div class="control__wrapper mb-4">
-        <label for="password" class="control__label required">Description</label>
+        <label for="password" class="control__label">Description</label>
         <input
           [type]="InputType.Text"
           id="pause-sets"
@@ -362,9 +362,9 @@
           class="control w-100 d-block align-items-start"
           formControlName="description"
         />
-        <ng-container *ngIf="addExerciseForm.get('description')?.touched">
+        <!-- <ng-container *ngIf="addExerciseForm.get('description')?.touched">
           <p *ngIf="addExerciseForm.get('description')?.errors">Invalid field</p>
-        </ng-container>
+        </ng-container> -->
       </div>
       <button
         class="btn btn-medium text-center landing-page-container__buttons-container__button"

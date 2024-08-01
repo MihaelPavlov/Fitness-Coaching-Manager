@@ -14,7 +14,7 @@
     <div class="exercise-form__elements">
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper w-100">
-          <label for="name" class="control__label w-100">New Exercise</label>
+          <label for="name" class="control__label required w-100">New Exercise</label>
           <input
             [type]="InputType.Text"
             id="name"
@@ -30,13 +30,13 @@
         <div
           class="control__wrapper w-100 exercise-form__elements__custom-button"
         >
-          <label for="thumb" class="control__label">Gif/Video</label>
+          <label for="thumb" class="control__label required">Gif/Video</label>
           <input
-            [type]="InputType.Text"
+            type="file"
             id="thumb"
             placeholder="Gif/Video"
-            formControlName="thumbUri"
             name="thumb"
+            (change)="onImageUpload($event)"
             class="control w-100 d-block align-items-start"
           />
           <ng-container *ngIf="exerciseForm.get('thumbUri')?.touched">
@@ -46,7 +46,7 @@
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper w-100">
-          <label for="difficulty" class="control__label">Difficulty</label>
+          <label for="difficulty" class="control__label required">Difficulty</label>
           <select
             id="difficulty"
             formControlName="difficulty"
@@ -62,7 +62,7 @@
           </select>
         </div>
         <div class="control__wrapper w-100">
-          <label for="equipment" class="control__label">Equipment</label>
+          <label for="equipment" class="control__label required">Equipment</label>
           <ng-multiselect-dropdown
             [placeholder]="'Select Equipment'"
             [settings]="equipmentSettings"
@@ -78,7 +78,7 @@
       </div>
       <div class="exercise-form__elements__inputs d-flex g-6 mb-2">
         <div class="control__wrapper w-100">
-          <label for="tag" class="control__label">Tag</label>
+          <label for="tag" class="control__label required">Tag</label>
           <ng-multiselect-dropdown
             [placeholder]="'Select Tags'"
             [settings]="tagSettings"
@@ -94,7 +94,7 @@
         <div
           class="control__wrapper w-100 exercise-form__elements__inputs__description"
         >
-          <label for="description" class="control__label">Description</label>
+          <label for="description" class="control__label required">Description</label>
           <input
             [type]="InputType.Text"
             id="description"

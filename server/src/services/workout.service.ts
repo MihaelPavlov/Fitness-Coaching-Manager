@@ -30,7 +30,7 @@ export const createWorkoutSession = async (
       contributor_id: contributorId,
       related_user_id: data?.relatedStudent == "null" || data?.relatedStudent == null ? null : data?.relatedStudent,
       name: data?.title,
-      description: data?.description,
+      description: data?.description || null,
       image_uri: file.filename,
       set_count: data?.numberOfSets,
       set_pause_time: data?.pauseBetweenSets,

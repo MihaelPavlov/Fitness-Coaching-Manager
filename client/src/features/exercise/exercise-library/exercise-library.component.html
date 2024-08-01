@@ -1,9 +1,16 @@
+<app-loader *ngIf="isLoading"></app-loader>
 <section class="exercise-library">
   <div class="w-100">
     <h1 class="exercise-library__header">{{ pageName }}</h1>
-    <app-search></app-search>
+    <app-search
+      [exercisesSubject]="exercisesSubject"
+      [isLoadingSubject]="isLoadingSubject"
+      [tags]="tags"
+      [selectedTagsSubject]="selectedTagsSubject"
+    ></app-search>
   </div>
   <div class="exercise-library__cards-flex-container my-3">
+    <p *ngIf="exercises.length == 0">There are no exercises</p>
     <app-exercise-card
       class="m-2"
       *ngFor="let exercise of this.exercises"

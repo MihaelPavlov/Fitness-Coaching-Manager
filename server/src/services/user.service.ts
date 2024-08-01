@@ -119,11 +119,16 @@ export const loginUser = async (data: Record<string, any>) => {
   });
 };
 
-export const updateUser = async (userId: number, data: Record<string, any>) => {
+export const updateUser = async (
+  userId: number,
+  data: Record<string, any>,
+  file?: Express.Multer.File
+) => {
   await db(TABLE.USERS).where("id", "=", userId).update({
     first_name: data?.firstName,
     last_name: data?.lastName,
     email: data?.email,
+    profile_picture_url: file?.filename || data?.profilePicture
   });
 
   await db(TABLE.USER_SPECS)

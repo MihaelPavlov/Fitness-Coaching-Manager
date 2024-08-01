@@ -15,7 +15,7 @@
       class="profile-container__inputs-flex-container-input-item__input-container"
     >
       <div class="control__wrapper">
-        <label for="lastName" class="control__label">Last Name</label>
+        <label for="lastName" class="control__label required">Last Name</label>
         <input
           [type]="InputType.Text"
           id="lastName"
@@ -33,7 +33,7 @@
       class="profile-container__inputs-flex-container-input-item__input-container"
     >
       <div class="control__wrapper">
-        <label for="firstName" class="control__label">First Name</label>
+        <label for="firstName" class="control__label required">First Name</label>
         <input
           [type]="InputType.Text"
           id="firstName"
@@ -56,7 +56,7 @@
       class="profile-container__inputs-flex-container-input-item__input-container"
     >
       <div class="control__wrapper">
-        <label for="dateOfBirth" class="control__label">Date of Birth</label>
+        <label for="dateOfBirth" class="control__label required">Date of Birth</label>
         <input
           type="date"
           id="dateOfBirth"
@@ -74,7 +74,7 @@
       class="profile-container__inputs-flex-container-input-item__input-container"
     >
       <div class="control__wrapper">
-        <label for="email" class="control__label">Email</label>
+        <label for="email" class="control__label required">Email</label>
         <input
           [type]="InputType.Text"
           id="email"
@@ -97,7 +97,7 @@
       class="profile-container__inputs-flex-container-input-item__input-container"
     >
       <div class="control__wrapper">
-        <label for="weightGoal" class="control__label">Weight Goal</label>
+        <label for="weightGoal" class="control__label required">Weight Goal</label>
         <input
           [type]="InputType.Text"
           id="weightGoal"
@@ -115,7 +115,7 @@
       class="profile-container__inputs-flex-container-input-item__input-container"
     >
       <div class="control__wrapper">
-        <label for="weight" class="control__label">Weight</label>
+        <label for="weight" class="control__label required">Weight</label>
         <input
           [type]="InputType.Text"
           id="weight"
@@ -134,7 +134,7 @@
   <div
     class="profile-container__inputs-flex-container-last-item align-self-center text-center my-4"
   >
+    <app-error *ngIf="hasUpdateError" [errorMessageText]="updateError" class="my-2"></app-error>
     <button class="btn border-hover w-auto" [disabled]="this.updateUserForm.invalid || isLoading">Edit</button>
-    <app-error *ngIf="hasUpdateError" [errorMessageText]="updateError"></app-error>
   </div>
 </form>

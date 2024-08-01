@@ -39,9 +39,13 @@ export class UserService {
   public getDetail(
     queryParams: IQueryParams
   ): Observable<IRequestResult<IUserDetails> | null> {
-    return this.apiService.post<IRequestResult<IUserDetails> | null>(
-      PATH.USERS.GET_DETAIL,
-      queryParams
+    return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams).pipe(
+      map((res: any) => {
+        if (res.data.profilePicture.startsWith("http") || res.data.profilePicture.startsWith("https")) return res;
+        const newPictureUrl = "http://localhost:3000/files/" + res.data.profilePicture;
+        res.data.profilePicture = newPictureUrl;
+        return res;
+      })
     );
   }
 

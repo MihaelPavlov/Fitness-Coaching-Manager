@@ -75,7 +75,7 @@ export class SessionStateService {
 
   constructor(private readonly exerciseService: ExerciseService) {}
 
-  performWorkout(exercises: ISessionPracticalExercise[]) {
+  public performWorkout(exercises: ISessionPracticalExercise[]): void {
     this.currentExercise.indexSubject
       .asObservable()
       .subscribe((currentIndex) => {
@@ -147,7 +147,7 @@ export class SessionStateService {
     this.restSecondsSubscription?.unsubscribe();
   }
 
-  public nextSet() {
+  public nextSet(): void {
     // Unsubscribe to running timers
     this.durationRestSubscription?.unsubscribe();
     this.secondsSubscription?.unsubscribe();
@@ -205,7 +205,7 @@ export class SessionStateService {
     return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   }
 
-  public subscribeForGlobalVariables() {
+  public subscribeForGlobalVariables(): void {
     this.currentExercise.isRestTimeSubject
       .asObservable()
       .subscribe((isRest) => {
@@ -221,7 +221,7 @@ export class SessionStateService {
     });
   }
 
-  public unsubscribeToSubscriptions() {
+  public unsubscribeToSubscriptions(): void {
     this.setSubscription?.unsubscribe();
     this.secondsSubscription?.unsubscribe();
     this.restSecondsSubscription?.unsubscribe();
@@ -231,7 +231,7 @@ export class SessionStateService {
     this.exerciseTotalDurationInterval?.unsubscribe();
   }
 
-  private handleRepetitionsExercise(exercise: ISessionPracticalExercise) {
+  private handleRepetitionsExercise(exercise: ISessionPracticalExercise): void {
     this.durationRestSubscription?.unsubscribe();
     this.setSubscription = this.currentExercise.currentSetSubject
       .asObservable()
@@ -241,7 +241,7 @@ export class SessionStateService {
       });
   }
 
-  private handleDurationExercise(exercise: ISessionPracticalExercise) {
+  private handleDurationExercise(exercise: ISessionPracticalExercise): void {
     this.setSubscription?.unsubscribe();
     this.durationRestSubscription = this.currentExercise.isRestTimeSubject
       .asObservable()
@@ -272,8 +272,7 @@ export class SessionStateService {
       });
   }
 
-  private assignCurrentExercise(exercise: ISessionPracticalExercise) {
-    console.log(exercise)
+  private assignCurrentExercise(exercise: ISessionPracticalExercise): void {
     // Assign variables to current exercise for visualization and logic
     this.currentExercise.title = exercise.title || '';
 
@@ -294,7 +293,7 @@ export class SessionStateService {
     });
   }
 
-  private fetchExerciseDescription(exerciseId: any) {
+  private fetchExerciseDescription(exerciseId: any): void {
     const queryParams: IQueryParams = {
       what: {
         [EXERCISE_FIELDS.exercises.description]: 1,

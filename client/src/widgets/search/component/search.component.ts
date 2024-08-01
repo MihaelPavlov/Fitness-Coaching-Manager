@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { IExercise } from '../../../entities/exercises/models/exercise.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 
@@ -11,22 +11,37 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
 })
-export class SearchComponent {
+export class SearchComponent implements OnInit {
   @Input() toggleFilterForm: boolean = false;
   @Input() exercisesSubject?: BehaviorSubject<IExercise[]>;
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;
   @Input() tags?: IExerciseTag[];
+  @Input() selectedTagsSubject?: BehaviorSubject<IExerciseTag[]>;
+
+  public selectedTags?: IExerciseTag[];
   public searchValue: string = "";
 
   constructor(private readonly exerciseService: ExerciseService) {}
+
+  ngOnInit(): void {
+      this.selectedTagsSubject?.asObservable().subscribe((values) => {
+        this.selectedTags = values;
+      })
+  }
 
   public onSearchChange(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.searchValue = value;
   }
 
-  public onTagSelect(event: Event, tagId: any) {
+  public onTagSelectChange(event: Event, tag: any) {
     const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.selectedTags?.push(tag);
+    } else {
+      this.selectedTags = this.selectedTags?.filter((selectedTag) => selectedTag.uid !== tag.uid);
+    }
+    this.selectedTagsSubject?.next(this.selectedTags || [])
   }
 
   public search() {

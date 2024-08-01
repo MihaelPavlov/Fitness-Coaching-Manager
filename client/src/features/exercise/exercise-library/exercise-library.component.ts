@@ -19,6 +19,8 @@ export class ExerciseLibraryComponent implements OnInit {
   public exercises: IExercise[] = [];
   public tags: IExerciseTag[] = [];
 
+  public selectedTagsSubject = new BehaviorSubject<IExerciseTag[]>([]);
+
   public isLoadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading: boolean = false;
 
@@ -32,6 +34,10 @@ export class ExerciseLibraryComponent implements OnInit {
   });
 
   public ngOnInit(): void {
+    this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
+      console.log(selectedTags);
+    });
+
     this.isLoadingSubject.asObservable().subscribe(value => this.isLoading = value);
 
     this.exercisesSubject.asObservable().subscribe((values) => {

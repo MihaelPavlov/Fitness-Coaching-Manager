@@ -18,7 +18,7 @@
     <form *ngIf="toggleFilterForm" class="search-feature__filter-form pr-10 pl-2 py-2">
         <ng-container *ngFor="let tag of tags">
           <div class="search-feature__filter-form-option d-flex my-1 justify-content-start g-2">
-            <input type="checkbox" (change)="onTagSelect($event, tag.uid)">
+            <input type="checkbox" (change)="onTagSelectChange($event, tag)">
             <label>{{ tag.name }}</label>
           </div>
         </ng-container>

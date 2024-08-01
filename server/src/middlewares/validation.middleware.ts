@@ -95,7 +95,6 @@ export const registrationMiddlware = async (
 };
 
 export const fileMediaValidationMiddleware = (
-  error: Error,
   req: Request,
   res: Response,
   next: NextFunction
@@ -115,7 +114,7 @@ export const fileMediaValidationMiddleware = (
     return res.status(409).json({
       status: RESPONSE_STATUS.FAILED,
       data: {
-        message: error.message,
+        message: "Invalid file type",
       },
     });
   }

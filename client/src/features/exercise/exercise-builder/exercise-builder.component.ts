@@ -128,7 +128,7 @@ export class ExerciseBuidlerComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.createExerciseErrorMsg = err.error.data[0].message;
+        this.createExerciseErrorMsg = Array.isArray(err.error.data) ? err.error.data[0].message : err.error.data.message;
         this.hasExerciseError = true;
       },
     });

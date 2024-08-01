@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-cards.interface';
+import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 
 @Component({
   selector: 'app-workout-card',
@@ -7,7 +7,7 @@ import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-c
   styleUrls: ['./workout-card.component.scss'],
 })
 export class WorkoutCardComponent {
-  @Input() workout!: IWorkoutCardsFields;
+  @Input() workout!: IWorkout;
 
   public starsCount(): Array<any> {
     if (this.workout?.rating === 0) return Array(1).fill(0);

@@ -32,20 +32,20 @@ export class ProfileComponent implements OnInit {
   constructor(
     private readonly userService: UserService,
     private readonly workoutService: WorkoutService,
-    private readonly route: ActivatedRoute,
+    private readonly activeRouter: ActivatedRoute,
     private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.activeRouter.params.subscribe((params) => {
       this.profileUserId = params['userId'];
 
       // Check for authentication for private profile
-      this.checkAuthentication(params);
+      this.checkAuthentication();
 
-      this.fetchUserProfile(params);
+      this.fetchUserProfile();
 
-      this.checkSubscription(params);
+      this.checkSubscription();
     });
   }
 
@@ -95,9 +95,15 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  private checkAuthentication(params: any): void {
+  public navigateToChat(){
+    if(this.isSubscribed){
+      this.router.navigate([`chat/${this.profileUserId}`])
+    }
+  }
+
+  private checkAuthentication(): void {
     this.userService.isAuth$.subscribe((isAuth) => {
-      if (!params['userId']) {
+      if (!this.profileUserId) {
         if (!isAuth) {
           this.router.navigate(['/login']);
         }
@@ -105,12 +111,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private fetchUserProfile(params: any): void {
+  private fetchUserProfile(): void {
     this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
       if (userInfo) {
         this.isAuth = true;
         this.visitorRole = userInfo.role;
-        if (!params['userId'] || userInfo.id == params['userId']) {
+        if (!this.profileUserId || userInfo.id == this.profileUserId) {
           // Same user trying to access his public profile - not allowed
           // Do different builder request for private
           this.fetchPrivateProfileUser(userInfo.id);
@@ -118,17 +124,19 @@ export class ProfileComponent implements OnInit {
           this.profileState = 'private';
         } else {
           // Logged-in user see other profile
-          this.fetchPublicProfileUser(params);
+          this.fetchPublicProfileUser();
         }
       } else {
-        this.fetchPublicProfileUser(params);
+        this.fetchPublicProfileUser();
       }
     });
   }
 
-  private checkSubscription(params: any): void {
-    if (this.profileState === 'public') {
-      this.userService.hasUserSubscribed(params['userId']).subscribe({
+  private checkSubscription(): void {
+    console.log("params -> ", this.profileUserId);
+    
+    if (this.profileState === 'public' && this.profileUserId) {
+      this.userService.hasUserSubscribed(this.profileUserId).subscribe({
         next: (res: any) => {
           if (
             this.visitorRole === UserRoles.Coach &&
@@ -146,7 +154,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  private fetchPublicProfileUser(params: any): void {
+  private fetchPublicProfileUser(): void {
     const queryParams: IQueryParams = {
       what: {
         [USERS_FIELDS.users.firstName]: 1,
@@ -161,7 +169,7 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.users.userRole]: 1,
         [USERS_FIELDS.contributors.contributorId]: 1,
       },
-      id: params['userId'] || null,
+      id: this.profileUserId || null,
     };
 
     this.userService.getDetail(queryParams).subscribe({

@@ -16,6 +16,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UserService } from '../../../entities/users/services/user.service';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IUserDetails } from '../../../entities/users/models/user-details.interface';
+import { ActivatedRoute } from '@angular/router';
 
 export interface GroupedChatMessage {
   senderId: number;
@@ -47,18 +48,26 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   public chatForm: FormGroup = new FormGroup({
     message: new FormControl(''),
   });
-
+  public navigateWithId: number | null = null;
   public currentChatUser: IUserDetails | null = null;
   public socketOnlineUser!: Observable<any>;
   constructor(
     private readonly chatService: ChatService,
     private readonly cdRef: ChangeDetectorRef,
     private readonly socketService: SocketService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly activeRouter: ActivatedRoute
   ) {
+    this.activeRouter.params.subscribe((params) => {
+      if (params['id']) {
+        this.navigateWithId = params['id'];
+      } else {
+        this.navigateWithId = null;
+      }
+    });
+
     this.socketOnlineUser = this.socketService.onlineUsers$;
     this.socketOnlineUser.subscribe((y: any) => {
-      console.log(y);
       this.fetchUserChats();
       this.cdRef.detectChanges();
     });
@@ -115,6 +124,20 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.chatService.getUserChats().subscribe((x) => {
       this.chats = x.data;
       this.fetchUsers();
+      if (this.navigateWithId) {
+        let chat: Chat | null;
+        if (this.getUserRole === 1) {
+          chat =
+            this.chats.find((y) => y.recipientUserId == this.navigateWithId) ??
+            null;
+        } else {
+          chat =
+            this.chats.find((y) => y.initiatorUserId == this.navigateWithId) ??
+            null;
+        }
+        if (chat) this.getMessages(chat, this.navigateWithId);
+        if (this.isMobile) this.goInChat();
+      }
     });
   }
 
@@ -202,6 +225,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   public goBack(): void {
     if (this.isMobile) {
       this.inChat = false;
+      this.navigateWithId = null;
     }
   }
 
@@ -222,7 +246,6 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       }
     });
 
-    console.log('unique Ids --> ', currentUniqueUserIds);
     if (currentUniqueUserIds.length !== 0) {
       const queryParams: IQueryParams = {
         what: {
@@ -255,10 +278,6 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
             ...this.currentAvailableUsers,
             ...uniqueUsers,
           ];
-          console.log(
-            'current available users---->, ',
-            this.currentAvailableUsers
-          );
         }
       });
 

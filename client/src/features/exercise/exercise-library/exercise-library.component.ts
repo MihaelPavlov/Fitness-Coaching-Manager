@@ -35,6 +35,9 @@ export class ExerciseLibraryComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
+      if (selectedTags.length == 0) {
+        this.exercises
+      }
       console.log(selectedTags);
     });
 
@@ -43,6 +46,14 @@ export class ExerciseLibraryComponent implements OnInit {
     this.exercisesSubject.asObservable().subscribe((values) => {
       this.exercises = values;
     })
+
+    this.getExercises();
+
+    this.getTagsList();
+  }
+
+  public getExercises() {
+    this.isLoadingSubject.next(true);
 
     const queryParamsGetList: IQueryParams = {
       what: {
@@ -56,7 +67,6 @@ export class ExerciseLibraryComponent implements OnInit {
       },
     };
 
-    this.isLoadingSubject.next(true);
     this.exerciseService
       .getList(queryParamsGetList)
       .subscribe({
@@ -67,7 +77,10 @@ export class ExerciseLibraryComponent implements OnInit {
         error: (err) => console.log(err),
         complete: () => this.isLoadingSubject.next(false)
       });
+  }
 
+  public getTagsList() {
+    this.isLoadingSubject.next(true);
     const queryParamsGetTagList: IQueryParams = {
       what: {
         [EXERCISE_FIELDS.exercise_tags.uid]: 1,
@@ -77,9 +90,13 @@ export class ExerciseLibraryComponent implements OnInit {
 
     this.exerciseService
       .getTagList(queryParamsGetTagList)
-      .subscribe((tags: IRequestResult<IExerciseTag[]> | null) => {
-        console.log(tags?.data);
-        this.tags = tags?.data ?? [];
+      .subscribe({
+        next: (tags: IRequestResult<IExerciseTag[]> | null) => {
+          console.log(tags?.data);
+          this.tags = tags?.data ?? [];
+        },
+        error: (err) => console.log(err),
+        complete: () => this.isLoadingSubject.next(false)
       });
   }
 

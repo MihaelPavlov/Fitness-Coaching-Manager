@@ -59,6 +59,7 @@
       margin-left: 6rem;
       @include mixins.respond(Phone) {
         margin-left: 0;
+        margin-bottom: 4rem;
       }
     }
   }

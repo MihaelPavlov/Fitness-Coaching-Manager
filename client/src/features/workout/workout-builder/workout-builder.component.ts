@@ -40,7 +40,7 @@ export class WorkoutBuilderComponent implements OnInit {
   public subscribers: Array<IContributorSubscriber> = [];
   public exercises: Array<any> = [];
 
-  public createWorkoutErr: string = "";
+  public createWorkoutErr: string = '';
   public hasCreateWorkoutErr: boolean = false;
 
   public isPrivate: boolean = false;
@@ -76,10 +76,10 @@ export class WorkoutBuilderComponent implements OnInit {
     private readonly workoutService: WorkoutService,
     private readonly exerciseService: ExerciseService,
     private readonly contributorService: ContributorService,
-    private readonly router: Router,
+    private readonly router: Router
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.fetchExercises();
     this.fetchWorkoutTags();
     this.fetchSubscribers();
@@ -89,28 +89,29 @@ export class WorkoutBuilderComponent implements OnInit {
     this.isLoading = true;
     if (this.createWorkoutForm.invalid) {
       this.isLoading = false;
-      return
+      return;
     }
 
     const requestBody = {
       ...this.createWorkoutForm.value,
-      tags: this.transformFormTags()
-    }
-    console.log(requestBody)
+      tags: this.transformFormTags(),
+    };
+    console.log(requestBody);
 
     this.workoutService.createWorkout(toFormData(requestBody)).subscribe({
       next: (res) => {
         this.isLoading = false;
         this.hasCreateWorkoutErr = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/workout/list']);
       },
       error: (err) => {
         this.isLoading = false;
         this.hasCreateWorkoutErr = true;
-        this.createWorkoutErr = err.error.data.error || err.error.data.message || "Bad Request";
-        console.log("Create workout err", err);
-      }
-    })
+        this.createWorkoutErr =
+          err.error.data.error || err.error.data.message || 'Bad Request';
+        console.log('Create workout err', err);
+      },
+    });
   }
 
   public onAddExercise(): void {
@@ -138,7 +139,7 @@ export class WorkoutBuilderComponent implements OnInit {
       hasTiming: 0,
       title: this.addExerciseForm.get('title')?.value || null,
       rank: 0,
-      thumbUri: this.addExerciseForm.get('thumbUri')?.value || null
+      thumbUri: this.addExerciseForm.get('thumbUri')?.value || null,
     });
   }
 
@@ -253,7 +254,7 @@ export class WorkoutBuilderComponent implements OnInit {
     const tags = this.createWorkoutForm.get('tags') as FormControl;
     let tagsArr: Array<number | undefined> = [];
     tags.value.forEach((tag: Tag) => tagsArr.push(tag.uid));
-    return tagsArr.join(",");
+    return tagsArr.join(',');
   }
 
   private fetchExercises() {
@@ -333,12 +334,16 @@ export class WorkoutBuilderComponent implements OnInit {
     if (isPrivate) {
       isPrivateSelected.setValue(1);
       isActiveSelected.setValue(0);
-      this.createWorkoutForm.get('relatedStudent')?.setValidators([Validators.required]);
+      this.createWorkoutForm
+        .get('relatedStudent')
+        ?.setValidators([Validators.required]);
       this.createWorkoutForm.get('relatedStudent')?.updateValueAndValidity();
     } else {
       isPrivateSelected.setValue(0);
       isActiveSelected.setValue(1);
-      this.createWorkoutForm.get('relatedStudent')?.removeValidators([Validators.required]);
+      this.createWorkoutForm
+        .get('relatedStudent')
+        ?.removeValidators([Validators.required]);
       this.createWorkoutForm.get('relatedStudent')?.setValue(null);
       this.createWorkoutForm.get('relatedStudent')?.updateValueAndValidity();
     }

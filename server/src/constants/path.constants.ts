@@ -17,13 +17,18 @@ export const PATH = {
     SUBSCRIBE: "/subscribe",
     UNSUBSCRIBE: "/unsubscribe",
     HAS_SUBSCRIBED: "/hasSubscribed",
+    ADD_TO_COLLECTION: "/addToCollection",
+    REMOVE_FROM_COLLECTION: "/removeFromCollection",
+    GET_USER_COLLECTION: "/getUserCollection",
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: "/getSubscribers",
+    GET_LIST: "/getList"
   },
   WORKOUTS: {
     CREATE_WORKOUT: "/add",
     GET_TAG_LIST: "/getTagList",
+    SEARCH: "/search"
   },
   SESSIONS: {
     GET_EXERCISES: "/getExercises",

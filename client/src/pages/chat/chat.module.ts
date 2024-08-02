@@ -3,8 +3,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { TagModule } from '../../widgets/tag/tag.module';
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './component/chat.component';
-import { SearchModule } from '../../widgets/search/search.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ChatSearchModule } from '../../widgets/chat-search/chat-search.module';
 
 @NgModule({
   declarations: [ChatComponent],
@@ -13,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TagModule,
     ChatRoutingModule,
     ReactiveFormsModule,
-    SearchModule
+    ChatSearchModule
   ],
   exports: [],
 })

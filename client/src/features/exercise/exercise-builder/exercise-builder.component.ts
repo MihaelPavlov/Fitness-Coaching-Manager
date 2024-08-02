@@ -124,7 +124,7 @@ export class ExerciseBuidlerComponent implements OnInit {
       next: () => {
         this.isLoading = false;
         this.hasExerciseError = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/exercise/list']);
       },
       error: (err) => {
         this.isLoading = false;

@@ -49,12 +49,20 @@ export class MenuContainerComponent {
         route: '/exercise/list',
       },
       {
+        label: 'Contributors',
+        class: page == '/contributor/list' ? 'active' : '',
+        enabled: true,
+        visible: true,
+        icon: 'people',
+        route: '/contributor/list',
+      },
+      {
         label: 'Builders',
-        class: page == '/builders/list' ? 'active' : '',
+        class: page == '/builders' ? 'active' : '',
         enabled: true,
         visible: true,
         icon: 'build',
-        route: '/builders/list',
+        route: '/builders',
       },
       {
         label: 'Chat',

@@ -2,7 +2,7 @@ import { UserBuilder } from "./../query-builders/user.builder";
 import { WorkoutTagsBuilder } from "./../query-builders/workout-tags.builder";
 
 export const mapWorkouts = async (workouts: Array<any>) => {
-  return await Promise.all(
+  return Promise.all(
     workouts.map(async (el) => {
       if (el.tags) { // Map Tags
         el.tags = el.tags.split(",");

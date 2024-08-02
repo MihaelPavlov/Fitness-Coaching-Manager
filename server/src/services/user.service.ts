@@ -10,7 +10,8 @@ import { TABLE } from "../database/constants/tables.constant";
 import { EXCEPTION } from "../constants/exceptions.constants";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
-import { table } from "console";
+import { invalidateSession } from "./user.sessions";
+import { invalidateAccessToken } from "./invalid-tokens";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -117,6 +118,11 @@ export const loginUser = async (data: Record<string, any>) => {
     user_role: user.user_role,
     username: user.username,
   });
+};
+
+export const logoutUser = (sessionId: string, token: string) => {
+  invalidateSession(sessionId);
+  invalidateAccessToken(token);
 };
 
 export const updateUser = async (

@@ -17,6 +17,7 @@ export const PATH = {
     SUBSCRIBE: "/subscribe",
     UNSUBSCRIBE: "/unsubscribe",
     HAS_SUBSCRIBED: "/hasSubscribed",
+    LOGOUT: "/logout"
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: "/getSubscribers",

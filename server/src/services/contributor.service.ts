@@ -3,6 +3,11 @@ import { QueryParams } from "./../query-builders/models/builder.models";
 import { ContributorSubscribersBuilder } from "./../query-builders/contributor-subscribers.builder";
 import { mapSubscribers } from "./../helpers/contributor.helper";
 
+export const getContributors = async (payload: QueryParams) => {
+  const builder = new UserBuilder(payload);
+  return await builder.buildQuery();
+}
+
 export const getContributorId = async (id: number) => {
   const queryParams: QueryParams = {
     what: {

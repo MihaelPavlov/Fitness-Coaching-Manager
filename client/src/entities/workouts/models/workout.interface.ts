@@ -10,6 +10,7 @@ export interface IWorkout {
 }
 
 interface ITagInterface {
+  uid: number;
   name: string
 }
 

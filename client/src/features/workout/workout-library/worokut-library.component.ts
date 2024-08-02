@@ -27,7 +27,18 @@ export class WorkoutLibraryComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
-
+      this.workoutsSubject.asObservable().subscribe((workouts) => {
+        this.workouts = workouts.filter((workout) => {
+          let result = false;
+          if (selectedTags.length == 0) return true;
+          selectedTags.forEach(selectedTag => {
+            workout.tags.forEach(tag => {
+              if (tag.name == selectedTag.name) result = true;
+            })
+          })
+          return result;
+        });
+      })
     });
 
     this.isLoadingSubject.asObservable().subscribe(value => this.isLoading = value);

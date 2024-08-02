@@ -10,4 +10,5 @@
     <ng-container *ngFor="let workout of workouts">
       <app-workout-card [workout]="workout"></app-workout-card>
     </ng-container>
+    <p *ngIf="workouts?.length == 0">There are no workouts.</p>
 </div>

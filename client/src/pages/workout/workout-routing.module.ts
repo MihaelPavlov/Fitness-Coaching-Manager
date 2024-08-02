@@ -5,6 +5,7 @@ import { WorkoutDetailsComponent } from '../../features/workout/workout-details/
 import { WorkoutSessionComponent } from '../../features/workout/workout-session/workout-session.component';
 import { WorkoutBuilderComponent } from '../../features/workout/workout-builder/workout-builder.component';
 import { sessionLeave } from '../../shared/guards/sessionLeave.guard';
+import { CoachOnlyGuard } from '../../shared/guards/coach-only.guard';
 
 const routes: Routes = [
   {
@@ -22,6 +23,7 @@ const routes: Routes = [
   },
   {
     path: 'create',
+    canActivate: [CoachOnlyGuard],
     component: WorkoutBuilderComponent,
   },
 ];

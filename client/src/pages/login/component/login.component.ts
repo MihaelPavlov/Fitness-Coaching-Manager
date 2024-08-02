@@ -57,7 +57,7 @@ export class LoginComponent {
         next: () => {
           this.isLoading = false;
           this.hasLoginError = false;
-          this.router.navigate(['/']);
+          this.router.navigate(['/workout/list']);
         },
         error: () => {
           this.isLoading = false;

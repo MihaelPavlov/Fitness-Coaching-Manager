@@ -28,7 +28,7 @@ router.post(
     isCoach,
     async (req: any, res: express.Response, next: express.NextFunction) => {
         try {
-            const subscribers = await contributorService.getContributorSubscribers(req.user.id, req.body);
+            const subscribers = await contributorService.getContributorSubscribers(req.user.contributorId, req.body);
 
             res.status(200).json({
                 status: RESPONSE_STATUS.SUCCESS,

@@ -9,8 +9,8 @@ export const executeWorkoutBuilder = async (payload: QueryParams) =>
   await new WorkoutBuilder(payload).buildQuery();
 
 export const getWorkouts = async (payload: QueryParams) => {
-  const workouts = await executeWorkoutBuilder(payload);
-  await mapWorkouts(workouts);
+  let workouts = await executeWorkoutBuilder(payload);
+  workouts = await mapWorkouts(workouts);
 
   return workouts;
 };

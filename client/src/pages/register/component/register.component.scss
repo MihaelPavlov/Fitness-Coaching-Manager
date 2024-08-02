@@ -268,8 +268,17 @@
   display: grid;
   grid-template-columns: auto auto;
   max-height: max-content;
+
+  @include mixins.respond(Phone) {
+    display: block;
+  }
 }
 
 .overflow-visible {
   overflow: visible !important;
+}
+
+.cancel-icon {
+  z-index: 21000;
+  background-color: #ECEEF3;
 }

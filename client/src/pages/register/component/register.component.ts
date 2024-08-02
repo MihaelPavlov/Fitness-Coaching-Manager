@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrationType } from '../../../shared/enums/registration-type.enum';
 import {
   AbstractControl,
+  FormArray,
   FormBuilder,
   FormControl,
   ValidationErrors,
@@ -114,6 +115,22 @@ export class RegisterComponent implements OnInit {
     const currentLinksArr = currentLinks.value.slice();
     currentLinksArr.push("");
     currentLinks.setValue(currentLinksArr);
+  }
+
+  public removeAttachDocumentField(index: number): void {
+    if (this.attachedDocuments.length > index) {
+      this.attachedDocuments.splice(index, 1);
+      const currentDocuments = this.registerForm.get('documents') as unknown as FormArray;
+      currentDocuments.removeAt(index);
+    }
+  }
+  
+  public removeAttachLinkField(index: number): void {
+    if (this.attachedLinks.length > index) {
+      this.attachedLinks.splice(index, 1);
+      const currentLinks = this.registerForm.get('links') as unknown as FormArray;
+      currentLinks.removeAt(index);
+    }
   }
 
   public isDisabled(): boolean {

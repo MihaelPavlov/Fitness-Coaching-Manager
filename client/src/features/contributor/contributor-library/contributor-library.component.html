@@ -11,7 +11,7 @@
   <div class="contributor-library__container__popular-trainers">
     <h2 class="mb-4">Popular Trainers</h2>
     <div class="contributor-library__container__popular-trainers__cards mt-1 d-flex g-4 flex-wrap">
-        <app-contributor-card-popular *ngFor="let popularContributor of popularContributors"></app-contributor-card-popular>
+        <app-contributor-card-popular *ngFor="let popularContributor of popularContributors" [contributor]="popularContributor"></app-contributor-card-popular>
     </div>
   </div>
 </div>

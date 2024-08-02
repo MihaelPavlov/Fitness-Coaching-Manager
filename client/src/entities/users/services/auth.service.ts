@@ -39,6 +39,10 @@ export class AuthService {
     );
   }
 
+  public logout(): Observable<any> {
+    return this.apiService.post(PATH.USERS.LOGOUT, {});
+  }
+
   public createAuthHeaders(): HttpHeaders {
     return new HttpHeaders()
       .set('AccessToken', localStorage.getItem('accessToken') || '')

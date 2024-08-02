@@ -9,6 +9,7 @@ export const PATH = {
     SUBSCRIBE: 'users/subscribe',
     UNSUBSCRIBE: 'users/unsubscribe',
     HAS_SUBSCRIBED: 'users/hasSubscribed',
+    LOGOUT: "users/logout"
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: 'contributors/getSubscribers',

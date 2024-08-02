@@ -1,4 +1,4 @@
-export interface Contributors {
+export interface IContributor {
   contributorId: number;
   userId: number;
   profilePicture: string;

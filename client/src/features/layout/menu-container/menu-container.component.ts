@@ -1,5 +1,7 @@
 import { ViewportScroller } from '@angular/common';
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { UserService } from '../../../entities/users/services/user.service';
+import { UserRoles } from '../../../shared/enums/user-roles.enum';
 
 export interface MenuItemInterface {
   label: string;
@@ -22,8 +24,11 @@ export class MenuContainerComponent {
   public settingsMenuItems: MenuItemInterface[] = [];
   public activeLink = 'contracts';
 
-  constructor(private readonly viewportScroller: ViewportScroller) {
-    this.updateMenuItems();
+  constructor(
+    private readonly viewportScroller: ViewportScroller,
+    private readonly userService: UserService
+  ) {
+    this.userService.userInfo$.subscribe((_) => this.updateMenuItems());
   }
   public updateMenuItems() {
     let page: string = location.pathname;
@@ -60,7 +65,7 @@ export class MenuContainerComponent {
         label: 'Builders',
         class: page == '/builders' ? 'active' : '',
         enabled: true,
-        visible: true,
+        visible: this.userService.getUser?.role === UserRoles.Coach,
         icon: 'build',
         route: '/builders',
       },

@@ -12,6 +12,7 @@ export const PATH = {
     ADD_TO_COLLECTION: 'users/addToCollection',
     REMOVE_FROM_COLLECTION: 'users/removeFromCollection',
     GET_USER_COLLECTION: 'users/getUserCollection',
+    LOGOUT: "users/logout"
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: 'contributors/getSubscribers',

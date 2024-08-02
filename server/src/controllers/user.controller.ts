@@ -8,7 +8,9 @@ import {
   inputValidationMiddleware,
   registrationMiddlware,
 } from "./../middlewares/validation.middleware";
-import { updateUserValidators } from "./../validators/user.validator";
+import {
+  updateUserValidators,
+} from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
 import upload from "./../config/file-upload.config";
@@ -131,6 +133,20 @@ router.post(
           error: err.message,
         },
       });
+    }
+  }
+);
+
+router.post(
+  PATH.USERS.LOGOUT,
+  isAuth,
+  async (req: any, res: express.Response, next: express.NextFunction) => {
+    try {
+      userService.logoutUser(req.user.sessionId, req.get("accessToken"));
+
+      res.status(204).end();
+    } catch (error) {
+      next(error);
     }
   }
 );

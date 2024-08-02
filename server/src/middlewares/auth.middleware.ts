@@ -11,6 +11,7 @@ import { EXCEPTION } from "../constants/exceptions.constants";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { getContributorId } from "./../services/contributor.service";
 import { UserRoles } from "./../models/enums/user-roles.enum";
+import { invalidAccessTokens } from "./../services/invalid-tokens";
 
 const verifyToken = async (token: string, secret: Secret) => {
   return await jwt.verify(token, secret);
@@ -34,6 +35,8 @@ export const checkAccessToken = async (
   if (!accessToken) {
     return next();
   }
+
+  if (invalidAccessTokens.includes(accessToken)) return next();
 
   try {
     req.user = await verifyToken(accessToken, ACCESS_TOKEN_SECRET_KEY);

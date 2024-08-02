@@ -45,6 +45,8 @@ export class WorkoutSearchComponent implements OnInit {
     this.selectedTagsSubject?.next(this.selectedTags || [])
   }
 
+  //TODO: Because we add new logic this should be trigger inside workout library
+  // The building of the query params is different
   public search() {
     this.isLoadingSubject?.next(true);
     const queryParams: IQueryParams = {

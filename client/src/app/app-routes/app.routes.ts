@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { LandingComponent } from '../../pages/landing/component/landing.component';
 import { AppLayoutComponent } from '../app-layout/app-layout.component';
 import { AuthGuard } from '../../shared/guards/auth.guard';
+import { CoachOnlyGuard } from '../../shared/guards/coach-only.guard';
 
 export const ROUTES: Routes = [
   {
@@ -60,6 +61,7 @@ export const ROUTES: Routes = [
       },
       {
         path: 'builders',
+        canActivate: [CoachOnlyGuard],
         loadChildren: () =>
           import('../../pages/builder/builder.module').then(
             (m) => m.BuilderModule

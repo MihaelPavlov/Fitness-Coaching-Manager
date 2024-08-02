@@ -1,4 +1,10 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 import { Router } from '@angular/router';
 import { UserService } from '../../../entities/users/services/user.service';
@@ -13,6 +19,7 @@ import { IUserWorkout } from '../../../entities/users/models/user-workout.interf
 export class WorkoutCardComponent implements OnChanges {
   @Input() workout!: IWorkout;
   @Input() userWorkouts: IUserWorkout[] = [];
+  @Output() onItemRemoved: EventEmitter<void> = new EventEmitter<void>();
 
   public isCardAdded: boolean = false;
   constructor(
@@ -50,8 +57,10 @@ export class WorkoutCardComponent implements OnChanges {
 
   public onRemove(): void {
     if (this.workout.uid) {
-      this.userService.removeFromCollection(this.workout.uid).subscribe();
-      this.isCardAdded = false;
+      this.userService.removeFromCollection(this.workout.uid).subscribe((x) => {
+        this.isCardAdded = false;
+        this.onItemRemoved.emit();
+      });
     }
   }
 }

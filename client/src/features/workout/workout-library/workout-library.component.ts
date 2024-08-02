@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { IWorkout } from '../../../entities/workouts/models/workout.interface';
@@ -6,7 +6,6 @@ import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.inter
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { UserService } from '../../../entities/users/services/user.service';
 import { IUserWorkout } from '../../../entities/users/models/user-workout.interface';
-import { IConditionItem } from '../../../entities/models/condition-item.interface';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 
 @Component({
@@ -16,8 +15,10 @@ import { UserRoles } from '../../../shared/enums/user-roles.enum';
 })
 export class WorkoutLibraryComponent implements OnInit {
   public pageName: string = 'Workouts';
-  public workoutsSubject = new BehaviorSubject<IWorkout[]>([]);
-  public workouts?: IWorkout[];
+  public workoutsSubject: BehaviorSubject<IWorkout[]> = new BehaviorSubject<
+    IWorkout[]
+  >([]);
+  public workouts: IWorkout[] = this.workoutsSubject.value;
   public tags?: IWorkoutTag[];
   public userRoles = UserRoles;
   public currentRole = this.userService.getUser?.role;
@@ -28,7 +29,8 @@ export class WorkoutLibraryComponent implements OnInit {
   public userWorkouts!: IUserWorkout[];
   constructor(
     private readonly workoutService: WorkoutService,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly cd: ChangeDetectorRef
   ) {}
 
   public ngOnInit(): void {
@@ -105,7 +107,7 @@ export class WorkoutLibraryComponent implements OnInit {
               field: 'owner',
               operation: 'EQ',
               value: this.userService.getUser?.contributorId,
-            }
+            },
           ],
         },
       };
@@ -154,6 +156,9 @@ export class WorkoutLibraryComponent implements OnInit {
                   },
                 };
                 this.fetchWorkouts(queryParams);
+              } else {
+                this.workouts = [];
+                this.workoutsSubject.next([]);
               }
             }
             this.isLoadingSubject.next(true);
@@ -167,8 +172,7 @@ export class WorkoutLibraryComponent implements OnInit {
   private fetchWorkouts(queryParams: IQueryParams) {
     this.workoutService.getWorkouts(queryParams).subscribe({
       next: (res) => {
-        console.log(res?.data);
-        this.workouts = res?.data;
+        this.workouts = res?.data ?? [];
         this.workoutsSubject.next(this.workouts || []);
       },
       error: (err) => console.log(err),

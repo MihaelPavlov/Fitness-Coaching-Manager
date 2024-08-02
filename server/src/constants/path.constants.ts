@@ -20,6 +20,7 @@ export const PATH = {
     ADD_TO_COLLECTION: "/addToCollection",
     REMOVE_FROM_COLLECTION: "/removeFromCollection",
     GET_USER_COLLECTION: "/getUserCollection",
+    LOGOUT: "/logout"
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: "/getSubscribers",

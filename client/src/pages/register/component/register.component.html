@@ -1,18 +1,28 @@
 <app-loader *ngIf="isLoading"></app-loader>
-<ng-container *ngIf="
+<ng-container
+  *ngIf="
     selectedRegistrationType === RegistrationType.User;
     else registerAsTrainer
-  ">
+  "
+>
   <ng-container *ngTemplateOutlet="registerAsUser"></ng-container>
 </ng-container>
 
 <ng-template #registerAsUser>
-  <div class="register-container d-flex align-items-center justify-content-center">
-    <form class="register-container__form w-100 d-flex flex-direction-column" [formGroup]="registerForm" (ngSubmit)="register()">
-      <ng-container *ngTemplateOutlet="
+  <div
+    class="register-container d-flex align-items-center justify-content-center"
+  >
+    <form
+      class="register-container__form w-100 d-flex flex-direction-column"
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
+    >
+      <ng-container
+        *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as User' }
-        "></ng-container>
+        "
+      ></ng-container>
       <ng-container *ngTemplateOutlet="generalDetails"></ng-container>
       <ng-container *ngTemplateOutlet="additionalUserDetails"></ng-container>
       <ng-container *ngTemplateOutlet="formFooter"></ng-container>
@@ -21,12 +31,20 @@
 </ng-template>
 
 <ng-template #registerAsTrainer>
-  <div class="register-container d-flex align-items-center justify-content-center">
-    <form class="register-container__form w-100 d-flex flex-direction-column" [formGroup]="registerForm" (ngSubmit)="register()">
-      <ng-container *ngTemplateOutlet="
+  <div
+    class="register-container d-flex align-items-center justify-content-center"
+  >
+    <form
+      class="register-container__form w-100 d-flex flex-direction-column"
+      [formGroup]="registerForm"
+      (ngSubmit)="register()"
+    >
+      <ng-container
+        *ngTemplateOutlet="
           registerHeading;
           context: { headingText: 'Register as Trainer' }
-        "></ng-container>
+        "
+      ></ng-container>
       <ng-container *ngTemplateOutlet="generalDetails"></ng-container>
       <ng-container *ngTemplateOutlet="additionalTrainerDetails"></ng-container>
       <ng-container *ngTemplateOutlet="proofOfRightsDetails"></ng-container>
@@ -38,55 +56,120 @@
 <!-- Common header template -->
 <ng-template #registerHeading let-headingText="headingText">
   <div class="register-container__form__heading-box mb-5">
-    <h1 class="register-container__form__heading-box-text mt-0">{{ headingText }}</h1>
+    <h1 class="register-container__form__heading-box-text mt-0">
+      {{ headingText }}
+    </h1>
     <div class="register-container__form__heading-box-border"></div>
   </div>
 </ng-template>
 
 <!-- General details template -->
 <ng-template #generalDetails>
-  <div class="register-container__form__details-container" [formGroup]="registerForm">
-    <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5"
-      (click)="generalDetailsVisibility()">
-      <div class="register-container__form__details-container__heading-container__label d-flex">
-        <ng-container *ngTemplateOutlet="backgroundSquare; context: { label: '1' }"></ng-container>
+  <div
+    class="register-container__form__details-container"
+    [formGroup]="registerForm"
+  >
+    <div
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5"
+      (click)="generalDetailsVisibility()"
+    >
+      <div
+        class="register-container__form__details-container__heading-container__label d-flex"
+      >
+        <ng-container
+          *ngTemplateOutlet="backgroundSquare; context: { label: '1' }"
+        ></ng-container>
         <div>General Details</div>
       </div>
-      <ng-container *ngTemplateOutlet="
+      <ng-container
+        *ngTemplateOutlet="
           backgroundSquare;
           context: { label: showGeneralDetails ? '⬇' : '➡' }
-        "></ng-container>
+        "
+      ></ng-container>
     </div>
-    <div [class.expand]="showGeneralDetails"
-      class="register-container__form__details-container__general-details d-flex justify-content-between">
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+    <div
+      [class.expand]="showGeneralDetails"
+      class="register-container__form__details-container__general-details d-flex justify-content-between"
+    >
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="username" class="control__label required">Username</label>
-        <input [type]="InputType.Text" id="username" placeholder="Username" name="username" class="control w-100 d-block align-items-start" formControlName="username">
+        <input
+          [type]="InputType.Text"
+          id="username"
+          placeholder="Username"
+          name="username"
+          class="control w-100 d-block align-items-start"
+          formControlName="username"
+        />
         <ng-container *ngIf="registerForm.get('username')?.touched">
           <p *ngIf="registerForm.get('username')?.errors">Invalid field</p>
         </ng-container>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="email" class="control__label required">Email</label>
-        <input [type]="InputType.Email" id="email" placeholder="Email" name="email" class="control w-100 d-block align-items-start" formControlName="email">
+        <input
+          [type]="InputType.Email"
+          id="email"
+          placeholder="Email"
+          name="email"
+          class="control w-100 d-block align-items-start"
+          formControlName="email"
+        />
         <ng-container *ngIf="registerForm.get('email')?.touched">
           <p *ngIf="registerForm.get('email')?.errors">Invalid field</p>
         </ng-container>
       </div>
       <ng-container formGroupName="passGroup">
-        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+        <div
+          class="control__wrapper register-container__form__details-container__general-details__input-field"
+        >
           <label for="password" class="control__label required">Password</label>
-          <input [type]="InputType.Password" id="password" placeholder="Password" name="password" class="control w-100 d-block align-items-start" formControlName="password">
-          <ng-container *ngIf="registerForm.get('passGroup')?.get('password')?.touched">
-            <p *ngIf="registerForm.get('passGroup')?.get('password')?.errors">Invalid field</p>
+          <input
+            [type]="InputType.Password"
+            id="password"
+            placeholder="Password"
+            name="password"
+            class="control w-100 d-block align-items-start"
+            formControlName="password"
+          />
+          <ng-container
+            *ngIf="registerForm.get('passGroup')?.get('password')?.touched"
+          >
+            <p *ngIf="registerForm.get('passGroup')?.get('password')?.errors">
+              Invalid field
+            </p>
           </ng-container>
         </div>
-        <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-          <label for="rePassword" class="control__label required">Repeat Password</label>
-          <input [type]="InputType.Password" id="rePassword" placeholder="Repeat Password" name="rePassword" class="control w-100 d-block align-items-start" formControlName="rePassword">
-          <ng-container *ngIf="registerForm.get('passGroup')?.get('rePassword')?.touched">
-            <p *ngIf="registerForm.get('passGroup')?.get('password')?.errors?.['required']">Invalid field</p>
-            <p *ngIf="registerForm.get('passGroup')?.errors">Passwords must match</p>
+        <div
+          class="control__wrapper register-container__form__details-container__general-details__input-field"
+        >
+          <label for="rePassword" class="control__label required"
+            >Repeat Password</label
+          >
+          <input
+            [type]="InputType.Password"
+            id="rePassword"
+            placeholder="Repeat Password"
+            name="rePassword"
+            class="control w-100 d-block align-items-start"
+            formControlName="rePassword"
+          />
+          <ng-container
+            *ngIf="registerForm.get('passGroup')?.get('rePassword')?.touched"
+          >
+            <p
+              *ngIf="registerForm.get('passGroup')?.get('password')?.errors?.['required']"
+            >
+              Invalid field
+            </p>
+            <p *ngIf="registerForm.get('passGroup')?.errors">
+              Passwords must match
+            </p>
           </ng-container>
         </div>
       </ng-container>
@@ -96,42 +179,109 @@
 
 <!-- Additional details template for users -->
 <ng-template #additionalUserDetails>
-  <div class="register-container__form__details-container" [formGroup]="registerForm">
-    <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
-      (click)="additionalDetailsVisibility()">
-      <div class="register-container__form__details-container__heading-container__label d-flex">
-        <ng-container *ngTemplateOutlet="backgroundSquare; context: { label: '2' }"></ng-container>
+  <div
+    class="register-container__form__details-container"
+    [formGroup]="registerForm"
+  >
+    <div
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      (click)="additionalDetailsVisibility()"
+    >
+      <div
+        class="register-container__form__details-container__heading-container__label d-flex"
+      >
+        <ng-container
+          *ngTemplateOutlet="backgroundSquare; context: { label: '2' }"
+        ></ng-container>
         <div>Additional Details</div>
       </div>
-      <ng-container *ngTemplateOutlet="
+      <ng-container
+        *ngTemplateOutlet="
           backgroundSquare;
           context: { label: showAdditionalDetails ? '⬇' : '➡' }
-        "></ng-container>
+        "
+      ></ng-container>
     </div>
-    <div [class.expand]="showAdditionalDetails"
-      class="register-container__form__details-container__general-details  d-flex justify-content-between">
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+    <div
+      [class.expand]="showAdditionalDetails"
+      class="register-container__form__details-container__general-details d-flex justify-content-between"
+    >
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="fitnessLevel" class="control__label">Fitness Level</label>
-        <select id="fitnessLevel" name="fitnessLevel" class="control w-100 d-block" formControlName="fitnessLevel">
-          <option class="control__option" *ngFor="let option of optionArrays.fitnessLevel" [value]="option">{{option}}</option>
+        <select
+          id="fitnessLevel"
+          name="fitnessLevel"
+          class="control w-100 d-block"
+          formControlName="fitnessLevel"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.fitnessLevel"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="country" class="control__label">Country</label>
-        <select id="country" name="country" class="control w-100 d-block" formControlName="country">
-          <option class="control__option" *ngFor="let option of optionArrays.countryList" [value]="option">{{option}}</option>
+        <select
+          id="country"
+          name="country"
+          class="control w-100 d-block"
+          formControlName="country"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.countryList"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="sex" class="control__label">Sex</label>
-        <select id="sex" name="sex" class="control w-100 d-block" formControlName="sex">
-          <option class="control__option" *ngFor="let option of optionArrays.genderList" [value]="option">{{option}}</option>
+        <select
+          id="sex"
+          name="sex"
+          class="control w-100 d-block"
+          formControlName="sex"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.genderList"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-        <label for="preferredLanguage" class="control__label">Preferred Language</label>
-        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block" formControlName="language">
-          <option class="control__option" *ngFor="let option of optionArrays.preferredLanguage" [value]="option">{{option}}</option>
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
+        <label for="preferredLanguage" class="control__label"
+          >Preferred Language</label
+        >
+        <select
+          id="preferredLanguage"
+          name="preferredLanguage"
+          class="control w-100 d-block"
+          formControlName="language"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.preferredLanguage"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
     </div>
@@ -140,57 +290,143 @@
 
 <!-- Additional details template for trainers -->
 <ng-template #additionalTrainerDetails>
-  <div class="register-container__form__details-container" [formGroup]="registerForm">
-    <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
-      (click)="additionalDetailsVisibility()">
-      <div class="register-container__form__details-container__heading-container__label d-flex">
-        <ng-container *ngTemplateOutlet="backgroundSquare; context: { label: '2' }"></ng-container>
+  <div
+    class="register-container__form__details-container"
+    [formGroup]="registerForm"
+  >
+    <div
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      (click)="additionalDetailsVisibility()"
+    >
+      <div
+        class="register-container__form__details-container__heading-container__label d-flex"
+      >
+        <ng-container
+          *ngTemplateOutlet="backgroundSquare; context: { label: '2' }"
+        ></ng-container>
         <div>Additional Details</div>
       </div>
-      <ng-container *ngTemplateOutlet="
+      <ng-container
+        *ngTemplateOutlet="
           backgroundSquare;
           context: { label: showAdditionalDetails ? '⬇' : '➡' }
-        "></ng-container>
+        "
+      ></ng-container>
     </div>
-    <div [class.expand]="showAdditionalDetails" [class.expandDropdown]="showAdditionalDetails"
-      class="register-container__form__details-container__general-details  d-flex justify-content-between">
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-        <label for="firstName" class="control__label required">First Name</label>
-        <input [type]="InputType.Text" id="firstName" placeholder="First Name" name="firstName" class="control w-100 d-block align-items-start" formControlName="firstName">
+    <div
+      [class.expand]="showAdditionalDetails"
+      [class.expandDropdown]="showAdditionalDetails"
+      class="register-container__form__details-container__general-details d-flex justify-content-between"
+    >
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
+        <label for="firstName" class="control__label required"
+          >First Name</label
+        >
+        <input
+          [type]="InputType.Text"
+          id="firstName"
+          placeholder="First Name"
+          name="firstName"
+          class="control w-100 d-block align-items-start"
+          formControlName="firstName"
+        />
         <ng-container *ngIf="registerForm.get('firstName')?.touched">
           <p *ngIf="registerForm.get('firstName')?.errors">Invalid field</p>
         </ng-container>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="lastName" class="control__label required">Last Name</label>
-        <input [type]="InputType.Text" id="lastName" placeholder="Last Name" name="lastName" class="control w-100 d-block align-items-start" formControlName="lastName">
+        <input
+          [type]="InputType.Text"
+          id="lastName"
+          placeholder="Last Name"
+          name="lastName"
+          class="control w-100 d-block align-items-start"
+          formControlName="lastName"
+        />
         <ng-container *ngIf="registerForm.get('lastName')?.touched">
           <p *ngIf="registerForm.get('lastName')?.errors">Invalid field</p>
         </ng-container>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="country" class="control__label">Country</label>
-        <select id="country" name="country" class="control w-100 d-block" formControlName="country">
-          <option class="control__option" *ngFor="let option of optionArrays.countryList" [value]="option">{{option}}</option>
+        <select
+          id="country"
+          name="country"
+          class="control w-100 d-block"
+          formControlName="country"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.countryList"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-        <label for="preferredLanguage" class="control__label">Preferred Language</label>
-        <select id="preferredLanguage" name="preferredLanguage" class="control w-100 d-block" formControlName="language">
-          <option class="control__option" *ngFor="let option of optionArrays.preferredLanguage" [value]="option">{{option}}</option>
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
+        <label for="preferredLanguage" class="control__label"
+          >Preferred Language</label
+        >
+        <select
+          id="preferredLanguage"
+          name="preferredLanguage"
+          class="control w-100 d-block"
+          formControlName="language"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.preferredLanguage"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
-        <label for="phoneNumber" class="control__label required">Phone Number</label>
-        <input [type]="InputType.Text" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" class="control w-100 d-block align-items-start" formControlName="phoneNumber">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
+        <label for="phoneNumber" class="control__label required"
+          >Phone Number</label
+        >
+        <input
+          [type]="InputType.Text"
+          id="phoneNumber"
+          placeholder="Phone Number"
+          name="phoneNumber"
+          class="control w-100 d-block align-items-start"
+          formControlName="phoneNumber"
+        />
         <ng-container *ngIf="registerForm.get('phoneNumber')?.touched">
           <p *ngIf="registerForm.get('phoneNumber')?.errors">Invalid field</p>
         </ng-container>
       </div>
-      <div class="control__wrapper register-container__form__details-container__general-details__input-field">
+      <div
+        class="control__wrapper register-container__form__details-container__general-details__input-field"
+      >
         <label for="sex" class="control__label">Sex</label>
-        <select id="sex" name="sex" class="control w-100 d-block" formControlName="sex">
-          <option class="control__option" *ngFor="let option of optionArrays.genderList" [value]="option">{{option}}</option>
+        <select
+          id="sex"
+          name="sex"
+          class="control w-100 d-block"
+          formControlName="sex"
+        >
+          <option
+            class="control__option"
+            *ngFor="let option of optionArrays.genderList"
+            [value]="option"
+          >
+            {{ option }}
+          </option>
         </select>
       </div>
     </div>
@@ -200,63 +436,96 @@
 <!-- Proof of rights details template -->
 <ng-template #proofOfRightsDetails>
   <div class="register-container__form__details-container d-block">
-    <div class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
-      (click)="proofOfRightsDetailsVisibility()">
-      <div class="register-container__form__details-container__heading-container__label d-flex">
-        <ng-container *ngTemplateOutlet="backgroundSquare; context: { label: '3' }"></ng-container>
+    <div
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      (click)="proofOfRightsDetailsVisibility()"
+    >
+      <div
+        class="register-container__form__details-container__heading-container__label d-flex"
+      >
+        <ng-container
+          *ngTemplateOutlet="backgroundSquare; context: { label: '3' }"
+        ></ng-container>
         <div>Proof of rights to do coaching</div>
       </div>
-      <ng-container *ngTemplateOutlet="
-        backgroundSquare;
-        context: { label: showProofOfRightsDetails ? '⬇' : '➡' }
-      "></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          backgroundSquare;
+          context: { label: showProofOfRightsDetails ? '⬇' : '➡' }
+        "
+      ></ng-container>
     </div>
-    <div [class.expandDropdown]="showProofOfRightsDetails" [class.expand]="showProofOfRightsDetails"
+    <div
+      [class.expandDropdown]="showProofOfRightsDetails"
+      [class.expand]="showProofOfRightsDetails"
       [class.expandProofOfRights]="showProofOfRightsDetails"
-      class="register-container__form__details-container__general-details d-flex justify-content-center align-content-start gr-2">
-      <div class="register-container__form__details-container__general-details__inform-message-container d-flex">
-        <div class="register-container__form__details-container__general-details__inform-message-container__message">
+      class="register-container__form__details-container__general-details d-flex justify-content-center align-content-start gr-2"
+    >
+      <div
+        class="register-container__form__details-container__general-details__inform-message-container d-flex"
+      >
+        <div
+          class="register-container__form__details-container__general-details__inform-message-container__message"
+        >
           <p>
             As a trainer, provide proof of qualifications, certifications or
             licenses via documents or social media links.
           </p>
           <p>
-            <strong> Press the plus button to add your documents or links</strong>
+            <strong>
+              Press the plus button to add your documents or links</strong
+            >
           </p>
         </div>
         <div
-          class="register-container__form__details-container__general-details__inform-message-container__button-container align-self-center "
-          (click)="toggleDropDownMenu()">
+          class="register-container__form__details-container__general-details__inform-message-container__button-container align-self-center"
+          (click)="toggleDropDownMenu()"
+        >
           <div>+</div>
-          <div [class]="showDropDownMenu ? 'fadeIn' : 'fadeOut' "
-            class="register-container__form__details-container__general-details__inform-message-container__button-container__menu">
-            <div (click)="addAttachLinkField()"
-              class="register-container__form__details-container__general-details__inform-message-container__button-container__menu__item">
+          <div
+            [class]="showDropDownMenu ? 'fadeIn' : 'fadeOut'"
+            class="register-container__form__details-container__general-details__inform-message-container__button-container__menu"
+          >
+            <div
+              (click)="addAttachLinkField()"
+              class="register-container__form__details-container__general-details__inform-message-container__button-container__menu__item"
+            >
               Link
             </div>
-            <div (click)="addAttachDocumentField()"
-              class="register-container__form__details-container__general-details__inform-message-container__button-container__menu__item">
+            <div
+              (click)="addAttachDocumentField()"
+              class="register-container__form__details-container__general-details__inform-message-container__button-container__menu__item"
+            >
               Document
             </div>
           </div>
         </div>
       </div>
-      <div class="register-container__form__details-container__general-details__link-container proof-inputs-container">
-          <div *ngFor="let i of attachedLinks" class="control__wrapper register-container__form__details-container__general-details__input-field">
-            <label for="linkUrl" class="control__label">Link Url #{{i}}</label>
-            <input
-              [type]="InputType.Url"
-              id="linkUrl"
-              placeholder="Link Url"
-              name="linkUrl"
-              class="control w-100 d-block align-items-start"
-              (input)="onLinkChange($event, i-1)"
-            >
-          </div>
-      </div>
-      <div class="proof-inputs-container">
-        <div *ngFor="let i of attachedDocuments" class="control__wrapper register-container__form__details-container__general-details__input-field">
-          <label for="attachDocument" class="control__label">Attach Document #{{i}}</label>
+      <div
+        class="register-container__form__details-container__general-details__link-container proof-inputs-container"
+      >
+        <div
+          *ngFor="let i of attachedLinks; let index = index"
+          class="control__wrapper register-container__form__details-container__general-details__input-field"
+        >
+          <label for="linkUrl" class="control__label">Link Url #{{ i }}</label>
+          <input
+            [type]="InputType.Url"
+            id="linkUrl"
+            placeholder="Link Url"
+            name="linkUrl"
+            class="control w-100 d-block align-items-start"
+            (input)="onLinkChange($event, i - 1)"
+          />
+          <span class="material-symbols-outlined icon" (click)="removeAttachLinkField(index)">cancel</span>
+        </div>
+        <div
+          *ngFor="let i of attachedDocuments; let index = index"
+          class="control__wrapper register-container__form__details-container__general-details__input-field"
+        >
+          <label for="attachDocument" class="control__label"
+            >Attach Document #{{ i }}</label
+          >
           <input
             [type]="InputType.File"
             id="attachDocument"
@@ -264,31 +533,42 @@
             name="attachDocument"
             class="control w-100 d-block align-items-start"
             (change)="onDocumentUpload($event)"
-          >
+          />
+          <span class="material-symbols-outlined icon" (click)="removeAttachDocumentField(index)">cancel</span>
         </div>
       </div>
     </div>
   </div>
-
 </ng-template>
 
 <!-- Form footer template -->
 <ng-template #formFooter>
   <div>
     <div class="register-container__form__elements__buttons">
-      <button class="btn w-100 landing-page-container__buttons-container__button" type="submit" [disabled]="registerForm.invalid">
+      <button
+        class="btn w-100 landing-page-container__buttons-container__button"
+        type="submit"
+        [disabled]="registerForm.invalid"
+      >
         Sign In
       </button>
     </div>
-    <app-error *ngIf="hasRegisterError" [errorMessageText]="registerErrorMsg"></app-error>
+    <app-error
+      *ngIf="hasRegisterError"
+      [errorMessageText]="registerErrorMsg"
+    ></app-error>
     <div class="register-container__form__links d-flex flex-direction-column">
-      <a class="register-container__form__links-text" routerLink="/login">Already have an account? Log in</a>
+      <a class="register-container__form__links-text" routerLink="/login"
+        >Already have an account? Log in</a
+      >
     </div>
   </div>
 </ng-template>
 
 <ng-template #backgroundSquare let-label="label">
-  <div class="background-square-container d-flex justify-content-center align-items-center">
+  <div
+    class="background-square-container d-flex justify-content-center align-items-center"
+  >
     {{ label }}
   </div>
 </ng-template>

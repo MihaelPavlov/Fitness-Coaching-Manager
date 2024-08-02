@@ -40,7 +40,13 @@ export class AuthService {
   }
 
   public logout(): Observable<any> {
-    return this.apiService.post(PATH.USERS.LOGOUT, {});
+    return this.apiService.post(PATH.USERS.LOGOUT, {}).pipe(
+      map((response: any) => {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        return response;
+      })
+    )
   }
 
   public createAuthHeaders(): HttpHeaders {

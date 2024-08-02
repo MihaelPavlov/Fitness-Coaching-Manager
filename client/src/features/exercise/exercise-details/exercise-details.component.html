@@ -2,29 +2,32 @@
   <button class="btn w-auto btn-large" (click)="goBack()">Go back</button>
 </div>
 
-<h2>{{exerciseDetails?.title}}</h2>
+<h2>{{ exerciseDetails?.title }}</h2>
 <section class="exercise__details__container d-flex g-6">
-  <img
-    class="exercise__details__img"
-    src={{exerciseDetails?.thumbUri}}
-    alt=""
-  />
+  <img class="exercise__details__img" [src]="fullImagePath" alt="" />
 
   <section class="exercise__details__text__container w-50">
     <h1 class="exercise__details__text__tag__heading mb-2">Tags</h1>
     <div class="exercise__details__tags__container d-flex g-2 mb-4">
-      <app-tag *ngFor="let tag of tags" [text]="tag.name" ></app-tag>
+      <app-tag *ngFor="let tag of tags" [text]="tag.name"></app-tag>
     </div>
 
     <h1 class="exercise__details__description__heading mb-2">Description</h1>
     <div class="exercise__details__description__container">
-      {{exerciseDetails?.description}}
+      {{ exerciseDetails?.description }}
     </div>
 
-    <div class="exercise__details__btns__container d-flex g-2 justify-content-center mt-6">
-      <button class="btn w-auto btn-large" [routerLink]="['/edit', exerciseDetails?.uid]">Edit</button>
-      <button class="btn w-auto btn-large">Delete</button>
+    <div
+      class="exercise__details__btns__container d-flex g-2 justify-content-center mt-6"
+    >
+      <button
+        *ngIf="isOwner"
+        class="btn w-auto btn-large"
+        (click)="navigateToEdit()"
+      >
+        Edit
+      </button>
+      <button *ngIf="isOwner" class="btn w-auto btn-large">Delete</button>
     </div>
-    
   </section>
 </section>

@@ -1,11 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IExercise } from '../../../entities/exercises/models/exercise.interface';
 import { take } from 'rxjs';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
-
+import { UserService } from '../../../entities/users/services/user.service';
+import { UserInfo } from '../../../entities/models/user.interface';
 @Component({
   selector: 'app-exercise-details',
   templateUrl: './exercise-details.component.html',
@@ -14,12 +15,18 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
 export class ExerciseDetailsComponent implements OnInit {
   exerciseDetails: IExercise | undefined;
   tagIds: number[] | undefined;
-  tags:IExerciseTag[] | null = [];
-  
+  tags: IExerciseTag[] | null = [];
+  basePath: string = 'http://localhost:3000/files/';
+  fullImagePath: string | undefined;
+  currentUserId: string | undefined;
+  isOwner: boolean = false;
+
   constructor(
     private location: Location,
     private exerciseService: ExerciseService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -37,18 +44,24 @@ export class ExerciseDetailsComponent implements OnInit {
         },
         condition: {
           type: 'AND',
-          items: [{
-            field:'uid',
-            operation:'EQ',
-            value:id
-          }],
+          items: [
+            {
+              field: 'uid',
+              operation: 'EQ',
+              value: id,
+            },
+          ],
         },
-      }).pipe(take(1))
+      })
+      .pipe(take(1))
       .subscribe(
         (result) => {
           if (result?.data && result.data.length > 0) {
-            console.log(result.data[0]);
             this.exerciseDetails = result.data[0];
+            console.log(this.exerciseDetails);
+
+            this.fullImagePath = this.basePath + this.exerciseDetails.thumbUri;
+
             this.tagIds = result.data[0].tagIds.split(',').map(Number);
 
             const items = this.tagIds.map((tagId) => ({
@@ -61,7 +74,7 @@ export class ExerciseDetailsComponent implements OnInit {
               .getTagList({
                 what: {
                   name: 1,
-                  tagColor:1,
+                  tagColor: 1,
                 },
                 condition: {
                   type: 'OR',
@@ -71,6 +84,7 @@ export class ExerciseDetailsComponent implements OnInit {
               .subscribe((res) => {
                 this.tags = res?.data || [];
               });
+            this.fetchUserProfile();
           }
         },
         (error) => {
@@ -81,5 +95,15 @@ export class ExerciseDetailsComponent implements OnInit {
 
   goBack() {
     this.location.back();
+  }
+
+  navigateToEdit() {
+    this.router.navigateByUrl(`exercise/edit/${this.exerciseDetails?.uid}`);
+  }
+
+  private fetchUserProfile(): void {
+    this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
+      if (userInfo?.id === this.exerciseDetails?.uid) this.isOwner = true;
+    });
   }
 }

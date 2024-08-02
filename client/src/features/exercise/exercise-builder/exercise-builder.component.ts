@@ -3,10 +3,10 @@ import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { difficultyList } from '../../../shared/option-arrays/difficulty-list';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IExerciseEquipment } from '../../../entities/exercises/models/exercise-equipment.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
@@ -19,7 +19,6 @@ interface Equipment extends ListItem {
   uid?: number;
   title?: string;
 }
-
 
 @Component({
   selector: 'app-exercise-builder',
@@ -34,7 +33,7 @@ export class ExerciseBuidlerComponent implements OnInit {
   protected hasExerciseError: boolean = false;
   protected createExerciseErrorMsg: string = '';
   protected difficultyArr = Object.entries(difficultyList);
-
+  protected exerciseId:string | undefined;
   protected equipmentList$!: Observable<IExerciseEquipment[]>;
   protected tagList$!: Observable<IExerciseTag[]>;
 
@@ -64,7 +63,8 @@ export class ExerciseBuidlerComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly exerciseService: ExerciseService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +90,61 @@ export class ExerciseBuidlerComponent implements OnInit {
       })
       .pipe(
         map((res: IRequestResult<IExerciseTag[]> | null) => res?.data ?? [])
+      );
+
+      this.route.paramMap.subscribe((params) => {
+        
+        const id = params.get('exerciseId');
+        console.log(id);
+        if (id) {
+          this.exerciseId = String(id);
+          this.loadExerciseDetails(this.exerciseId);
+        }
+      });
+  }
+
+  private loadExerciseDetails(id: string): void {
+    this.exerciseService
+      .getDetails({
+        what: {
+          uid: 1,
+          title: 1,
+          thumbUri: 1,
+          difficulty: 1,
+          equipmentIds: 1,
+          description: 1,
+          tagIds: 1,
+        },
+        condition: {
+          type: 'AND',
+          items: [
+            {
+              field: 'uid',
+              operation: 'EQ',
+              value: id,
+            },
+          ],
+        },
+      })
+      .pipe(take(1))
+      .subscribe(
+        (result) => {
+          if (result?.data && result.data.length > 0) {
+            
+            const exercise = result.data[0];
+            console.log(exercise);
+            this.exerciseForm.patchValue({ 
+              title: exercise.title ,
+              difficulty: String(exercise.difficulty) || null,
+              equipmentIds: exercise.equipmentIds.split(',').map(Number) || null || undefined,
+              tagIds: exercise.tagIds ? exercise.tagIds.split(',').map(Number) : [],
+              description: exercise.description || null,
+            });
+          }
+        },
+        (error) => {
+          console.error('Error fetching exercise details:', error);
+        }
       );
   }
 

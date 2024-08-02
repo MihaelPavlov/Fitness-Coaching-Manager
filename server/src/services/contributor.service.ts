@@ -1,7 +1,7 @@
 import { UserBuilder } from "./../query-builders/user.builder";
 import { QueryParams } from "./../query-builders/models/builder.models";
 import { ContributorSubscribersBuilder } from "./../query-builders/contributor-subscribers.builder";
-import { mapSubscribers } from "./../helpers/contributor.helper";
+import { mapContributors, mapSubscribers } from "./../helpers/contributor.helper";
 import { ContributorBuilder } from "./../query-builders/contributor.builder";
 
 export const getContributors = async (payload: QueryParams) => {
@@ -14,6 +14,8 @@ export const getContributors = async (payload: QueryParams) => {
       return contributor;
     })
   );
+
+  newContributors = await mapContributors(newContributors);
 
   return newContributors;
 };

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { IContributor } from '../../../entities/contributors/models/contributors.interface';
 
 @Component({
   selector: 'app-contributor-card-new',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './contributor-card-new.component.scss',
 })
 export class ContributorCardNewComponent {
+  @Input() contributor?: IContributor
 }

@@ -1,4 +1,4 @@
-<div class="card-container pt-5 position-relative" [ngStyle]="{'--background-url': 'url(' + workout?.imageUri + ')'}">
+<div class="card-container pt-5 position-relative" [ngStyle]="{'--background-url': 'url(' + workout?.imageUri + ')'}" (click)="navigateToWorkout()">
     <p class="card-container__workout-name mt-0 uppercase">{{workout?.title}}</p>
     <p class="card-container__workout-trainer">{{workout?.owner?.firstName}}</p>
 

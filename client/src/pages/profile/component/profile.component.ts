@@ -134,7 +134,7 @@ export class ProfileComponent implements OnInit {
 
   private checkSubscription(): void {
     console.log("params -> ", this.profileUserId);
-    
+
     if (this.profileState === 'public' && this.profileUserId) {
       this.userService.hasUserSubscribed(this.profileUserId).subscribe({
         next: (res: any) => {
@@ -232,6 +232,7 @@ export class ProfileComponent implements OnInit {
   private fetchContributorWorkouts(contributorId: number): void {
     const queryParams: IQueryParams = {
       what: {
+        uid: 1,
         title: 1,
         owner: 1,
         tags: 1,

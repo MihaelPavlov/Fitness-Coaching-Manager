@@ -57,6 +57,7 @@ export class WorkoutLibraryComponent implements OnInit {
 
     const queryParams: IQueryParams = {
       what: {
+        uid: 1,
         title: 1,
         owner: 1,
         tags: 1,

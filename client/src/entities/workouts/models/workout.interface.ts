@@ -1,4 +1,5 @@
 export interface IWorkout {
+  uid?: number;
   title: string,
   owner: WorkoutOwner,
   tags: Array<ITagInterface>,

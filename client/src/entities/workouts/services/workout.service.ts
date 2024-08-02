@@ -18,6 +18,7 @@ export class WorkoutService {
   ): Observable<IRequestResult<IWorkout[]> | null> {
     return this.apiService.post(PATH.WORKOUTS.GET_WORKOUTS, queryParams).pipe(
       map((res: any) => {
+        if (res.data.length == 1 && res.data[0]?.numberOfSets) return res;
         res.data.map((workout: any) => {
           if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
           const newImageUrl = "http://localhost:3000/files/" + workout.imageUri;

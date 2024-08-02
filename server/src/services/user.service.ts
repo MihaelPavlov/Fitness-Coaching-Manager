@@ -12,6 +12,7 @@ import { UserRoles } from "./../models/enums/user-roles.enum";
 import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
 import { invalidateSession } from "./user.sessions";
 import { invalidateAccessToken } from "./invalid-tokens";
+import { UserWorkoutsBuilder } from "../query-builders/user-workouts.builder";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -130,12 +131,14 @@ export const updateUser = async (
   data: Record<string, any>,
   file?: Express.Multer.File
 ) => {
-  await db(TABLE.USERS).where("id", "=", userId).update({
-    first_name: data?.firstName,
-    last_name: data?.lastName,
-    email: data?.email,
-    profile_picture_url: file?.filename || data?.profilePicture
-  });
+  await db(TABLE.USERS)
+    .where("id", "=", userId)
+    .update({
+      first_name: data?.firstName,
+      last_name: data?.lastName,
+      email: data?.email,
+      profile_picture_url: file?.filename || data?.profilePicture,
+    });
 
   await db(TABLE.USER_SPECS)
     .where("user_id", "=", userId)
@@ -229,6 +232,32 @@ export const hasUserSubscribed = async (
     ).length > 0;
 
   return hasSubscribed;
+};
+
+export const addWorkoutToUserWorkoutCollection = async (
+  userId: number,
+  workoutId: number
+) => {
+  await db(TABLE.USER_WORKOUT_COLLECTION).insert({
+    user_id: userId,
+    workout_session_id: workoutId,
+  });
+};
+
+export const removeWorkoutToUserWorkoutCollection = async (
+  userId: number,
+  workoutId: number
+) => {
+  await db(TABLE.USER_WORKOUT_COLLECTION)
+    .where("user_id", "=", userId)
+    .andWhere("workout_session_id", "=", workoutId)
+    .del();
+};
+
+export const getUserWorkoutCollection = async (payload: QueryParams) => {
+  let builder = new UserWorkoutsBuilder(payload);
+
+  return await builder.buildQuery();
 };
 
 const isContributorSubscribing = async (userId: number) => {

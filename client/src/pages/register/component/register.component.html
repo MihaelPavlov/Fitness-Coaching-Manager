@@ -184,7 +184,7 @@
     [formGroup]="registerForm"
   >
     <div
-      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2"
+      class="register-container__form__details-container__heading-container d-flex justify-content-between pb-5 pt-2 overflow-visible"
       (click)="additionalDetailsVisibility()"
     >
       <div
@@ -517,7 +517,7 @@
             class="control w-100 d-block align-items-start"
             (input)="onLinkChange($event, i - 1)"
           />
-          <span class="material-symbols-outlined icon" (click)="removeAttachLinkField(index)">cancel</span>
+          <span class="material-symbols-outlined icon cancel-icon" (click)="removeAttachLinkField(index)">cancel</span>
         </div>
         <div
           *ngFor="let i of attachedDocuments; let index = index"

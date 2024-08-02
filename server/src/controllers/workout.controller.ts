@@ -35,6 +35,25 @@ router.post(
 );
 
 router.post(
+  PATH.WORKOUTS.SEARCH,
+  async (req: express.Request, res: express.Response) => {
+    try {
+      const workouts = await workoutService.searchWorkouts(req.body, req.query.title as string);
+
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: workouts,
+      });
+    } catch (error) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        message: error.message,
+      });
+    }
+  }
+)
+
+router.post(
   PATH.WORKOUTS.CREATE_WORKOUT,
   isAuth,
   isCoach,

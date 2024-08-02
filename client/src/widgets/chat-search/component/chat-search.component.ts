@@ -7,11 +7,11 @@ import { IExercise } from '../../../entities/exercises/models/exercise.interface
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
+  selector: 'app-chat-search',
+  templateUrl: './chat-search.component.html',
+  styleUrls: ['./chat-search.component.scss'],
 })
-export class SearchComponent implements OnInit {
+export class ChatSearchComponent implements OnInit {
   @Input() toggleFilterForm: boolean = false;
   @Input() exercisesSubject?: BehaviorSubject<IExercise[]>;
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;

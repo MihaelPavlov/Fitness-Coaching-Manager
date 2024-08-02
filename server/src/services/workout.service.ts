@@ -9,8 +9,8 @@ export const executeWorkoutBuilder = async (payload: QueryParams) =>
   await new WorkoutBuilder(payload).buildQuery();
 
 export const getWorkouts = async (payload: QueryParams) => {
-  const workouts = await executeWorkoutBuilder(payload);
-  await mapWorkouts(workouts);
+  let workouts = await executeWorkoutBuilder(payload);
+  workouts = await mapWorkouts(workouts);
 
   return workouts;
 };
@@ -20,15 +20,20 @@ export const createWorkoutSession = async (
   data: Record<string, any>,
   file?: Express.Multer.File
 ) => {
-  console.log("exercises", data.exercises);
-  if (data?.private == 1 && (data?.relatedStudent == "null" || data?.relatedStudent == null)) {
+  if (
+    data?.private == 1 &&
+    (data?.relatedStudent == "null" || data?.relatedStudent == null)
+  ) {
     throw new Error("You must provide related student for private workouts");
   }
 
   const workoutSessionId = (
     await db(TABLE.WORKOUT_SESSION).insert({
       contributor_id: contributorId,
-      related_user_id: data?.relatedStudent == "null" || data?.relatedStudent == null ? null : data?.relatedStudent,
+      related_user_id:
+        data?.relatedStudent == "null" || data?.relatedStudent == null
+          ? null
+          : data?.relatedStudent,
       name: data?.title,
       description: data?.description || null,
       image_uri: file.filename,
@@ -41,7 +46,6 @@ export const createWorkoutSession = async (
     })
   ).at(0);
 
-  
   // Save each added exercise to the workout
   for (let exercise of JSON.parse(data?.exercises)) {
     // Check if exercise exsists
@@ -68,3 +72,16 @@ export const createWorkoutTags = async (data: Record<string, any>) => {
 
 export const getWorkoutTags = async (tagData: any) =>
   await new WorkoutTagsBuilder(tagData).buildQuery();
+
+export const searchWorkouts = async (payload: QueryParams, query: string) => {
+  let workouts = await new WorkoutBuilder(payload).buildQuery();
+
+  workouts = workouts.filter((workout: any) => {
+    if (workout.title.toLowerCase().includes(query.toLowerCase())) return true;
+    return false;
+  });
+
+  workouts = await mapWorkouts(workouts);
+
+  return workouts;
+};

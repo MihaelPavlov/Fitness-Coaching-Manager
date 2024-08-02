@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { IQueryParams } from '../../models/query-params.interface';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IWorkout } from '../models/workout.interface';
 import { PATH } from '../../../shared/configs/path.config';
@@ -16,7 +16,35 @@ export class WorkoutService {
   public getWorkouts(
     queryParams: IQueryParams
   ): Observable<IRequestResult<IWorkout[]> | null> {
-    return this.apiService.post(PATH.WORKOUTS.GET_WORKOUTS, queryParams);
+    return this.apiService.post(PATH.WORKOUTS.GET_WORKOUTS, queryParams).pipe(
+      map((res: any) => {
+        if (res.data.length == 1 && res.data[0]?.numberOfSets) return res;
+        res.data.map((workout: any) => {
+          if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
+          const newImageUrl = "http://localhost:3000/files/" + workout.imageUri;
+          workout.imageUri = newImageUrl;
+          return workout;
+        })
+        return res;
+      })
+    )
+  }
+
+  public searchWorkouts(
+    queryParams: IQueryParams,
+    title: string
+  ): Observable<IRequestResult<IWorkout[]> | null> {
+    return this.apiService.post(PATH.WORKOUTS.SEARCH + title, queryParams).pipe(
+      map((res: any) => {
+        res.data.map((workout: any) => {
+          if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
+          const newImageUrl = "http://localhost:3000/files/" + workout.imageUri;
+          workout.imageUri = newImageUrl;
+          return workout;
+        })
+        return res;
+      })
+    )
   }
 
   public createWorkout(data: Record<string, any>): Observable<any> {

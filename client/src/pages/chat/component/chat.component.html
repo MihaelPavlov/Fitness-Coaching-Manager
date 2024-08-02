@@ -1,0 +1,184 @@
+<div class="app">
+  <div class="header">
+    <div class="search-bar" *ngIf="!inChat || !isMobile">
+      <input type="text" placeholder="Search..." />
+    </div>
+  </div>
+  <div class="wrapper">
+    <div
+      class="conversation-area"
+      *ngIf="!inChat || !isMobile"
+      [ngClass]="{ 'mobile-hidden': inChat && isMobile }"
+    >
+      <ng-container
+        *ngTemplateOutlet="getUserRole === 1 ? coach : user"
+      ></ng-container>
+
+      <ng-template #coach>
+        <div
+          *ngFor="let chat of chats"
+          class="msg"
+          [ngClass]="{
+            online: isUserOnline(
+              chat.recipientUserId,
+              this.socketOnlineUser | async
+            ),
+            active:
+              this.currentChat &&
+              this.currentChat.recipientUserId === chat.recipientUserId
+          }"
+          (click)="getMessages(chat, chat.recipientUserId)"
+        >
+          <ng-container *ngIf="getUser(chat.recipientUserId) | async as user">
+            <img class="msg-profile" [src]="user.profilePicture" alt="" />
+            <div class="msg-detail">
+              <div class="msg-username">
+                {{ user.userName }}
+              </div>
+              <!-- <div class="msg-content">
+                <span class="msg-message"
+                  >Adaptogen taiyaki austin jean shorts brunch</span
+                >
+                <span class="msg-date">20m</span>
+              </div> -->
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+
+      <ng-template #user>
+        <div
+          *ngFor="let chat of chats"
+          class="msg"
+          [ngClass]="{
+            online: isUserOnline(
+              chat.initiatorUserId,
+              this.socketOnlineUser | async
+            ),
+            active:
+              this.currentChat &&
+              this.currentChat.initiatorUserId === chat.initiatorUserId
+          }"
+          (click)="getMessages(chat, chat.initiatorUserId)"
+        >
+          <ng-container *ngIf="getUser(chat.initiatorUserId) | async as user">
+            <img class="msg-profile" [src]="user.profilePicture" alt="" />
+            <div class="msg-detail">
+              <div class="msg-username">
+                {{ user.userName }}
+              </div>
+              <!-- <div class="msg-content">
+              <span class="msg-message"
+                >Adaptogen taiyaki austin jean shorts brunch</span
+              >
+              <span class="msg-date">20m</span>
+            </div> -->
+            </div>
+          </ng-container>
+        </div>
+      </ng-template>
+
+      <div class="overlay"></div>
+    </div>
+    <div
+      class="chat-area"
+      *ngIf="inChat || !isMobile"
+      [ngClass]="{ 'mobile-hidden': !inChat && isMobile }"
+    >
+      <div class="chat-area-header">
+        <span
+          class="material-symbols-outlined chat-area-icon"
+          *ngIf="isMobile"
+          (click)="goBack()"
+        >
+          arrow_back
+        </span>
+        <div class="chat-area-title">{{ currentChatUser?.userName }}</div>
+        <div class="chat-area-group">
+          <img
+            class="chat-area-profile"
+            [src]="currentChatUser?.profilePicture"
+            alt=""
+          />
+        </div>
+      </div>
+      <div #chatArea class="chat-area-main">
+        <div class="mt-5">
+        </div>
+        <div
+          *ngFor="
+            let group of currentChatMessagesSubject$.asObservable() | async
+          "
+        >
+          <div
+            class="chat-msg"
+            *ngIf="group.senderId !== getActiveUserIdFroMChat()"
+          >
+            <ng-container *ngIf="getUser(group.senderId) | async as user">
+              <div class="chat-msg-profile">
+                <!-- unmemoized the profile image -->
+                <img
+                  class="chat-msg-img"
+                  [src]="user.profilePicture"
+                  alt="profile_picture"
+                />
+                <!-- <div class="chat-msg-date">Message seen 1.22pm</div> -->
+              </div>
+              <div class="chat-msg-content">
+                <div
+                  class="chat-msg-text"
+                  *ngFor="let message of group.messages"
+                >
+                  {{ message }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div
+            class="chat-msg owner"
+            *ngIf="group.senderId === getActiveUserIdFroMChat()"
+          >
+            <ng-container
+              *ngIf="getUser(getActiveUserIdFroMChat()) | async as user"
+            >
+              <div class="chat-msg-profile">
+                <!-- unmemoized the profile image -->
+                <img
+                  class="chat-msg-img"
+                  [src]="user.profilePicture"
+                  alt="profile_picture"
+                />
+                <!-- <div class="chat-msg-date">Message seen 1.22pm</div> -->
+              </div>
+              <div class="chat-msg-content">
+                <div
+                  class="chat-msg-text"
+                  *ngFor="let message of group.messages"
+                >
+                  {{ message }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <form
+        [formGroup]="chatForm"
+        (ngSubmit)="createMessage()"
+        class="chat-area-footer"
+      >
+        <input
+          type="text"
+          formControlName="message"
+          placeholder="Type something here..."
+        />
+        <span
+        (click)="createMessage()"
+          class="material-symbols-outlined send-msg-icon"
+        >
+          arrow_forward
+        </span>
+      </form>
+    </div>
+  </div>
+</div>

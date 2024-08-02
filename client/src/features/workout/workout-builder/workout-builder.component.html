@@ -1,9 +1,12 @@
+<app-loader *ngIf="isLoading"></app-loader>
 <div #registerAsTrainer>
   <div
     class="create-workout-container d-flex align-items-center justify-content-center"
   >
     <form
       class="create-workout-container__form w-100 d-flex flex-direction-column"
+      [formGroup]="createWorkoutForm"
+      (ngSubmit)="onCreateWorkout()"
     >
       <ng-container
         *ngTemplateOutlet="
@@ -30,7 +33,7 @@
 
 <!-- General details template -->
 <ng-template #workoutDetails>
-  <div class="create-workout-container__form__details-container">
+  <div class="create-workout-container__form__details-container" [formGroup]="createWorkoutForm">
     <div
       class="create-workout-container__form__details-container__heading-container d-flex justify-content-between pb-5"
       (click)="workoutDetailsVisibility()"
@@ -57,81 +60,99 @@
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="username" class="control__label">Name</label>
+        <label for="username" class="control__label required">Name</label>
         <input
           [type]="InputType.Text"
           id="name"
           placeholder="Name"
           name="name"
           class="control w-100 d-block align-items-start"
+          formControlName="title"
         />
+        <ng-container *ngIf="createWorkoutForm.get('title')?.touched">
+          <p *ngIf="createWorkoutForm.get('title')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="email" class="control__label">Description</label>
+        <label for="email" class="control__label required">Description</label>
         <input
           [type]="InputType.Email"
           id="description"
           placeholder="Description"
           name="description"
           class="control w-100 d-block align-items-start"
+          formControlName="description"
         />
+        <ng-container *ngIf="createWorkoutForm.get('description')?.touched">
+          <p *ngIf="createWorkoutForm.get('description')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label">Image</label>
+        <label for="password" class="control__label required">Image</label>
         <input
           [type]="InputType.File"
           id="password"
           placeholder="Password"
           name="password"
           class="control w-100 d-block align-items-start"
+          (change)="onImageUpload($event)"
         />
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="equipment" class="control__label">Tag</label>
-        <select id="equipment" name="equipment" class="control w-100 d-block">
-          <option
-            class="control__option"
-            *ngFor="let option of optionArrays.tagsList"
-            [value]="option"
-          >
-            {{ option }}
-          </option>
-        </select>
+        <label for="equipment" class="control__label required">Tags</label>
+        <ng-multiselect-dropdown
+          class="d-block custom-dropdown dropdown"
+          placeholder="Tags"
+          [settings]="tagsDropdownSettings"
+          [data]="tags"
+          (onSelect)="onTagSelect($event)"
+          (onSelectAll)="onTagSelectAll($event)"
+          (onDeSelect)="onTagDeselect($event)"
+          (onDeSelectAll)="onTagDeselectAll()"
+        ></ng-multiselect-dropdown>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label">Number of Sets</label>
+        <label for="password" class="control__label required">Number of Sets</label>
         <input
           [type]="InputType.Number"
           id="number-sets"
           placeholder="Number"
           name="number-sets"
           class="control w-100 d-block align-items-start"
+          formControlName="numberOfSets"
         />
+        <ng-container *ngIf="createWorkoutForm.get('numberOfSets')?.touched">
+          <p *ngIf="createWorkoutForm.get('numberOfSets')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label">Pause between sets</label>
+        <label for="password" class="control__label required">Pause between sets</label>
         <input
           [type]="InputType.Number"
           id="pause-sets"
           placeholder="Higher than 0"
           name="pause-sets"
           class="control w-100 d-block align-items-start"
+          formControlName="pauseBetweenSets"
         />
+        <ng-container *ngIf="createWorkoutForm.get('pauseBetweenSets')?.touched">
+          <p *ngIf="createWorkoutForm.get('pauseBetweenSets')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label"
+        <label for="password" class="control__label required"
           >Pause between exercises</label
         >
         <input
@@ -140,7 +161,11 @@
           placeholder="Seconds"
           name="pause-exercises"
           class="control w-100 d-block align-items-start"
+          formControlName="pauseBetweenExercises"
         />
+        <ng-container *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.touched">
+          <p *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field d-flex align-items-end"
@@ -149,10 +174,11 @@
           class="control__wrapper create-workout-container__form__details-container__general-details__input-field-checkbox d-flex flex-direction-column"
         >
           <div class="d-flex align-items-center g-2">
-            <label class="control__label">Acttive</label>
+            <label class="control__label">Active</label>
             <input
               [type]="InputType.Checkbox"
               (change)="onActiveChange($event)"
+              [checked]="!isPrivate"
             />
           </div>
           <span class="description">(publicly visible)</span>
@@ -165,23 +191,33 @@
             <input
               [type]="InputType.Checkbox"
               (change)="onPrivateChange($event)"
+              [checked]="isPrivate"
             />
           </div>
-          <span class="description">(publicly visible)</span>
+          <span class="description">(student only)</span>
         </div>
       </div>
       <div
         *ngIf="isPrivate"
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label">Related student</label>
-        <input
-          [type]="InputType.Number"
-          id="pause-exercises"
-          placeholder="Seconds"
-          name="pause-exercises"
-          class="control w-100 d-block align-items-start"
-        />
+        <label for="relatedStudent" class="control__label required required">Related student</label>
+        <select
+          name="relatedStudent"
+          id="relatedStudent"
+          class="control w-100 d-block"
+          formControlName="relatedStudent"
+        >
+          <option selected value="null">Choose student</option>
+          <option
+          class="control__option"
+          *ngFor="let subscriber of subscribers"
+          [value]="subscriber.uid"
+          >{{subscriber.userName}}</option>
+        </select>
+        <ng-container *ngIf="createWorkoutForm.get('relatedStudent')?.touched">
+          <p *ngIf="createWorkoutForm.get('relatedStudent')?.errors">Invalid field</p>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -236,10 +272,12 @@
       <button
         class="btn btn-large text-center landing-page-container__buttons-container__button"
         type="submit"
+        [disabled]="createWorkoutForm.invalid"
       >
         Create
       </button>
     </div>
+    <p class="error-txt" *ngIf="hasCreateWorkoutErr">{{ createWorkoutErr }}</p>
   </div>
 </ng-template>
 
@@ -252,7 +290,7 @@
 </ng-template>
 
 <ng-template #exerciseFormPopup>
-  <div class="popup" id="popup" [ngClass]="{ show: showExerciseFormPopup }">
+  <div class="popup" id="popup" [ngClass]="{ show: showExerciseFormPopup }" [formGroup]="addExerciseForm">
     <div
       class="popup__content d-flex flex-direction-column align-items-center text-center"
     >
@@ -268,13 +306,14 @@
       </div>
       <div class="control__wrapper mb-3">
         <label for="equipment" class="control__label">Exercises</label>
-        <select id="equipment" name="equipment" class="control w-100 d-block">
+        <p *ngIf="exercises.length == 0">There are no exercises</p>
+        <select id="equipment" name="equipment" class="control w-100 d-block" (change)="onExerciseSelect($event)" *ngIf="exercises.length > 0">
           <option
             class="control__option"
-            *ngFor="let option of optionArrays.exerciseEquipmentList"
-            [value]="option"
+            *ngFor="let exercise of exercises"
+            [value]="exercise.uid"
           >
-            {{ option }}
+            {{ exercise.title }}
           </option>
         </select>
       </div>
@@ -286,14 +325,32 @@
         />
       </div>
       <div *ngIf="hasTiming" class="control__wrapper mb-3">
-        <label class="control__label">Duration</label>
+        <label class="control__label required">Duration</label>
         <input
           [type]="InputType.Number"
           id="pause-exercises"
           placeholder="Seconds"
           name="pause-exercises"
           class="control w-100 d-block align-items-start"
+          formControlName="duration"
         />
+        <ng-container *ngIf="addExerciseForm.get('duration')?.touched">
+          <p *ngIf="addExerciseForm.get('duration')?.errors">Invalid field</p>
+        </ng-container>
+      </div>
+      <div *ngIf="!hasTiming" class="control__wrapper mb-3">
+        <label class="control__label required">Repetitions</label>
+        <input
+          [type]="InputType.Number"
+          id="pause-exercises"
+          placeholder="Reps"
+          name="pause-exercises"
+          class="control w-100 d-block align-items-start"
+          formControlName="repetitions"
+        />
+        <ng-container *ngIf="addExerciseForm.get('repetitions')?.touched">
+          <p *ngIf="addExerciseForm.get('repetitions')?.errors">Invalid field</p>
+        </ng-container>
       </div>
       <div class="control__wrapper mb-4">
         <label for="password" class="control__label">Description</label>
@@ -303,11 +360,17 @@
           placeholder="Description"
           name="pause-sets"
           class="control w-100 d-block align-items-start"
+          formControlName="description"
         />
+        <!-- <ng-container *ngIf="addExerciseForm.get('description')?.touched">
+          <p *ngIf="addExerciseForm.get('description')?.errors">Invalid field</p>
+        </ng-container> -->
       </div>
       <button
         class="btn btn-medium text-center landing-page-container__buttons-container__button"
-        type="submit"
+        type="button"
+        (click)="onAddExercise()"
+        [disabled]="addExerciseForm.invalid"
       >
         Add
       </button>
@@ -317,13 +380,12 @@
 
 <ng-template #exerciseEditCards>
   <div class="d-flex flex-wrap justify-content-center">
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
-    <app-workout-edit-card class="m-3"></app-workout-edit-card>
+    <app-workout-edit-card
+      *ngFor="let exercise of createWorkoutForm.get('exercises')?.value || []"
+      class="m-3"
+      [exercise]="exercise"
+      [numberOfSets]="createWorkoutForm.get('numberOfSets')?.value || 0"
+      (removeExercise)="onRemoveExercise(exercise)"
+    ></app-workout-edit-card>
   </div>
 </ng-template>

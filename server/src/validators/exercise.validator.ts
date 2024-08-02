@@ -36,10 +36,6 @@ export const exerciseValidators: ValidationChain[] = checkSchema({
       ),
     },
   },
-  thumbUri: {
-    in: ["body"],
-    notEmpty: true,
-  },
   difficulty: {
     in: ["body"],
     isInt: {

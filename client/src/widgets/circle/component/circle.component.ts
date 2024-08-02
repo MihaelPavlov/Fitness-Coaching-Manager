@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CircleComponent {
   @Input() text: string = '';
-  @Input() value: string = '';
+  @Input() value: string | number | undefined | null = '';
   @Input() width: 'big' | 'small' = 'big';
   @Input() height: 'big' | 'small' = 'big';
   @Input() borderColor: 'main-blue-darker-color' | 'green' | 'orange' =

@@ -63,15 +63,28 @@
                 }
 
                 &__link-container {
+                    justify-content: start;
                     @include mixins.respond(Phone) {
                         flex-direction: column;
                     }
                 }
 
                 &__input-field {
+                    position: relative;
+                    
                     @include mixins.respond(Phone) {
                         text-align: center;
                     }
+
+                    .icon {
+                        position: absolute;
+                        font-size: 1.3rem;
+                        right: 4%;
+                        bottom: 20%;
+                        color: palette.$main-blue-color;
+                        cursor: pointer;
+                        z-index: 100;
+                      }
                 }
 
                 &__inform-message-container {

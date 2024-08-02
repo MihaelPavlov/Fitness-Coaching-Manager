@@ -1,7 +1,7 @@
 <div
   (click)="navigateToDetails(exercise.uid)"
   class="card-container pt-5 position-relative"
-  [ngStyle]="{ '--background-url': 'url(' + imageUrl + ')' }"
+  [ngStyle]="{ '--background-url': 'url(' + exercise.thumbUri + ')' }"
 >
   <div *ngIf="tags" class="card-container__tags d-flex g-2">
     <app-tag

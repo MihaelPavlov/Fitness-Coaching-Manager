@@ -1,4 +1,6 @@
 @use "../../../shared/styles/palette";
+@use "../../../shared/styles/mixins";
+
 $color-black-12-percent: rgba(#000000, 0.12);
 $color-black-10-percent: rgba(#000000, 0.1);
 $color-black-06-percent: rgba(#000000, 0.06);
@@ -167,6 +169,7 @@ $color-black-02-percent: rgba(#000000, 0.02);
     /* Adjust line height */
     margin: 0;
     /* Remove margin */
+    font-size: 1rem;
   }
 
   .material-icons {

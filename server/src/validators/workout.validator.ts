@@ -8,9 +8,6 @@ export const createWorkoutValidators: ValidationChain[] = checkSchema({
         exists: {
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "relatedStudent")
         },
-        isNumeric: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "relatedStudent")
-        }
     },
     title: {
         in: ["body"],
@@ -22,12 +19,6 @@ export const createWorkoutValidators: ValidationChain[] = checkSchema({
         in: ["body"],
         exists: {
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "description")
-        }
-    },
-    imageUri: {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "imageUri")
         }
     },
     numberOfSets: {
@@ -107,12 +98,6 @@ export const createWorkoutExercisesValidators: ValidationChain[] = checkSchema({
         isNumeric: {
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "rank")
         }
-    },
-    "exercises.*.description": {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "description")
-        },
     },
     "exercises.*.hasTiming": {
         in: ["body"],

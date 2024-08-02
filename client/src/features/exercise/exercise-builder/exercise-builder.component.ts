@@ -12,16 +12,14 @@ import { IExerciseEquipment } from '../../../entities/exercises/models/exercise-
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
+import { Tag } from '../../../entities/models/tag.interface';
+import { toFormData } from '../../../shared/utils/formTransformer';
 
 interface Equipment extends ListItem {
   uid?: number;
   title?: string;
 }
 
-interface Tag extends ListItem {
-  uid?: number;
-  name?: string;
-}
 
 @Component({
   selector: 'app-exercise-builder',
@@ -56,7 +54,7 @@ export class ExerciseBuidlerComponent implements OnInit {
 
   protected exerciseForm = this.fb.group({
     title: ['', Validators.required],
-    thumbUri: ['', Validators.required],
+    thumbUri: [null, Validators.required],
     difficulty: ['', Validators.required],
     equipmentIds: [[], Validators.required],
     tagIds: [[], Validators.required],
@@ -121,8 +119,8 @@ export class ExerciseBuidlerComponent implements OnInit {
     };
 
     console.log(submissionData);
-    
-    this.exerciseService.create(submissionData).subscribe({
+
+    this.exerciseService.create(toFormData(submissionData)).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasExerciseError = false;
@@ -130,10 +128,17 @@ export class ExerciseBuidlerComponent implements OnInit {
       },
       error: (err) => {
         this.isLoading = false;
-        this.createExerciseErrorMsg = err.error.data[0].message;
+        this.createExerciseErrorMsg = Array.isArray(err.error.data) ? err.error.data[0].message : err.error.data.message;
         this.hasExerciseError = true;
       },
     });
+  }
+
+  public onImageUpload(event: Event) {
+    const files = (event.target as HTMLInputElement).files;
+    const file = files?.item(files.length - 1);
+    const selectedFile = this.exerciseForm.get('thumbUri') as FormControl;
+    selectedFile.setValue(file);
   }
 
   public onEqipmentItemSelect(item: Equipment): void {

@@ -47,3 +47,27 @@
     }
   }
 }
+
+/* Chat-specific styles */
+.main-page.chat-active {
+  .main-body {
+    display: block; // Remove flex for chat
+    .main-content {
+      max-width: 89.3%; // 1400px;
+      width: 88%;
+      @include mixins.respond(Phone) {
+        max-width: 100%;
+        width: 100%;
+        padding-left: 0;
+      }
+      margin: 0; // Remove margin for chat
+      padding-left: 0.5rem; // Adjust padding for chat
+      padding-right: 0; // Remove padding for chat
+      overflow: hidden;
+
+      @include mixins.respond(Phone) {
+        margin: 0; // Remove margin for chat on Phone
+      }
+    }
+  }
+}

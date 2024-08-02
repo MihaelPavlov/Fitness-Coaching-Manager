@@ -3,12 +3,12 @@ import * as userService from "./../services/user.service";
 import { isAuth } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
-import { inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
+import { fileMediaValidationMiddleware, fileSizeValidationMiddleware, inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
 import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
 import upload from "./../config/file-upload.config";
-import { registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
+import { isFileImageMiddleware, registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
@@ -45,16 +45,14 @@ router.get(
   }
 );
 
-router.get(
+router.post(
   PATH.USERS.GET_LIST,
   async (req: express.Request, res: express.Response) => {
     const users = await userService.getUsers(req.body);
 
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
-      data: {
-        users,
-      },
+      data: users
     });
   }
 );
@@ -66,7 +64,7 @@ router.post(
 
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
-      data: user[0]
+      data: user[0],
     });
   }
 );
@@ -130,10 +128,13 @@ router.post(
 router.put(
   PATH.USERS.UPDATE,
   isAuth,
+  upload.single('profilePicture'),
+  fileSizeValidationMiddleware,
+  isFileImageMiddleware,
   inputValidationMiddleware(updateUserValidators),
   async (req: any, res: express.Response) => {
     try {
-      await userService.updateUser(req.user.id, req.body);
+      await userService.updateUser(req.user.id, req.body, req.file);
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
@@ -157,48 +158,54 @@ router.post(
   isAuth,
   async (req: any, res: express.Response) => {
     try {
-      await userService.subscribeToContributor(req.user.id, req.params.contributorId);
+      await userService.subscribeToContributor(
+        req.user.id,
+        req.params.contributorId
+      );
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
         data: {
-          message: "Successfully subscribed."
-        }
-      })
+          message: "Successfully subscribed.",
+        },
+      });
     } catch (err) {
       res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {
-          error: err.message
-        }
-      })
+          error: err.message,
+        },
+      });
     }
   }
-)
+);
 
 router.post(
   PATH.USERS.UNSUBSCRIBE + "/:contributorId",
   isAuth,
   async (req: any, res: express.Response) => {
     try {
-      await userService.unsubscribeToContributor(req.user.id, req.params.contributorId);
+      await userService.unsubscribeToContributor(
+        req.user.id,
+        req.params.contributorId
+      );
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
         data: {
-          message: "Successfully unsubscribed."
-        }
-      })
+          message: "Successfully unsubscribed.",
+        },
+      });
     } catch (err) {
       res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {
-          error: err.message
-        }
-      })
+          error: err.message,
+        },
+      });
     }
   }
-)
+);
 
 router.get(
   PATH.USERS.HAS_SUBSCRIBED + "/:id",
@@ -215,18 +222,18 @@ router.get(
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
         data: {
-          hasSubscribed
-        }
+          hasSubscribed,
+        },
       });
     } catch (err) {
       res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {
-          error: err.message
-        }
-      })
+          error: err.message,
+        },
+      });
     }
   }
-)
+);
 
 export default router;

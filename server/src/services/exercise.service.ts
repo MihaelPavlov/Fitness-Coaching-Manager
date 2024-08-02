@@ -9,7 +9,7 @@ import { BadRequestException } from "../models/exceptions/bad-request.exception"
 export const executeExerciseBuilder = async (payload: QueryParams) =>
   await new ExerciseBuilder(payload).buildQuery();
 
-export const addExercise = async (contributorId: number, exerciseData: any) => {
+export const addExercise = async (contributorId: number, exerciseData: any, file: Express.Multer.File) => {
   const equipmentIds = exerciseData.equipmentIds
     ? exerciseData.equipmentIds.split(",")
     : [];
@@ -34,11 +34,15 @@ export const addExercise = async (contributorId: number, exerciseData: any) => {
 
   const currentDate = new Date().toISOString().split("T")[0];
 
+  if (!file) {
+    throw new Error("You must upload a thumb for the exercise")
+  }
+
   const createdExerciseID = (
     await db(TABLE.EXERCISES).insert({
       contributor_id: contributorId,
       title: exerciseData.title,
-      thumb_uri: exerciseData.thumbUri,
+      thumb_uri: file.filename,
       difficulty: exerciseData.difficulty,
       equipment_ids: exerciseData.equipmentIds,
       description: exerciseData.description,
@@ -95,6 +99,14 @@ export const updateExercise = async (exerciseId: number, exerciseData: any, user
 
   return createdExerciseID;
 };
+export const searchExercises = async (payload: QueryParams, query: string) => {
+  const exercises = await new ExerciseBuilder(payload).buildQuery();
+
+  return exercises.filter((exercise: any) => {
+    if (exercise.title.toLowerCase().includes(query.toLowerCase())) return true;
+    return false;
+  })
+}
 
 export const getTags = async (tagData: any) =>
   await new ExerciseTagBuilder(tagData).buildQuery();

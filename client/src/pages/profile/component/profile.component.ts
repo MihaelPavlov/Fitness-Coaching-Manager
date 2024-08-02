@@ -5,7 +5,7 @@ import { IRequestResult } from '../../../entities/models/request-result.interfac
 import { IUserDetails } from '../../../entities/users/models/user-details.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { USERS_FIELDS } from '../../../entities/users/models/fields/users-fields.constant';
-import { IWorkoutCardsFields } from '../../../entities/workouts/models/workout-cards.interface';
+import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { UserInfo } from '../../../entities/models/user.interface';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
@@ -19,32 +19,50 @@ export class ProfileComponent implements OnInit {
   profileState: 'public' | 'private' = 'public';
 
   public user: IUserDetails | undefined;
+  public currentProfilePictureUri?: string;
+  public profilePictureFile: any;
   public profileUserId?: number;
   public profileContributorId?: number;
   protected isAuth: boolean = false;
   protected isSubscribed: boolean = false;
   protected visitorRole: number = UserRoles.User;
 
-  public workouts!: IWorkoutCardsFields[];
+  public workouts!: IWorkout[];
 
   constructor(
     private readonly userService: UserService,
     private readonly workoutService: WorkoutService,
-    private readonly route: ActivatedRoute,
+    private readonly activeRouter: ActivatedRoute,
     private readonly router: Router
   ) {}
 
   public ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.activeRouter.params.subscribe((params) => {
       this.profileUserId = params['userId'];
 
       // Check for authentication for private profile
-      this.checkAuthentication(params);
+      this.checkAuthentication();
 
-      this.fetchUserProfile(params);
+      this.fetchUserProfile();
 
-      this.checkSubscription(params);
+      this.checkSubscription();
     });
+  }
+
+  public onProfilePictureChange(event: Event) {
+    const files = (event.target as HTMLInputElement)?.files;
+    const file = files?.item(files.length-1);
+    const allowedFiles = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedFiles.includes(file?.type as string)) {
+      return alert("Images only allowed");
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file as Blob);
+
+    reader.onload = (readerEvent) => {
+      this.currentProfilePictureUri = readerEvent.target?.result as string;
+    }
+    this.profilePictureFile = file;
   }
 
   public onSubscribe(): void {
@@ -77,9 +95,15 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  private checkAuthentication(params: any): void {
+  public navigateToChat(){
+    if(this.isSubscribed){
+      this.router.navigate([`chat/${this.profileUserId}`])
+    }
+  }
+
+  private checkAuthentication(): void {
     this.userService.isAuth$.subscribe((isAuth) => {
-      if (!params['userId']) {
+      if (!this.profileUserId) {
         if (!isAuth) {
           this.router.navigate(['/login']);
         }
@@ -87,12 +111,12 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  private fetchUserProfile(params: any): void {
+  private fetchUserProfile(): void {
     this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
       if (userInfo) {
         this.isAuth = true;
         this.visitorRole = userInfo.role;
-        if (!params['userId'] || userInfo.id == params['userId']) {
+        if (!this.profileUserId || userInfo.id == this.profileUserId) {
           // Same user trying to access his public profile - not allowed
           // Do different builder request for private
           this.fetchPrivateProfileUser(userInfo.id);
@@ -100,20 +124,26 @@ export class ProfileComponent implements OnInit {
           this.profileState = 'private';
         } else {
           // Logged-in user see other profile
-          this.fetchPublicProfileUser(params);
+          this.fetchPublicProfileUser();
         }
       } else {
-        this.fetchPublicProfileUser(params);
+        this.fetchPublicProfileUser();
       }
     });
   }
 
-  private checkSubscription(params: any): void {
-    if (this.profileState === 'public') {
-      this.userService.hasUserSubscribed(params['userId']).subscribe({
+  private checkSubscription(): void {
+    console.log("params -> ", this.profileUserId);
+    
+    if (this.profileState === 'public' && this.profileUserId) {
+      this.userService.hasUserSubscribed(this.profileUserId).subscribe({
         next: (res: any) => {
-          if (this.visitorRole === UserRoles.Coach && !res?.data?.hasSubscribed && !this.profileContributorId) {
-            this.router.navigate(['/']) //TODO: Show not found page.
+          if (
+            this.visitorRole === UserRoles.Coach &&
+            !res?.data?.hasSubscribed &&
+            !this.profileContributorId
+          ) {
+            this.router.navigate(['/']); //TODO: Show not found page.
           }
           this.isSubscribed = res?.data?.hasSubscribed;
         },
@@ -124,7 +154,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  private fetchPublicProfileUser(params: any): void {
+  private fetchPublicProfileUser(): void {
     const queryParams: IQueryParams = {
       what: {
         [USERS_FIELDS.users.firstName]: 1,
@@ -137,9 +167,9 @@ export class ProfileComponent implements OnInit {
         [USERS_FIELDS.user_specs.preferences]: 1,
         [USERS_FIELDS.users.profilePicture]: 1,
         [USERS_FIELDS.users.userRole]: 1,
-        [USERS_FIELDS.contributors.contributorId]: 1
+        [USERS_FIELDS.contributors.contributorId]: 1,
       },
-      id: params['userId'] || null,
+      id: this.profileUserId || null,
     };
 
     this.userService.getDetail(queryParams).subscribe({
@@ -227,7 +257,7 @@ export class ProfileComponent implements OnInit {
     };
 
     this.workoutService.getWorkouts(queryParams).subscribe({
-      next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
+      next: (res: IRequestResult<IWorkout[]> | null) => {
         console.log(res?.data);
         this.workouts = res?.data ?? [];
       },
@@ -265,7 +295,7 @@ export class ProfileComponent implements OnInit {
     };
 
     this.workoutService.getWorkouts(queryParams).subscribe({
-      next: (res: IRequestResult<IWorkoutCardsFields[]> | null) => {
+      next: (res: IRequestResult<IWorkout[]> | null) => {
         console.log(res?.data);
         this.workouts = res?.data ?? [];
       },

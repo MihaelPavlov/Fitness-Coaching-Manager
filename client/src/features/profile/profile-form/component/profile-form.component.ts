@@ -1,9 +1,10 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { InputType } from '../../../../shared/enums/input-types.enum';
 import { IUserDetails } from '../../../../entities/users/models/user-details.interface';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../../../entities/users/services/user.service';
 import { Router } from '@angular/router';
+import { toFormData } from '../../../../shared/utils/formTransformer';
 
 @Component({
   selector: 'app-profile-form',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class ProfileFormComponent implements OnChanges {
   @Input() user: IUserDetails | undefined;
+  @Input() profilePictureFile: File | undefined | null;
 
   public InputType = InputType;
   public isLoading: boolean = false;
@@ -31,11 +33,15 @@ export class ProfileFormComponent implements OnChanges {
     email: ['', [Validators.required, Validators.email]],
     weightGoal: ['', [Validators.required]],
     weight: ['', [Validators.required]],
+    profilePicture: [null, [Validators.required]]
   });
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes['user']) {
       this.updateFormValues(this.user);
+    }
+    if (changes['profilePictureFile']) {
+      this.updateProfilePictureFile(this.profilePictureFile);
     }
   }
 
@@ -45,7 +51,7 @@ export class ProfileFormComponent implements OnChanges {
     }
     this.isLoading = true;
 
-    this.userService.updateUser(this.updateUserForm.value).subscribe({
+    this.userService.updateUser(toFormData(this.updateUserForm.value)).subscribe({
       next: () => {
         this.hasUpdateError = false;
         this.userService.fetchUserInfo();
@@ -69,5 +75,10 @@ export class ProfileFormComponent implements OnChanges {
         this.updateUserForm.get(field)?.setValue(value);
       }
     });
+  }
+
+  private updateProfilePictureFile(profilePicture: File | undefined | null) {
+    const selectedFile = this.updateUserForm.get('profilePicture') as FormControl;
+    selectedFile.setValue(profilePicture);
   }
 }

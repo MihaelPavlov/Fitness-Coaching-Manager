@@ -11,5 +11,7 @@ export const TABLE = {
   SESSION_EXERCISES: "session_exercises",
   WORKOUT_SESSION: "workout_session",
   USER_SESSION: "user_session",
-  USER_WORKOUT_COLLECTION: "user_workout_collection"
+  USER_WORKOUT_COLLECTION: "user_workout_collection",
+  CHATS: "chats",
+  CHAT_MESSAGES: "chat_messages",
 };

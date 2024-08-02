@@ -93,3 +93,49 @@ export const registrationMiddlware = async (
 
   next();
 };
+
+export const fileMediaValidationMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const mediaMimeTypes = [
+    'image/png',
+    'video/ogg',
+    'video/mpeg',
+    'video/mp4',
+    'image/jpeg',
+    'image/gif',
+    'image/bmp',
+    'video/x-msvideo',
+    'image/avif',
+  ]
+  if (!mediaMimeTypes.includes(req.file.mimetype)) {
+    return res.status(409).json({
+      status: RESPONSE_STATUS.FAILED,
+      data: {
+        message: "Invalid file type",
+      },
+    });
+  }
+
+  next();
+};
+
+export const fileSizeValidationMiddleware = (
+  error: Error,
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (error) {
+    return res.status(409).json({
+      status: RESPONSE_STATUS.FAILED,
+      data: {
+        message: error.message,
+      },
+    });
+  }
+
+  next();
+}

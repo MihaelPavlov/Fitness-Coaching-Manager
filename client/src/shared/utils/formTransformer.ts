@@ -8,6 +8,10 @@ export const toFormData = (form: any) => {
       }
       continue;
     }
+    if (key === 'exercises') {
+      formData.append(key, JSON.stringify(value))
+      continue;
+    }
     formData.append(key, value as File | string);
   }
 

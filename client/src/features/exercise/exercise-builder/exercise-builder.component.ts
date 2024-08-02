@@ -1,7 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { difficultyList } from '../../../shared/option-arrays/difficulty-list';
@@ -33,39 +38,57 @@ export class ExerciseBuidlerComponent implements OnInit {
   protected hasExerciseError: boolean = false;
   protected createExerciseErrorMsg: string = '';
   protected difficultyArr = Object.entries(difficultyList);
-  protected exerciseId:string | undefined;
+  protected exerciseId: string | undefined;
   protected equipmentList$!: Observable<IExerciseEquipment[]>;
+  protected equipmentListEdit!: IExerciseEquipment[];
   protected tagList$!: Observable<IExerciseTag[]>;
+  protected tagListEdit!: IExerciseTag[];
+  public isEditMode: boolean = false; // Edit mode
+
+  basePath: string = 'http://localhost:3000/files/';
 
   equipmentSettings: IDropdownSettings = {
     idField: 'uid',
     textField: 'title',
-    itemsShowLimit:2,
-    noDataAvailablePlaceholderText:'No equipments available'
+    itemsShowLimit: 2,
+    noDataAvailablePlaceholderText: 'No equipments available',
   };
 
   tagSettings: IDropdownSettings = {
     idField: 'uid',
     textField: 'name',
-    itemsShowLimit:2,
-    noDataAvailablePlaceholderText:'No tags available'
+    itemsShowLimit: 2,
+    noDataAvailablePlaceholderText: 'No tags available',
   };
 
-  protected exerciseForm = this.fb.group({
-    title: ['', Validators.required],
-    thumbUri: [null, Validators.required],
-    difficulty: ['', Validators.required],
-    equipmentIds: [[], Validators.required],
-    tagIds: [[], Validators.required],
-    description: ['', Validators.required],
-  });
+  public exerciseForm!: FormGroup;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly exerciseService: ExerciseService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
-  ) {}
+  ) {
+    if (!this.isEditMode) {
+      this.exerciseForm = this.fb.group({
+        title: ['', Validators.required],
+        thumbUri: [null as any, Validators.required],
+        difficulty: ['', Validators.required],
+        equipmentIds: [[], Validators.required],
+        tagIds: [[], Validators.required],
+        description: ['', Validators.required],
+      });
+    } else {
+      this.exerciseForm = this.fb.group({
+        title: ['', Validators.required],
+        thumbUri: [null as any],
+        difficulty: ['', Validators.required],
+        equipmentIds: [[], Validators.required],
+        tagIds: [[], Validators.required],
+        description: ['', Validators.required],
+      });
+    }
+  }
 
   ngOnInit(): void {
     this.equipmentList$ = this.exerciseService
@@ -92,15 +115,15 @@ export class ExerciseBuidlerComponent implements OnInit {
         map((res: IRequestResult<IExerciseTag[]> | null) => res?.data ?? [])
       );
 
-      this.route.paramMap.subscribe((params) => {
-        
-        const id = params.get('exerciseId');
-        console.log(id);
-        if (id) {
-          this.exerciseId = String(id);
-          this.loadExerciseDetails(this.exerciseId);
-        }
-      });
+    this.route.paramMap.subscribe((params) => {
+      const id = params.get('exerciseId');
+      console.log(id);
+      if (id) {
+        this.exerciseId = String(id);
+        this.isEditMode = true;
+        this.loadExerciseDetails(this.exerciseId);
+      }
+    });
   }
 
   private loadExerciseDetails(id: string): void {
@@ -130,15 +153,30 @@ export class ExerciseBuidlerComponent implements OnInit {
       .subscribe(
         (result) => {
           if (result?.data && result.data.length > 0) {
-            
             const exercise = result.data[0];
-            console.log(exercise);
-            this.exerciseForm.patchValue({ 
-              title: exercise.title ,
+            console.log(exercise.tagIds);
+            console.log(exercise.equipmentIds);
+            console.log(exercise.thumbUri);
+
+            this.tagList$.subscribe((result) => {
+              this.tagListEdit = result.filter((item) =>
+                exercise.tagIds.split(',').map(Number).includes(item.uid)
+              );
+              this.onTagSelectAllEdit(this.tagListEdit);
+            });
+
+            this.equipmentList$.subscribe((result) => {
+              this.equipmentListEdit = result.filter((item) =>
+                exercise.equipmentIds.split(',').map(Number).includes(item.uid)
+              );
+              this.onEquipmentSelectAllEdit(this.equipmentListEdit);
+            });
+
+            this.exerciseForm.patchValue({
+              title: exercise.title,
               difficulty: String(exercise.difficulty) || null,
-              equipmentIds: exercise.equipmentIds.split(',').map(Number) || null || undefined,
-              tagIds: exercise.tagIds ? exercise.tagIds.split(',').map(Number) : [],
               description: exercise.description || null,
+              thumbUri: `${this.basePath}${exercise.thumbUri}`,
             });
           }
         },
@@ -157,39 +195,46 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
 
     const formValue = this.exerciseForm.value;
+    if (this.isEditMode) {
+      //Here goes for edit functionallity
+    } else {
+      const equipmentIds = (formValue.equipmentIds ?? [])
+        .map((item: { uid: string }) => item.uid)
+        .map(String)
+        .join(',');
+      const tagIds = (formValue.tagIds ?? [])
+        .map((item: { uid: string }) => item.uid)
+        .map(String)
+        .join(',');
 
-    const equipmentIds = (formValue.equipmentIds ?? [])
-      .map((item: { uid: string }) => item.uid)
-      .map(String)
-      .join(',');
-    const tagIds = (formValue.tagIds ?? [])
-      .map((item: { uid: string }) => item.uid)
-      .map(String)
-      .join(',');
+      const submissionData = {
+        ...this.exerciseForm.value,
+        equipmentIds,
+        tagIds,
+      };
 
-    const submissionData = {
-      ...this.exerciseForm.value,
-      equipmentIds,
-      tagIds,
-    };
+      console.log(submissionData);
 
-    console.log(submissionData);
-
-    this.exerciseService.create(toFormData(submissionData)).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.hasExerciseError = false;
-        this.router.navigate(['/']);
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.createExerciseErrorMsg = Array.isArray(err.error.data) ? err.error.data[0].message : err.error.data.message;
-        this.hasExerciseError = true;
-      },
-    });
+      this.exerciseService.create(toFormData(submissionData)).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.hasExerciseError = false;
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.createExerciseErrorMsg = Array.isArray(err.error.data)
+            ? err.error.data[0].message
+            : err.error.data.message;
+          this.hasExerciseError = true;
+        },
+      });
+    }
   }
 
   public onImageUpload(event: Event) {
+    console.log(event);
+
     const files = (event.target as HTMLInputElement).files;
     const file = files?.item(files.length - 1);
     const selectedFile = this.exerciseForm.get('thumbUri') as FormControl;
@@ -241,6 +286,8 @@ export class ExerciseBuidlerComponent implements OnInit {
   }
 
   public onTagSelectAll(items: Tag[]): void {
+    console.log(items);
+
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue(items);
   }
@@ -248,5 +295,18 @@ export class ExerciseBuidlerComponent implements OnInit {
   public onTagDeselectAll(): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
     tagFormArray.setValue([]);
+  }
+
+  //For edit
+  public onTagSelectAllEdit(items: IExerciseTag[]): void {
+    const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;
+    tagFormArray.setValue(items);
+  }
+
+  public onEquipmentSelectAllEdit(items: IExerciseEquipment[]): void {
+    const equipmentFormArray = this.exerciseForm.get(
+      'equipmentIds'
+    ) as FormControl;
+    equipmentFormArray.setValue(items);
   }
 }

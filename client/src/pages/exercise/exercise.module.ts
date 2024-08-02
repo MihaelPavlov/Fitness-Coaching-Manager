@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router';
     LoaderModule,
     ErrorModule,
     NgMultiSelectDropDownModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [ExerciseLibraryComponent],
 })

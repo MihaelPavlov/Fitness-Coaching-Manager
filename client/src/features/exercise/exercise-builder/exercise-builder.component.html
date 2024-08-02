@@ -8,7 +8,7 @@
     (ngSubmit)="create()"
   >
     <div class="exercise-form__heading-box mb-5 text-center">
-      <h1 class="exercise-form__heading-box-text mt-0">Create Exercise</h1>
+      <h1 class="exercise-form__heading-box-text mt-0">{{ isEditMode ? 'Update Exercise' : 'Create Exercise' }}</h1>
       <div class="exercise-form__heading-box-border d-inline-block"></div>
     </div>
     <div class="exercise-form__elements">
@@ -32,10 +32,11 @@
         >
           <label for="thumb" class="control__label required">Gif/Video</label>
           <input
+            [disabled]="isEditMode"
             type="file"
             id="thumb"
             placeholder="Gif/Video"
-            name="thumb"
+            name="thumbUri"
             (change)="onImageUpload($event)"
             class="control w-100 d-block align-items-start"
           />
@@ -72,6 +73,7 @@
             (onSelectAll)="onEquipmentSelectAll($event)"
             (onDeSelect)="onEquipmentDeselect($event)"
             (onDeSelectAll)="onEquipmentDeselectAll()"
+            [formControlName]="'equipmentIds'"
           >
           </ng-multiselect-dropdown>
         </div>
@@ -88,6 +90,7 @@
             (onSelectAll)="onTagSelectAll($event)"
             (onDeSelect)="onTagDeselect($event)"
             (onDeSelectAll)="onTagDeselectAll()"
+            [formControlName]="'tagIds'"
           >
           </ng-multiselect-dropdown>
         </div>
@@ -112,7 +115,7 @@
         class="exercise-form__elements__buttons mt-6 justify-content-center d-flex g-4 flex-wrap"
       >
         <button type="button" class="btn btn-large">Cancel</button>
-        <button type="submit" class="btn btn-large" [disabled]="exerciseForm.invalid">Create</button>
+        <button type="submit" class="btn btn-large" [disabled]="exerciseForm.invalid">{{ isEditMode ? 'Edit' : 'Create' }}</button>
       </div>
       <app-error
         *ngIf="hasExerciseError"

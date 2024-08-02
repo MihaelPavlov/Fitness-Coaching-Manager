@@ -7,6 +7,7 @@ import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IUserDetails } from '../models/user-details.interface';
 import { SocketService } from '../../chat/services/socket.service';
+import { IUserWorkout } from '../models/user-workout.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -58,6 +59,7 @@ export class UserService {
       this.userInfoSubject$.next({
         id: res.data.id,
         username: res.data.username,
+        contributorId: res.data.contributorId,
         role: res.data.role,
       });
       this.isAuthSubject$.next(true);
@@ -75,6 +77,29 @@ export class UserService {
     return this.apiService.post(
       PATH.USERS.UNSUBSCRIBE + `/${contributorId}`,
       {}
+    );
+  }
+
+  public addToCollection(workoutId: number): Observable<any> {
+    return this.apiService.post(
+      PATH.USERS.ADD_TO_COLLECTION + `/${workoutId}`,
+      {}
+    );
+  }
+
+  public removeFromCollection(workoutId: number): Observable<any> {
+    return this.apiService.post(
+      PATH.USERS.REMOVE_FROM_COLLECTION + `/${workoutId}`,
+      {}
+    );
+  }
+
+  public getUserWorkoutList(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IUserWorkout[]> | null> {
+    return this.apiService.post<IRequestResult<IUserWorkout[]> | null>(
+      PATH.USERS.GET_USER_COLLECTION,
+      queryParams
     );
   }
 

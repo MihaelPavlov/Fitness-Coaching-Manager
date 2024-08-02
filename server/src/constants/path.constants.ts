@@ -17,6 +17,9 @@ export const PATH = {
     SUBSCRIBE: "/subscribe",
     UNSUBSCRIBE: "/unsubscribe",
     HAS_SUBSCRIBED: "/hasSubscribed",
+    ADD_TO_COLLECTION: "/addToCollection",
+    REMOVE_FROM_COLLECTION: "/removeFromCollection",
+    GET_USER_COLLECTION: "/getUserCollection",
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: "/getSubscribers",

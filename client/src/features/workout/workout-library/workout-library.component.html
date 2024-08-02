@@ -1,5 +1,5 @@
 <app-loader *ngIf="isLoading"></app-loader>
-<h1 class="workout-library__header">{{pageName}}</h1>
+<h1 class="workout-library__header">{{ pageName }}</h1>
 <app-workout-search
   [tags]="tags"
   [isLoadingSubject]="isLoadingSubject"
@@ -7,8 +7,15 @@
   [selectedTagsSubject]="selectedTagsSubject"
 ></app-workout-search>
 <div class="workout-library__cards-flex-container d-flex">
-    <ng-container *ngFor="let workout of workouts">
-      <app-workout-card [workout]="workout"></app-workout-card>
-    </ng-container>
-    <p *ngIf="workouts?.length == 0">There are no workouts.</p>
+  <ng-container *ngFor="let workout of workouts">
+    <app-workout-card
+      [workout]="workout"
+      [userWorkouts]="userWorkouts"
+    ></app-workout-card>
+  </ng-container>
+  <div *ngIf="workouts?.length == 0 && currentRole == userRoles.Coach"><p>You have no workout plans set yet</p>
+  <button class="btn btn-large" routerLink="/workout/create">Build a Workout</button></div>
+
+  <div *ngIf="workouts?.length == 0 && currentRole == userRoles.User"><p>You have no workouts in your collection yet</p>
+    <button class="btn btn-large" routerLink="/contributor/list">Find a Workout Plan</button></div>
 </div>

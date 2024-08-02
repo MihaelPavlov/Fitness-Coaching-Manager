@@ -1,25 +1,50 @@
-<div class="card-container pt-5 position-relative" [ngStyle]="{'--background-url': 'url(' + workout?.imageUri + ')'}" (click)="navigateToWorkout()">
-    <p class="card-container__workout-name mt-0 uppercase">{{workout?.title}}</p>
-    <p class="card-container__workout-trainer">{{workout?.owner?.firstName}}</p>
+<div
+  class="card-container pt-5 position-relative"
+  [ngStyle]="{ '--background-url': 'url(' + workout?.imageUri + ')' }"
+>
+  <div (click)="navigateToWorkout()">
+    <p class="card-container__workout-name mt-0 uppercase">
+      {{ workout?.title }}
+    </p>
+    <p class="card-container__workout-trainer">
+      {{ workout?.owner?.firstName }}
+    </p>
 
     <div class="card-container__difficulty d-flex g-4 align-items-center">
-        <p class="card-container__difficulty-text">
-            Beginner
-        </p>
-        <div class="card-container__difficulty-stars">
-            <ng-container *ngFor="let i of starsCount()">
-              <span class="card-container__difficulty-stars-star material-symbols-outlined">
-                star
-              </span>
-            </ng-container>
-        </div>
+      <p class="card-container__difficulty-text">Beginner</p>
+      <div class="card-container__difficulty-stars">
+        <ng-container *ngFor="let i of starsCount()">
+          <span
+            class="card-container__difficulty-stars-star material-symbols-outlined"
+          >
+            star
+          </span>
+        </ng-container>
+      </div>
     </div>
     <div class="card-container__tags d-flex g-2">
-        <ng-container *ngFor="let tag of workout?.tags">
-          <app-tag [text]="tag.name" [backgroundColor]="'main-blue-color'"></app-tag>
-        </ng-container>
+      <ng-container *ngFor="let tag of workout?.tags">
+        <app-tag
+          [text]="tag.name"
+          [backgroundColor]="'main-blue-color'"
+        ></app-tag>
+      </ng-container>
     </div>
-    <span class="card-container__add-btn align-items-center d-flex justify-content-center material-symbols-outlined">
-        add
+  </div>
+  <ng-container *ngIf="canUserAddCard">
+    <span
+      *ngIf="!isCardAdded"
+      class="card-container__add-btn align-items-center d-flex justify-content-center material-symbols-outlined"
+      (click)="onAdd()"
+    >
+      add
     </span>
+    <span
+      *ngIf="isCardAdded"
+      class="card-container__add-btn align-items-center d-flex justify-content-center material-symbols-outlined"
+      (click)="onRemove()"
+    >
+      remove
+    </span>
+  </ng-container>
 </div>

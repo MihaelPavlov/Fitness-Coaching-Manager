@@ -66,7 +66,7 @@
 </div>
 
 <ng-template #public>
-  <app-profile-card-list [workouts]="workouts" [isUser]="!profileContributorId"></app-profile-card-list>
+  <app-profile-card-list [workouts]="workouts" [userWorkouts]="userWorkouts" [isUser]="!profileContributorId"></app-profile-card-list>
 </ng-template>
 
 <ng-template #private>

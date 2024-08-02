@@ -9,6 +9,9 @@ export const PATH = {
     SUBSCRIBE: 'users/subscribe',
     UNSUBSCRIBE: 'users/unsubscribe',
     HAS_SUBSCRIBED: 'users/hasSubscribed',
+    ADD_TO_COLLECTION: 'users/addToCollection',
+    REMOVE_FROM_COLLECTION: 'users/removeFromCollection',
+    GET_USER_COLLECTION: 'users/getUserCollection',
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: 'contributors/getSubscribers',

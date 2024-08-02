@@ -20,15 +20,20 @@ export const createWorkoutSession = async (
   data: Record<string, any>,
   file?: Express.Multer.File
 ) => {
-  console.log("exercises", data.exercises);
-  if (data?.private == 1 && (data?.relatedStudent == "null" || data?.relatedStudent == null)) {
+  if (
+    data?.private == 1 &&
+    (data?.relatedStudent == "null" || data?.relatedStudent == null)
+  ) {
     throw new Error("You must provide related student for private workouts");
   }
 
   const workoutSessionId = (
     await db(TABLE.WORKOUT_SESSION).insert({
       contributor_id: contributorId,
-      related_user_id: data?.relatedStudent == "null" || data?.relatedStudent == null ? null : data?.relatedStudent,
+      related_user_id:
+        data?.relatedStudent == "null" || data?.relatedStudent == null
+          ? null
+          : data?.relatedStudent,
       name: data?.title,
       description: data?.description || null,
       image_uri: file.filename,
@@ -41,7 +46,6 @@ export const createWorkoutSession = async (
     })
   ).at(0);
 
-  
   // Save each added exercise to the workout
   for (let exercise of JSON.parse(data?.exercises)) {
     // Check if exercise exsists
@@ -79,5 +83,5 @@ export const searchWorkouts = async (payload: QueryParams, query: string) => {
 
   workouts = await mapWorkouts(workouts);
 
-  return workouts
-}
+  return workouts;
+};

@@ -56,6 +56,13 @@ export const ROUTES: Routes = [
             (m) => m.ChatModule
           ),
       },
+      {
+        path: 'builders',
+        loadChildren: () =>
+          import('../../pages/builder/builder.module').then(
+            (m) => m.BuilderModule
+          ),
+      },
     ],
   },
   {

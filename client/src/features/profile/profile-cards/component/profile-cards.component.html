@@ -8,6 +8,6 @@
     <p>There are none workouts yet</p>
   </ng-container>
   <ng-container *ngFor="let workout of workouts">
-    <app-workout-card [workout]="workout"></app-workout-card>
+    <app-workout-card [workout]="workout" [userWorkouts]="userWorkouts"></app-workout-card>
   </ng-container>
 </div>

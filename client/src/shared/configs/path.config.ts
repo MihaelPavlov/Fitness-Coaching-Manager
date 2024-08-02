@@ -26,6 +26,7 @@ export const PATH = {
     GET_WORKOUTS: 'workouts/getWorkouts',
     GET_TAG_LIST: 'workouts/getTagList',
     CREATE_WORKOUT: 'workouts/add',
+    SEARCH: "workouts/search?title="
   },
   SESSIONS: {
     GET_EXERCISES: 'sessions/getExercises',

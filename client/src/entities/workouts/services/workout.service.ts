@@ -29,6 +29,23 @@ export class WorkoutService {
     )
   }
 
+  public searchWorkouts(
+    queryParams: IQueryParams,
+    title: string
+  ): Observable<IRequestResult<IWorkout[]> | null> {
+    return this.apiService.post(PATH.WORKOUTS.SEARCH + title, queryParams).pipe(
+      map((res: any) => {
+        res.data.map((workout: any) => {
+          if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
+          const newImageUrl = "http://localhost:3000/files/" + workout.imageUri;
+          workout.imageUri = newImageUrl;
+          return workout;
+        })
+        return res;
+      })
+    )
+  }
+
   public createWorkout(data: Record<string, any>): Observable<any> {
     return this.apiService.post(PATH.WORKOUTS.CREATE_WORKOUT, data);
   }

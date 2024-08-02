@@ -12,7 +12,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 })
 export class WorkoutLibraryComponent implements OnInit {
   public pageName:string = 'Workouts';
-  public workoutsSubjcet = new BehaviorSubject<IWorkout[]>([]);
+  public workoutsSubject = new BehaviorSubject<IWorkout[]>([]);
   public workouts?: IWorkout[];
   public tags?: IWorkoutTag[];
 
@@ -32,7 +32,7 @@ export class WorkoutLibraryComponent implements OnInit {
 
     this.isLoadingSubject.asObservable().subscribe(value => this.isLoading = value);
 
-    this.workoutsSubjcet.asObservable().subscribe((values) => {
+    this.workoutsSubject.asObservable().subscribe((values) => {
       this.workouts = values;
     })
 
@@ -58,7 +58,7 @@ export class WorkoutLibraryComponent implements OnInit {
       next: (res) => {
         console.log(res?.data)
         this.workouts = res?.data;
-        this.workoutsSubjcet.next(this.workouts || []);
+        this.workoutsSubject.next(this.workouts || []);
       },
       error: (err) => console.log(err),
       complete: () => this.isLoadingSubject.next(false)
@@ -66,6 +66,18 @@ export class WorkoutLibraryComponent implements OnInit {
   }
 
   private getWorkoutTags() {
+    const queryParams: IQueryParams = {
+      what: {
+        uid: 1,
+        name: 1
+      }
+    }
 
+    this.workoutService.getWorkoutTags(queryParams).subscribe({
+      next: (res) => {
+        this.tags = res?.data;
+      },
+      error: (err) => console.log(err)
+    })
   }
 }

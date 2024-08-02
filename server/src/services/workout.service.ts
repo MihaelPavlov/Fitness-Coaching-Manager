@@ -68,3 +68,12 @@ export const createWorkoutTags = async (data: Record<string, any>) => {
 
 export const getWorkoutTags = async (tagData: any) =>
   await new WorkoutTagsBuilder(tagData).buildQuery();
+
+export const searchWorkouts = async (payload: QueryParams, query: string) => {
+  const workouts = await new WorkoutBuilder(payload).buildQuery();
+
+  return workouts.filter((workout: any) => {
+    if (workout.title.toLowerCase().includes(query.toLowerCase())) return true;
+    return false;
+  })
+}

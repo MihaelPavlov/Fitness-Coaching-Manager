@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { IExercise } from '../../../entities/exercises/models/exercise.interface';
-import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
+import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.interface';
+import { WorkoutService } from '../../../entities/workouts/services/workout.service';
+import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 
 @Component({
   selector: 'app-workout-search',
@@ -13,15 +13,15 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
 })
 export class WorkoutSearchComponent implements OnInit {
   @Input() toggleFilterForm: boolean = false;
-  @Input() exercisesSubject?: BehaviorSubject<IExercise[]>;
+  @Input() workoutsSubject?: BehaviorSubject<IWorkout[]>;
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;
-  @Input() tags?: IExerciseTag[];
-  @Input() selectedTagsSubject?: BehaviorSubject<IExerciseTag[]>;
+  @Input() tags?: IWorkoutTag[];
+  @Input() selectedTagsSubject?: BehaviorSubject<IWorkoutTag[]>;
 
-  public selectedTags?: IExerciseTag[];
+  public selectedTags?: IWorkoutTag[];
   public searchValue: string = "";
 
-  constructor(private readonly exerciseService: ExerciseService) {}
+  constructor(private readonly workoutService: WorkoutService) {}
 
   ngOnInit(): void {
       this.selectedTagsSubject?.asObservable().subscribe((values) => {
@@ -58,8 +58,10 @@ export class WorkoutSearchComponent implements OnInit {
         [EXERCISE_FIELDS.exercises.thumbUri]: 1
       },
     }
+    console.log("search");
+    this.isLoadingSubject?.next(false);
 
-    this.exerciseService.searchExercises(queryParams, this.searchValue).subscribe({
+    /* this.exerciseService.searchExercises(queryParams, this.searchValue).subscribe({
       next: (res) => {
         this.exercisesSubject?.next(res?.data || []);
         this.isLoadingSubject?.next(false);
@@ -68,7 +70,7 @@ export class WorkoutSearchComponent implements OnInit {
         console.log('search error', err);
         this.isLoadingSubject?.next(false);
       }
-    })
+    }) */
   }
 
   public filterHandler(): void {

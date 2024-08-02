@@ -8,16 +8,26 @@ export const getContributors = async (payload: QueryParams) => {
   const builder = new ContributorBuilder(payload);
   let contributors = await builder.buildQuery();
 
-  let newContributors = await Promise.all(
+  contributors = await Promise.all(
     contributors.map(async (contributor) => {
       contributor["subscribersCount"] = await getContributorSubscribersCount(contributor.contributorId);
       return contributor;
     })
   );
 
-  newContributors = await mapContributors(newContributors);
+  contributors = await mapContributors(contributors);
 
-  return newContributors;
+  if (payload.order) {
+    contributors = contributors.sort((a: any, b: any) => {
+      return b.dateCreated-a.dateCreated
+    })
+  } else {
+    contributors = contributors.sort((a: any, b: any) => {
+      return b.subscribersCount-a.subscribersCount
+    })
+  }
+
+  return contributors;
 };
 
 export const getContributorId = async (id: number) => {

@@ -82,7 +82,7 @@ export class UserService {
     return this.apiService.get(PATH.USERS.HAS_SUBSCRIBED + `/${id}`);
   }
 
-  private fetchCurrentUserInfo(): Observable<any> {
+  public fetchCurrentUserInfo(): Observable<any> {
     return this.apiService.get(PATH.USERS.CURRENT_USER);
   }
 }

@@ -12,6 +12,7 @@ export const PATH = {
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: 'contributors/getSubscribers',
+    GET_LIST: 'contributors/getList'
   },
   EXERCISES: {
     GET_LIST: 'exercises/getList',

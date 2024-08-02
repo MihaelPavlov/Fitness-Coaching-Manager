@@ -49,28 +49,24 @@ export class WorkoutSearchComponent implements OnInit {
     this.isLoadingSubject?.next(true);
     const queryParams: IQueryParams = {
       what: {
-        [EXERCISE_FIELDS.exercises.uid]: 1,
-        [EXERCISE_FIELDS.exercises.title]: 1,
-        [EXERCISE_FIELDS.exercises.description]: 1,
-        [EXERCISE_FIELDS.exercises.tagIds]: 1,
-        [EXERCISE_FIELDS.exercises.equipmentIds]: 1,
-        [EXERCISE_FIELDS.exercises.dateCreated]: 1,
-        [EXERCISE_FIELDS.exercises.thumbUri]: 1
+        title: 1,
+        owner: 1,
+        tags: 1,
+        rating: 1,
+        imageUri: 1
       },
     }
-    console.log("search");
-    this.isLoadingSubject?.next(false);
 
-    /* this.exerciseService.searchExercises(queryParams, this.searchValue).subscribe({
+    this.workoutService.searchWorkouts(queryParams, this.searchValue).subscribe({
       next: (res) => {
-        this.exercisesSubject?.next(res?.data || []);
+        this.workoutsSubject?.next(res?.data || []);
         this.isLoadingSubject?.next(false);
       },
       error: (err) => {
         console.log('search error', err);
         this.isLoadingSubject?.next(false);
       }
-    }) */
+    })
   }
 
   public filterHandler(): void {

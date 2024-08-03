@@ -18,8 +18,6 @@ router.put(
     isAuth,
     isCoach,
     inputValidationMiddleware(exerciseValidators),
-    fileSizeValidationMiddleware,
-    fileMediaValidationMiddleware,
     async (req: any, res: express.Response) => {
         try {
             await exerciseService.updateExercise(

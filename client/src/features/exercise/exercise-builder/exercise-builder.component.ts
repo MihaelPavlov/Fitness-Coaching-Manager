@@ -82,7 +82,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     } else {
       this.exerciseForm = this.fb.group({
         title: ['', Validators.required],
-        thumbUri: [null, Validators.required],
+        thumbUri: [null],
         difficulty: ['', Validators.required],
         equipmentIds: [[], Validators.required],
         tagIds: [[], Validators.required],
@@ -219,12 +219,12 @@ export class ExerciseBuidlerComponent implements OnInit {
       submissionData.difficulty = Number(submissionData.difficulty)
       console.log(submissionData, 'Edit submitiopn data');
       this.exerciseService
-        .update(this.exerciseId, toFormData(submissionData))
+        .update(this.exerciseId, submissionData)
         .subscribe({
           next: () => {
             this.isLoading = false;
             this.hasExerciseError = false;
-            this.router.navigate([`/exercise/edit/${this.exerciseId}`]);
+            this.router.navigate([`/exercise/details/${this.exerciseId}`]);
           },
           error: (err) => {
             this.isLoading = false;

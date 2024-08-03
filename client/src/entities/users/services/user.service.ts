@@ -8,6 +8,7 @@ import { IRequestResult } from '../../models/request-result.interface';
 import { IUserDetails } from '../models/user-details.interface';
 import { SocketService } from '../../chat/services/socket.service';
 import { IUserWorkout } from '../models/user-workout.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class UserService {
 
   constructor(
     private readonly apiService: RestApiService,
-    private readonly socketService: SocketService
+    private readonly socketService: SocketService,
+    private readonly router:Router
   ) {}
 
   public get getUser(): UserInfo | null {
@@ -42,8 +44,13 @@ export class UserService {
   ): Observable<IRequestResult<IUserDetails> | null> {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams).pipe(
       map((res: any) => {
-        if (res.data.profilePicture.startsWith("http") || res.data.profilePicture.startsWith("https")) return res;
-        const newPictureUrl = "http://localhost:3000/files/" + res.data.profilePicture;
+        if (
+          res.data.profilePicture.startsWith('http') ||
+          res.data.profilePicture.startsWith('https')
+        )
+          return res;
+        const newPictureUrl =
+          'http://localhost:3000/files/' + res.data.profilePicture;
         res.data.profilePicture = newPictureUrl;
         return res;
       })
@@ -54,7 +61,7 @@ export class UserService {
     return this.apiService.put(PATH.USERS.UPDATE, data);
   }
 
-  public fetchUserInfo(): Subscription {
+  public fetchUserInfo(firstInit: boolean = false): Subscription {
     return this.fetchCurrentUserInfo().subscribe((res: any) => {
       this.userInfoSubject$.next({
         id: res.data.id,
@@ -64,7 +71,9 @@ export class UserService {
       });
       this.isAuthSubject$.next(true);
       this.socketService.emitEvent('addNewUser', res.data.id);
-
+      if (firstInit) {
+        this.router.navigate(['/workout/list']);
+      }
       //TODO: ON LOGOUT we need to disconnect from the socket
     });
   }
@@ -78,6 +87,10 @@ export class UserService {
       PATH.USERS.UNSUBSCRIBE + `/${contributorId}`,
       {}
     );
+  }
+
+  public updateUserInfoSubject(user: UserInfo | null): void {
+    this.userInfoSubject$.next(user);
   }
 
   public addToCollection(workoutId: number): Observable<any> {

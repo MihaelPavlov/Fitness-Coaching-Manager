@@ -46,7 +46,7 @@ router.put(
 );
 
 router.delete(
-  `${PATH.EXERCISES.DELETE}/:exerciseId`,
+  PATH.EXERCISES.DELETE,
   isAuth,
   isCoach,
   async (req: any, res: express.Response) => {

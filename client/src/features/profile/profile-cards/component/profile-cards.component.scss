@@ -19,6 +19,7 @@
 
         @include mixins.respond(Phone) {
             justify-content: center;
+            margin-bottom: 3rem;
         }
     }
 }

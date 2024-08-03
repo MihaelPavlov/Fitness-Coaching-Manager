@@ -11,8 +11,6 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
 export class ExerciseCardComponent {
   @Input() exercise!: IExercise;
   @Input() tags!: IExerciseTag[];
-  imageUrl =
-    '../../../shared/assets/images/temporary-exercise-list-placeholder-img.png'; //Provided image
 
   constructor(private readonly router: Router) {}
 

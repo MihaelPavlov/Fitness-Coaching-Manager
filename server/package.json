@@ -8,6 +8,7 @@
     "start:dev": "nodemon",
     "create-db": "ts-node src/database/create-database.ts",
     "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
     "migrate:undo": "knex migrate:rollback",
     "migrate:up": "knex migrate:up",
     "migrate:new": "knex migrate:make messages -x ts"

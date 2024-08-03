@@ -3,7 +3,7 @@ import type { Knex } from "knex";
 export async function up(knex: Knex): Promise<void> {
     return knex.schema.createTable("exercises", (table) => {
         table.increments('id').primary().unsigned().unique();
-        table.integer('contributor_id').unsigned()
+        table.integer('contributor_id').unsigned().notNullable().defaultTo(0)
         table.foreign('contributor_id').references('contributor_id');
         table.string('title', 45).notNullable().defaultTo('NEW EXERCISE');
         table.string('thumb_uri', 255).notNullable();

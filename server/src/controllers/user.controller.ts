@@ -3,12 +3,21 @@ import * as userService from "./../services/user.service";
 import { isAuth } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "../constants/response.constants";
 import { PATH } from "../constants/path.constants";
-import { fileMediaValidationMiddleware, fileSizeValidationMiddleware, inputValidationMiddleware, registrationMiddlware } from "./../middlewares/validation.middleware";
-import { createCoachValidators, createUserValidators, updateUserValidators } from "./../validators/user.validator";
+import {
+  fileSizeValidationMiddleware,
+  inputValidationMiddleware,
+  registrationMiddlware,
+} from "./../middlewares/validation.middleware";
+import {
+  updateUserValidators,
+} from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
 import upload from "./../config/file-upload.config";
-import { isFileImageMiddleware, registrationFileValidationMiddleware } from "./../middlewares/file-uploads.middleware";
+import {
+  isFileImageMiddleware,
+  registrationFileValidationMiddleware,
+} from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
@@ -20,17 +29,20 @@ router.get(
       const user = await userService.getUser({
         what: {
           userName: 1,
+          contributorId: 1
         },
         id: req.user.id,
         limit: 20,
         offset: 0,
       });
       const username = user[0].userName;
+      console.log(user[0])
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
         data: {
           id: req.user.id,
           username,
+          contributorId: user[0].contributorId,
           role: req.user.role,
         },
       });
@@ -38,9 +50,9 @@ router.get(
       res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {
-          message: err.message
-        }
-      })
+          message: err.message,
+        },
+      });
     }
   }
 );
@@ -52,7 +64,7 @@ router.post(
 
     res.status(200).json({
       status: RESPONSE_STATUS.SUCCESS,
-      data: users
+      data: users,
     });
   }
 );
@@ -71,7 +83,7 @@ router.post(
 
 router.post(
   PATH.USERS.REGISTER,
-  upload.array('files'),
+  upload.array("files"),
   registrationFileValidationMiddleware,
   registrationMiddlware,
   async (req: express.Request, res: express.Response) => {
@@ -125,10 +137,24 @@ router.post(
   }
 );
 
+router.post(
+  PATH.USERS.LOGOUT,
+  isAuth,
+  async (req: any, res: express.Response, next: express.NextFunction) => {
+    try {
+      userService.logoutUser(req.user.sessionId, req.get("accessToken"));
+
+      res.status(204).end();
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 router.put(
   PATH.USERS.UPDATE,
   isAuth,
-  upload.single('profilePicture'),
+  upload.single("profilePicture"),
   fileSizeValidationMiddleware,
   isFileImageMiddleware,
   inputValidationMiddleware(updateUserValidators),
@@ -139,8 +165,8 @@ router.put(
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
         data: {
-          message: "Successfully updated user!"
-        }
+          message: "Successfully updated user!",
+        },
       });
     } catch (err) {
       return res.status(400).json({
@@ -151,7 +177,7 @@ router.put(
       });
     }
   }
-)
+);
 
 router.post(
   PATH.USERS.SUBSCRIBE + "/:contributorId",
@@ -214,9 +240,15 @@ router.get(
     try {
       let hasSubscribed;
       if (req.user.role === UserRoles.Coach) {
-        hasSubscribed = await userService.hasUserSubscribed(req.params.id, await getContributorId(req.user.id));
+        hasSubscribed = await userService.hasUserSubscribed(
+          req.params.id,
+          await getContributorId(req.user.id)
+        );
       } else {
-        hasSubscribed = await userService.hasUserSubscribed(req.user.id, await getContributorId(req.params.id));
+        hasSubscribed = await userService.hasUserSubscribed(
+          req.user.id,
+          await getContributorId(req.params.id)
+        );
       }
 
       res.status(200).json({
@@ -233,6 +265,68 @@ router.get(
         },
       });
     }
+  }
+);
+
+router.post(
+  PATH.USERS.ADD_TO_COLLECTION + "/:workoutId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.addWorkoutToUserWorkoutCollection(
+        req.user.id,
+        req.params.workoutId
+      );
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {},
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message,
+        },
+      });
+    }
+  }
+);
+
+router.post(
+  PATH.USERS.REMOVE_FROM_COLLECTION + "/:workoutId",
+  isAuth,
+  async (req: any, res: express.Response) => {
+    try {
+      await userService.removeWorkoutToUserWorkoutCollection(
+        req.user.id,
+        req.params.workoutId
+      );
+      res.status(200).json({
+        status: RESPONSE_STATUS.SUCCESS,
+        data: {},
+      });
+    } catch (err) {
+      res.status(400).json({
+        status: RESPONSE_STATUS.FAILED,
+        data: {
+          error: err.message,
+        },
+      });
+    }
+  }
+);
+
+router.post(
+  PATH.USERS.GET_USER_COLLECTION,
+  async (req: express.Request, res: express.Response) => {
+    const userWorkoutList = await userService.getUserWorkoutCollection(
+      req.body
+    );
+
+    res.status(200).json({
+      status: RESPONSE_STATUS.SUCCESS,
+      data: userWorkoutList,
+    });
   }
 );
 

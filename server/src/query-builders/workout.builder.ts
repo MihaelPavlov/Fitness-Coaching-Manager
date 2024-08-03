@@ -30,16 +30,16 @@ export class WorkoutBuilder extends AbstractBuilder {
     protected override defaultOrder: OrderItem[];
     protected override entityById: number;
     protected override associations: AssociationItem[] = [
-        {
+        /* {
             mainField: "id",
             relatedTable: TABLE.SESSION_EXERCISES,
             relatedField: "session_id"
-        },
-        {
+        }, */
+        /* {
             mainField: "contributor_id",
             relatedTable: TABLE.CONTRIBUTORS,
             relatedField: "user_id"
-        }
+        } */
     ];
 
     constructor(queryParams: QueryParams | null = null) {

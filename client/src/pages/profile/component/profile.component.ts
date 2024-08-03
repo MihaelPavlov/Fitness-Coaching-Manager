@@ -9,6 +9,7 @@ import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { UserInfo } from '../../../entities/models/user.interface';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
+import { IUserWorkout } from '../../../entities/users/models/user-workout.interface';
 
 @Component({
   selector: 'app-profile',
@@ -28,6 +29,7 @@ export class ProfileComponent implements OnInit {
   protected visitorRole: number = UserRoles.User;
 
   public workouts!: IWorkout[];
+  public userWorkouts!: IUserWorkout[];
 
   constructor(
     private readonly userService: UserService,
@@ -47,21 +49,44 @@ export class ProfileComponent implements OnInit {
 
       this.checkSubscription();
     });
+
+    this.userService
+      .getUserWorkoutList({
+        what: {
+          userId: 1,
+          workoutSessionId: 1,
+        },
+        condition: {
+          type: 'AND',
+          items: [
+            {
+              field: 'userId',
+              operation: 'EQ',
+              value: this.userService.getUser?.id,
+            },
+          ],
+        },
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.userWorkouts = result.data;
+        }
+      });
   }
 
   public onProfilePictureChange(event: Event) {
     const files = (event.target as HTMLInputElement)?.files;
-    const file = files?.item(files.length-1);
-    const allowedFiles = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    const file = files?.item(files.length - 1);
+    const allowedFiles = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
     if (!allowedFiles.includes(file?.type as string)) {
-      return alert("Images only allowed");
+      return alert('Images only allowed');
     }
     const reader = new FileReader();
     reader.readAsDataURL(file as Blob);
 
     reader.onload = (readerEvent) => {
       this.currentProfilePictureUri = readerEvent.target?.result as string;
-    }
+    };
     this.profilePictureFile = file;
   }
 
@@ -95,9 +120,9 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  public navigateToChat(){
-    if(this.isSubscribed){
-      this.router.navigate([`chat/${this.profileUserId}`])
+  public navigateToChat() {
+    if (this.isSubscribed) {
+      this.router.navigate([`chat/${this.profileUserId}`]);
     }
   }
 
@@ -133,8 +158,8 @@ export class ProfileComponent implements OnInit {
   }
 
   private checkSubscription(): void {
-    console.log("params -> ", this.profileUserId);
-    
+    console.log('params -> ', this.profileUserId);
+
     if (this.profileState === 'public' && this.profileUserId) {
       this.userService.hasUserSubscribed(this.profileUserId).subscribe({
         next: (res: any) => {
@@ -232,6 +257,7 @@ export class ProfileComponent implements OnInit {
   private fetchContributorWorkouts(contributorId: number): void {
     const queryParams: IQueryParams = {
       what: {
+        uid: 1,
         title: 1,
         owner: 1,
         tags: 1,
@@ -245,6 +271,11 @@ export class ProfileComponent implements OnInit {
             field: 'owner',
             operation: 'EQ',
             value: contributorId,
+          },
+          {
+            field: 'private',
+            operation: 'EQ',
+            value: 0,
           },
         ],
       },

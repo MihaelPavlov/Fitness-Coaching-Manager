@@ -10,36 +10,36 @@ const knexConfig: { [key: string]: Knex.Config } = {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       port: +process.env.DB_PORT,
-      timezone: 'utc',
-      typeCast: (field:any, next:any) => {
-        if (field.type === 'DATE') return field.string();
+      timezone: "utc",
+      typeCast: (field: any, next: any) => {
+        if (field.type === "DATE") return field.string();
         return next();
-      }
+      },
     },
     migrations: {
       directory: "./src/database/migrations",
     },
     seeds: {
-      directory: './seeds'
+      directory: "./src/database/seeds",
     },
-    debug: false // Enable debugging
+    debug: true, // Enable debugging
   },
   production: {
-    client: 'mysql',
+    client: "mysql",
     connection: {
-      host: 'your_production_database_host',
-      user: 'your_database_user',
-      password: 'your_database_password',
-      database: 'your_database_name'
+      host: "your_production_database_host",
+      user: "your_database_user",
+      password: "your_database_password",
+      database: "your_database_name",
     },
     migrations: {
-      tableName: 'knex_migrations',
-      directory: './migrations'
+      tableName: "knex_migrations",
+      directory: "./migrations",
     },
     seeds: {
-      directory: './seeds'
-    }
-  }
+      directory: "./seeds",
+    },
+  },
 };
 
 export default knexConfig;

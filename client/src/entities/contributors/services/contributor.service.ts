@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
 import { IQueryParams } from "../../models/query-params.interface";
-import { Observable } from "rxjs";
+import { map, Observable } from "rxjs";
 import { IRequestResult } from "../../models/request-result.interface";
 import { RestApiService } from "../../../shared/services/rest-api.service";
 import { PATH } from "../../../shared/configs/path.config";
 import { IContributorSubscriber } from "../models/contributor-subscriber.interface";
+import { IContributor } from "../models/contributors.interface";
 
 @Injectable({
   providedIn: "root"
@@ -18,5 +19,22 @@ export class ContributorService {
     queryParams: IQueryParams
   ): Observable<IRequestResult<IContributorSubscriber[]> | null> {
     return this.apiService.post(PATH.CONTRIBUTORS.GET_SUBSCRIBERS, queryParams);
+  }
+
+  public getContributors(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IContributor[]> | null> {
+    return this.apiService.post(PATH.CONTRIBUTORS.GET_LIST, queryParams).pipe(
+      map((res: any) => {
+        res.data.map((contributor: any) => {
+          if (contributor.profilePicture.startsWith("http") || contributor.profilePicture.startsWith("https")) return contributor;
+          const newPictureUrl = "http://localhost:3000/files/" + contributor.profilePicture;
+          contributor.profilePicture = newPictureUrl;
+          return contributor;
+        })
+
+        return res;
+      })
+    )
   }
 }

@@ -1,8 +1,8 @@
 @use "../../../shared/styles/palette";
 @use "../../../shared//styles/mixins";
 
-
 .register-container {
+    height: 100vh;
     max-width: fit-content;
     margin: 0 auto;
     font-family: 'Open Sans', sans-serif;
@@ -71,7 +71,7 @@
 
                 &__input-field {
                     position: relative;
-                    
+
                     @include mixins.respond(Phone) {
                         text-align: center;
                     }
@@ -213,21 +213,18 @@
 }
 
 .expand {
-    min-height: 12rem;
+  overflow: visible !important;
     height: max-content;
 
     @include mixins.respond(Phone) {
-        height: 19rem;
         margin-bottom: 1rem;
     }
 }
 
 .expandDropdown {
-    min-height: 17rem;
     height: max-content;
 
     @include mixins.respond(Phone) {
-        height: 27rem;
         margin-bottom: 1rem;
     }
 }
@@ -235,7 +232,7 @@
 .expandProofOfRights {
     margin-bottom: 1rem;
     @include mixins.respond(Phone) {
-        height: 17rem;
+        height: max-content;
     }
 }
 
@@ -271,5 +268,17 @@
   display: grid;
   grid-template-columns: auto auto;
   max-height: max-content;
+
+  @include mixins.respond(Phone) {
+    display: block;
+  }
 }
 
+.overflow-visible {
+  overflow: visible !important;
+}
+
+.cancel-icon {
+  z-index: 21000;
+  background-color: #ECEEF3;
+}

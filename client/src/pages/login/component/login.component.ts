@@ -27,6 +27,7 @@ export class LoginComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
+    private readonly userService: UserService,
     private readonly router: Router
   ) {}
 
@@ -57,7 +58,7 @@ export class LoginComponent {
         next: () => {
           this.isLoading = false;
           this.hasLoginError = false;
-          this.router.navigate(['/']);
+          this.userService.fetchUserInfo(true);
         },
         error: () => {
           this.isLoading = false;

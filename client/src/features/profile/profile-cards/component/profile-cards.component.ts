@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { IWorkout } from '../../../../entities/workouts/models/workout.interface';
+import { IUserWorkout } from '../../../../entities/users/models/user-workout.interface';
 
 @Component({
   selector: 'app-profile-card-list',
@@ -8,5 +9,6 @@ import { IWorkout } from '../../../../entities/workouts/models/workout.interface
 })
 export class ProfileCardListComponent {
   @Input() workouts!: IWorkout[];
+  @Input() userWorkouts: IUserWorkout[] = [];
   @Input() isUser!: boolean;
 }

@@ -7,6 +7,8 @@ import { IQueryParams } from '../../models/query-params.interface';
 import { IRequestResult } from '../../models/request-result.interface';
 import { IUserDetails } from '../models/user-details.interface';
 import { SocketService } from '../../chat/services/socket.service';
+import { IUserWorkout } from '../models/user-workout.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +22,8 @@ export class UserService {
 
   constructor(
     private readonly apiService: RestApiService,
-    private readonly socketService: SocketService
+    private readonly socketService: SocketService,
+    private readonly router:Router
   ) {}
 
   public get getUser(): UserInfo | null {
@@ -41,8 +44,13 @@ export class UserService {
   ): Observable<IRequestResult<IUserDetails> | null> {
     return this.apiService.post(PATH.USERS.GET_DETAIL, queryParams).pipe(
       map((res: any) => {
-        if (res.data.profilePicture.startsWith("http") || res.data.profilePicture.startsWith("https")) return res;
-        const newPictureUrl = "http://localhost:3000/files/" + res.data.profilePicture;
+        if (
+          res.data.profilePicture.startsWith('http') ||
+          res.data.profilePicture.startsWith('https')
+        )
+          return res;
+        const newPictureUrl =
+          'http://localhost:3000/files/' + res.data.profilePicture;
         res.data.profilePicture = newPictureUrl;
         return res;
       })
@@ -53,16 +61,19 @@ export class UserService {
     return this.apiService.put(PATH.USERS.UPDATE, data);
   }
 
-  public fetchUserInfo(): Subscription {
+  public fetchUserInfo(firstInit: boolean = false): Subscription {
     return this.fetchCurrentUserInfo().subscribe((res: any) => {
       this.userInfoSubject$.next({
         id: res.data.id,
         username: res.data.username,
+        contributorId: res.data.contributorId,
         role: res.data.role,
       });
       this.isAuthSubject$.next(true);
       this.socketService.emitEvent('addNewUser', res.data.id);
-
+      if (firstInit) {
+        this.router.navigate(['/home']);
+      }
       //TODO: ON LOGOUT we need to disconnect from the socket
     });
   }
@@ -78,11 +89,38 @@ export class UserService {
     );
   }
 
+  public updateUserInfoSubject(user: UserInfo | null): void {
+    this.userInfoSubject$.next(user);
+  }
+
+  public addToCollection(workoutId: number): Observable<any> {
+    return this.apiService.post(
+      PATH.USERS.ADD_TO_COLLECTION + `/${workoutId}`,
+      {}
+    );
+  }
+
+  public removeFromCollection(workoutId: number): Observable<any> {
+    return this.apiService.post(
+      PATH.USERS.REMOVE_FROM_COLLECTION + `/${workoutId}`,
+      {}
+    );
+  }
+
+  public getUserWorkoutList(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<IUserWorkout[]> | null> {
+    return this.apiService.post<IRequestResult<IUserWorkout[]> | null>(
+      PATH.USERS.GET_USER_COLLECTION,
+      queryParams
+    );
+  }
+
   public hasUserSubscribed(id: number): Observable<any> {
     return this.apiService.get(PATH.USERS.HAS_SUBSCRIBED + `/${id}`);
   }
 
-  private fetchCurrentUserInfo(): Observable<any> {
+  public fetchCurrentUserInfo(): Observable<any> {
     return this.apiService.get(PATH.USERS.CURRENT_USER);
   }
 }

@@ -9,9 +9,14 @@ export const PATH = {
     SUBSCRIBE: 'users/subscribe',
     UNSUBSCRIBE: 'users/unsubscribe',
     HAS_SUBSCRIBED: 'users/hasSubscribed',
+    ADD_TO_COLLECTION: 'users/addToCollection',
+    REMOVE_FROM_COLLECTION: 'users/removeFromCollection',
+    GET_USER_COLLECTION: 'users/getUserCollection',
+    LOGOUT: "users/logout"
   },
   CONTRIBUTORS: {
     GET_SUBSCRIBERS: 'contributors/getSubscribers',
+    GET_LIST: 'contributors/getList'
   },
   EXERCISES: {
     GET_LIST: 'exercises/getList',
@@ -26,6 +31,7 @@ export const PATH = {
     GET_WORKOUTS: 'workouts/getWorkouts',
     GET_TAG_LIST: 'workouts/getTagList',
     CREATE_WORKOUT: 'workouts/add',
+    SEARCH: "workouts/search?title="
   },
   SESSIONS: {
     GET_EXERCISES: 'sessions/getExercises',

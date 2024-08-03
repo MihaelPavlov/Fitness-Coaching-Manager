@@ -1,27 +1,21 @@
-<h1 class="workout-library__header">{{pageName}}</h1>
-<app-search></app-search>
+<app-loader *ngIf="isLoading"></app-loader>
+<h1 class="workout-library__header">{{ pageName }}</h1>
+<app-workout-search
+  [tags]="tags"
+  [isLoadingSubject]="isLoadingSubject"
+  [workoutsSubject]="workoutsSubject"
+  [selectedTagsSubject]="selectedTagsSubject"
+></app-workout-search>
 <div class="workout-library__cards-flex-container d-flex">
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-    <app-workout-card></app-workout-card>
-</div> 
+  <ng-container *ngFor="let workout of workouts">
+    <app-workout-card
+      [workout]="workout"
+      [userWorkouts]="userWorkouts"
+      (onItemRemoved)="ngOnInit()"
+    ></app-workout-card>
+  </ng-container>
+
+  <div *ngIf="workouts?.length === 0">
+    <p>They are no workouts to show</p>
+  </div>
+</div>

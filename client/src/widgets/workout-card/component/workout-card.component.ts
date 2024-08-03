@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnChanges,
   Output,
@@ -10,6 +11,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../../entities/users/services/user.service';
 import { UserRoles } from '../../../shared/enums/user-roles.enum';
 import { IUserWorkout } from '../../../entities/users/models/user-workout.interface';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-workout-card',
@@ -17,16 +19,24 @@ import { IUserWorkout } from '../../../entities/users/models/user-workout.interf
   styleUrls: ['./workout-card.component.scss'],
 })
 export class WorkoutCardComponent implements OnChanges {
+  @HostListener('window:resize', ['$event'])
+  onResize(event?: any) {
+    this.screenWidthSubject.next(window.innerWidth);
+  }
+
   @Input() workout!: IWorkout;
   @Input() userWorkouts: IUserWorkout[] = [];
   @Output() onItemRemoved: EventEmitter<void> = new EventEmitter<void>();
   public tags: any;
+  public screenWidthSubject = new BehaviorSubject<number>(0);
 
   public isCardAdded: boolean = false;
   constructor(
     private readonly router: Router,
     private readonly userService: UserService
-  ) {}
+  ) {
+    this.onResize();
+  }
 
   public get canUserAddCard(): boolean {
     return this.userService.getUser?.role === UserRoles.User;
@@ -42,17 +52,28 @@ export class WorkoutCardComponent implements OnChanges {
   }
 
   public displayTags() {
-    if (this.workout?.tags.length <= 2) return this.tags = this.workout.tags;
+    this.screenWidthSubject.subscribe((screenWidth) => {
+      let showTagsCount = screenWidth > 700 ? 2 : 1;
+      let truncateStringLength = screenWidth > 700 ? 12 : 17;
 
-    let newTags = []
+      if (this.workout?.tags.length <= showTagsCount)
+        return (this.tags = this.workout.tags);
 
-    for (let i = 0; i < 2; i++) {
-      let currentTag = this.workout.tags[i];
-      if (currentTag.name.length > 12) currentTag.name = currentTag.name.substring(0, 10) + "..."
-      newTags.push(currentTag);
-    }
+      let newTags = [];
 
-    return this.tags = [...newTags, { name: `${this.workout.tags.length - 2}...` }];
+      for (let i = 0; i < showTagsCount; i++) {
+        let currentTag = this.workout.tags[i];
+        if (currentTag.name.length > truncateStringLength)
+          currentTag.name =
+            currentTag.name.substring(0, truncateStringLength - 2) + '...';
+        newTags.push(currentTag);
+      }
+
+      return (this.tags = [
+        ...newTags,
+        { name: `${this.workout.tags.length - showTagsCount}...` },
+      ]);
+    });
   }
 
   public navigateToWorkout(): void {

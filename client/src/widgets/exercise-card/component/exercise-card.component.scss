@@ -35,10 +35,11 @@
         filter: blur(3px) brightness(80%);
         transform: scale(1.1);
     }
-    
+
     &__tags {
         padding-top: 3rem;
         padding-bottom: 0.1rem;
+
         &-tag {
             background-color: palette.$main-blue-color;
             color: palette.$main-font-white-color;
@@ -52,6 +53,6 @@
         font-weight: 700;
         color: palette.$main-font-black-color;
         font-size: 1.4rem;
-        //-webkit-text-stroke: 0.1px rgb(255, 255, 255);
+        -webkit-text-stroke: 0.2px palette.$main-font-white-color;
     }
 }

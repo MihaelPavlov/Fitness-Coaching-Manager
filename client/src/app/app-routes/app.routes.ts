@@ -10,14 +10,16 @@ export const ROUTES: Routes = [
     component: AppLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      { // Private profile
+      {
+        // Private profile
         path: 'profile',
         loadChildren: () =>
           import('../../pages/profile/profile.module').then(
             (m) => m.ProfileModule
           ),
       },
-      { // Public profile
+      {
+        // Public profile
         path: 'profile/:userId',
         loadChildren: () =>
           import('../../pages/profile/profile.module').then(
@@ -39,13 +41,6 @@ export const ROUTES: Routes = [
           ),
       },
       {
-        path: 'register/:registrationType',
-        loadChildren: () =>
-          import('../../pages/register/register.module').then(
-            (m) => m.RegisterModule
-          ),
-      },
-      {
         path: 'contributor',
         loadChildren: () =>
           import('../../pages/contributor/contributor.module').then(
@@ -55,9 +50,7 @@ export const ROUTES: Routes = [
       {
         path: 'chat',
         loadChildren: () =>
-          import('../../pages/chat/chat.module').then(
-            (m) => m.ChatModule
-          ),
+          import('../../pages/chat/chat.module').then((m) => m.ChatModule),
       },
       {
         path: 'builders',
@@ -71,18 +64,23 @@ export const ROUTES: Routes = [
   },
   {
     path: 'register',
-    component: LandingComponent
+    component: LandingComponent,
   },
   {
     path: 'home',
     component: LandingComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'login',
     loadChildren: () =>
-      import('../../pages/login/login.module').then(
-        (m) => m.LoginModule
+      import('../../pages/login/login.module').then((m) => m.LoginModule),
+  },
+  {
+    path: 'register/:registrationType',
+    loadChildren: () =>
+      import('../../pages/register/register.module').then(
+        (m) => m.RegisterModule
       ),
   },
 ];

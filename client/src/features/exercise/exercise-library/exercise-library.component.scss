@@ -3,6 +3,11 @@
 @use "../../../shared/styles/scrollbar";
 
 .exercise-library {
+
+  @include mixins.respond(Phone) {
+    margin-bottom: 3rem;
+  }
+
   &__header {
     display: block;
     padding-bottom: 0.5rem;

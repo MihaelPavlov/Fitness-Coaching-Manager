@@ -85,7 +85,7 @@ export const updateExercise = async (exerciseId: number, exerciseData: any, user
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  const createdExerciseID = (
+  
     await db(TABLE.EXERCISES).where("id", "=", exerciseId).update({
       title: exerciseData.title,
       thumb_uri: exerciseData.thumbUri,
@@ -95,9 +95,6 @@ export const updateExercise = async (exerciseId: number, exerciseData: any, user
       tag_ids: exerciseData.tagIds,
       date_modified: currentDate,
     })
-  );
-
-  return createdExerciseID;
 };
 export const searchExercises = async (payload: QueryParams, query: string) => {
   const exercises = await new ExerciseBuilder(payload).buildQuery();
@@ -117,7 +114,13 @@ export const getEquipments = async (equipmentData: any) =>
 export const getExercise = async (exerciseData: any) =>
   await new ExerciseBuilder(exerciseData).buildQuery();
 
+export const deleteExercise = async (exerciseId: number, userId: any) => {
+    if (!(await isExerciseOwner(exerciseId, userId))) {
+        throw new Error("You are unauthorized!");
+    }
 
+    await db(TABLE.EXERCISES).where("id", exerciseId).del();
+};
 const isExerciseOwner = async(exerciseId:any,userId:any):Promise<boolean> => {
     const exercise = (await db(TABLE.EXERCISES).select('*').where('id','=',exerciseId)).at(0);
     if(exercise.contributor_id == userId) return true;

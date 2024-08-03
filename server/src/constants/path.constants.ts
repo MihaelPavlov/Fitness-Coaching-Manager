@@ -7,6 +7,7 @@ export const PATH = {
     GET_EQUIPMENT_LIST: "/getEquipmentList",
     UPDATE: "/update/:exerciseId",
     SEARCH: "/search",
+    DELETE:'/delete/:exerciseId'
   },
   USERS: {
     GET_USER_INFO: "/getUserInfo",

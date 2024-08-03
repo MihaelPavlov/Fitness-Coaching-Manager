@@ -7,6 +7,7 @@ import { take } from 'rxjs';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
 import { UserService } from '../../../entities/users/services/user.service';
 import { UserInfo } from '../../../entities/models/user.interface';
+import { SessionService } from '../../../entities/sessions/services/session.service';
 @Component({
   selector: 'app-exercise-details',
   templateUrl: './exercise-details.component.html',
@@ -20,10 +21,12 @@ export class ExerciseDetailsComponent implements OnInit {
   fullImagePath: string | undefined;
   currentUserId: string | undefined;
   isOwner: boolean = false;
+  sessionExerciseIds: number[] = [];
 
   constructor(
     private location: Location,
     private exerciseService: ExerciseService,
+    private sessionService: SessionService,
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService
@@ -92,6 +95,20 @@ export class ExerciseDetailsComponent implements OnInit {
           console.error('Error fetching exercise details:', error);
         }
       );
+
+      this.sessionService
+      .getSessionExercises({
+        what: {
+          exerciseId: 1,
+        },
+      })
+      .subscribe((result) => {
+        if (result?.data && result.data.length > 0) {
+          this.sessionExerciseIds = result.data.map((exercise: any) => exercise.exerciseId);
+          console.log(this.sessionExerciseIds);
+          
+        }
+      });
   }
 
   goBack() {
@@ -104,16 +121,27 @@ export class ExerciseDetailsComponent implements OnInit {
 
   private fetchUserProfile(): void {
     this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
-      console.log(userInfo?.id);
-      console.log(this.exerciseDetails);
-
       if (userInfo?.id === this.exerciseDetails?.contributorId)
         this.isOwner = true;
     });
   }
 
-  private onDeletehandler(): void {
-    
+  onDeleteHandler(): void {
+    if (this.exerciseDetails && this.sessionExerciseIds.includes(this.exerciseDetails.uid)) {
+      alert('This exercise cannot be deleted because it is part of a workout session.');
+    } else {
+      const confirmation = confirm('Are you sure you want to delete this exercise?');
+      if (confirmation && this.exerciseDetails) {
+        this.exerciseService.delete(this.exerciseDetails.uid).subscribe({
+          next: () => {
+            alert('Exercise successfully deleted.');
+            this.router.navigate(['/']);
+          },
+          error: (err) => {
+            alert(`Error deleting exercise: ${err.error?.message || 'Unknown error'}`);
+          },
+        });
+      }
+    }
   }
-
 }

@@ -96,10 +96,14 @@ export class ExerciseService {
   }
 
   public update(
-    exerciseId: string | undefined,
-    data: Record<string, any>
+    exerciseId: string,
+    exercise: Record<string, any>
   ): Observable<any> {
-    return this.api.post(PATH.EXERCISES.UPDATE + exerciseId, data);
+    return this.api.put(PATH.EXERCISES.UPDATE + exerciseId, exercise);
+  }
+
+  public delete(exerciseId: number): Observable<any> {
+    return this.api.delete(PATH.EXERCISES.DELETE + exerciseId);
   }
 
   public updateUser(exerciseId: Record<string, any>): Observable<any> {

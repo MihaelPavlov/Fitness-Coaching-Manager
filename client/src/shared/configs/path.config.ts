@@ -26,6 +26,7 @@ export const PATH = {
     GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
     UPDATE:'exercises/update/',
     SEARCH: 'exercises/search?title=',
+    DELETE:'exercises/delete/'
   },
   WORKOUTS: {
     GET_WORKOUTS: 'workouts/getWorkouts',

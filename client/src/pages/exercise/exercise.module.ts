@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
 import { ErrorModule } from '../../shared/components/error/error.module';
 import {  NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { RouterModule } from '@angular/router';
 import { ExerciseSearchModule } from '../../widgets/exercise-search/exercise-search.module';
 
 @NgModule({
@@ -29,7 +28,6 @@ import { ExerciseSearchModule } from '../../widgets/exercise-search/exercise-sea
     LoaderModule,
     ErrorModule,
     NgMultiSelectDropDownModule,
-    RouterModule,
   ],
   exports: [ExerciseLibraryComponent],
 })

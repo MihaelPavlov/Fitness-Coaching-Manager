@@ -27,7 +27,7 @@
       >
         Edit
       </button>
-      <button *ngIf="isOwner" class="btn w-auto btn-large">Delete</button>
+      <button *ngIf="isOwner" (click)="onDeleteHandler()" class="btn w-auto btn-large">Delete</button>
     </div>
   </section>
 </section>

@@ -73,7 +73,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     if (!this.isEditMode) {
       this.exerciseForm = this.fb.group({
         title: ['', Validators.required],
-        thumbUri: [null as any, Validators.required],
+        thumbUri: [null, Validators.required],
         difficulty: ['', Validators.required],
         equipmentIds: [[], Validators.required],
         tagIds: [[], Validators.required],
@@ -82,7 +82,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     } else {
       this.exerciseForm = this.fb.group({
         title: ['', Validators.required],
-        thumbUri: [null as any],
+        thumbUri: [null, Validators.required],
         difficulty: ['', Validators.required],
         equipmentIds: [[], Validators.required],
         tagIds: [[], Validators.required],
@@ -123,7 +123,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       const id = params.get('exerciseId');
       if (id) {
-        this.exerciseId = String(id);
+        this.exerciseId = id;
         this.isEditMode = true;
         this.loadExerciseDetails(this.exerciseId);
       }
@@ -178,7 +178,7 @@ export class ExerciseBuidlerComponent implements OnInit {
 
             this.exerciseForm.patchValue({
               title: exercise.title,
-              difficulty: String(exercise.difficulty) || null,
+              difficulty: exercise.difficulty as number,
               description: exercise.description || null,
               thumbUri: `${this.basePath}${exercise.thumbUri}`,
             });
@@ -214,11 +214,10 @@ export class ExerciseBuidlerComponent implements OnInit {
       tagIds,
     };
 
-    if (this.isEditMode) {
+    if (this.isEditMode && this.exerciseId) {
       //Here goes for edit functionallity
-      submissionData.difficulty = Number(submissionData.difficulty);
+      submissionData.difficulty = Number(submissionData.difficulty)
       console.log(submissionData, 'Edit submitiopn data');
-
       this.exerciseService
         .update(this.exerciseId, toFormData(submissionData))
         .subscribe({

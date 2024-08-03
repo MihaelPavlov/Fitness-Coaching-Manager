@@ -1,11 +1,16 @@
 <nav>
   <ul class="nav py-2 d-flex align-items-center justify-content-between">
-    <h1 class="uppercase nav__header-mobile nav__logo ml-6">ath</h1>
-    <h1 class="uppercase nav__header-desktop n nav__logo ml-6">
+    <h1 routerLink="home" class="uppercase nav__header-mobile nav__logo ml-6">
+      ath
+    </h1>
+    <h1
+      routerLink="home"
+      class="uppercase nav__header-desktop n nav__logo ml-6"
+    >
       athleans | fit
     </h1>
 
-    <div *ngIf="(isAuth$ | async)">
+    <div *ngIf="isAuth$ | async">
       <div class="nav__mobile">
         <h3 class="menu-container">...</h3>
       </div>
@@ -23,6 +28,5 @@
       <a class="btn-container__link" routerLink="/register">Register</a>
       <a class="btn-container__link ml-4" routerLink="/login">Login</a>
     </div>
-
   </ul>
 </nav>

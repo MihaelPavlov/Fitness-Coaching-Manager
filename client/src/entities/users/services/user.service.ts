@@ -72,7 +72,7 @@ export class UserService {
       this.isAuthSubject$.next(true);
       this.socketService.emitEvent('addNewUser', res.data.id);
       if (firstInit) {
-        this.router.navigate(['/workout/list']);
+        this.router.navigate(['/home']);
       }
       //TODO: ON LOGOUT we need to disconnect from the socket
     });

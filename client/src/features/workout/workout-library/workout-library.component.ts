@@ -1,12 +1,6 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, DestroyRef, OnDestroy, OnInit } from '@angular/core';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.interface';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
@@ -20,13 +14,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './workout-library.component.html',
   styleUrl: './workout-library.component.scss',
 })
-export class WorkoutLibraryComponent implements OnInit, OnDestroy {
+export class WorkoutLibraryComponent implements OnInit {
   public pageName: string = 'Workouts';
   public workoutsSubject: BehaviorSubject<IWorkout[]> = new BehaviorSubject<
     IWorkout[]
   >([]);
-  public allWorkouts: IWorkout[] = this.workoutsSubject.value;
-  public filteredWorkouts: IWorkout[] = [];
+  public workouts: IWorkout[] = this.workoutsSubject.value;
   public tags?: IWorkoutTag[];
   public userRoles = UserRoles;
   public currentRole = this.userService.getUser?.role;
@@ -35,34 +28,17 @@ export class WorkoutLibraryComponent implements OnInit, OnDestroy {
   public isLoadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading: boolean = false;
   public userWorkouts!: IUserWorkout[];
-  private subscriptions: Subscription[] = [];
-  
+
   constructor(
     private readonly workoutService: WorkoutService,
     private readonly userService: UserService,
-    private readonly cd: ChangeDetectorRef,
     private readonly destroyRef: DestroyRef
   ) {}
 
-  public ngOnDestroy(): void {
-    this.clearSubscriptions();
-  }
-  private clearSubscriptions(): void {
-    console.log('clearance');
-
-    this.subscriptions.forEach((sub) => sub.unsubscribe());
-    this.subscriptions = [];
-    this.workoutsSubject.next([]);
-    this.allWorkouts = [];
-  }
   public ngOnInit(): void {
     this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
-      console.log("selected Tags", selectedTags);
-      
       this.workoutsSubject.asObservable().subscribe((workouts) => {
-        console.log('on tag change', workouts);
-
-        this.filteredWorkouts = workouts.filter((workout) => {
+        this.workouts = workouts.filter((workout) => {
           let result = false;
           if (selectedTags.length == 0) return true;
           selectedTags.forEach((selectedTag) => {
@@ -79,143 +55,76 @@ export class WorkoutLibraryComponent implements OnInit, OnDestroy {
       .asObservable()
       .subscribe((value) => (this.isLoading = value));
 
-    this.subscriptions.push(
-      this.workoutsSubject.asObservable().subscribe((values) => {
-        this.filteredWorkouts = values; // Initialize filteredWorkouts with all workouts
-      })
-    );
+    this.workoutsSubject.asObservable().subscribe((values) => {
+      this.workouts = values;
+    });
 
     this.getWorkouts();
 
     this.getWorkoutTags();
 
-    this.subscriptions.push(
-      this.userService
-        .getUserWorkoutList({
-          what: {
-            userId: 1,
-            workoutSessionId: 1,
-          },
-          condition: {
-            type: 'AND',
-            items: [
-              {
-                field: 'userId',
-                operation: 'EQ',
-                value: this.userService.getUser?.id,
-              },
-            ],
-          },
-        })
-        .subscribe((result) => {
-          if (result) {
-            this.userWorkouts = result.data;
-          }
-        })
-    );
-  }
-
-  private getWorkouts(): void {
-    this.isLoadingSubject.next(true);
-    let queryParams: IQueryParams | null = null;
-    if (this.userService.getUser?.contributorId) {
-      console.log('init contributor workouts');
-
-      queryParams = {
+    this.userService
+      .getUserWorkoutList({
         what: {
-          uid: 1,
-          title: 1,
-          owner: 1,
-          tags: 1,
-          rating: 1,
-          imageUri: 1,
+          userId: 1,
+          workoutSessionId: 1,
         },
         condition: {
           type: 'AND',
           items: [
             {
-              field: 'owner',
+              field: 'userId',
               operation: 'EQ',
-              value: this.userService.getUser?.contributorId,
+              value: this.userService.getUser?.id,
             },
           ],
         },
-      };
-      this.fetchWorkouts(queryParams);
-    } else {
-      console.log('init user workouts');
+      })
+      .subscribe((result) => {
+        if (result) {
+          this.userWorkouts = result.data;
+        }
+      });
+  }
 
-      this.subscriptions.push(
-        this.userService
-          .getUserWorkoutList({
-            what: {
-              userId: 1,
-              workoutSessionId: 1,
-            },
-            condition: {
-              type: 'AND',
-              items: [
-                {
-                  field: 'userId',
-                  operation: 'EQ',
-                  value: this.userService.getUser?.id,
-                },
-              ],
-            },
-          })
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe({
-            next: (x) => {
-              if (x?.data) {
-                const coniditionItems = x.data.map((x) => ({
-                  field: 'uid',
-                  operation: 'EQ',
-                  value: x.workoutSessionId,
-                }));
-                if (coniditionItems.length !== 0) {
-                  queryParams = {
-                    what: {
-                      uid: 1,
-                      title: 1,
-                      owner: 1,
-                      tags: 1,
-                      rating: 1,
-                      imageUri: 1,
-                    },
-                    condition: {
-                      type: 'OR',
-                      items: coniditionItems,
-                    },
-                  };
-                  this.fetchWorkouts(queryParams);
-                } else {
-                  this.allWorkouts = [];
-                  this.workoutsSubject.next([]);
-                }
-              }
-              this.isLoadingSubject.next(true);
-            },
-            error: (err) => console.log(err),
-            complete: () => this.isLoadingSubject.next(false),
-          })
-      );
-    }
+  private getWorkouts(): void {
+    this.isLoadingSubject.next(true);
+
+    const queryParams = {
+      what: {
+        uid: 1,
+        title: 1,
+        owner: 1,
+        tags: 1,
+        rating: 1,
+        imageUri: 1,
+      },
+      condition: {
+        type: 'AND',
+        items: [
+          {
+            field: 'private',
+            operation: 'EQ',
+            value: 0,
+          },
+        ],
+      },
+    };
+    this.fetchWorkouts(queryParams);
   }
 
   private fetchWorkouts(queryParams: IQueryParams) {
-    this.subscriptions.push(
-      this.workoutService
-        .getWorkouts(queryParams)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (res) => {
-            this.allWorkouts = res?.data ?? [];
-            this.workoutsSubject.next(this.allWorkouts || []);
-          },
-          error: (err) => console.log(err),
-          complete: () => this.isLoadingSubject.next(false),
-        })
-    );
+    this.workoutService
+      .getWorkouts(queryParams)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.workouts = res?.data ?? [];
+          this.workoutsSubject.next(this.workouts || []);
+        },
+        error: (err) => console.log(err),
+        complete: () => this.isLoadingSubject.next(false),
+      });
   }
 
   private getWorkoutTags(): void {
@@ -226,16 +135,14 @@ export class WorkoutLibraryComponent implements OnInit, OnDestroy {
       },
     };
 
-    this.subscriptions.push(
-      this.workoutService
-        .getWorkoutTags(queryParams)
-        .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe({
-          next: (res) => {
-            this.tags = res?.data;
-          },
-          error: (err) => console.log(err),
-        })
-    );
+    this.workoutService
+      .getWorkoutTags(queryParams)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.tags = res?.data;
+        },
+        error: (err) => console.log(err),
+      });
   }
 }

@@ -18,23 +18,20 @@
     overflow-y: scroll;
     flex-wrap: wrap;
     gap: 3rem;
-
+    
     @include scrollbar.scrollbar();
 
     @include mixins.respond(Phone) {
       width: 100%;
-      max-height: 70vh; //Scroll
+      max-height: 70vh;//Scroll
       overflow-y: auto;
-      -ms-overflow-style: none;
-      /* Internet Explorer 10+ */
-      scrollbar-width: none;
-      /* Firefox */
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+      scrollbar-width: none; /* Firefox */
       justify-content: center;
       gap: 1rem;
 
       &::-webkit-scrollbar {
-        display: none;
-        /* Safari and Chrome */
+        display: none; /* Safari and Chrome */
       }
     }
   }

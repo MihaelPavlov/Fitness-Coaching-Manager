@@ -1,0 +1,40 @@
+<app-loader *ngIf="isLoading"></app-loader>
+<h1 class="workout-library__header">{{ pageName }}</h1>
+<app-home-search
+  [tags]="tags"
+  [isLoadingSubject]="isLoadingSubject"
+  [workoutsSubject]="workoutsSubject"
+  [allWorkouts]="allWorkouts"
+  [selectedTagsSubject]="selectedTagsSubject"
+></app-home-search>
+<div class="workout-library__cards-flex-container d-flex">
+  <ng-container *ngFor="let workout of filteredWorkouts">
+    <app-workout-card
+      [workout]="workout"
+      [userWorkouts]="userWorkouts"
+      (onItemRemoved)="ngOnInit()"
+    ></app-workout-card>
+  </ng-container>
+  <div *ngIf="allWorkouts?.length == 0 && currentRole == userRoles.Coach">
+    <p>You have no workout plans set yet</p>
+    <button class="btn btn-large" routerLink="/workout/create">
+      Build a Workout
+    </button>
+  </div>
+
+  <div *ngIf="allWorkouts?.length == 0 && currentRole == userRoles.User">
+    <p>You have no workouts in your collection yet. <strong>Find a Workout Plan?</strong></p>
+    <br/>
+    <button class="btn btn-large m-5" routerLink="/workout/list">
+      Visit Workout Library
+    </button>
+    <button class="btn btn-large m-5" routerLink="/contributor/list">
+      Visit Contributor Library
+    </button>
+    
+  </div>
+
+  <div *ngIf="allWorkouts?.length !== 0 && filteredWorkouts?.length == 0">
+    <p>No workout result from this search</p>
+  </div>
+</div>

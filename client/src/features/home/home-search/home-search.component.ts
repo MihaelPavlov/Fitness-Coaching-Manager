@@ -3,16 +3,16 @@ import { BehaviorSubject } from 'rxjs';
 import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.interface';
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { IWorkout } from '../../../entities/workouts/models/workout.interface';
-import { IQueryParams } from '../../../entities/models/query-params.interface';
 
 @Component({
-  selector: 'app-workout-search',
-  templateUrl: './workout-search.component.html',
-  styleUrls: ['./workout-search.component.scss'],
+  selector: 'app-home-search',
+  templateUrl: './home-search.component.html',
+  styleUrls: ['./home-search.component.scss'],
 })
-export class WorkoutSearchComponent implements OnInit {
+export class HomeSearchComponent implements OnInit {
   @Input() toggleFilterForm: boolean = false;
   @Input() workoutsSubject?: BehaviorSubject<IWorkout[]>;
+  @Input() allWorkouts: IWorkout[] = [];
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;
   @Input() tags?: IWorkoutTag[];
   @Input() selectedTagsSubject?: BehaviorSubject<IWorkoutTag[]>;
@@ -47,29 +47,13 @@ export class WorkoutSearchComponent implements OnInit {
   }
 
   public search(): void {
-    this.isLoadingSubject?.next(true);
-    const queryParams: IQueryParams = {
-      what: {
-        uid: 1,
-        title: 1,
-        owner: 1,
-        tags: 1,
-        rating: 1,
-        imageUri: 1,
-      },
-    };
+    const filtered = this.allWorkouts.filter((workout) => {
+      return workout.title
+        .toLowerCase()
+        .includes(this.searchValue.toLowerCase());
+    });
 
-    this.workoutService
-      .searchWorkouts(queryParams, this.searchValue)
-      .subscribe({
-        next: (res) => {
-          this.workoutsSubject?.next(res?.data || []);
-          this.isLoadingSubject?.next(false);
-        },
-        error: (err) => {
-          this.isLoadingSubject?.next(false);
-        },
-      });
+    this.workoutsSubject?.next(filtered || []);
   }
 
   public filterHandler(): void {

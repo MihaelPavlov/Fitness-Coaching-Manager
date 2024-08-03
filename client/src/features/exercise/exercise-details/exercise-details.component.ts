@@ -41,6 +41,7 @@ export class ExerciseDetailsComponent implements OnInit {
           equipmentIds: 1,
           description: 1,
           tagIds: 1,
+          contributorId: 1,
         },
         condition: {
           type: 'AND',
@@ -58,7 +59,7 @@ export class ExerciseDetailsComponent implements OnInit {
         (result) => {
           if (result?.data && result.data.length > 0) {
             this.exerciseDetails = result.data[0];
-            console.log(this.exerciseDetails);
+            console.log(result.data);
 
             this.fullImagePath = this.basePath + this.exerciseDetails.thumbUri;
 
@@ -103,7 +104,16 @@ export class ExerciseDetailsComponent implements OnInit {
 
   private fetchUserProfile(): void {
     this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
-      if (userInfo?.id === this.exerciseDetails?.uid) this.isOwner = true;
+      console.log(userInfo?.id);
+      console.log(this.exerciseDetails);
+
+      if (userInfo?.id === this.exerciseDetails?.contributorId)
+        this.isOwner = true;
     });
   }
+
+  private onDeletehandler(): void {
+    
+  }
+
 }

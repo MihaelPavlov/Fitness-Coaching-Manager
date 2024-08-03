@@ -22,11 +22,16 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.GET_LIST, payload).pipe(
       map((res: any) => {
         res.data.map((exercise: any) => {
-          if (exercise.thumbUri.startsWith("http") || exercise.thumbUri.startsWith("https")) return exercise;
-          const newPictureUrl = "http://localhost:3000/files/" + exercise.thumbUri;
+          if (
+            exercise.thumbUri.startsWith('http') ||
+            exercise.thumbUri.startsWith('https')
+          )
+            return exercise;
+          const newPictureUrl =
+            'http://localhost:3000/files/' + exercise.thumbUri;
           exercise.thumbUri = newPictureUrl;
           return exercise;
-        })
+        });
 
         return res;
       })
@@ -41,11 +46,16 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.SEARCH + title, payload).pipe(
       map((res: any) => {
         res.data.map((exercise: any) => {
-          if (exercise.thumbUri.startsWith("http") || exercise.thumbUri.startsWith("https")) return exercise;
-          const newPictureUrl = "http://localhost:3000/files/" + exercise.thumbUri;
+          if (
+            exercise.thumbUri.startsWith('http') ||
+            exercise.thumbUri.startsWith('https')
+          )
+            return exercise;
+          const newPictureUrl =
+            'http://localhost:3000/files/' + exercise.thumbUri;
           exercise.thumbUri = newPictureUrl;
           return exercise;
-        })
+        });
 
         return res;
       })
@@ -85,8 +95,15 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.CREATE, exercise);
   }
 
+  public update(
+    exerciseId: string | undefined,
+    data: Record<string, any>
+  ): Observable<any> {
+    return this.api.post(PATH.EXERCISES.UPDATE + exerciseId, data);
+  }
+
   public updateUser(exerciseId: Record<string, any>): Observable<any> {
-    return this.api.put(PATH.EXERCISES.UPDATE,exerciseId);
+    return this.api.put(PATH.EXERCISES.UPDATE, exerciseId);
   }
 
   private buildPayload(queryParams: IQueryParams, fields: any): any {

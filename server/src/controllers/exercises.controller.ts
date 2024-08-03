@@ -150,7 +150,7 @@ router.post(
   }
 );
 
-router.put(
+router.post(
   PATH.EXERCISES.UPDATE,
   isAuth,
   isCoach,

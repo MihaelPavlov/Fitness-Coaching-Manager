@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Location } from '@angular/common';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
 import {
@@ -44,7 +45,6 @@ export class ExerciseBuidlerComponent implements OnInit {
   protected tagList$!: Observable<IExerciseTag[]>;
   protected tagListEdit!: IExerciseTag[];
   public isEditMode: boolean = false; // Edit mode
-
   basePath: string = 'http://localhost:3000/files/';
 
   equipmentSettings: IDropdownSettings = {
@@ -67,7 +67,8 @@ export class ExerciseBuidlerComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly exerciseService: ExerciseService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private location: Location
   ) {
     if (!this.isEditMode) {
       this.exerciseForm = this.fb.group({
@@ -88,6 +89,10 @@ export class ExerciseBuidlerComponent implements OnInit {
         description: ['', Validators.required],
       });
     }
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   ngOnInit(): void {
@@ -117,7 +122,6 @@ export class ExerciseBuidlerComponent implements OnInit {
 
     this.route.paramMap.subscribe((params) => {
       const id = params.get('exerciseId');
-      console.log(id);
       if (id) {
         this.exerciseId = String(id);
         this.isEditMode = true;
@@ -195,25 +199,44 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
 
     const formValue = this.exerciseForm.value;
+    const equipmentIds = (formValue.equipmentIds ?? [])
+      .map((item: { uid: string }) => item.uid)
+      .map(String)
+      .join(',');
+    const tagIds = (formValue.tagIds ?? [])
+      .map((item: { uid: string }) => item.uid)
+      .map(String)
+      .join(',');
+
+    const submissionData = {
+      ...this.exerciseForm.value,
+      equipmentIds,
+      tagIds,
+    };
+
     if (this.isEditMode) {
       //Here goes for edit functionallity
+      submissionData.difficulty = Number(submissionData.difficulty);
+      console.log(submissionData, 'Edit submitiopn data');
+
+      this.exerciseService
+        .update(this.exerciseId, toFormData(submissionData))
+        .subscribe({
+          next: () => {
+            this.isLoading = false;
+            this.hasExerciseError = false;
+            this.router.navigate([`/exercise/edit/${this.exerciseId}`]);
+          },
+          error: (err) => {
+            this.isLoading = false;
+            this.createExerciseErrorMsg = Array.isArray(err.error.data)
+              ? err.error.data[0].message
+              : err.error.data.message;
+            this.hasExerciseError = true;
+          },
+        });
     } else {
-      const equipmentIds = (formValue.equipmentIds ?? [])
-        .map((item: { uid: string }) => item.uid)
-        .map(String)
-        .join(',');
-      const tagIds = (formValue.tagIds ?? [])
-        .map((item: { uid: string }) => item.uid)
-        .map(String)
-        .join(',');
-
-      const submissionData = {
-        ...this.exerciseForm.value,
-        equipmentIds,
-        tagIds,
-      };
-
-      console.log(submissionData);
+      console.log(submissionData, 'Create submition data');
 
       this.exerciseService.create(toFormData(submissionData)).subscribe({
         next: () => {

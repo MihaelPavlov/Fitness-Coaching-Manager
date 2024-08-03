@@ -46,28 +46,31 @@ router.put(
 );
 
 router.delete(
-  `${PATH.EXERCISES.DELETE}/:exerciseId`,
-  isAuth,
-  isCoach,
-  async (req: any, res: express.Response) => {
-    try {
-      await exerciseService.deleteExercise(Number(req.params.exerciseId), req.user.id);
+    PATH.EXERCISES.DELETE,
+    isAuth,
+    isCoach,
+    async (req: any, res: express.Response) => {
+        try {
+            await exerciseService.deleteExercise(
+                Number(req.params.exerciseId),
+                req.user.id
+            );
 
-      res.status(200).json({
-        status: RESPONSE_STATUS.SUCCESS,
-        data: {
-          message: "Successfully deleted exercise!"
+            res.status(200).json({
+                status: RESPONSE_STATUS.SUCCESS,
+                data: {
+                    message: "Successfully deleted exercise!",
+                },
+            });
+        } catch (err) {
+            return res.status(400).json({
+                status: RESPONSE_STATUS.FAILED,
+                data: {
+                    error: err.message,
+                },
+            });
         }
-      });
-    } catch (err) {
-      return res.status(400).json({
-        status: RESPONSE_STATUS.FAILED,
-        data: {
-          error: err.message,
-        },
-      });
     }
-  }
 );
 
 router.post(

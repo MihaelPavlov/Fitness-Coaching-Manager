@@ -105,8 +105,6 @@ export class ExerciseDetailsComponent implements OnInit {
       .subscribe((result) => {
         if (result?.data && result.data.length > 0) {
           this.sessionExerciseIds = result.data.map((exercise: any) => exercise.exerciseId);
-          console.log(this.sessionExerciseIds);
-          
         }
       });
   }

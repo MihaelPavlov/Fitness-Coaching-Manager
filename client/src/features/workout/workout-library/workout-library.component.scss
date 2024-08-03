@@ -14,7 +14,7 @@
   }
 
   &__cards-flex-container {
-    height: 45rem;
+    height: max-content;
     width: 95%;
     overflow-y: scroll;
     flex-wrap: wrap;

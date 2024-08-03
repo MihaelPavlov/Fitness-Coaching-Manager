@@ -33,7 +33,7 @@ export class WorkoutBuilderComponent implements OnInit {
     textField: 'name',
     selectAllText: 'Select All',
     unSelectAllText: 'UnSelect All',
-    itemsShowLimit: 10,
+    itemsShowLimit: 1,
   };
 
   public tags: any;

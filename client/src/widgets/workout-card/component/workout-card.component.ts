@@ -20,6 +20,7 @@ export class WorkoutCardComponent implements OnChanges {
   @Input() workout!: IWorkout;
   @Input() userWorkouts: IUserWorkout[] = [];
   @Output() onItemRemoved: EventEmitter<void> = new EventEmitter<void>();
+  public tags: any;
 
   public isCardAdded: boolean = false;
   constructor(
@@ -36,7 +37,22 @@ export class WorkoutCardComponent implements OnChanges {
       this.isCardAdded = this.userWorkouts.some(
         (x) => x.workoutSessionId === this.workout.uid
       );
+      this.displayTags();
     }
+  }
+
+  public displayTags() {
+    if (this.workout?.tags.length <= 2) return this.tags = this.workout.tags;
+
+    let newTags = []
+
+    for (let i = 0; i < 2; i++) {
+      let currentTag = this.workout.tags[i];
+      if (currentTag.name.length > 12) currentTag.name = currentTag.name.substring(0, 10) + "..."
+      newTags.push(currentTag);
+    }
+
+    return this.tags = [...newTags, { name: `${this.workout.tags.length - 2}...` }];
   }
 
   public navigateToWorkout(): void {

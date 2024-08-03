@@ -4,26 +4,32 @@
   [tags]="tags"
   [isLoadingSubject]="isLoadingSubject"
   [workoutsSubject]="workoutsSubject"
+  [allWorkouts]="allWorkouts"
+  [selectedTagsSubject]="selectedTagsSubject"
 ></app-workout-search>
 <div class="workout-library__cards-flex-container d-flex">
-  <ng-container *ngFor="let workout of workouts">
+  <ng-container *ngFor="let workout of filteredWorkouts">
     <app-workout-card
       [workout]="workout"
       [userWorkouts]="userWorkouts"
       (onItemRemoved)="ngOnInit()"
     ></app-workout-card>
   </ng-container>
-  <div *ngIf="workouts?.length == 0 && currentRole == userRoles.Coach">
+  <div *ngIf="allWorkouts?.length == 0 && currentRole == userRoles.Coach">
     <p>You have no workout plans set yet</p>
     <button class="btn btn-large" routerLink="/workout/create">
       Build a Workout
     </button>
   </div>
 
-  <div *ngIf="workouts?.length == 0 && currentRole == userRoles.User">
+  <div *ngIf="allWorkouts?.length == 0 && currentRole == userRoles.User">
     <p>You have no workouts in your collection yet</p>
     <button class="btn btn-large" routerLink="/contributor/list">
       Find a Workout Plan
     </button>
+  </div>
+
+  <div *ngIf="allWorkouts?.length !== 0 && filteredWorkouts?.length == 0">
+    <p>No workout result from this search</p>
   </div>
 </div>

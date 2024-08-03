@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.userService.fetchUserInfo();
+    // this.userService.fetchUserInfo();
   }
 
   public toggleDropdown() {
@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit {
   public onLogout() {
     this.authService.logout().subscribe({
       next: () => {
+        this.userService.updateUserInfoSubject(null);
         this.router.navigate(['/login']);
       },
       error: (err) => console.log("logout error", err)

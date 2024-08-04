@@ -3,17 +3,17 @@
   <div class="w-100">
     <h1 class="exercise-library__header">{{ pageName }}</h1>
     <app-exercise-search
-      [exercisesSubject]="exercisesSubject"
+      [exercisesSubject]="itemsSubject"
       [isLoadingSubject]="isLoadingSubject"
       [tags]="tags"
       [selectedTagsSubject]="selectedTagsSubject"
     ></app-exercise-search>
   </div>
   <div class="exercise-library__cards-flex-container my-3">
-    <p *ngIf="exercises.length == 0">There are no exercises</p>
+    <p *ngIf="(items$ | async)?.length == 0">There are no exercises</p>
     <app-exercise-card
       class="m-2"
-      *ngFor="let exercise of this.exercises"
+      *ngFor="let exercise of this.items$ | async"
       [exercise]="exercise"
       [tags]="getExerciseTags(exercise.tagIds)"
     ></app-exercise-card>

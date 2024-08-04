@@ -5,7 +5,8 @@ import { IExercise } from '../../../entities/exercises/models/exercise.interface
 import { EXERCISE_FIELDS } from '../../../entities/exercises/models/fields/exercise-fields.constant';
 import { IRequestResult } from '../../../entities/models/request-result.interface';
 import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { LazyLoadService } from '../../../shared/services/scroll-load.service';
 
 @Component({
   selector: 'app-exercise-library',
@@ -14,8 +15,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ExerciseLibraryComponent implements OnInit {
   @Input() pageName: string = 'Exercises';
-  public exercisesSubject = new BehaviorSubject<IExercise[]>([]);
-  public exercises: IExercise[] = [];
+
+  public items$ = this.lazyLoadService.getItemsObservable();
+  public itemsSubject = this.lazyLoadService.itemsSubject;
   public tags: IExerciseTag[] = [];
 
   public selectedTagsSubject = new BehaviorSubject<IExerciseTag[]>([]);
@@ -25,61 +27,64 @@ export class ExerciseLibraryComponent implements OnInit {
 
   constructor(
     private readonly exerciseService: ExerciseService,
+    private readonly lazyLoadService: LazyLoadService<IExercise>
   ) {}
 
   public ngOnInit(): void {
     this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
-      this.exercisesSubject.asObservable().subscribe((exercises) => {
-        this.exercises = exercises.filter((exercise) => {
-          let result = false;
-          if (selectedTags.length == 0) return true;
-          selectedTags.forEach(selectedTag => {
-            if(exercise.tagIds.split(",").includes(selectedTag.uid + "")) {
-              result = true;
-            }
+      this.itemsSubject.asObservable().subscribe((exercises) => {
+        this.items$ = of(
+          exercises.filter((exercise) => {
+            let result = false;
+            if (selectedTags.length == 0) return true;
+            selectedTags.forEach((selectedTag) => {
+              if (exercise.tagIds.split(',').includes(selectedTag.uid + '')) {
+                result = true;
+              }
+            });
+            return result;
           })
-          return result;
-        });
-      })
+        );
+      });
     });
 
-    this.isLoadingSubject.asObservable().subscribe(value => this.isLoading = value);
+    this.isLoadingSubject
+      .asObservable()
+      .subscribe((value) => (this.isLoading = value));
 
-    this.exercisesSubject.asObservable().subscribe((values) => {
-      this.exercises = values;
-    })
+    this.itemsSubject.asObservable().subscribe((values) => {
+      this.items$ = of(values);
+    });
 
     this.getExercises();
 
     this.getTagsList();
   }
 
-  public getExercises() {
+  public getExercises(): void {
     this.isLoadingSubject.next(true);
 
-    const queryParamsGetList: IQueryParams = {
-      what: {
-        [EXERCISE_FIELDS.exercises.uid]: 1,
-        [EXERCISE_FIELDS.exercises.title]: 1,
-        [EXERCISE_FIELDS.exercises.description]: 1,
-        [EXERCISE_FIELDS.exercises.tagIds]: 1,
-        [EXERCISE_FIELDS.exercises.equipmentIds]: 1,
-        [EXERCISE_FIELDS.exercises.dateCreated]: 1,
-        [EXERCISE_FIELDS.exercises.thumbUri]: 1
-      },
+    const fetchExercises = (
+      page: number,
+      limit: number
+    ): Observable<IRequestResult<IExercise[]> | null> => {
+      const queryParamsGetList: IQueryParams = {
+        what: {
+          [EXERCISE_FIELDS.exercises.uid]: 1,
+          [EXERCISE_FIELDS.exercises.title]: 1,
+          [EXERCISE_FIELDS.exercises.description]: 1,
+          [EXERCISE_FIELDS.exercises.tagIds]: 1,
+          [EXERCISE_FIELDS.exercises.equipmentIds]: 1,
+          [EXERCISE_FIELDS.exercises.dateCreated]: 1,
+          [EXERCISE_FIELDS.exercises.thumbUri]: 1,
+        },
+        limit: limit,
+        offset: page * limit,
+      };
+      return this.exerciseService.getList(queryParamsGetList);
     };
 
-    this.exerciseService
-      .getList(queryParamsGetList)
-      .subscribe({
-        next: (exercises: IRequestResult<IExercise[]> | null) => {
-          console.log(exercises?.data);
-          this.exercises = exercises?.data ?? [];
-          this.exercisesSubject.next(this.exercises)
-        },
-        error: (err) => console.log(err),
-        complete: () => this.isLoadingSubject.next(false)
-      });
+    this.lazyLoadService.initialize(fetchExercises, 15);
   }
 
   public getTagsList() {
@@ -91,16 +96,14 @@ export class ExerciseLibraryComponent implements OnInit {
       },
     };
 
-    this.exerciseService
-      .getTagList(queryParamsGetTagList)
-      .subscribe({
-        next: (tags: IRequestResult<IExerciseTag[]> | null) => {
-          console.log(tags?.data);
-          this.tags = tags?.data ?? [];
-        },
-        error: (err) => console.log(err),
-        complete: () => this.isLoadingSubject.next(false)
-      });
+    this.exerciseService.getTagList(queryParamsGetTagList).subscribe({
+      next: (tags: IRequestResult<IExerciseTag[]> | null) => {
+        console.log(tags?.data);
+        this.tags = tags?.data ?? [];
+      },
+      error: (err) => console.log(err),
+      complete: () => this.isLoadingSubject.next(false),
+    });
   }
 
   public getExerciseTags(tagIds: string): IExerciseTag[] {

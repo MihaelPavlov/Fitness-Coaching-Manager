@@ -32,14 +32,18 @@
         >
           <label for="thumb" class="control__label required">Gif/Video</label>
           <input
-            [disabled]="isEditMode"
             type="file"
             id="thumb"
             placeholder="Gif/Video"
             name="thumbUri"
             (change)="onImageUpload($event)"
-            class="control w-100 d-block align-items-start"
+            [class]="isEditMode ? 'd-none' : 'control w-100 d-block align-items-start'"
           />
+          <label
+            type="text"
+            class="control w-100 d-flex align-items-center"
+            for="thumb"
+          >{{ fileName }}</label>
           <ng-container *ngIf="exerciseForm.get('thumbUri')?.touched">
             <p *ngIf="exerciseForm.get('thumbUri')?.errors">Invalid field</p>
           </ng-container>

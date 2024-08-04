@@ -17,13 +17,16 @@ router.put(
     PATH.EXERCISES.UPDATE,
     isAuth,
     isCoach,
+    upload.single('thumbUri'),
+    fileSizeValidationMiddleware,
     inputValidationMiddleware(exerciseValidators),
     async (req: any, res: express.Response) => {
         try {
             await exerciseService.updateExercise(
                 req.params.exerciseId,
                 req.body,
-                req.user.id
+                req.user.id,
+                req.file
             );
 
             res.status(200).json({

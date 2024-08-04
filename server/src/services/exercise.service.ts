@@ -9,7 +9,11 @@ import { BadRequestException } from "../models/exceptions/bad-request.exception"
 export const executeExerciseBuilder = async (payload: QueryParams) =>
   await new ExerciseBuilder(payload).buildQuery();
 
-export const addExercise = async (contributorId: number, exerciseData: any, file: Express.Multer.File) => {
+export const addExercise = async (
+  contributorId: number,
+  exerciseData: any,
+  file: Express.Multer.File
+) => {
   const equipmentIds = exerciseData.equipmentIds
     ? exerciseData.equipmentIds.split(",")
     : [];
@@ -35,7 +39,7 @@ export const addExercise = async (contributorId: number, exerciseData: any, file
   const currentDate = new Date().toISOString().split("T")[0];
 
   if (!file) {
-    throw new Error("You must upload a thumb for the exercise")
+    throw new Error("You must upload a thumb for the exercise");
   }
 
   const createdExerciseID = (
@@ -55,10 +59,14 @@ export const addExercise = async (contributorId: number, exerciseData: any, file
   return createdExerciseID;
 };
 
-export const updateExercise = async (exerciseId: number, exerciseData: any, userId:any) => {
-
-  if(!(await isExerciseOwner(exerciseId,userId))){
-    throw new Error('You are unauthorized!');
+export const updateExercise = async (
+  exerciseId: number,
+  exerciseData: any,
+  userId: any,
+  file?: Express.Multer.File
+) => {
+  if (!(await isExerciseOwner(exerciseId, userId))) {
+    throw new Error("You are unauthorized!");
   }
 
   const equipmentIds = exerciseData.equipmentIds
@@ -85,16 +93,29 @@ export const updateExercise = async (exerciseId: number, exerciseData: any, user
 
   const currentDate = new Date().toISOString().split("T")[0];
 
-  
-    await db(TABLE.EXERCISES).where("id", "=", exerciseId).update({
-      title: exerciseData.title,
-      thumb_uri: exerciseData.thumbUri,
-      difficulty: exerciseData.difficulty,
-      equipment_ids: exerciseData.equipmentIds,
-      description: exerciseData.description,
-      tag_ids: exerciseData.tagIds,
-      date_modified: currentDate,
-    })
+  let savedThumb;
+
+  if (file && !exerciseData?.thumbUri) {
+    savedThumb = file.filename;
+  }
+
+  if (!file && exerciseData?.thumbUri) {
+    savedThumb = exerciseData?.thumbUri;
+  }
+
+  if (!file && !exerciseData.thumbUri) {
+    throw new Error("A file must be uploaded");
+  }
+
+  await db(TABLE.EXERCISES).where("id", "=", exerciseId).update({
+    title: exerciseData.title,
+    thumb_uri: savedThumb,
+    difficulty: exerciseData.difficulty,
+    equipment_ids: exerciseData.equipmentIds,
+    description: exerciseData.description,
+    tag_ids: exerciseData.tagIds,
+    date_modified: currentDate,
+  });
 };
 export const searchExercises = async (payload: QueryParams, query: string) => {
   const exercises = await new ExerciseBuilder(payload).buildQuery();
@@ -102,8 +123,8 @@ export const searchExercises = async (payload: QueryParams, query: string) => {
   return exercises.filter((exercise: any) => {
     if (exercise.title.toLowerCase().includes(query.toLowerCase())) return true;
     return false;
-  })
-}
+  });
+};
 
 export const getTags = async (tagData: any) =>
   await new ExerciseTagBuilder(tagData).buildQuery();
@@ -115,14 +136,19 @@ export const getExercise = async (exerciseData: any) =>
   await new ExerciseBuilder(exerciseData).buildQuery();
 
 export const deleteExercise = async (exerciseId: number, userId: any) => {
-    if (!(await isExerciseOwner(exerciseId, userId))) {
-        throw new Error("You are unauthorized!");
-    }
+  if (!(await isExerciseOwner(exerciseId, userId))) {
+    throw new Error("You are unauthorized!");
+  }
 
-    await db(TABLE.EXERCISES).where("id", exerciseId).del();
+  await db(TABLE.EXERCISES).where("id", exerciseId).del();
 };
-const isExerciseOwner = async(exerciseId:any,userId:any):Promise<boolean> => {
-    const exercise = (await db(TABLE.EXERCISES).select('*').where('id','=',exerciseId)).at(0);
-    if(exercise.contributor_id == userId) return true;
-    return false
+const isExerciseOwner = async (
+  exerciseId: any,
+  userId: any
+): Promise<boolean> => {
+  const exercise = (
+    await db(TABLE.EXERCISES).select("*").where("id", "=", exerciseId)
+  ).at(0);
+  if (exercise.contributor_id == userId) return true;
+  return false;
 };

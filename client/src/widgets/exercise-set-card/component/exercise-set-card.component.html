@@ -1,20 +1,27 @@
 <div class="card d-flex align-items-center p-4">
-  <img class="card__img" [src]="exercise?.thumbUri" alt="" />
+  <img class="card__img" [src]="fullImagePath" alt="exercise_image" />
   <div class="card__information p-4">
     <div class="card__information__header d-flex g-4 align-items-center mb-2">
-      <h2 class="card__information__header__heading">{{exercise?.title}}</h2>
-      <p class="card__information__header__sets">4 x {{ exercise?.repetitions ? exercise?.repetitions : exercise?.duration + 's' }}</p>
-      <div class="card__information__header__tags d-flex g-2">
-        <app-tag *ngFor="let tag of exercise?.tags" [text]="tag?.name" [backgroundColor]="'dark-grey'"></app-tag>
-      </div>
+      <h2 class="card__information__header__heading">{{ exercise.title }}</h2>
+      <p class="card__information__header__sets">
+        4 x
+        {{
+          exercise.repetitions ? exercise.repetitions : exercise.duration + "s"
+        }}
+      </p>
+    </div>
+    <div class="card__information__header__tags d-flex flex-wrap g-2">
+      <app-tag
+        *ngFor="let tag of exercise.tags"
+        [text]="tag?.name"
+        [backgroundColor]="'dark-grey'"
+      ></app-tag>
     </div>
     <p class="card__information__text">
-      {{ exercise?.description }}
+      {{ exercise.description }}
     </p>
   </div>
   <div class="card__icon align-items-center p-2 ml-8">
-    <span class="material-symbols-outlined">
-        arrow_forward_ios
-        </span>
+    <span class="material-symbols-outlined"> arrow_forward_ios </span>
   </div>
 </div>

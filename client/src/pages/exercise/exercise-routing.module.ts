@@ -19,6 +19,10 @@ const routes: Routes = [
     canActivate: [CoachOnlyGuard],
     component: ExerciseBuidlerComponent,
   },
+  {
+    path:'edit/:exerciseId',
+    component: ExerciseBuidlerComponent
+  }
 ];
 
 @NgModule({

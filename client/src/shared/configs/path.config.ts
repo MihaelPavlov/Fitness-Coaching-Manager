@@ -24,7 +24,9 @@ export const PATH = {
     CREATE: 'exercises/create',
     GET_TAG_LIST: 'exercises/getTagList',
     GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
+    UPDATE:'exercises/update/',
     SEARCH: 'exercises/search?title=',
+    DELETE:'exercises/delete/'
   },
   WORKOUTS: {
     GET_WORKOUTS: 'workouts/getWorkouts',

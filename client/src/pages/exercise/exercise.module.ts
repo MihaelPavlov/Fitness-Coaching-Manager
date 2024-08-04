@@ -9,7 +9,7 @@ import { ExerciseBuidlerComponent } from '../../features/exercise/exercise-build
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
 import { ErrorModule } from '../../shared/components/error/error.module';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import {  NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ExerciseSearchModule } from '../../widgets/exercise-search/exercise-search.module';
 
 @NgModule({

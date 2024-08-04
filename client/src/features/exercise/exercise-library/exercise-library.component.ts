@@ -84,7 +84,7 @@ export class ExerciseLibraryComponent implements OnInit {
       return this.exerciseService.getList(queryParamsGetList);
     };
 
-    this.lazyLoadService.initialize(fetchExercises, 15);
+    this.lazyLoadService.initialize(fetchExercises, 20);
   }
 
   public getTagsList() {

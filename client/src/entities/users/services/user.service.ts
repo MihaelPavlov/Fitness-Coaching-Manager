@@ -9,6 +9,7 @@ import { IUserDetails } from '../models/user-details.interface';
 import { SocketService } from '../../chat/services/socket.service';
 import { IUserWorkout } from '../models/user-workout.interface';
 import { Router } from '@angular/router';
+import { environment } from '../../../shared/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class UserService {
   constructor(
     private readonly apiService: RestApiService,
     private readonly socketService: SocketService,
-    private readonly router:Router
+    private readonly router: Router
   ) {}
 
   public get getUser(): UserInfo | null {
@@ -49,8 +50,7 @@ export class UserService {
           res.data.profilePicture.startsWith('https')
         )
           return res;
-        const newPictureUrl =
-          'http://localhost:3000/files/' + res.data.profilePicture;
+        const newPictureUrl = environment.files + res.data.profilePicture;
         res.data.profilePicture = newPictureUrl;
         return res;
       })

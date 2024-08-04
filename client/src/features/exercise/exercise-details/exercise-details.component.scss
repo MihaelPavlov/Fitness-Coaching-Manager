@@ -2,6 +2,7 @@
 @use "../../../shared/styles/mixins";
 
 .exercise__details {
+
   &__description {
     &__heading {
       color: palette.$main-blue-color;
@@ -26,7 +27,7 @@
 
   &__img {
     width: 40%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: left;
     border: 1px solid palette.$main-blue-color;
     border-radius: 0.2rem;

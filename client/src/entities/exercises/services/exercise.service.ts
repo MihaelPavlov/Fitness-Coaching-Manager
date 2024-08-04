@@ -8,6 +8,7 @@ import { IRequestResult } from '../../models/request-result.interface';
 import { IExercise } from '../models/exercise.interface';
 import { IExerciseTag } from '../models/exercise-tag.interface';
 import { IExerciseEquipment } from '../models/exercise-equipment.interface';
+import { environment } from '../../../shared/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -22,11 +23,15 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.GET_LIST, payload).pipe(
       map((res: any) => {
         res.data.map((exercise: any) => {
-          if (exercise.thumbUri.startsWith("http") || exercise.thumbUri.startsWith("https")) return exercise;
-          const newPictureUrl = "http://localhost:3000/files/" + exercise.thumbUri;
+          if (
+            exercise.thumbUri.startsWith('http') ||
+            exercise.thumbUri.startsWith('https')
+          )
+            return exercise;
+          const newPictureUrl = environment.files + exercise.thumbUri;
           exercise.thumbUri = newPictureUrl;
           return exercise;
-        })
+        });
 
         return res;
       })
@@ -41,11 +46,15 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.SEARCH + title, payload).pipe(
       map((res: any) => {
         res.data.map((exercise: any) => {
-          if (exercise.thumbUri.startsWith("http") || exercise.thumbUri.startsWith("https")) return exercise;
-          const newPictureUrl = "http://localhost:3000/files/" + exercise.thumbUri;
+          if (
+            exercise.thumbUri.startsWith('http') ||
+            exercise.thumbUri.startsWith('https')
+          )
+            return exercise;
+          const newPictureUrl = environment.files + exercise.thumbUri;
           exercise.thumbUri = newPictureUrl;
           return exercise;
-        })
+        });
 
         return res;
       })
@@ -85,6 +94,21 @@ export class ExerciseService {
     return this.api.post(PATH.EXERCISES.CREATE, exercise);
   }
 
+  public update(
+    exerciseId: string,
+    exercise: Record<string, any>
+  ): Observable<any> {
+    return this.api.put(PATH.EXERCISES.UPDATE + exerciseId, exercise);
+  }
+
+  public delete(exerciseId: number): Observable<any> {
+    return this.api.delete(PATH.EXERCISES.DELETE + exerciseId);
+  }
+
+  public updateUser(exerciseId: Record<string, any>): Observable<any> {
+    return this.api.put(PATH.EXERCISES.UPDATE, exerciseId);
+  }
+
   private buildPayload(queryParams: IQueryParams, fields: any): any {
     const payload: any = {};
     if (queryParams.limit !== null) {
@@ -95,6 +119,9 @@ export class ExerciseService {
     }
     if (queryParams.id !== null) {
       payload.id = queryParams.id;
+    }
+    if (queryParams.condition !== null) {
+      payload.condition = queryParams.condition;
     }
     payload.what = {};
     for (const key in queryParams.what) {

@@ -8,6 +8,7 @@ import { IRequestResult } from '../../models/request-result.interface';
 import { IExercise } from '../models/exercise.interface';
 import { IExerciseTag } from '../models/exercise-tag.interface';
 import { IExerciseEquipment } from '../models/exercise-equipment.interface';
+import { environment } from '../../../shared/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +28,7 @@ export class ExerciseService {
             exercise.thumbUri.startsWith('https')
           )
             return exercise;
-          const newPictureUrl =
-            'http://localhost:3000/files/' + exercise.thumbUri;
+          const newPictureUrl = environment.files + exercise.thumbUri;
           exercise.thumbUri = newPictureUrl;
           return exercise;
         });
@@ -51,8 +51,7 @@ export class ExerciseService {
             exercise.thumbUri.startsWith('https')
           )
             return exercise;
-          const newPictureUrl =
-            'http://localhost:3000/files/' + exercise.thumbUri;
+          const newPictureUrl = environment.files + exercise.thumbUri;
           exercise.thumbUri = newPictureUrl;
           return exercise;
         });

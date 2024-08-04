@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ISessionExercise } from '../../../entities/sessions/models/session-exercise.interface';
+import { environment } from '../../../shared/environments/environment.development';
 
 @Component({
   selector: 'app-exercise-set-card',
@@ -8,10 +9,9 @@ import { ISessionExercise } from '../../../entities/sessions/models/session-exer
 })
 export class ExerciseSetCardComponent implements OnInit {
   @Input() exercise!: ISessionExercise;
-  private basePath: string = 'http://localhost:3000/files/';
   public fullImagePath: string = '';
 
   public ngOnInit(): void {
-    this.fullImagePath = this.basePath + this.exercise?.thumbUri;
+    this.fullImagePath = environment.files + this.exercise?.thumbUri;
   }
 }

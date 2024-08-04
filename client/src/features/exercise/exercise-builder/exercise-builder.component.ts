@@ -20,6 +20,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { Tag } from '../../../entities/models/tag.interface';
 import { toFormData } from '../../../shared/utils/formTransformer';
+import { environment } from '../../../shared/environments/environment.development';
 
 interface Equipment extends ListItem {
   uid?: number;
@@ -45,7 +46,6 @@ export class ExerciseBuidlerComponent implements OnInit {
   protected tagList$!: Observable<IExerciseTag[]>;
   protected tagListEdit!: IExerciseTag[];
   public isEditMode: boolean = false; // Edit mode
-  basePath: string = 'http://localhost:3000/files/';
 
   equipmentSettings: IDropdownSettings = {
     idField: 'uid',
@@ -180,7 +180,7 @@ export class ExerciseBuidlerComponent implements OnInit {
               title: exercise.title,
               difficulty: exercise.difficulty as number,
               description: exercise.description || null,
-              thumbUri: `${this.basePath}${exercise.thumbUri}`,
+              thumbUri: `${environment.files}${exercise.thumbUri}`,
             });
           }
         },

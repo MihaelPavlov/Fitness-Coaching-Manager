@@ -8,6 +8,7 @@ import { IExerciseTag } from '../../../entities/exercises/models/exercise-tag.in
 import { UserService } from '../../../entities/users/services/user.service';
 import { UserInfo } from '../../../entities/models/user.interface';
 import { SessionService } from '../../../entities/sessions/services/session.service';
+import { environment } from '../../../shared/environments/environment.development';
 @Component({
   selector: 'app-exercise-details',
   templateUrl: './exercise-details.component.html',
@@ -17,7 +18,6 @@ export class ExerciseDetailsComponent implements OnInit {
   exerciseDetails: IExercise | undefined;
   tagIds: number[] | undefined;
   tags: IExerciseTag[] | null = [];
-  basePath: string = 'http://localhost:3000/files/';
   fullImagePath: string | undefined;
   currentUserId: string | undefined;
   isOwner: boolean = false;
@@ -64,7 +64,7 @@ export class ExerciseDetailsComponent implements OnInit {
             this.exerciseDetails = result.data[0];
             console.log(result.data);
 
-            this.fullImagePath = this.basePath + this.exerciseDetails.thumbUri;
+            this.fullImagePath = environment.files + this.exerciseDetails.thumbUri;
 
             this.tagIds = result.data[0].tagIds.split(',').map(Number);
 

@@ -10,6 +10,7 @@ import {
 import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { SessionStateService } from '../../../entities/sessions/services/session-state.service';
+import { environment } from '../../../shared/environments/environment.development';
 
 @Component({
   selector: 'app-workout-session',
@@ -23,6 +24,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
     // return true for not showing confirm window and exit
     return false;
   }
+  public fullImagePath: string = '';
 
   public sessionExercisesSubject$ = new BehaviorSubject<
     ISessionPracticalExercise[]
@@ -34,9 +36,13 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   constructor(
     private readonly sessionService: SessionService,
     private readonly workoutService: WorkoutService,
-    public sessionStateService: SessionStateService,
+    public readonly sessionStateService: SessionStateService,
     private readonly route: ActivatedRoute
   ) {}
+
+  public setImage(thumbUri: string): string {
+    return environment.files + thumbUri;
+  }
 
   public ngOnInit(): void {
     this.route.params.subscribe((params) => {

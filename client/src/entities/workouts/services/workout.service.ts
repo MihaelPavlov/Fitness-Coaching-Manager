@@ -6,6 +6,7 @@ import { IWorkout } from '../models/workout.interface';
 import { PATH } from '../../../shared/configs/path.config';
 import { RestApiService } from '../../../shared/services/rest-api.service';
 import { IWorkoutTag } from '../models/workout-tag.interface';
+import { environment } from '../../../shared/environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,7 @@ export class WorkoutService {
         if (res.data.length == 1 && res.data[0]?.numberOfSets) return res;
         res.data.map((workout: any) => {
           if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
-          const newImageUrl = "http://localhost:3000/files/" + workout.imageUri;
+          const newImageUrl = environment.files + workout.imageUri;
           workout.imageUri = newImageUrl;
           return workout;
         })
@@ -38,7 +39,7 @@ export class WorkoutService {
       map((res: any) => {
         res.data.map((workout: any) => {
           if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
-          const newImageUrl = "http://localhost:3000/files/" + workout.imageUri;
+          const newImageUrl = environment.files + workout.imageUri;
           workout.imageUri = newImageUrl;
           return workout;
         })

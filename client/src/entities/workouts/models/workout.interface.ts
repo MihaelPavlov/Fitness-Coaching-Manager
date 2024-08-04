@@ -10,7 +10,7 @@ export interface IWorkout {
   pauseBetweenSets?: number
 }
 
-interface ITagInterface {
+export interface ITagInterface {
   uid: number;
   name: string
 }

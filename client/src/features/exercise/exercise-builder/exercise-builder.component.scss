@@ -4,6 +4,10 @@
 
 .exercise-container {
   height: 50rem;
+
+  @include mixins.respond(Phone) {
+    margin-bottom: 3rem;
+  }
 }
 
 .exercise-form {

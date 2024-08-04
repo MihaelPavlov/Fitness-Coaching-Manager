@@ -13,7 +13,7 @@
   }
 
   &__cards-flex-container {
-    height: 45rem;
+    height: max-content;
     width: 95%;
     overflow-y: scroll;
     flex-wrap: wrap;
@@ -29,6 +29,7 @@
       scrollbar-width: none; /* Firefox */
       justify-content: center;
       gap: 1rem;
+      margin-bottom: 4rem;
 
       &::-webkit-scrollbar {
         display: none; /* Safari and Chrome */

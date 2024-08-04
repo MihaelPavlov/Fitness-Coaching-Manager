@@ -215,33 +215,27 @@ export class ExerciseBuidlerComponent implements OnInit {
     };
 
     if (this.isEditMode && this.exerciseId) {
-      //Here goes for edit functionallity
-      submissionData.difficulty = Number(submissionData.difficulty)
-      console.log(submissionData, 'Edit submitiopn data');
-      this.exerciseService
-        .update(this.exerciseId, submissionData)
-        .subscribe({
-          next: () => {
-            this.isLoading = false;
-            this.hasExerciseError = false;
-            this.router.navigate([`/exercise/details/${this.exerciseId}`]);
-          },
-          error: (err) => {
-            this.isLoading = false;
-            this.createExerciseErrorMsg = Array.isArray(err.error.data)
-              ? err.error.data[0].message
-              : err.error.data.message;
-            this.hasExerciseError = true;
-          },
-        });
+      submissionData.difficulty = Number(submissionData.difficulty);
+      this.exerciseService.update(this.exerciseId, submissionData).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.hasExerciseError = false;
+          this.router.navigate([`/exercise/details/${this.exerciseId}`]);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.createExerciseErrorMsg = Array.isArray(err.error.data)
+            ? err.error.data[0].message
+            : err.error.data.message;
+          this.hasExerciseError = true;
+        },
+      });
     } else {
-      console.log(submissionData, 'Create submition data');
-
       this.exerciseService.create(toFormData(submissionData)).subscribe({
         next: () => {
           this.isLoading = false;
           this.hasExerciseError = false;
-          this.router.navigate(['/']);
+          this.router.navigate(['/exercise/list']);
         },
         error: (err) => {
           this.isLoading = false;
@@ -255,8 +249,6 @@ export class ExerciseBuidlerComponent implements OnInit {
   }
 
   public onImageUpload(event: Event) {
-    console.log(event);
-
     const files = (event.target as HTMLInputElement).files;
     const file = files?.item(files.length - 1);
     const selectedFile = this.exerciseForm.get('thumbUri') as FormControl;
@@ -264,13 +256,15 @@ export class ExerciseBuidlerComponent implements OnInit {
   }
 
   public onEqipmentItemSelect(item: Equipment): void {
-    const equipmentFormArray = this.exerciseForm.get('equipmentIds') as FormControl;
+    const equipmentFormArray = this.exerciseForm.get(
+      'equipmentIds'
+    ) as FormControl;
     const currentValues = equipmentFormArray.value;
 
     if (!currentValues.some((e: any) => e.uid === item.uid)) {
-        equipmentFormArray.setValue([...currentValues, item]);
+      equipmentFormArray.setValue([...currentValues, item]);
     }
-}
+  }
 
   public onEquipmentDeselect(item: Equipment): void {
     const equipmentArray = this.exerciseForm.get('equipmentIds') as FormControl;
@@ -299,9 +293,9 @@ export class ExerciseBuidlerComponent implements OnInit {
     const currentValues = tagFormArray.value;
 
     if (!currentValues.some((e: any) => e.uid === item.uid)) {
-        tagFormArray.setValue([...currentValues, item]);
+      tagFormArray.setValue([...currentValues, item]);
     }
-}
+  }
 
   public onTagDeselect(item: Tag): void {
     const tagFormArray = this.exerciseForm.get('tagIds') as FormControl;

@@ -3,11 +3,11 @@
 <app-workout-search
   [tags]="tags"
   [isLoadingSubject]="isLoadingSubject"
-  [workoutsSubject]="workoutsSubject"
+  [workoutsSubject]="itemsSubject"
   [selectedTagsSubject]="selectedTagsSubject"
 ></app-workout-search>
 <div class="workout-library__cards-flex-container d-flex">
-  <ng-container *ngFor="let workout of workouts">
+  <ng-container *ngFor="let workout of items$ | async">
     <app-workout-card
       [workout]="workout"
       [userWorkouts]="userWorkouts"
@@ -15,7 +15,7 @@
     ></app-workout-card>
   </ng-container>
 
-  <div *ngIf="workouts?.length === 0">
+  <div *ngIf="(items$ | async)?.length === 0">
     <p>They are no workouts to show</p>
   </div>
 </div>

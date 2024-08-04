@@ -54,6 +54,9 @@
   }
 
   &__filter-form {
+    height: 7rem;
+    max-height: 7rem;
+    overflow: auto;
     position: absolute;
     right: 10rem;
     top: 2.5rem;

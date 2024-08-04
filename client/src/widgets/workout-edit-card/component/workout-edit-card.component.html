@@ -1,17 +1,18 @@
 <div class="card d-flex align-items-center">
-  <img
-    class="card__img"
-    [src]="exercise.thumbUri"
-    alt=""
-  />
+  <img class="card__img" [src]="exercise.thumbUri" alt="" />
   <div class="card__information p-4">
     <div class="card__information__header d-flex g-4 align-items-center mb-2">
-      <h2 class="card__information__header__heading">{{exercise.title}}</h2>
-      <p class="card__information__header__sets">{{numberOfSets}} x {{exercise.repetitions || exercise.duration + 's'}}</p>
+      <h2 class="card__information__header__heading">{{ exercise.title }}</h2>
+      <p class="card__information__header__sets">
+        <span *ngIf="exercise.repetitions"> {{ numberOfSets }} x </span>
+        {{ exercise.repetitions || exercise.duration + "s" }}
+      </p>
     </div>
   </div>
   <div class="card__icon align-items-center p-2 ml-8">
-    <span class="material-symbols-outlined mr-2" (click)="onRemove()"> delete </span>
+    <span class="material-symbols-outlined mr-2" (click)="onRemove()">
+      delete
+    </span>
     <!-- <span class="material-symbols-outlined"> edit </span> -->
   </div>
 </div>

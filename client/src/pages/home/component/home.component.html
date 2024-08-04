@@ -22,7 +22,7 @@
     </button>
   </div>
 
-  <div *ngIf="allWorkouts?.length == 0 && currentRole == userRoles.User">
+  <div *ngIf="allWorkouts?.length == 0 && currentRole == userRoles.User" class="mb-5">
     <p>You have no workouts in your collection yet. <strong>Find a Workout Plan?</strong></p>
     <br/>
     <button class="btn btn-large m-5" routerLink="/workout/list">
@@ -34,7 +34,7 @@
     
   </div>
 
-  <div *ngIf="allWorkouts?.length !== 0 && filteredWorkouts?.length == 0">
-    <p>No workout result from this search</p>
+  <div *ngIf="allWorkouts?.length !== 0 && filteredWorkouts?.length == 0" class="mb-10">
+    <p class="mb-10">No workout result from this search</p>
   </div>
 </div>

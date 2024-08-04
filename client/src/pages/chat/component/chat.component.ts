@@ -17,6 +17,7 @@ import { UserService } from '../../../entities/users/services/user.service';
 import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IUserDetails } from '../../../entities/users/models/user-details.interface';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from '../../../shared/environments/environment.development';
 
 export interface GroupedChatMessage {
   senderId: number;
@@ -105,6 +106,14 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   public get getUserRole(): number {
     return this.userService.getUser ? this.userService.getUser.role : 0;
+  }
+
+  public setProfilePicture(profilePicture: string | undefined): string {
+    return profilePicture
+      ? profilePicture.includes('http') || profilePicture.includes('https')
+        ? profilePicture
+        : environment.files + profilePicture
+      : '';
   }
 
   public getUser(userId: number): Observable<IUserDetails> {

@@ -15,7 +15,7 @@
     ></app-workout-card>
   </ng-container>
 
-  <div *ngIf="(items$ | async)?.length === 0">
-    <p>They are no workouts to show</p>
+  <div *ngIf="(items$ | async)?.length === 0" class="mb-10">
+    <p class="mb-10">They are no workouts to show</p>
   </div>
 </div>

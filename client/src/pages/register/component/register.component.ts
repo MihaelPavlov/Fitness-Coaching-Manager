@@ -157,7 +157,6 @@ export class RegisterComponent implements OnInit {
     this.isLoading = true;
 
     if (this.registerForm.invalid) {
-      console.log(this.registerForm.value);
       this.isLoading = false;
       return;
     }
@@ -172,13 +171,12 @@ export class RegisterComponent implements OnInit {
     };
 
     delete requestBody['passGroup'];
-    console.log(requestBody);
 
     this.authService.register(toFormData(requestBody)).subscribe({
       next: () => {
         this.isLoading = false;
         this.hasRegisterError = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         this.isLoading = false;

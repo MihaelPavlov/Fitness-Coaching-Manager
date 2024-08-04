@@ -20,7 +20,8 @@
         <h3 class="menu-container mr-6" (click)="toggleDropdown()">|||</h3>
       </div>
 
-      <div class="dropdown" *ngIf="showDropdown">
+      <div class="dropdown d-flex flex-direction-column" *ngIf="showDropdown">
+        <button  (click)="navigateToProfile()">My Profile</button>
         <button (click)="onLogout()">Logout</button>
       </div>
     </div>

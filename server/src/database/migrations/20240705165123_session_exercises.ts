@@ -10,8 +10,8 @@ export async function up(knex: Knex): Promise<void> {
         table.tinyint('rank').unsigned().notNullable();
         table.string('description', 255).defaultTo(null);
         table.boolean('has_timing').notNullable().defaultTo(0);
-        table.tinyint('time_duration').unsigned().notNullable().defaultTo(0);
-        table.tinyint('reps').unsigned().notNullable().defaultTo(1);
+        table.integer('time_duration').unsigned().notNullable().defaultTo(0);
+        table.integer('reps').unsigned().notNullable().defaultTo(1);
     });
 }
 

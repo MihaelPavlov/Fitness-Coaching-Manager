@@ -4,7 +4,7 @@
     <div class="card__information__header d-flex g-4 align-items-center mb-2">
       <h2 class="card__information__header__heading">{{ exercise.title }}</h2>
       <p class="card__information__header__sets">
-        4 x
+        <span *ngIf="exercise.repetitions">{{ numberOfSets }} x</span>
         {{
           exercise.repetitions ? exercise.repetitions : exercise.duration + "s"
         }}

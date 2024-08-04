@@ -2,6 +2,7 @@
 @use "../../../shared/styles/mixins";
 
 .exercise__details {
+
   &__description {
     &__heading {
       color: palette.$main-blue-color;

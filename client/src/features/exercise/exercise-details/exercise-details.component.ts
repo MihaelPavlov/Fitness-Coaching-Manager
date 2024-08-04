@@ -32,7 +32,7 @@ export class ExerciseDetailsComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const id: number = Number(this.route.snapshot.paramMap.get('exerciseId'));
     this.exerciseService
       .getDetails({
@@ -96,7 +96,7 @@ export class ExerciseDetailsComponent implements OnInit {
         }
       );
 
-      this.sessionService
+    this.sessionService
       .getSessionExercises({
         what: {
           exerciseId: 1,
@@ -104,39 +104,51 @@ export class ExerciseDetailsComponent implements OnInit {
       })
       .subscribe((result) => {
         if (result?.data && result.data.length > 0) {
-          this.sessionExerciseIds = result.data.map((exercise: any) => exercise.exerciseId);
+          this.sessionExerciseIds = result.data.map(
+            (exercise: any) => exercise.exerciseId
+          );
         }
       });
   }
 
-  goBack() {
+  public goBack() {
     this.location.back();
   }
 
-  navigateToEdit() {
+  public navigateToEdit() {
     this.router.navigateByUrl(`exercise/edit/${this.exerciseDetails?.uid}`);
   }
 
   private fetchUserProfile(): void {
     this.userService.userInfo$.subscribe((userInfo: UserInfo | null) => {
-      if (userInfo?.id === this.exerciseDetails?.contributorId)
+      if (userInfo?.contributorId === this.exerciseDetails?.contributorId)
         this.isOwner = true;
     });
   }
 
-  onDeleteHandler(): void {
-    if (this.exerciseDetails && this.sessionExerciseIds.includes(this.exerciseDetails.uid)) {
-      alert('This exercise cannot be deleted because it is part of a workout session.');
+  public onDeleteHandler(): void {
+    if (
+      this.exerciseDetails &&
+      this.sessionExerciseIds.includes(this.exerciseDetails.uid)
+    ) {
+      alert(
+        'This exercise cannot be deleted because it is part of a workout session.'
+      );
     } else {
-      const confirmation = confirm('Are you sure you want to delete this exercise?');
+      const confirmation = confirm(
+        'Are you sure you want to delete this exercise?'
+      );
       if (confirmation && this.exerciseDetails) {
         this.exerciseService.delete(this.exerciseDetails.uid).subscribe({
           next: () => {
-            alert('Exercise successfully deleted.');
-            this.router.navigate(['/']);
+            this.router.navigate(['/exercise/list']);
           },
           error: (err) => {
-            alert(`Error deleting exercise: ${err.error?.message || 'Unknown error'}`);
+            alert(
+              `Error deleting exercise: ${
+                err.error?.message || 'Unknown error'
+              }`
+            );
           },
         });
       }

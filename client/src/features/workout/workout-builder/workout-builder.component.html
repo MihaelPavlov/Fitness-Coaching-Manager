@@ -33,7 +33,10 @@
 
 <!-- General details template -->
 <ng-template #workoutDetails>
-  <div class="create-workout-container__form__details-container" [formGroup]="createWorkoutForm">
+  <div
+    class="create-workout-container__form__details-container"
+    [formGroup]="createWorkoutForm"
+  >
     <div
       class="create-workout-container__form__details-container__heading-container d-flex justify-content-between pb-5"
       (click)="workoutDetailsVisibility()"
@@ -86,7 +89,9 @@
           formControlName="description"
         />
         <ng-container *ngIf="createWorkoutForm.get('description')?.touched">
-          <p *ngIf="createWorkoutForm.get('description')?.errors">Invalid field</p>
+          <p *ngIf="createWorkoutForm.get('description')?.errors">
+            Invalid field
+          </p>
         </ng-container>
       </div>
       <div
@@ -107,7 +112,7 @@
       >
         <label for="equipment" class="control__label required">Tags</label>
         <ng-multiselect-dropdown
-          class="d-block custom-dropdown dropdown"
+          class="custom-dropdown dropdown"
           placeholder="Tags"
           [settings]="tagsDropdownSettings"
           [data]="tags"
@@ -120,7 +125,9 @@
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label required">Number of Sets</label>
+        <label for="password" class="control__label required"
+          >Number of Sets</label
+        >
         <input
           [type]="InputType.Number"
           id="number-sets"
@@ -130,13 +137,17 @@
           formControlName="numberOfSets"
         />
         <ng-container *ngIf="createWorkoutForm.get('numberOfSets')?.touched">
-          <p *ngIf="createWorkoutForm.get('numberOfSets')?.errors">Invalid field</p>
+          <p *ngIf="createWorkoutForm.get('numberOfSets')?.errors">
+            Invalid field
+          </p>
         </ng-container>
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="password" class="control__label required">Pause between sets</label>
+        <label for="password" class="control__label required"
+          >Pause between sets</label
+        >
         <input
           [type]="InputType.Number"
           id="pause-sets"
@@ -145,8 +156,12 @@
           class="control w-100 d-block align-items-start"
           formControlName="pauseBetweenSets"
         />
-        <ng-container *ngIf="createWorkoutForm.get('pauseBetweenSets')?.touched">
-          <p *ngIf="createWorkoutForm.get('pauseBetweenSets')?.errors">Invalid field</p>
+        <ng-container
+          *ngIf="createWorkoutForm.get('pauseBetweenSets')?.touched"
+        >
+          <p *ngIf="createWorkoutForm.get('pauseBetweenSets')?.errors">
+            Invalid field
+          </p>
         </ng-container>
       </div>
       <div
@@ -163,8 +178,12 @@
           class="control w-100 d-block align-items-start"
           formControlName="pauseBetweenExercises"
         />
-        <ng-container *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.touched">
-          <p *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.errors">Invalid field</p>
+        <ng-container
+          *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.touched"
+        >
+          <p *ngIf="createWorkoutForm.get('pauseBetweenExercises')?.errors">
+            Invalid field
+          </p>
         </ng-container>
       </div>
       <div
@@ -201,7 +220,9 @@
         *ngIf="isPrivate"
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
       >
-        <label for="relatedStudent" class="control__label required required">Related student</label>
+        <label for="relatedStudent" class="control__label required required"
+          >Related student</label
+        >
         <select
           name="relatedStudent"
           id="relatedStudent"
@@ -210,13 +231,17 @@
         >
           <option selected value="null">Choose student</option>
           <option
-          class="control__option"
-          *ngFor="let subscriber of subscribers"
-          [value]="subscriber.uid"
-          >{{subscriber.userName}}</option>
+            class="control__option"
+            *ngFor="let subscriber of subscribers"
+            [value]="subscriber.uid"
+          >
+            {{ subscriber.userName }}
+          </option>
         </select>
         <ng-container *ngIf="createWorkoutForm.get('relatedStudent')?.touched">
-          <p *ngIf="createWorkoutForm.get('relatedStudent')?.errors">Invalid field</p>
+          <p *ngIf="createWorkoutForm.get('relatedStudent')?.errors">
+            Invalid field
+          </p>
         </ng-container>
       </div>
     </div>
@@ -251,11 +276,18 @@
       [class.expandExercise]="showExercise"
       class="create-workout-container__form__details-container__general-details"
     >
-      <div class="create-workout-container__form__details-container__general-details__inform-message-container d-flex justify-content-center align-items-center">
-        <div class="create-workout-container__form__details-container__general-details__inform-message-container__message">
+      <div
+        class="create-workout-container__form__details-container__general-details__inform-message-container d-flex justify-content-center align-items-center"
+      >
+        <div
+          class="create-workout-container__form__details-container__general-details__inform-message-container__message"
+        >
           <p>Add Additional Exercise by pressing the plus button</p>
         </div>
-        <div class="create-workout-container__form__details-container__general-details__inform-message-container__button-container align-self-center" (click)="showExerciseForm()">
+        <div
+          class="create-workout-container__form__details-container__general-details__inform-message-container__button-container align-self-center"
+          (click)="showExerciseForm()"
+        >
           <div>+</div>
         </div>
         <ng-container *ngTemplateOutlet="exerciseFormPopup"></ng-container>
@@ -268,7 +300,9 @@
 <!-- Form footer template -->
 <ng-template #formFooter>
   <div>
-    <div class="create-workout-container__form__elements__buttons d-flex justify-content-center mt-4">
+    <div
+      class="create-workout-container__form__elements__buttons d-flex justify-content-center mt-4"
+    >
       <button
         class="btn btn-large text-center landing-page-container__buttons-container__button"
         type="submit"
@@ -290,7 +324,12 @@
 </ng-template>
 
 <ng-template #exerciseFormPopup>
-  <div class="popup" id="popup" [ngClass]="{ show: showExerciseFormPopup }" [formGroup]="addExerciseForm">
+  <div
+    class="popup"
+    id="popup"
+    [ngClass]="{ show: showExerciseFormPopup }"
+    [formGroup]="addExerciseForm"
+  >
     <div
       class="popup__content d-flex flex-direction-column align-items-center text-center"
     >
@@ -307,7 +346,13 @@
       <div class="control__wrapper mb-3">
         <label for="equipment" class="control__label">Exercises</label>
         <p *ngIf="exercises.length == 0">There are no exercises</p>
-        <select id="equipment" name="equipment" class="control w-100 d-block" (change)="onExerciseSelect($event)" *ngIf="exercises.length > 0">
+        <select
+          id="equipment"
+          name="equipment"
+          class="control w-100 d-block"
+          (change)="onExerciseSelect($event)"
+          *ngIf="exercises.length > 0"
+        >
           <option
             class="control__option"
             *ngFor="let exercise of exercises"
@@ -349,7 +394,9 @@
           formControlName="repetitions"
         />
         <ng-container *ngIf="addExerciseForm.get('repetitions')?.touched">
-          <p *ngIf="addExerciseForm.get('repetitions')?.errors">Invalid field</p>
+          <p *ngIf="addExerciseForm.get('repetitions')?.errors">
+            Invalid field
+          </p>
         </ng-container>
       </div>
       <div class="control__wrapper mb-4">

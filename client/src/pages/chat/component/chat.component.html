@@ -30,7 +30,7 @@
           (click)="getMessages(chat, chat.recipientUserId)"
         >
           <ng-container *ngIf="getUser(chat.recipientUserId) | async as user">
-            <img class="msg-profile" [src]="user.profilePicture" alt="" />
+            <img class="msg-profile" [src]="setProfilePicture(user.profilePicture)" alt="" />
             <div class="msg-detail">
               <div class="msg-username">
                 {{ user.userName }}
@@ -62,7 +62,7 @@
           (click)="getMessages(chat, chat.initiatorUserId)"
         >
           <ng-container *ngIf="getUser(chat.initiatorUserId) | async as user">
-            <img class="msg-profile" [src]="user.profilePicture" alt="" />
+            <img class="msg-profile" [src]="setProfilePicture(user.profilePicture)" alt="" />
             <div class="msg-detail">
               <div class="msg-username">
                 {{ user.userName }}
@@ -97,7 +97,7 @@
         <div class="chat-area-group">
           <img
             class="chat-area-profile"
-            [src]="currentChatUser?.profilePicture"
+            [src]="setProfilePicture(currentChatUser?.profilePicture)"
             alt=""
           />
         </div>
@@ -119,7 +119,7 @@
                 <!-- unmemoized the profile image -->
                 <img
                   class="chat-msg-img"
-                  [src]="user.profilePicture"
+                  [src]="setProfilePicture(user.profilePicture)"
                   alt="profile_picture"
                 />
                 <!-- <div class="chat-msg-date">Message seen 1.22pm</div> -->
@@ -145,7 +145,7 @@
                 <!-- unmemoized the profile image -->
                 <img
                   class="chat-msg-img"
-                  [src]="user.profilePicture"
+                  [src]="setProfilePicture(user.profilePicture)"
                   alt="profile_picture"
                 />
                 <!-- <div class="chat-msg-date">Message seen 1.22pm</div> -->

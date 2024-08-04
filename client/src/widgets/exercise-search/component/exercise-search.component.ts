@@ -73,5 +73,6 @@ export class ExerciseSearchComponent implements OnInit {
 
   public filterHandler(): void {
     this.toggleFilterForm = !this.toggleFilterForm;
+    this.selectedTagsSubject?.next([]);
   }
 }

@@ -46,10 +46,16 @@ export const createWorkoutSession = async (
     })
   ).at(0);
 
+  if (data?.private == 1) {
+    await db(TABLE.USER_WORKOUT_COLLECTION).insert({
+      user_id: data?.relatedStudent,
+      workout_session_id: workoutSessionId,
+    });
+  }
+
   // Save each added exercise to the workout
   for (let exercise of JSON.parse(data?.exercises)) {
     // Check if exercise exsists
-    console.log("ELJSK;DJFLK;DSJFL;SDK", exercise);
     await db(TABLE.SESSION_EXERCISES).insert({
       session_id: workoutSessionId,
       exercise_id: exercise?.exerciseId,

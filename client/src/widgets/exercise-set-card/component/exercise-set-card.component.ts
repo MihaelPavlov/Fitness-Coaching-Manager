@@ -9,6 +9,8 @@ import { environment } from '../../../shared/environments/environment.developmen
 })
 export class ExerciseSetCardComponent implements OnInit {
   @Input() exercise!: ISessionExercise;
+  @Input() numberOfSets!: number;
+
   public fullImagePath: string = '';
 
   public ngOnInit(): void {

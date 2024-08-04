@@ -13,12 +13,13 @@
 <div class="workout-details-cards d-flex flex-direction-column g-4">
   <ng-container *ngFor="let exercise of exercises">
     <app-exercise-set-card
+      [numberOfSets]="numberOfSets ?? 0"
       (click)="navigateToDetails(exercise?.exerciseId || 0)"
       [exercise]="exercise"
     ></app-exercise-set-card>
   </ng-container>
 </div>
 
-<div class="workout-details-header__btn-mobile">
+<div class="workout-details-header__btn-mobile mb-10">
   <button class="btn w-100" (click)="navigateToSession()">BEGIN WORKOUT</button>
 </div>

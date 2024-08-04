@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ExerciseService } from '../../../entities/exercises/services/exercise.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IExercise } from '../../../entities/exercises/models/exercise.interface';
@@ -15,6 +15,8 @@ import { environment } from '../../../shared/environments/environment.developmen
   styleUrl: './exercise-details.component.scss',
 })
 export class ExerciseDetailsComponent implements OnInit {
+  @Input() showBackBtn: boolean = false;
+
   public exerciseDetails: IExercise | undefined;
   public tagIds: number[] | undefined;
   public tags: IExerciseTag[] | null = [];

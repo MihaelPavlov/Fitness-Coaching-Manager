@@ -38,7 +38,14 @@ export class HeaderComponent implements OnInit {
         this.userService.updateUserInfoSubject(null);
         this.router.navigate(['/login']);
       },
-      error: (err) => console.log("logout error", err)
-    })
+      error: (err) => console.log('logout error', err),
+    });
+
+    this.toggleDropdown();
+  }
+
+  public navigateToProfile() {
+    this.router.navigate(['/profile']);
+    this.toggleDropdown();
   }
 }

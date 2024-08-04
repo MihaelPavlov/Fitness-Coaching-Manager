@@ -27,7 +27,7 @@ export class WorkoutDetailsComponent implements OnInit {
     private readonly sessionService: SessionService
   ){}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.workoutId = params['workoutId'];
       this.fetchWorkout(params['workoutId']);

@@ -9,8 +9,8 @@
       [selectedTagsSubject]="selectedTagsSubject"
     ></app-exercise-search>
   </div>
-  <div class="exercise-library__cards-flex-container my-3">
-    <p *ngIf="(items$ | async)?.length == 0">There are no exercises</p>
+  <div class="exercise-library__cards-flex-container my-3 mb-10">
+    <p *ngIf="(items$ | async)?.length == 0" class="mb-10">There are no exercises</p>
     <app-exercise-card
       class="m-2"
       *ngFor="let exercise of this.items$ | async"

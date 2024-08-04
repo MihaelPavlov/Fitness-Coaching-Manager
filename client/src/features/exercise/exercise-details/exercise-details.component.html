@@ -1,8 +1,8 @@
-<div class="mb-4">
+<div class="mb-4" *ngIf="showBackBtn">
   <button class="btn w-auto btn-large" (click)="goBack()">Go back</button>
 </div>
 
-<h2>{{ exerciseDetails?.title }}</h2>
+<h2 class="mb-2">{{ exerciseDetails?.title }}</h2>
 <section class="exercise__details__container  d-flex g-6">
   <ng-container *ngIf="isVideo; else imageTemplate">
     <video class="exercise__details__img" [src]="fullMediaPath" controls></video>

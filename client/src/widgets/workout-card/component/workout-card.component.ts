@@ -20,17 +20,18 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class WorkoutCardComponent implements OnChanges {
   @HostListener('window:resize', ['$event'])
-  onResize(event?: any) {
+  public onResize(event?: any) {
     this.screenWidthSubject.next(window.innerWidth);
   }
 
   @Input() workout!: IWorkout;
   @Input() userWorkouts: IUserWorkout[] = [];
   @Output() onItemRemoved: EventEmitter<void> = new EventEmitter<void>();
+
   public tags: any;
   public screenWidthSubject = new BehaviorSubject<number>(0);
-
   public isCardAdded: boolean = false;
+
   constructor(
     private readonly router: Router,
     private readonly userService: UserService
@@ -51,10 +52,10 @@ export class WorkoutCardComponent implements OnChanges {
     }
   }
 
-  public displayTags() {
+  public displayTags(): void {
     this.screenWidthSubject.subscribe((screenWidth) => {
       let showTagsCount = screenWidth > 700 ? 2 : 1;
-      let truncateStringLength = screenWidth > 700 ? 12 : 17;
+      let truncateStringLength = screenWidth > 700 ? 10 : 17;
 
       if (this.workout?.tags.length <= showTagsCount)
         return (this.tags = this.workout.tags);

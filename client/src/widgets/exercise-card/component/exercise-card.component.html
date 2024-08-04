@@ -5,7 +5,7 @@
 >
   <div *ngIf="tags" class="card-container__tags d-flex g-2">
     <app-tag
-      *ngFor="let tag of tags"
+      *ngFor="let tag of parsedTags"
       [text]="tag.name"
       [backgroundColor]="'dark-grey'"
     ></app-tag>

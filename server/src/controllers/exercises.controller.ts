@@ -25,7 +25,7 @@ router.put(
             await exerciseService.updateExercise(
                 req.params.exerciseId,
                 req.body,
-                req.user.id,
+                req.user.contributorId,
                 req.file
             );
 
@@ -52,7 +52,7 @@ router.delete(
   isCoach,
   async (req: any, res: express.Response) => {
     try {
-      await exerciseService.deleteExercise(Number(req.params.exerciseId), req.user.id);
+      await exerciseService.deleteExercise(Number(req.params.exerciseId), req.user.contributorId);
 
             res.status(200).json({
                 status: RESPONSE_STATUS.SUCCESS,

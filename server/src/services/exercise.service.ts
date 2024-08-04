@@ -62,10 +62,10 @@ export const addExercise = async (
 export const updateExercise = async (
   exerciseId: number,
   exerciseData: any,
-  userId: any,
+  contributorId: any,
   file?: Express.Multer.File
 ) => {
-  if (!(await isExerciseOwner(exerciseId, userId))) {
+  if (!(await isExerciseOwner(exerciseId, contributorId))) {
     throw new Error("You are unauthorized!");
   }
 
@@ -135,8 +135,8 @@ export const getEquipments = async (equipmentData: any) =>
 export const getExercise = async (exerciseData: any) =>
   await new ExerciseBuilder(exerciseData).buildQuery();
 
-export const deleteExercise = async (exerciseId: number, userId: any) => {
-  if (!(await isExerciseOwner(exerciseId, userId))) {
+export const deleteExercise = async (exerciseId: number, contributorId: any) => {
+  if (!(await isExerciseOwner(exerciseId, contributorId))) {
     throw new Error("You are unauthorized!");
   }
 
@@ -144,11 +144,11 @@ export const deleteExercise = async (exerciseId: number, userId: any) => {
 };
 const isExerciseOwner = async (
   exerciseId: any,
-  userId: any
+  contributorId: any
 ): Promise<boolean> => {
   const exercise = (
     await db(TABLE.EXERCISES).select("*").where("id", "=", exerciseId)
   ).at(0);
-  if (exercise.contributor_id == userId) return true;
+  if (exercise.contributor_id == contributorId) return true;
   return false;
 };

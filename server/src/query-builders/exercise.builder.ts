@@ -1,6 +1,7 @@
 import {
   AssociationItem,
   Condition,
+  OrderItem,
   QueryParams,
 } from "./models/builder.models";
 import { AbstractBuilder } from "./common/abstract.builder";
@@ -22,19 +23,20 @@ export class ExerciseBuilder extends AbstractBuilder {
     },
   };
 
-  override mainTable: string = TABLE.EXERCISES;
-  override defaultLimit: number | null = 20;
-  override defaultOffset: number | null = 0;
-  override defaultSelect: Record<string, number> | null;
-  override defaultCondition: Condition;
-  override entityById: number | null = null;
-  override associations: Array<AssociationItem> = [
+  protected override mainTable: string = TABLE.EXERCISES;
+  protected override defaultLimit: number;
+  protected override defaultOffset: number;
+  protected override defaultSelect: Record<string, number>;
+  protected override defaultCondition: Condition;
+  protected override defaultOrder: OrderItem[];
+  protected override entityById: number;
+  protected override associations: Array<AssociationItem> = [
     //Add object for user
     {
       mainField: "contributor_id",
       relatedTable: TABLE.CONTRIBUTORS,
-      relatedField: "id"
-    }
+      relatedField: "id",
+    },
   ];
 
   constructor(queryParams: QueryParams | null = null) {

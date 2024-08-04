@@ -47,6 +47,10 @@ export class ExerciseBuidlerComponent implements OnInit {
   protected tagListEdit!: IExerciseTag[];
   public isEditMode: boolean = false; // Edit mode
 
+  public get fileName(): string {
+    return this.exerciseForm.get('thumbUri')?.value?.name || this.exerciseForm.get('thumbUri')?.value;
+  }
+
   equipmentSettings: IDropdownSettings = {
     idField: 'uid',
     textField: 'title',
@@ -82,7 +86,7 @@ export class ExerciseBuidlerComponent implements OnInit {
     } else {
       this.exerciseForm = this.fb.group({
         title: ['', Validators.required],
-        thumbUri: [null],
+        thumbUri: [null, [Validators.required]],
         difficulty: ['', Validators.required],
         equipmentIds: [[], Validators.required],
         tagIds: [[], Validators.required],
@@ -180,7 +184,7 @@ export class ExerciseBuidlerComponent implements OnInit {
               title: exercise.title,
               difficulty: exercise.difficulty as number,
               description: exercise.description || null,
-              thumbUri: `${environment.files}${exercise.thumbUri}`,
+              thumbUri: exercise.thumbUri,
             });
           }
         },
@@ -216,7 +220,7 @@ export class ExerciseBuidlerComponent implements OnInit {
 
     if (this.isEditMode && this.exerciseId) {
       submissionData.difficulty = Number(submissionData.difficulty);
-      this.exerciseService.update(this.exerciseId, submissionData).subscribe({
+      this.exerciseService.update(this.exerciseId, toFormData(submissionData)).subscribe({
         next: () => {
           this.isLoading = false;
           this.hasExerciseError = false;

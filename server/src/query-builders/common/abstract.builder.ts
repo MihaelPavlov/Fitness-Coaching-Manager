@@ -31,7 +31,7 @@ export abstract class AbstractBuilder {
    */
   protected abstract fieldsMap: Record<string, Record<string, string>>;
   protected mainTable: string;
-  protected defaultLimit: number | null = 20;
+  protected defaultLimit: number | null = 50;
   protected defaultOffset: number | null = 0;
   protected defaultSelect: Record<string, number> | null;
   protected defaultCondition: Condition;

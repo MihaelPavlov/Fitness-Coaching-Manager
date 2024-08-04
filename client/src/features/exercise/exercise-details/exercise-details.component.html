@@ -4,8 +4,13 @@
 
 <h2>{{ exerciseDetails?.title }}</h2>
 <section class="exercise__details__container  d-flex g-6">
-  <img class="exercise__details__img" [src]="fullImagePath" alt="" />
-
+  <ng-container *ngIf="isVideo; else imageTemplate">
+    <video class="exercise__details__img" [src]="fullMediaPath" controls></video>
+  </ng-container>
+  <ng-template #imageTemplate>
+    <img class="exercise__details__img" [src]="fullMediaPath" alt="" />
+  </ng-template>
+  <section class="exercise__details__text__container w-50">
   <section class="exercise__details__text__containerw-50">
     <h1 class="exercise__details__text__tag__heading mb-2">Tags</h1>
     <div class="exercise__details__tags__container d-flex flex-wrap g-2 mb-4">

@@ -15,13 +15,14 @@ import { environment } from '../../../shared/environments/environment.developmen
   styleUrl: './exercise-details.component.scss',
 })
 export class ExerciseDetailsComponent implements OnInit {
-  exerciseDetails: IExercise | undefined;
-  tagIds: number[] | undefined;
-  tags: IExerciseTag[] | null = [];
-  fullImagePath: string | undefined;
-  currentUserId: string | undefined;
-  isOwner: boolean = false;
-  sessionExerciseIds: number[] = [];
+  public exerciseDetails: IExercise | undefined;
+  public tagIds: number[] | undefined;
+  public tags: IExerciseTag[] | null = [];
+  public fullMediaPath: string | undefined;
+  public currentUserId: string | undefined;
+  public isOwner: boolean = false;
+  public sessionExerciseIds: number[] = [];
+  public isVideo: boolean = false;
 
   constructor(
     private location: Location,
@@ -64,7 +65,9 @@ export class ExerciseDetailsComponent implements OnInit {
             this.exerciseDetails = result.data[0];
             console.log(result.data);
 
-            this.fullImagePath = environment.files + this.exerciseDetails.thumbUri;
+            this.fullMediaPath =
+              environment.files + this.exerciseDetails.thumbUri;
+            this.isVideo = this.checkIfVideo(this.exerciseDetails.thumbUri);
 
             this.tagIds = result.data[0].tagIds.split(',').map(Number);
 
@@ -153,5 +156,13 @@ export class ExerciseDetailsComponent implements OnInit {
         });
       }
     }
+  }
+
+  private checkIfVideo(filePath: string): boolean {
+    const videoExtensions = ['.mp4', '.mov', '.avi', '.mkv'];
+    const extension = filePath
+      .substring(filePath.lastIndexOf('.'))
+      .toLowerCase();
+    return videoExtensions.includes(extension);
   }
 }

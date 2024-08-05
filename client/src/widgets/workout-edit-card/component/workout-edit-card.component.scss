@@ -8,7 +8,8 @@
   box-shadow: 0 0 0.1rem 0.1rem rgba(0, 0, 0, 0.049);
   cursor: pointer;
   transition: all 0.4s;
-  width: 100%;
+  width: 24rem;
+  height: 4.5rem;
   padding: 0.5rem 0 0.5rem 0.5rem;
 
   @include mixins.respond(Phone) {
@@ -26,12 +27,12 @@
   }
 
   &__img {
-    width: auto;
+    width: 8rem;
     height: 5rem;
 
     @include mixins.respond(Phone) {
-      height: 100%;
-      width: auto;
+      width: 7rem;
+    height: 3.5rem;
     }
   }
 
@@ -55,13 +56,16 @@
       }
 
       &__sets {
+         margin: 0 auto;
         color: grey;
         font-weight: 600;
         font-size: 1rem;
-
+        span{
+          display: inline-block;
+        }
         @include mixins.respond(Phone) {
           font-size: 0.8rem;
-          margin-right: 6rem;
+          // margin-right: 6rem;
           width: max-content;
         }
       }

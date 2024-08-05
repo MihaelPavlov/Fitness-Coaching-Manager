@@ -100,6 +100,14 @@ router.post(
         },
       });
     } catch (err) {
+      if (err.sqlState) {
+        return res.status(400).json({
+          status: RESPONSE_STATUS.FAILED,
+          data: {
+            message: "Error: Could not register user",
+          },
+        });
+      }
       return res.status(400).json({
         status: RESPONSE_STATUS.FAILED,
         data: {

@@ -13,6 +13,7 @@ import { FitnessLevels } from "./../models/enums/fitness-levels.enum";
 import { invalidateSession } from "./user.sessions";
 import { invalidateAccessToken } from "./invalid-tokens";
 import { UserWorkoutsBuilder } from "../query-builders/user-workouts.builder";
+import { KnexValidationException } from "../models/exceptions/knex-validation.exception";
 
 export const getUsers = async (payload: QueryParams) => {
   let builder = new UserBuilder(payload);
@@ -33,72 +34,76 @@ export const registerUser = async (
 ) => {
   const user = await db(TABLE.USERS)
     .select("*")
-    .where("email", "=", data.email);
+    .where("email", "=", data.email)
+    .orWhere("username", "=", data.username);
 
-  if (user.length > 0) {
-    throw new Error(EXCEPTION.USER_ALREADY_EXIST);
-  }
+  if (user.length > 0)
+    throw new KnexValidationException(EXCEPTION.USER_ALREADY_EXIST);
 
-  const createdUserID = (
-    await db(TABLE.USERS).insert({
-      first_name: data?.firstName || null,
-      last_name: data?.lastName || null,
-      user_role: data?.userRole || UserRoles.User,
-      username: data.username,
-      email: data.email,
-      password: await generatePasswordHash(data.password),
-      country: data.country,
-      phone_number: data?.phoneNumber || null,
-      language: data.language,
-      profile_picture_url:
-        "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
-    })
-  ).at(0);
-
-  // Create user specs from created user
-  await db(TABLE.USER_SPECS).insert({
-    user_id: createdUserID,
-    sex: data.sex,
-    fitness_level:
-      data.userRole === UserRoles.Coach
-        ? FitnessLevels.Elite
-        : data?.fitnessLevel || null,
-  });
-
-  // Coach user
-  if (data.userRole === UserRoles.Coach) {
-    // Insert data into contributors and applications
-    const createdContributorID = (
-      await db(TABLE.CONTRIBUTORS).insert({
-        user_id: createdUserID,
+  try {
+    const createdUserID = (
+      await db(TABLE.USERS).insert({
+        first_name: data?.firstName || null,
+        last_name: data?.lastName || null,
+        user_role: data?.userRole || UserRoles.User,
+        username: data.username,
+        email: data.email,
+        password: await generatePasswordHash(data.password),
+        country: data.country,
+        phone_number: data?.phoneNumber || null,
+        language: data.language,
+        profile_picture_url:
+          "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
       })
     ).at(0);
 
-    const filenames: Array<string> = [];
+    // Create user specs from created user
+    await db(TABLE.USER_SPECS).insert({
+      user_id: createdUserID,
+      sex: data.sex,
+      fitness_level:
+        data.userRole === UserRoles.Coach
+          ? FitnessLevels.Elite
+          : data?.fitnessLevel || null,
+    });
 
-    if (files && Array.isArray(files)) {
-      files.forEach((file) => {
-        filenames.push(file.filename);
+    // Coach user
+    if (data.userRole === UserRoles.Coach) {
+      // Insert data into contributors and applications
+      const createdContributorID = (
+        await db(TABLE.CONTRIBUTORS).insert({
+          user_id: createdUserID,
+        })
+      ).at(0);
+
+      const filenames: Array<string> = [];
+
+      if (files && Array.isArray(files)) {
+        files.forEach((file) => {
+          filenames.push(file.filename);
+        });
+      }
+
+      Array(data?.links.split(",")[0])
+        .filter((el) => el !== "")
+        .forEach((link) => filenames.push(link));
+
+      filenames.forEach(async (filename) => {
+        await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
+          contributor_id: createdContributorID,
+          item_uri: filename,
+        });
       });
     }
 
-    Array(data?.links.split(",")[0])
-      .filter((el) => el !== "")
-      .forEach((link) => filenames.push(link));
-
-    filenames.forEach(async (filename) => {
-      await db(TABLE.CONTRIBUTORS_APPLICATIONS).insert({
-        contributor_id: createdContributorID,
-        item_uri: filename,
-      });
+    return createTokensAndSession({
+      id: createdUserID,
+      user_role: data?.userRole || UserRoles.User,
+      username: data?.username,
     });
+  } catch (error) {
+    throw new KnexValidationException("Email Or Username are invalid");
   }
-
-  return createTokensAndSession({
-    id: createdUserID,
-    user_role: data?.userRole || UserRoles.User,
-    username: data?.username,
-  });
 };
 
 export const loginUser = async (data: Record<string, any>) => {
@@ -107,11 +112,11 @@ export const loginUser = async (data: Record<string, any>) => {
   ).at(0);
 
   if (!user) {
-    throw new Error(EXCEPTION.INVALID_LOGIN);
+    throw new KnexValidationException(EXCEPTION.INVALID_LOGIN);
   }
 
   if (!(await verifyPassword(data.password, user.password))) {
-    throw new Error(EXCEPTION.INVALID_LOGIN);
+    throw new KnexValidationException(EXCEPTION.INVALID_LOGIN);
   }
 
   return createTokensAndSession({
@@ -131,22 +136,26 @@ export const updateUser = async (
   data: Record<string, any>,
   file?: Express.Multer.File
 ) => {
-  await db(TABLE.USERS)
-    .where("id", "=", userId)
-    .update({
-      first_name: data?.firstName,
-      last_name: data?.lastName,
-      email: data?.email,
-      profile_picture_url: file?.filename || data?.profilePicture,
-    });
+  try {
+    await db(TABLE.USERS)
+      .where("id", "=", userId)
+      .update({
+        first_name: data?.firstName,
+        last_name: data?.lastName,
+        email: data?.email,
+        profile_picture_url: file?.filename || data?.profilePicture,
+      });
 
-  await db(TABLE.USER_SPECS)
-    .where("user_id", "=", userId)
-    .update({
-      weight: data?.weight,
-      weight_goal: data?.weightGoal,
-      date_of_birth: new Date(data?.birthDate),
-    });
+    await db(TABLE.USER_SPECS)
+      .where("user_id", "=", userId)
+      .update({
+        weight: data?.weight,
+        weight_goal: data?.weightGoal,
+        date_of_birth: new Date(data?.birthDate),
+      });
+  } catch (error) {
+    throw new KnexValidationException(EXCEPTION.VALIDATION.EMAIL_NOT_UNIQUE);
+  }
 };
 
 export const subscribeToContributor = async (
@@ -154,11 +163,15 @@ export const subscribeToContributor = async (
   contributorId: number
 ) => {
   if (await isContributorSubscribing(userId)) {
-    throw new Error("Contributors can't subscribe to other contributors");
+    throw new KnexValidationException(
+      "Contributors can't subscribe to other contributors"
+    );
   }
 
   if (await hasUserSubscribed(userId, contributorId)) {
-    throw new Error("You are already subscribed to this contributor");
+    throw new KnexValidationException(
+      "You are already subscribed to this contributor"
+    );
   }
 
   await db(TABLE.CONTRIBUTORS_SUBSCRIBERS).insert({
@@ -199,11 +212,13 @@ export const unsubscribeToContributor = async (
   contributorId: number
 ) => {
   if (await isContributorSubscribing(userId)) {
-    throw new Error("Contributors can't unsubscribe to other contributors");
+    throw new KnexValidationException(
+      "Contributors can't unsubscribe to other contributors"
+    );
   }
 
   if (!(await hasUserSubscribed(userId, contributorId))) {
-    throw new Error("You are not subscribed");
+    throw new KnexValidationException("You are not subscribed");
   }
 
   await db(TABLE.CONTRIBUTORS_SUBSCRIBERS)

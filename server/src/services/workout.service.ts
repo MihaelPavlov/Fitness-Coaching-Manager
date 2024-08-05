@@ -4,6 +4,7 @@ import { QueryParams } from "./../query-builders/models/builder.models";
 import { WorkoutBuilder } from "./../query-builders/workout.builder";
 import { mapWorkouts } from "./../helpers/workout.helper";
 import { WorkoutTagsBuilder } from "./../query-builders/workout-tags.builder";
+import { KnexValidationException } from "../models/exceptions/knex-validation.exception";
 
 export const executeWorkoutBuilder = async (payload: QueryParams) =>
   await new WorkoutBuilder(payload).buildQuery();
@@ -24,7 +25,7 @@ export const createWorkoutSession = async (
     data?.private == 1 &&
     (data?.relatedStudent == "null" || data?.relatedStudent == null)
   ) {
-    throw new Error("You must provide related student for private workouts");
+    throw new KnexValidationException("You must provide related student for private workouts");
   }
 
   const workoutSessionId = (

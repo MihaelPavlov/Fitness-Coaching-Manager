@@ -59,6 +59,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     private readonly userService: UserService,
     private readonly activeRouter: ActivatedRoute
   ) {
+    
     this.activeRouter.params.subscribe((params) => {
       if (params['id']) {
         this.navigateWithId = params['id'];
@@ -70,7 +71,6 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     this.socketOnlineUser = this.socketService.onlineUsers$;
     this.socketOnlineUser.subscribe((y: any) => {
       this.fetchUserChats();
-      this.cdRef.detectChanges();
     });
 
     this.socketService.socket.on('getMessage', (message: any) => {

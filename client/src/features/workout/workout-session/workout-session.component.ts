@@ -22,7 +22,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   canDeactivate(): Observable<boolean> | boolean {
     // return false for showing confirm window
     // return true for not showing confirm window and exit
-    return false;
+    return this.sessionStateService.exerciseTiming.isWorkoutDone;
   }
   public fullImagePath: string = '';
 
@@ -63,6 +63,12 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.endGlobalTimeCounter();
     this.sessionStateService.unsubscribeToSubscriptions();
+    this.sessionStateService.exerciseTiming.isWorkoutDone = false;
+    this.sessionStateService.exerciseTiming.totalWorkoutTime = 0;
+    this.sessionExercisesSubject$.next([]);
+    this.sessionStateService.currentExercise.previousIndex = 0;
+    this.sessionStateService.currentExercise.indexSubject.next(0);
+    this.sessionStateService.exerciseTiming.isLastExercise = false;
   }
 
   public beginWorkout(exercises: ISessionPracticalExercise[]): void {

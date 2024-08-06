@@ -5,6 +5,7 @@ import { ExerciseTagBuilder } from "../query-builders/exercise-tag.builder";
 import { ExerciseEquipmentBuilder } from "../query-builders/exercise-equipment.builder";
 import { TABLE } from "../database/constants/tables.constant";
 import { BadRequestException } from "../models/exceptions/bad-request.exception";
+import { KnexValidationException } from "../models/exceptions/knex-validation.exception";
 
 export const executeExerciseBuilder = async (payload: QueryParams) =>
   await new ExerciseBuilder(payload).buildQuery();
@@ -39,7 +40,7 @@ export const addExercise = async (
   const currentDate = new Date().toISOString().split("T")[0];
 
   if (!file) {
-    throw new Error("You must upload a thumb for the exercise");
+    throw new KnexValidationException("You must upload a thumb for the exercise");
   }
 
   const createdExerciseID = (
@@ -66,7 +67,7 @@ export const updateExercise = async (
   file?: Express.Multer.File
 ) => {
   if (!(await isExerciseOwner(exerciseId, contributorId))) {
-    throw new Error("You are unauthorized!");
+    throw new KnexValidationException("You are unauthorized!");
   }
 
   const equipmentIds = exerciseData.equipmentIds
@@ -104,7 +105,7 @@ export const updateExercise = async (
   }
 
   if (!file && !exerciseData.thumbUri) {
-    throw new Error("A file must be uploaded");
+    throw new KnexValidationException("A file must be uploaded");
   }
 
   await db(TABLE.EXERCISES).where("id", "=", exerciseId).update({
@@ -137,7 +138,7 @@ export const getExercise = async (exerciseData: any) =>
 
 export const deleteExercise = async (exerciseId: number, contributorId: any) => {
   if (!(await isExerciseOwner(exerciseId, contributorId))) {
-    throw new Error("You are unauthorized!");
+    throw new KnexValidationException("You are unauthorized!");
   }
 
   await db(TABLE.EXERCISES).where("id", exerciseId).del();

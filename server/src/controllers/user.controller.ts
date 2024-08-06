@@ -1,4 +1,4 @@
-import express from "express";
+import express, { NextFunction } from "express";
 import * as userService from "./../services/user.service";
 import { isAuth } from "./../middlewares/auth.middleware";
 import { RESPONSE_STATUS } from "../constants/response.constants";
@@ -8,9 +8,7 @@ import {
   inputValidationMiddleware,
   registrationMiddlware,
 } from "./../middlewares/validation.middleware";
-import {
-  updateUserValidators,
-} from "./../validators/user.validator";
+import { updateUserValidators } from "./../validators/user.validator";
 import { UserRoles } from "./../models/enums/user-roles.enum";
 import { getContributorId } from "./../services/contributor.service";
 import upload from "./../config/file-upload.config";
@@ -18,6 +16,7 @@ import {
   isFileImageMiddleware,
   registrationFileValidationMiddleware,
 } from "./../middlewares/file-uploads.middleware";
+import { asyncHandler } from "../middlewares/error.middleware";
 
 const router = express.Router();
 
@@ -29,14 +28,14 @@ router.get(
       const user = await userService.getUser({
         what: {
           userName: 1,
-          contributorId: 1
+          contributorId: 1,
         },
         id: req.user.id,
         limit: 20,
         offset: 0,
       });
       const username = user[0].userName;
-      console.log(user[0])
+
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
         data: {
@@ -86,8 +85,9 @@ router.post(
   upload.array("files"),
   registrationFileValidationMiddleware,
   registrationMiddlware,
-  async (req: express.Request, res: express.Response) => {
-    try {
+  asyncHandler(
+    async (req: express.Request, res: express.Response, next: NextFunction) => {
+      console.log("register");
       const [accessToken, refreshToken, session] =
         await userService.registerUser(req.body, req.files);
 
@@ -99,15 +99,8 @@ router.post(
           refreshToken,
         },
       });
-    } catch (err) {
-      return res.status(400).json({
-        status: RESPONSE_STATUS.FAILED,
-        data: {
-          message: err.message,
-        },
-      });
     }
-  }
+  )
 );
 
 router.post(
@@ -158,25 +151,16 @@ router.put(
   fileSizeValidationMiddleware,
   isFileImageMiddleware,
   inputValidationMiddleware(updateUserValidators),
-  async (req: any, res: express.Response) => {
-    try {
-      await userService.updateUser(req.user.id, req.body, req.file);
+  asyncHandler(async (req: any, res: express.Response) => {
+    await userService.updateUser(req.user.id, req.body, req.file);
 
-      res.status(200).json({
-        status: RESPONSE_STATUS.SUCCESS,
-        data: {
-          message: "Successfully updated user!",
-        },
-      });
-    } catch (err) {
-      return res.status(400).json({
-        status: RESPONSE_STATUS.FAILED,
-        data: {
-          error: err.message,
-        },
-      });
-    }
-  }
+    res.status(200).json({
+      status: RESPONSE_STATUS.SUCCESS,
+      data: {
+        message: "Successfully updated user!",
+      },
+    });
+  })
 );
 
 router.post(

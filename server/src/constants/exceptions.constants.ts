@@ -11,5 +11,6 @@ export const EXCEPTION = {
     INVALID_LENGTH: "{0} should be bettween {1} and {2} characters",
     INVALID_VALUE: "{0} is invalid",
     INVALID_VALUE_WITH_RANGE: "{0} should be between {1} and {2}",
+    EMAIL_NOT_UNIQUE: "Email is not unique",
   },
 };

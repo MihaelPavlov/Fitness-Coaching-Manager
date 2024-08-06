@@ -58,13 +58,12 @@ export class ProfileFormComponent implements OnChanges {
         this.isLoading = false;
       },
       error: (err) => {
+        this.isLoading = false;
         if (err.status === 401) {
-          this.isLoading = false;
           this.router.navigate(['/login']);
         }
         this.hasUpdateError = true;
-        this.updateError = err.error.data[0].message;
-        this.isLoading = false;
+        this.updateError = err.error.data.message;
       },
     });
   }

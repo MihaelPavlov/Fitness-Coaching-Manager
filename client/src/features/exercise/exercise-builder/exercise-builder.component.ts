@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Location } from '@angular/common';
 import { InputType } from '../../../shared/enums/input-types.enum';
 import { optionArrays } from '../../../shared/option-arrays';
@@ -21,6 +21,7 @@ import { ListItem } from 'ng-multiselect-dropdown/multiselect.model';
 import { Tag } from '../../../entities/models/tag.interface';
 import { toFormData } from '../../../shared/utils/formTransformer';
 import { environment } from '../../../shared/environments/environment.development';
+import { ALLOWED_FILE_TYPES } from '../../../shared/constants/allowed-files.constant';
 
 interface Equipment extends ListItem {
   uid?: number;
@@ -79,8 +80,8 @@ export class ExerciseBuidlerComponent implements OnInit {
         title: ['', Validators.required],
         thumbUri: [null, Validators.required],
         difficulty: ['', Validators.required],
-        equipmentIds: [[], Validators.required],
-        tagIds: [[], Validators.required],
+        equipmentIds: [[]],
+        tagIds: [[]],
         description: ['', Validators.required],
       });
     } else {
@@ -88,8 +89,8 @@ export class ExerciseBuidlerComponent implements OnInit {
         title: ['', Validators.required],
         thumbUri: [null, [Validators.required]],
         difficulty: ['', Validators.required],
-        equipmentIds: [[], Validators.required],
-        tagIds: [[], Validators.required],
+        equipmentIds: [[]],
+        tagIds: [[]],
         description: ['', Validators.required],
       });
     }
@@ -252,9 +253,16 @@ export class ExerciseBuidlerComponent implements OnInit {
     }
   }
 
-  public onImageUpload(event: Event) {
+  public onImageUpload(event: any) {
     const files = (event.target as HTMLInputElement).files;
     const file = files?.item(files.length - 1);
+
+    if (!ALLOWED_FILE_TYPES.includes(file?.type as string)) {
+      alert("Only images allowed");
+      event.target.value = null;
+      return;
+    }
+
     const selectedFile = this.exerciseForm.get('thumbUri') as FormControl;
     selectedFile.setValue(file);
   }

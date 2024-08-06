@@ -157,33 +157,4 @@ export const updateUserValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "email")
         }
     },
-    weight: {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "weight")
-        },
-        isInt: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "weight"),
-            options: { min: 0 }
-        },
-    },
-    weightGoal: {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "weightGoal")
-        },
-        isInt: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "weightGoal"),
-            options: { min: 0 }
-        },
-    },
-    birthDate: {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "birthDate")
-        },
-        isDate: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "birthDate")
-        }
-    },
 });

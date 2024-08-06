@@ -154,7 +154,7 @@ export const updateUser = async (
         date_of_birth: new Date(data?.birthDate),
       });
   } catch (error) {
-    throw new KnexValidationException(EXCEPTION.VALIDATION.EMAIL_NOT_UNIQUE);
+    throw new KnexValidationException(EXCEPTION.VALIDATION.UPDATE_FAILED);
   }
 };
 

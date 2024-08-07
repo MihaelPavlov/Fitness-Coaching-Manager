@@ -62,7 +62,7 @@ router.post(
   isFileImageMiddleware,
   inputValidationMiddleware(createWorkoutValidators),
   inputValidationMiddleware(createWorkoutExercisesValidators),
-  async (req: any, res: express.Response) => {
+  async (req: any, res: express.Response, next: express.NextFunction) => {
     try {
       const createdWorkout = await workoutService.createWorkoutSession(
         req.user.contributorId,
@@ -77,12 +77,7 @@ router.post(
         },
       });
     } catch (err) {
-      res.status(400).json({
-        status: RESPONSE_STATUS.FAILED,
-        data: {
-          error: err.message,
-        },
-      });
+      next(err)
     }
   }
 );

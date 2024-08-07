@@ -135,6 +135,7 @@
           name="number-sets"
           class="control w-100 d-block align-items-start"
           formControlName="numberOfSets"
+          (input)="onChangingSets($event)"
         />
         <ng-container *ngIf="createWorkoutForm.get('numberOfSets')?.touched">
           <p *ngIf="createWorkoutForm.get('numberOfSets')?.errors">
@@ -144,6 +145,7 @@
       </div>
       <div
         class="control__wrapper create-workout-container__form__details-container__general-details__input-field"
+        *ngIf="showPauseBetweenSets"
       >
         <label for="password" class="control__label required"
           >Pause between sets</label

@@ -30,15 +30,6 @@ export const createWorkoutValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "numberOfSets")
         }
     },
-    pauseBetweenSets: {
-        in: ["body"],
-        exists: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "pauseBetweenSets")
-        },
-        isNumeric: {
-            errorMessage: formatString(EXCEPTION.VALIDATION.INVALID_VALUE, "pauseBetweenSets")
-        }
-    },
     pauseBetweenExercises: {
         in: ["body"],
         exists: {

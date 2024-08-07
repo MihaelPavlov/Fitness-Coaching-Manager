@@ -17,48 +17,31 @@ export class ExerciseService {
   constructor(private api: RestApiService) {}
 
   public getList(
-    queryParams: IQueryParams
-  ): Observable<IRequestResult<IExercise[]> | null> {
-    const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
-    return this.api.post(PATH.EXERCISES.GET_LIST, payload).pipe(
-      map((res: any) => {
-        res.data.map((exercise: any) => {
-          if (
-            exercise.thumbUri.startsWith('http') ||
-            exercise.thumbUri.startsWith('https')
-          )
-            return exercise;
-          const newPictureUrl = environment.files + exercise.thumbUri;
-          exercise.thumbUri = newPictureUrl;
-          return exercise;
-        });
-
-        return res;
-      })
-    );
-  }
-
-  public searchExercises(
     queryParams: IQueryParams,
-    title: string
+    title: string | null = null
   ): Observable<IRequestResult<IExercise[]> | null> {
     const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
-    return this.api.post(PATH.EXERCISES.SEARCH + title, payload).pipe(
-      map((res: any) => {
-        res.data.map((exercise: any) => {
-          if (
-            exercise.thumbUri.startsWith('http') ||
-            exercise.thumbUri.startsWith('https')
-          )
+    return this.api
+      .post(
+        `${PATH.EXERCISES.GET_LIST}${title ? `?title=${title}` : ''}`,
+        payload
+      )
+      .pipe(
+        map((res: any) => {
+          res.data.map((exercise: any) => {
+            if (
+              exercise.thumbUri.startsWith('http') ||
+              exercise.thumbUri.startsWith('https')
+            )
+              return exercise;
+            const newPictureUrl = environment.files + exercise.thumbUri;
+            exercise.thumbUri = newPictureUrl;
             return exercise;
-          const newPictureUrl = environment.files + exercise.thumbUri;
-          exercise.thumbUri = newPictureUrl;
-          return exercise;
-        });
+          });
 
-        return res;
-      })
-    );
+          return res;
+        })
+      );
   }
 
   public getTagList(

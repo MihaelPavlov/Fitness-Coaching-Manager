@@ -60,7 +60,7 @@ export class WorkoutSearchComponent implements OnInit {
     };
 
     this.workoutService
-      .searchWorkouts(queryParams, this.searchValue)
+      .getWorkouts(queryParams, this.searchValue)
       .subscribe({
         next: (res) => {
           this.workoutsSubject?.next(res?.data || []);

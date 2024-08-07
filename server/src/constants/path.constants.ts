@@ -6,7 +6,6 @@ export const PATH = {
     GET_TAG_LIST: "/getTagList",
     GET_EQUIPMENT_LIST: "/getEquipmentList",
     UPDATE: "/update/:exerciseId",
-    SEARCH: "/search",
     DELETE:'/delete/:exerciseId'
   },
   USERS: {
@@ -31,7 +30,7 @@ export const PATH = {
   WORKOUTS: {
     CREATE_WORKOUT: "/add",
     GET_TAG_LIST: "/getTagList",
-    SEARCH: "/search"
+    GET_LIST: "/getList"
   },
   SESSIONS: {
     GET_EXERCISES: "/getExercises",

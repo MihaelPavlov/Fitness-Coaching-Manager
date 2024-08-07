@@ -15,37 +15,30 @@ export class WorkoutService {
   constructor(private readonly apiService: RestApiService) {}
 
   public getWorkouts(
-    queryParams: IQueryParams
-  ): Observable<IRequestResult<IWorkout[]> | null> {
-    return this.apiService.post(PATH.WORKOUTS.GET_WORKOUTS, queryParams).pipe(
-      map((res: any) => {
-        if (res.data.length == 1 && res.data[0]?.numberOfSets) return res;
-        res.data.map((workout: any) => {
-          if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
-          const newImageUrl = environment.files + workout.imageUri;
-          workout.imageUri = newImageUrl;
-          return workout;
-        })
-        return res;
-      })
-    )
-  }
-
-  public searchWorkouts(
     queryParams: IQueryParams,
-    title: string
+    title: string | null = null
   ): Observable<IRequestResult<IWorkout[]> | null> {
-    return this.apiService.post(PATH.WORKOUTS.SEARCH + title, queryParams).pipe(
-      map((res: any) => {
-        res.data.map((workout: any) => {
-          if (workout.imageUri.startsWith("http") || workout.imageUri.startsWith("https")) return workout;
-          const newImageUrl = environment.files + workout.imageUri;
-          workout.imageUri = newImageUrl;
-          return workout;
+    return this.apiService
+      .post(
+        `${PATH.WORKOUTS.GET_WORKOUTS}${title ? `?title=${title}` : ''}`,
+        queryParams
+      )
+      .pipe(
+        map((res: any) => {
+          if (res.data.length == 1 && res.data[0]?.numberOfSets) return res;
+          res.data.map((workout: any) => {
+            if (
+              workout.imageUri.startsWith('http') ||
+              workout.imageUri.startsWith('https')
+            )
+              return workout;
+            const newImageUrl = environment.files + workout.imageUri;
+            workout.imageUri = newImageUrl;
+            return workout;
+          });
+          return res;
         })
-        return res;
-      })
-    )
+      );
   }
 
   public createWorkout(data: Record<string, any>): Observable<any> {

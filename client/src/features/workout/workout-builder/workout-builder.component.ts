@@ -62,7 +62,7 @@ export class WorkoutBuilderComponent implements OnInit {
   });
 
   public addExerciseForm = this.fb.group({
-    exerciseId: [null, [Validators.required]],
+    exerciseId: ['', [Validators.required]],
     thumbUri: [''],
     rank: [0, [Validators.required]],
     title: ['', [Validators.required]],
@@ -137,7 +137,7 @@ export class WorkoutBuilderComponent implements OnInit {
       repetitions: 0,
       duration: 0,
       description: null,
-      exerciseId: null,
+      exerciseId: '',
       hasTiming: false,
       title: this.addExerciseForm.get('title')?.value || null,
       rank: 0,
@@ -286,7 +286,7 @@ export class WorkoutBuilderComponent implements OnInit {
         next: (res: any) => {
           console.log(res);
           this.exercises = res.data;
-          this.changeExerciseSelect(res.data[0].uid);
+          // this.changeExerciseSelect(res.data[0].uid);
         },
         error: (err) => {
           console.log(err);

@@ -354,6 +354,7 @@
           class="control w-100 d-block"
           (change)="onExerciseSelect($event)"
           *ngIf="exercises.length > 0"
+          formControlName="exerciseId"
         >
           <option
             class="control__option"
@@ -369,6 +370,7 @@
         <input
           [type]="InputType.Checkbox"
           (change)="onHasTimingChange($event)"
+          [checked]="this.addExerciseForm.get('hasTiming')?.value"
         />
       </div>
       <div *ngIf="hasTiming" class="control__wrapper mb-3">

@@ -9,15 +9,26 @@ import {
 import { RESPONSE_STATUS } from "./../constants/response.constants";
 import { inputValidationMiddleware } from "./../middlewares/validation.middleware";
 import upload from "./../config/file-upload.config";
-import { hasFileValidationMiddleware, isFileImageMiddleware } from "./../middlewares/file-uploads.middleware";
+import {
+  hasFileValidationMiddleware,
+  isFileImageMiddleware,
+} from "./../middlewares/file-uploads.middleware";
 
 const router = express.Router();
 
 router.post(
-  "/getWorkouts",
+  PATH.WORKOUTS.GET_LIST,
   async (req: express.Request, res: express.Response) => {
     try {
-      const workouts = await workoutService.getWorkouts(req.body);
+      let workouts;
+      if (req.query.title)
+        workouts = await workoutService.searchWorkouts(
+          req.body,
+          req.query.title as string
+        );
+      else {
+        workouts = await workoutService.getWorkouts(req.body);
+      }
 
       res.status(200).json({
         status: RESPONSE_STATUS.SUCCESS,
@@ -33,25 +44,6 @@ router.post(
     }
   }
 );
-
-router.post(
-  PATH.WORKOUTS.SEARCH,
-  async (req: express.Request, res: express.Response) => {
-    try {
-      const workouts = await workoutService.searchWorkouts(req.body, req.query.title as string);
-
-      res.status(200).json({
-        status: RESPONSE_STATUS.SUCCESS,
-        data: workouts,
-      });
-    } catch (error) {
-      res.status(400).json({
-        status: RESPONSE_STATUS.FAILED,
-        message: error.message,
-      });
-    }
-  }
-)
 
 router.post(
   PATH.WORKOUTS.CREATE_WORKOUT,
@@ -77,7 +69,7 @@ router.post(
         },
       });
     } catch (err) {
-      next(err)
+      next(err);
     }
   }
 );

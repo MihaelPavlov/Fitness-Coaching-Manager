@@ -4,7 +4,6 @@ import { TagModule } from '../../widgets/tag/tag.module';
 import { ChatRoutingModule } from './chat-routing.module';
 import { ChatComponent } from './component/chat.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ChatSearchModule } from '../../widgets/chat-search/chat-search.module';
 
 @NgModule({
   declarations: [ChatComponent],
@@ -13,7 +12,6 @@ import { ChatSearchModule } from '../../widgets/chat-search/chat-search.module';
     TagModule,
     ChatRoutingModule,
     ReactiveFormsModule,
-    ChatSearchModule
   ],
   exports: [],
 })

@@ -346,7 +346,7 @@
         <div class="popup__content__heading-box__border"></div>
       </div>
       <div class="control__wrapper mb-3">
-        <label for="equipment" class="control__label">Exercises</label>
+        <label for="equipment" class="control__label required">Exercises</label>
         <p *ngIf="exercises.length == 0">There are no exercises</p>
         <select
           id="equipment"
@@ -354,7 +354,9 @@
           class="control w-100 d-block"
           (change)="onExerciseSelect($event)"
           *ngIf="exercises.length > 0"
+          formControlName="exerciseId"
         >
+          <option value="" disabled selected>Select exercise</option>
           <option
             class="control__option"
             *ngFor="let exercise of exercises"
@@ -369,6 +371,7 @@
         <input
           [type]="InputType.Checkbox"
           (change)="onHasTimingChange($event)"
+          [checked]="this.addExerciseForm.get('hasTiming')?.value"
         />
       </div>
       <div *ngIf="hasTiming" class="control__wrapper mb-3">

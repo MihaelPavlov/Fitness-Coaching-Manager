@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { IWorkoutTag } from '../../../entities/workouts/models/workout-tag.interface';
-import { WorkoutService } from '../../../entities/workouts/services/workout.service';
 import { IWorkout } from '../../../entities/workouts/models/workout.interface';
 
 @Component({
@@ -19,8 +18,6 @@ export class HomeSearchComponent implements OnInit {
 
   public selectedTags?: IWorkoutTag[];
   public searchValue: string = '';
-
-  constructor(private readonly workoutService: WorkoutService) {}
 
   public ngOnInit(): void {
     this.selectedTagsSubject?.asObservable().subscribe((values) => {

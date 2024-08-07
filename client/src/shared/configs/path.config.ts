@@ -25,11 +25,10 @@ export const PATH = {
     GET_TAG_LIST: 'exercises/getTagList',
     GET_EQUIPMENT_LIST: 'exercises/getEquipmentList',
     UPDATE:'exercises/update/',
-    SEARCH: 'exercises/search?title=',
     DELETE:'exercises/delete/'
   },
   WORKOUTS: {
-    GET_WORKOUTS: 'workouts/getWorkouts',
+    GET_WORKOUTS: 'workouts/getList',
     GET_TAG_LIST: 'workouts/getTagList',
     CREATE_WORKOUT: 'workouts/add',
     SEARCH: "workouts/search?title="

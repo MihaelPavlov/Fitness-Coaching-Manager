@@ -62,11 +62,11 @@ export class WorkoutBuilderComponent implements OnInit {
   });
 
   public addExerciseForm = this.fb.group({
-    exerciseId: [null, [Validators.required]],
+    exerciseId: ['', [Validators.required]],
     thumbUri: [''],
     rank: [0, [Validators.required]],
     title: ['', [Validators.required]],
-    hasTiming: [0, [Validators.required]],
+    hasTiming: [false, [Validators.required]],
     description: [null],
     repetitions: [0, [Validators.required]],
     duration: [0, [Validators.required]],
@@ -132,12 +132,13 @@ export class WorkoutBuilderComponent implements OnInit {
     // Hide form
     this.showExerciseFormPopup = false;
     // Clear form
+    this.hasTiming = false;
     this.addExerciseForm.setValue({
       repetitions: 0,
       duration: 0,
       description: null,
-      exerciseId: this.addExerciseForm.get('exerciseId')?.value || null,
-      hasTiming: 0,
+      exerciseId: '',
+      hasTiming: false,
       title: this.addExerciseForm.get('title')?.value || null,
       rank: 0,
       thumbUri: this.addExerciseForm.get('thumbUri')?.value || null,
@@ -257,7 +258,7 @@ export class WorkoutBuilderComponent implements OnInit {
   public onHasTimingChange(event: Event): void {
     const checkbox = event.target as HTMLInputElement;
     this.hasTiming = checkbox.checked;
-    this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked ? 1 : 0);
+    this.addExerciseForm.get('hasTiming')?.setValue(checkbox.checked);
     if (this.hasTiming) {
       this.addExerciseForm.get('repetitions')?.setValue(0);
     } else {
@@ -285,7 +286,7 @@ export class WorkoutBuilderComponent implements OnInit {
         next: (res: any) => {
           console.log(res);
           this.exercises = res.data;
-          this.changeExerciseSelect(res.data[0].uid);
+          // this.changeExerciseSelect(res.data[0].uid);
         },
         error: (err) => {
           console.log(err);

@@ -103,6 +103,7 @@ export class SessionStateService {
   }
 
   public nextExerciseRest(): void {
+    this.durationInterval?.unsubscribe();
     this.exerciseTotalDurationInterval?.unsubscribe();
     this.exerciseTiming.exerciseDurationTimes.push(
       this.currentExercise.totalDuration
@@ -115,8 +116,6 @@ export class SessionStateService {
     this.currentExercise.indexSubject.next(
       this.currentExercise.previousIndex + 1
     );
-
-    this.durationInterval?.unsubscribe();
 
     this.currentExercise.isRestTimeSubject.next(true);
     this.currentExercise.restSecondsLeftSubject.next(
@@ -233,6 +232,9 @@ export class SessionStateService {
 
   private handleRepetitionsExercise(exercise: ISessionPracticalExercise): void {
     this.durationRestSubscription?.unsubscribe();
+    this.durationInterval?.unsubscribe();
+    this.secondsSubscription?.unsubscribe();
+    this.currentExercise.hasTiming = false;
     this.setSubscription = this.currentExercise.currentSetSubject
       .asObservable()
       .subscribe((currentSet) => {
@@ -242,6 +244,7 @@ export class SessionStateService {
   }
 
   private handleDurationExercise(exercise: ISessionPracticalExercise): void {
+    this.durationRestSubscription?.unsubscribe();
     this.setSubscription?.unsubscribe();
     this.durationRestSubscription = this.currentExercise.isRestTimeSubject
       .asObservable()
@@ -251,8 +254,11 @@ export class SessionStateService {
           let currentDur = exercise.duration || 0;
           this.currentExercise.secondsLeftSubjcet.next(currentDur);
 
+          this.durationInterval?.unsubscribe();
+          this.secondsSubscription?.unsubscribe();
+
           this.durationInterval = interval(1000).subscribe(() => {
-            currentDur > 0 ? (currentDur -= 1) : currentDur;
+            currentDur > 0 && !this.currentExercise.isRestTime ? (currentDur -= 1) : currentDur;
             this.currentExercise.secondsLeftSubjcet.next(currentDur);
           });
 
@@ -286,6 +292,7 @@ export class SessionStateService {
     this.currentExercise.currentSetSubject.next(1);
     this.currentExercise.totalDuration = 0;
     this.currentExercise.staticDuration = exercise.duration || 0;
+    this.currentExercise.repetitions = exercise.repetitions || 0;
 
     // Start counting the total exercise duration
     this.exerciseTotalDurationInterval = interval(1000).subscribe(() => {

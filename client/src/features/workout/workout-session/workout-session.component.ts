@@ -22,6 +22,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
   canDeactivate(): Observable<boolean> | boolean {
     // return false for showing confirm window
     // return true for not showing confirm window and exit
+    return true;
     return this.sessionStateService.exerciseTiming.isWorkoutDone;
   }
   public fullImagePath: string = '';
@@ -185,7 +186,7 @@ export class WorkoutSessionComponent implements OnInit, OnDestroy {
       practicalExercise['description'] = exercise.description;
       practicalExercise['title'] = exercise.title;
       practicalExercise['thumbUri'] = exercise.thumbUri;
-      if (exercise.hasTiming === 1) {
+      if (exercise.hasTiming === 1 || exercise.duration > 0) {
         practicalExercise['duration'] = exercise.duration;
       } else {
         practicalExercise['repetitions'] = exercise.repetitions;

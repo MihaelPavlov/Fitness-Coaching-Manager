@@ -136,6 +136,12 @@ export const updateUser = async (
   data: Record<string, any>,
   file?: Express.Multer.File
 ) => {
+  const user = (
+    await db(TABLE.USERS).select("*").where("email", "=", data?.email)
+  ).at(0);
+
+  if (user && user.id !== userId)
+    throw new KnexValidationException(EXCEPTION.VALIDATION.EMAIL_NOT_UNIQUE);
   try {
     await db(TABLE.USERS)
       .where("id", "=", userId)
@@ -149,12 +155,12 @@ export const updateUser = async (
     await db(TABLE.USER_SPECS)
       .where("user_id", "=", userId)
       .update({
-        weight: data?.weight,
-        weight_goal: data?.weightGoal,
-        date_of_birth: new Date(data?.birthDate),
+        weight: data?.weight == "" ? 0 : data.weight,
+        weight_goal: data?.weightGoal == "" ? 0 : data.weight,
+        date_of_birth: data?.birthDate ? new Date(data?.birthDate) : null,
       });
   } catch (error) {
-    throw new KnexValidationException(EXCEPTION.VALIDATION.EMAIL_NOT_UNIQUE);
+    throw new KnexValidationException(EXCEPTION.VALIDATION.UPDATE_FAILED);
   }
 };
 

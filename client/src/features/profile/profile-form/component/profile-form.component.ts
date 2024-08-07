@@ -29,11 +29,11 @@ export class ProfileFormComponent implements OnChanges {
   public updateUserForm = this.fb.group({
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
-    birthDate: ['', [Validators.required]],
+    birthDate: [null],
     email: ['', [Validators.required, Validators.email]],
-    weightGoal: ['', [Validators.required]],
-    weight: ['', [Validators.required]],
-    profilePicture: [null, [Validators.required]]
+    weightGoal: [0],
+    weight: [0],
+    profilePicture: [null]
   });
 
   public ngOnChanges(changes: SimpleChanges): void {

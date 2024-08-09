@@ -16,11 +16,23 @@ export class WorkoutService {
 
   public getWorkouts(
     queryParams: IQueryParams,
-    title: string | null = null
+    title: string | null = null,
+    tags: string | null = null
   ): Observable<IRequestResult<IWorkout[]> | null> {
+    let url = PATH.WORKOUTS.GET_WORKOUTS
+    if (title && tags) {
+      url += `?title=${title}&tags=${tags}`;
+    }
+    if (!title && tags) {
+      url += `?tags=${tags}`
+    }
+    if (title && !tags) {
+      url += `?title=${title}`
+    }
+
     return this.apiService
       .post(
-        `${PATH.WORKOUTS.GET_WORKOUTS}${title ? `?title=${title}` : ''}`,
+        url,
         queryParams
       )
       .pipe(

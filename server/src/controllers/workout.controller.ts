@@ -21,10 +21,11 @@ router.post(
   async (req: express.Request, res: express.Response) => {
     try {
       let workouts;
-      if (req.query.title)
+      if (req.query.title || req.query.tags)
         workouts = await workoutService.searchWorkouts(
           req.body,
-          req.query.title as string
+          req.query.title as string,
+          req.query.tags as string
         );
       else {
         workouts = await workoutService.getWorkouts(req.body);

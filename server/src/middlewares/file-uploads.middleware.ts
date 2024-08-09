@@ -8,7 +8,7 @@ export const registrationFileValidationMiddleware = (
   next: NextFunction
 ) => {
   if (+req.body.userRole === UserRoles.Coach) {
-    if (!req.files || !req.body.links) {
+    if (!req.files && !req.body.links) {
       return res.status(422).json({
         status: RESPONSE_STATUS.FAILED,
         data: {

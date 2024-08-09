@@ -5,7 +5,6 @@
   [isLoadingSubject]="isLoadingSubject"
   [workoutsSubject]="workoutsSubject"
   [allWorkouts]="allWorkouts"
-  [selectedTagsSubject]="selectedTagsSubject"
 ></app-home-search>
 <div class="workout-library__cards-flex-container d-flex">
   <ng-container *ngFor="let workout of filteredWorkouts">
@@ -31,7 +30,7 @@
     <button class="btn btn-large m-5" routerLink="/contributor/list">
       Visit Contributor Library
     </button>
-    
+
   </div>
 
   <div *ngIf="allWorkouts?.length !== 0 && filteredWorkouts?.length == 0" class="mb-10">

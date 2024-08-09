@@ -18,12 +18,24 @@ export class ExerciseService {
 
   public getList(
     queryParams: IQueryParams,
-    title: string | null = null
+    title: string | null = null,
+    tags: string | null = null
   ): Observable<IRequestResult<IExercise[]> | null> {
     const payload = this.buildPayload(queryParams, EXERCISE_FIELDS.exercises);
+    let url = PATH.EXERCISES.GET_LIST
+    if (title && tags) {
+      url += `?title=${title}&tags=${tags}`;
+    }
+    if (!title && tags) {
+      url += `?tags=${tags}`
+    }
+    if (title && !tags) {
+      url += `?title=${title}`
+    }
+
     return this.api
       .post(
-        `${PATH.EXERCISES.GET_LIST}${title ? `?title=${title}` : ''}`,
+        url,
         payload
       )
       .pipe(

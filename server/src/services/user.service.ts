@@ -155,9 +155,9 @@ export const updateUser = async (
     await db(TABLE.USER_SPECS)
       .where("user_id", "=", userId)
       .update({
-        weight: data?.weight == "" ? 0 : data.weight,
-        weight_goal: data?.weightGoal == "" ? 0 : data.weight,
-        date_of_birth: data?.birthDate ? new Date(data?.birthDate) : null,
+        weight: data?.weight || 0,
+        weight_goal: data?.weightGoal || 0,
+        date_of_birth: data?.birthDate == "null" || !data?.birthDate ? db.raw("DEFAULT") : new Date(data?.birthDate),
       });
   } catch (error) {
     throw new KnexValidationException(EXCEPTION.VALIDATION.UPDATE_FAILED);

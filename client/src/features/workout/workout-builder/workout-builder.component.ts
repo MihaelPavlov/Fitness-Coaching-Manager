@@ -26,6 +26,7 @@ export class WorkoutBuilderComponent implements OnInit {
   public hasTiming = false;
   public showExerciseFormPopup = false;
   public isLoading: boolean = false;
+  public showPauseBetweenSets: boolean = false;
 
   public tagsDropdownSettings = {
     singleSelection: false,
@@ -52,7 +53,7 @@ export class WorkoutBuilderComponent implements OnInit {
     imageUri: [null, [Validators.required]],
     tags: [[], [Validators.required]],
     numberOfSets: [0, [Validators.required]],
-    pauseBetweenSets: [],
+    pauseBetweenSets: [0],
     pauseBetweenExercises: ['', [Validators.required]],
     active: [0, [Validators.required]],
     private: [0, [Validators.required]],
@@ -92,15 +93,8 @@ export class WorkoutBuilderComponent implements OnInit {
       return;
     }
 
-    const pauseBetweenSetsControl =
-      this.createWorkoutForm.get('pauseBetweenSets');
-      
     const requestBody = {
       ...this.createWorkoutForm.value,
-      pauseBetweenSets:
-        pauseBetweenSetsControl && pauseBetweenSetsControl.value === null
-          ? 0
-          : pauseBetweenSetsControl!.value,
       tags: this.transformFormTags(),
     };
     console.log(requestBody);
@@ -149,6 +143,20 @@ export class WorkoutBuilderComponent implements OnInit {
       rank: 0,
       thumbUri: this.addExerciseForm.get('thumbUri')?.value || null,
     });
+  }
+
+  public onChangingSets(event: any) {
+    const pauseBetweenSetsControl = this.createWorkoutForm.get('pauseBetweenSets') as FormControl;
+
+    if (Number(event.target.value) > 1) {
+      this.showPauseBetweenSets = true;
+      pauseBetweenSetsControl.addValidators([Validators.required])
+    } else {
+      this.showPauseBetweenSets = false;
+      pauseBetweenSetsControl.removeValidators([Validators.required]);
+    }
+
+    pauseBetweenSetsControl.updateValueAndValidity();
   }
 
   public onImageUpload(event: Event): void {

@@ -275,10 +275,11 @@ export const removeWorkoutToUserWorkoutCollection = async (
     .del();
 };
 
-export const getUserWorkoutCollection = async (payload: QueryParams) => {
+export const getUserWorkoutCollection = async (payload: QueryParams, query?: string, tags?: string) => {
   let builder = new UserWorkoutsBuilder(payload);
+  let workouts = await builder.buildQuery();
 
-  return await builder.buildQuery();
+  return workouts;
 };
 
 const isContributorSubscribing = async (userId: number) => {

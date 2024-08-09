@@ -57,22 +57,28 @@ export class WorkoutCardComponent implements OnChanges {
       let showTagsCount = screenWidth > 700 ? 2 : 1;
       let truncateStringLength = screenWidth > 700 ? 10 : 17;
 
-      if (this.workout?.tags.length <= showTagsCount)
+      if (this.workout.tags && this.workout.tags.length <= showTagsCount)
         return (this.tags = this.workout.tags);
 
       let newTags = [];
 
-      for (let i = 0; i < showTagsCount; i++) {
-        let currentTag = this.workout.tags[i];
-        if (currentTag.name.length > truncateStringLength)
-          currentTag.name =
-            currentTag.name.substring(0, truncateStringLength - 2) + '...';
-        newTags.push(currentTag);
+      if (this.workout.tags) {
+        for (let i = 0; i < showTagsCount; i++) {
+          let currentTag = this.workout.tags[i];
+          if (currentTag.name.length > truncateStringLength)
+            currentTag.name =
+              currentTag.name.substring(0, truncateStringLength - 2) + '...';
+          newTags.push(currentTag);
+        }
       }
 
       return (this.tags = [
         ...newTags,
-        { name: `${this.workout.tags.length - showTagsCount}...` },
+        {
+          name: `${
+            (this.workout.tags ? this.workout.tags.length : 0) - showTagsCount
+          }...`,
+        },
       ]);
     });
   }

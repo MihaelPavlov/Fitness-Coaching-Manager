@@ -53,16 +53,6 @@ export class HomeSearchComponent implements OnInit {
     this.search();
   }
 
-  /* public search(): void {
-    const filtered = this.allWorkouts.filter((workout) => {
-      return workout.title
-        .toLowerCase()
-        .includes(this.searchValue.toLowerCase());
-    });
-
-    this.workoutsSubject?.next(filtered || []);
-  } */
-
   public search(): void {
     this.isLoadingSubject?.next(true);
     let queryParams: IQueryParams | null = null;

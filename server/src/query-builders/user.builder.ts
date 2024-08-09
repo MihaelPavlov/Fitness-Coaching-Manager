@@ -18,7 +18,7 @@ export class UserBuilder extends AbstractBuilder {
       password: "password",
       profilePicture: "profile_picture_url",
       country: "country",
-      language: "language",
+      userLanguages: "languages",
       phoneNumber: "phone_number",
       userRole: "user_role",
       visible: "visible",

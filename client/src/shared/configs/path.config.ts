@@ -38,4 +38,7 @@ export const PATH = {
     GET_EXERCISE: 'sessions/getExercise',
     FINISH_WORKOUT: 'sessions/finish/',
   },
+  LANGUAGES: {
+    GET_LANGUAGES: "languages/getList"
+  }
 };

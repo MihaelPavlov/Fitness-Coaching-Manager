@@ -269,20 +269,16 @@
         <label for="preferredLanguage" class="control__label"
           >Preferred Language</label
         >
-        <select
-          id="preferredLanguage"
-          name="preferredLanguage"
-          class="control w-100 d-block"
-          formControlName="language"
-        >
-          <option
-            class="control__option"
-            *ngFor="let option of optionArrays.preferredLanguage"
-            [value]="option"
-          >
-            {{ option }}
-          </option>
-        </select>
+        <ng-multiselect-dropdown
+          class="custom-dropdown dropdown"
+          placeholder="Languages"
+          [settings]="languagesDropdownSettings"
+          [data]="languages"
+          (onSelect)="onLanguageSelect($event)"
+          (onSelectAll)="onLanguageSelectAll($event)"
+          (onDeSelect)="onLanguageDeselect($event)"
+          (onDeSelectAll)="onLanguageDeselectAll()"
+        ></ng-multiselect-dropdown>
       </div>
     </div>
   </div>
@@ -377,20 +373,16 @@
         <label for="preferredLanguage" class="control__label"
           >Preferred Language</label
         >
-        <select
-          id="preferredLanguage"
-          name="preferredLanguage"
-          class="control w-100 d-block"
-          formControlName="language"
-        >
-          <option
-            class="control__option"
-            *ngFor="let option of optionArrays.preferredLanguage"
-            [value]="option"
-          >
-            {{ option }}
-          </option>
-        </select>
+        <ng-multiselect-dropdown
+          class="custom-dropdown dropdown"
+          placeholder="Languages"
+          [settings]="languagesDropdownSettings"
+          [data]="languages"
+          (onSelect)="onLanguageSelect($event)"
+          (onSelectAll)="onLanguageSelectAll($event)"
+          (onDeSelect)="onLanguageDeselect($event)"
+          (onDeSelectAll)="onLanguageDeselectAll()"
+        ></ng-multiselect-dropdown>
       </div>
       <div
         class="control__wrapper register-container__form__details-container__general-details__input-field"

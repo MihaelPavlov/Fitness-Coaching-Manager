@@ -14,4 +14,5 @@ export const TABLE = {
   USER_WORKOUT_COLLECTION: "user_workout_collection",
   CHATS: "chats",
   CHAT_MESSAGES: "chat_messages",
+  SUPPORTED_LANGUAGES: "supported_languages"
 };

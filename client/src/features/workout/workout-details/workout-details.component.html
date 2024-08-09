@@ -14,7 +14,7 @@
   <ng-container *ngFor="let exercise of exercises">
     <app-exercise-set-card
       [numberOfSets]="numberOfSets ?? 0"
-      (click)="navigateToDetails(exercise?.exerciseId || 0)"
+      (click)="navigateToDetails(exercise?.exerciseId || 0, exercise?.uid || 0)"
       [exercise]="exercise"
     ></app-exercise-set-card>
   </ng-container>

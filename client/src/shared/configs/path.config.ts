@@ -35,6 +35,7 @@ export const PATH = {
   },
   SESSIONS: {
     GET_EXERCISES: 'sessions/getExercises',
+    GET_EXERCISE: 'sessions/getExercise',
     FINISH_WORKOUT: 'sessions/finish/',
   },
 };

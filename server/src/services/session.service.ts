@@ -11,6 +11,13 @@ export const getSessionExercises = async (queryParams: QueryParams) => {
   return await mapSessionExercises(results);
 };
 
+export const getSessionExercise = async (queryParams: QueryParams) => {
+  const builder = new SessionExercisesBuilder(queryParams);
+  const result = await builder.buildQuery();
+
+  return result;
+}
+
 export const finishSession = async (userId: number, workoutId: number, data: Record<string, any>) => {
     await db(TABLE.USER_SESSION).insert({
         "workout_id": workoutId,

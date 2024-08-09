@@ -34,8 +34,8 @@ export class WorkoutDetailsComponent implements OnInit {
     })
   }
 
-  public navigateToDetails(exerciseId: number){
-    this.router.navigateByUrl("exercise/details/" + exerciseId);
+  public navigateToDetails(exerciseId: number, uid: number){
+    this.router.navigateByUrl("exercise/details/" + exerciseId + `/${uid}`);
   }
 
   public navigateToSession() {
@@ -80,6 +80,7 @@ export class WorkoutDetailsComponent implements OnInit {
   private fetchExercises(workoutId: any) {
     const queryParams: IQueryParams = {
       what: {
+        uid: 1,
         exerciseId: 1,
         rank: 1,
         description: 1,

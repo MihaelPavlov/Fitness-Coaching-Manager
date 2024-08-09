@@ -21,6 +21,15 @@ export class SessionService {
     )
   }
 
+  public getSessionExercise(
+    queryParams: IQueryParams
+  ): Observable<IRequestResult<ISessionExercise[]> | null> {
+    return this.apiService.post(
+      PATH.SESSIONS.GET_EXERCISE,
+      queryParams
+    )
+  }
+
   public finishSession(
     workoutId: number,
     body: Record<string, any>

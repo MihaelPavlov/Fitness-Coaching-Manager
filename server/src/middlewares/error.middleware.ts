@@ -37,7 +37,7 @@ export const errorHandler = (
     const internalError = new InternalServerException();
     return res.status(internalError.code).send({
       status: RESPONSE_STATUS.FAILED,
-      data: { message: internalError.message },
+      data: { message: error.message },
     });
   }
 };

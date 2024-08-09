@@ -26,6 +26,22 @@ router.post(
 )
 
 router.post(
+    PATH.SESSIONS.GET_EXERCISE,
+    async (req: express.Request, res: express.Response, next: NextFunction) => {
+        try {
+            const exercise = await sessionService.getSessionExercise(req.body);
+
+            res.status(200).json({
+                status: RESPONSE_STATUS.SUCCESS,
+                data: exercise
+            })
+        } catch (err) {
+            next(err)
+        }
+    }
+)
+
+router.post(
     PATH.SESSIONS.FINISH_SESSION,
     isAuth,
     inputValidationMiddleware(finishSessionValidators),

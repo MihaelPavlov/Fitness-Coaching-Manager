@@ -80,13 +80,26 @@ export const createWorkoutTags = async (data: Record<string, any>) => {
 export const getWorkoutTags = async (tagData: any) =>
   await new WorkoutTagsBuilder(tagData).buildQuery();
 
-export const searchWorkouts = async (payload: QueryParams, query: string) => {
+export const searchWorkouts = async (payload: QueryParams, query: string, tags?: string) => {
   let workouts = await new WorkoutBuilder(payload).buildQuery();
 
-  workouts = workouts.filter((workout: any) => {
-    if (workout.title.toLowerCase().includes(query.toLowerCase())) return true;
-    return false;
-  });
+  if (query) {
+    workouts = workouts.filter((workout: any) => {
+      if (workout.title.toLowerCase().includes(query.toLowerCase())) return true;
+      return false;
+    });
+  }
+
+  if (tags) {
+    const tagsArr = tags.split(",");
+    workouts = workouts.filter((workout: any) => {
+      let including = 0;
+      tagsArr.forEach(tag => {
+        if (workout?.tags?.split(",").includes(tag)) including++;
+      })
+      return including > 0;
+    })
+  }
 
   workouts = await mapWorkouts(workouts);
 

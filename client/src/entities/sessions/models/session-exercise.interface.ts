@@ -1,4 +1,5 @@
 export interface ISessionExercise {
+  uid?: number;
   exerciseId: number;
   rank: number;
   description: string;

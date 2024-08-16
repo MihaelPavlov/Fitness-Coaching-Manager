@@ -29,7 +29,7 @@ export const createUserValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "country")
         }
     },
-    language: {
+    languages: {
         in: ["body"],
         exists: {
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "language")
@@ -97,7 +97,7 @@ export const createCoachValidators: ValidationChain[] = checkSchema({
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "country")
         }
     },
-    language: {
+    languages: {
         in: ["body"],
         exists: {
             errorMessage: formatString(EXCEPTION.VALIDATION.REQUIRED_FIELD, "language")

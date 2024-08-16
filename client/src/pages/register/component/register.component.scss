@@ -282,3 +282,17 @@
   z-index: 21000;
   background-color: #ECEEF3;
 }
+
+.dropdown {
+  display: block;
+  border-top: transparent;
+  border-left: transparent;
+  border-right: transparent;
+  font-size: 0.8rem;
+  width: 16rem;
+  height: 2.5rem;
+  margin: 0.1rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0.4rem;
+  color: palette.$main-blue-darker-color;
+}

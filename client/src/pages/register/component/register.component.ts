@@ -17,6 +17,9 @@ import { GenderType } from '../../../shared/enums/gender-list.enum';
 import { FitnessLevels } from '../../../shared/enums/fitness-levels.enum';
 import { AuthService } from '../../../entities/users/services/auth.service';
 import { toFormData } from '../../../shared/utils/formTransformer';
+import { IQueryParams } from '../../../entities/models/query-params.interface';
+import { LanguageService } from '../../../entities/languages/services/language.service';
+import { ILanguage } from '../../../entities/languages/models/language.interface';
 
 @Component({
   selector: 'app-register',
@@ -38,13 +41,23 @@ export class RegisterComponent implements OnInit {
   public attachedDocuments: Array<number> = [];
   public attachedLinks: Array<number> = [];
 
+  public languages?: any;
+  public languagesDropdownSettings = {
+    singleSelection: false,
+    idField: 'uid',
+    textField: 'language',
+    selectAllText: 'Select All',
+    unSelectAllText: 'UnSelect All',
+    itemsShowLimit: 1,
+  };
+
   private userRole!: number;
 
   protected isLoading: boolean = false;
   protected hasRegisterError: boolean = false;
   protected registerErrorMsg: string = '';
 
-  protected registerForm = this.fb.group({
+  public registerForm = this.fb.group({
     userRole: [this.userRole, [Validators.required]],
     username: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
@@ -60,7 +73,7 @@ export class RegisterComponent implements OnInit {
     fitnessLevel: [optionArrays.fitnessLevel[0], [Validators.required]],
     country: [optionArrays.countryList[0], [Validators.required]],
     sex: [optionArrays.genderList[0], [Validators.required]],
-    language: [optionArrays.preferredLanguage[0], [Validators.required]],
+    languages: [[], [Validators.required]],
     firstName: ['', [Validators.required]],
     lastName: ['', [Validators.required]],
     phoneNumber: ['', [Validators.required]],
@@ -72,6 +85,7 @@ export class RegisterComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
+    private readonly languageService: LanguageService,
     private readonly router: Router
   ) {}
 
@@ -87,6 +101,7 @@ export class RegisterComponent implements OnInit {
         );
       this.updateFormValidators();
     });
+    this.fetchLanguages();
   }
 
   public generalDetailsVisibility(): void {
@@ -124,7 +139,7 @@ export class RegisterComponent implements OnInit {
       currentDocuments.removeAt(index);
     }
   }
-  
+
   public removeAttachLinkField(index: number): void {
     if (this.attachedLinks.length > index) {
       this.attachedLinks.splice(index, 1);
@@ -168,6 +183,7 @@ export class RegisterComponent implements OnInit {
     const requestBody = {
       ...this.registerForm.value,
       password: this.registerForm.value.passGroup?.password,
+      languages: this.mapRegisterLanguages()
     };
 
     delete requestBody['passGroup'];
@@ -184,6 +200,32 @@ export class RegisterComponent implements OnInit {
         this.hasRegisterError = true;
       },
     });
+  }
+
+  public onLanguageSelect(item: any): void {
+    const languages = this.registerForm.get('languages') as FormControl;
+    languages.setValue([...languages.value, item]);
+  }
+
+  public onLanguageSelectAll(items: any): void {
+    const languages = this.registerForm.get('languages') as FormControl;
+    languages.setValue(items);
+  }
+
+  public onLanguageDeselect(item: any): void {
+    const languages = this.registerForm.get('languages') as FormControl;
+    languages.setValue(languages.value.filter((el: any) => el.uid != item.uid));
+  }
+
+  public onLanguageDeselectAll(): void {
+    const languages = this.registerForm.get('languages') as FormControl;
+    languages.setValue([]);
+  }
+
+  private mapRegisterLanguages() {
+    const languagesArr = this.registerForm.get('languages') as FormControl;
+
+    return languagesArr.value?.map((el: any) => el.uid)?.join(",");
   }
 
   private updateFormValidators(): void {
@@ -226,5 +268,22 @@ export class RegisterComponent implements OnInit {
         ? null
         : { matchPasswordsValidator: true };
     };
+  }
+
+  private fetchLanguages() {
+    const queryParams: IQueryParams = {
+      what: {
+        uid: 1,
+        language: 1
+      }
+    }
+
+    this.languageService.getLanguages(queryParams).subscribe({
+      next: (res) => {
+        console.log("lang", res?.data);
+        this.languages = res?.data;
+      },
+      error: (err) => console.log("languages", err)
+    })
   }
 }

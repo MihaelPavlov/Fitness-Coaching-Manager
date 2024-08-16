@@ -7,8 +7,8 @@ export async function up(knex: Knex): Promise<void> {
         table.increments("id").primary().unsigned().unique();
         table.integer("user_id").unsigned()
         table.foreign("user_id").references("users.id");
-        table.tinyint("weight").unsigned().notNullable().defaultTo(0);
-        table.tinyint("weight_goal").unsigned().notNullable().defaultTo(0);
+        table.integer("weight").unsigned().notNullable().defaultTo(0);
+        table.integer("weight_goal").unsigned().notNullable().defaultTo(0);
         table.tinyint("height").unsigned().notNullable().defaultTo(0);
         table.tinyint("bmi").unsigned().notNullable().defaultTo(0);
         table.tinyint("total_calorie_burned").unsigned().notNullable().defaultTo(0);

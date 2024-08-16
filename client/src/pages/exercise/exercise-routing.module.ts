@@ -15,6 +15,10 @@ const routes: Routes = [
     component: ExerciseDetailsComponent,
   },
   {
+    path: 'details/:exerciseId/:sessionExerciseId',
+    component: ExerciseDetailsComponent,
+  },
+  {
     path: 'create',
     canActivate: [CoachOnlyGuard],
     component: ExerciseBuidlerComponent,

@@ -118,13 +118,28 @@ export const updateExercise = async (
     date_modified: currentDate,
   });
 };
-export const searchExercises = async (payload: QueryParams, query: string) => {
-  const exercises = await new ExerciseBuilder(payload).buildQuery();
+export const searchExercises = async (payload: QueryParams, query: string, tags?: string) => {
+  let exercises = await new ExerciseBuilder(payload).buildQuery();
 
-  return exercises.filter((exercise: any) => {
-    if (exercise.title.toLowerCase().includes(query.toLowerCase())) return true;
-    return false;
-  });
+  if (query) {
+    exercises = exercises.filter((exercise: any) => {
+      if (exercise.title.toLowerCase().includes(query.toLowerCase())) return true;
+      return false;
+    });
+  }
+
+  if (tags) {
+    const tagsArr = tags.split(",");
+    exercises = exercises.filter((exercise: any) => {
+      let including = 0;
+      tagsArr.forEach(tag => {
+        if (exercise?.tagIds?.split(",").includes(tag)) including++;
+      })
+      return including > 0;
+    })
+  }
+
+  return exercises;
 };
 
 export const getTags = async (tagData: any) =>

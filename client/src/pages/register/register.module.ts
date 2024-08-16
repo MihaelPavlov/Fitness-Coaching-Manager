@@ -6,6 +6,7 @@ import { RegisterRoutingModule } from './register-routing.module';
 import { RouterModule } from '@angular/router';
 import { ErrorModule } from '../../shared/components/error/error.module';
 import { LoaderModule } from '../../shared/components/loader/loader.module';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { LoaderModule } from '../../shared/components/loader/loader.module';
     RegisterRoutingModule,
     RouterModule,
     ErrorModule,
-    LoaderModule
+    LoaderModule,
+    NgMultiSelectDropDownModule
   ],
   exports: [RegisterComponent]
 })

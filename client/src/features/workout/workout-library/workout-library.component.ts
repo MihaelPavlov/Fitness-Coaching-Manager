@@ -23,7 +23,6 @@ export class WorkoutLibraryComponent implements OnInit, OnDestroy {
   public tags?: IWorkoutTag[];
   public userRoles = UserRoles;
   public currentRole = this.userService.getUser?.role;
-  public selectedTagsSubject = new BehaviorSubject<IWorkoutTag[]>([]);
 
   public isLoadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading: boolean = false;
@@ -41,23 +40,6 @@ export class WorkoutLibraryComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.selectedTagsSubject.asObservable().subscribe((selectedTags) => {
-      this.itemsSubject.asObservable().subscribe((workouts) => {
-        this.items$ = of(
-          workouts.filter((workout) => {
-            let result = false;
-            if (selectedTags.length == 0) return true;
-            selectedTags.forEach((selectedTag) => {
-              workout.tags.forEach((tag) => {
-                if (tag.name == selectedTag.name) result = true;
-              });
-            });
-            return result;
-          })
-        );
-      });
-    });
-
     this.isLoadingSubject
       .asObservable()
       .subscribe((value) => (this.isLoading = value));

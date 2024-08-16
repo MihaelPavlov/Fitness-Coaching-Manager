@@ -125,10 +125,11 @@ router.post(
   async (req: any, res: express.Response) => {
     try {
       let exercises;
-      if (req.query.title)
+      if (req.query.title || req.query.tags)
         exercises = await exerciseService.searchExercises(
           req.body,
-          req.query.title as string
+          req.query.title as string,
+          req.query.tags as string
         );
       else exercises = await exerciseService.executeExerciseBuilder(req.body);
 

@@ -34,6 +34,7 @@ export const PATH = {
   },
   SESSIONS: {
     GET_EXERCISES: "/getExercises",
+    GET_EXERCISE: "/getExercise",
     FINISH_SESSION: "/finish/:workoutId",
   },
   CHAT: {

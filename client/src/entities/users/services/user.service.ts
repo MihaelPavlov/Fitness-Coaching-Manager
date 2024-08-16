@@ -108,7 +108,7 @@ export class UserService {
   }
 
   public getUserWorkoutList(
-    queryParams: IQueryParams
+    queryParams: IQueryParams,
   ): Observable<IRequestResult<IUserWorkout[]> | null> {
     return this.apiService.post<IRequestResult<IUserWorkout[]> | null>(
       PATH.USERS.GET_USER_COLLECTION,

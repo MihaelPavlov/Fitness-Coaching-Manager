@@ -16,7 +16,7 @@ export class ExerciseSearchComponent implements OnInit {
   @Input() exercisesSubject?: BehaviorSubject<IExercise[]>;
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;
   @Input() tags?: IExerciseTag[];
-  @Input() selectedTagsSubject?: BehaviorSubject<IExerciseTag[]>;
+  public selectedTagsSubject = new BehaviorSubject<IExerciseTag[]>([]);
 
   public selectedTags?: IExerciseTag[];
   public searchValue: string = "";
@@ -42,7 +42,8 @@ export class ExerciseSearchComponent implements OnInit {
     } else {
       this.selectedTags = this.selectedTags?.filter((selectedTag) => selectedTag.uid !== tag.uid);
     }
-    this.selectedTagsSubject?.next(this.selectedTags || [])
+    this.selectedTagsSubject?.next(this.selectedTags || []);
+    this.search();
   }
 
   public search() {
@@ -59,7 +60,7 @@ export class ExerciseSearchComponent implements OnInit {
       },
     }
 
-    this.exerciseService.getList(queryParams, this.searchValue).subscribe({
+    this.exerciseService.getList(queryParams, this.searchValue, this.mapSelectedTags()).subscribe({
       next: (res) => {
         this.exercisesSubject?.next(res?.data || []);
         this.isLoadingSubject?.next(false);
@@ -69,6 +70,10 @@ export class ExerciseSearchComponent implements OnInit {
         this.isLoadingSubject?.next(false);
       }
     })
+  }
+
+  private mapSelectedTags() {
+    return this.selectedTags?.map((el: any) => el.uid).join(",") || null;
   }
 
   public filterHandler(): void {

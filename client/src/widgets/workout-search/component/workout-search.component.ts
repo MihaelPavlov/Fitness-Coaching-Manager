@@ -15,8 +15,8 @@ export class WorkoutSearchComponent implements OnInit {
   @Input() workoutsSubject?: BehaviorSubject<IWorkout[]>;
   @Input() isLoadingSubject?: BehaviorSubject<boolean>;
   @Input() tags?: IWorkoutTag[];
-  @Input() selectedTagsSubject?: BehaviorSubject<IWorkoutTag[]>;
 
+  public selectedTagsSubject = new BehaviorSubject<IWorkoutTag[]>([])
   public selectedTags?: IWorkoutTag[];
   public searchValue: string = '';
 
@@ -43,7 +43,12 @@ export class WorkoutSearchComponent implements OnInit {
         (selectedTag) => selectedTag.uid !== tag.uid
       );
     }
-    this.selectedTagsSubject?.next(this.selectedTags || []);
+    this.search();
+  }
+
+  public filterHandler(): void {
+    this.toggleFilterForm = !this.toggleFilterForm;
+    this.selectedTagsSubject?.next([]);
   }
 
   public search(): void {
@@ -60,7 +65,7 @@ export class WorkoutSearchComponent implements OnInit {
     };
 
     this.workoutService
-      .getWorkouts(queryParams, this.searchValue)
+      .getWorkouts(queryParams, this.searchValue, this.mapSelectedTags())
       .subscribe({
         next: (res) => {
           this.workoutsSubject?.next(res?.data || []);
@@ -72,8 +77,7 @@ export class WorkoutSearchComponent implements OnInit {
       });
   }
 
-  public filterHandler(): void {
-    this.toggleFilterForm = !this.toggleFilterForm;
-    this.selectedTagsSubject?.next([]);
+  private mapSelectedTags() {
+    return this.selectedTags?.map((el: any) => el.uid).join(",") || null;
   }
 }

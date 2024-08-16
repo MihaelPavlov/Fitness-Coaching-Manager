@@ -9,6 +9,7 @@ import { UserService } from '../../../entities/users/services/user.service';
 import { UserInfo } from '../../../entities/models/user.interface';
 import { SessionService } from '../../../entities/sessions/services/session.service';
 import { environment } from '../../../shared/environments/environment.development';
+import { IQueryParams } from '../../../entities/models/query-params.interface';
 @Component({
   selector: 'app-exercise-details',
   templateUrl: './exercise-details.component.html',
@@ -17,7 +18,8 @@ import { environment } from '../../../shared/environments/environment.developmen
 export class ExerciseDetailsComponent implements OnInit {
   @Input() showBackBtn: boolean = false;
 
-  public exerciseDetails: IExercise | undefined;
+  public exerciseDetails?: IExercise;
+  public sessionExerciseDescription?: string;
   public tagIds: number[] | undefined;
   public tags: IExerciseTag[] | null = [];
   public fullMediaPath: string | undefined;
@@ -37,6 +39,7 @@ export class ExerciseDetailsComponent implements OnInit {
 
   public ngOnInit(): void {
     const id: number = Number(this.route.snapshot.paramMap.get('exerciseId'));
+    const sessionExerciseId: number = Number(this.route.snapshot.paramMap.get('sessionExerciseId'));
     this.exerciseService
       .getDetails({
         what: {
@@ -66,6 +69,8 @@ export class ExerciseDetailsComponent implements OnInit {
           if (result?.data && result.data.length > 0) {
             this.exerciseDetails = result.data[0];
             console.log(result.data);
+
+            if (sessionExerciseId) this.fetchSessionExerciseDescription(sessionExerciseId)
 
             this.fullMediaPath =
               environment.files + this.exerciseDetails.thumbUri;
@@ -122,6 +127,31 @@ export class ExerciseDetailsComponent implements OnInit {
 
   public navigateToEdit() {
     this.router.navigateByUrl(`exercise/edit/${this.exerciseDetails?.uid}`);
+  }
+
+  private fetchSessionExerciseDescription(sessionExerciseId: number) {
+    const queryParams: IQueryParams = {
+      what: {
+        description: 1
+      },
+      condition: {
+        type: "AND",
+        items: [
+          {
+            field: "uid",
+            operation: "EQ",
+            value: sessionExerciseId
+          }
+        ]
+      }
+    }
+
+    this.sessionService.getSessionExercise(queryParams).subscribe({
+      next: (res) => {
+        if (res?.data[0]?.description && res?.data[0]?.description !== "") this.sessionExerciseDescription = res?.data[0]?.description;
+      },
+      error: (err) => console.log(err)
+    })
   }
 
   private fetchUserProfile(): void {

@@ -51,7 +51,7 @@ export const registerUser = async (
         password: await generatePasswordHash(data.password),
         country: data.country,
         phone_number: data?.phoneNumber || null,
-        language: data.language,
+        languages: data.languages,
         profile_picture_url:
           "https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg",
       })
@@ -155,9 +155,9 @@ export const updateUser = async (
     await db(TABLE.USER_SPECS)
       .where("user_id", "=", userId)
       .update({
-        weight: data?.weight == "" ? 0 : data.weight,
-        weight_goal: data?.weightGoal == "" ? 0 : data.weight,
-        date_of_birth: data?.birthDate ? new Date(data?.birthDate) : null,
+        weight: data?.weight || 0,
+        weight_goal: data?.weightGoal || 0,
+        date_of_birth: data?.birthDate == "null" || !data?.birthDate ? db.raw("DEFAULT") : new Date(data?.birthDate),
       });
   } catch (error) {
     throw new KnexValidationException(EXCEPTION.VALIDATION.UPDATE_FAILED);
@@ -275,10 +275,11 @@ export const removeWorkoutToUserWorkoutCollection = async (
     .del();
 };
 
-export const getUserWorkoutCollection = async (payload: QueryParams) => {
+export const getUserWorkoutCollection = async (payload: QueryParams, query?: string, tags?: string) => {
   let builder = new UserWorkoutsBuilder(payload);
+  let workouts = await builder.buildQuery();
 
-  return await builder.buildQuery();
+  return workouts;
 };
 
 const isContributorSubscribing = async (userId: number) => {

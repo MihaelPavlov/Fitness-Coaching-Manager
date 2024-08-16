@@ -5,6 +5,8 @@ let onlineUsers = []
 io.on("connection", (socket) => {
     console.log("new connection", socket.id);
 
+    io.emit("getOnlineUsers", onlineUsers)
+
     socket.on("addNewUser", (userId) => {
         !onlineUsers.some((user) => user.userId === userId) &&
             onlineUsers.push({
@@ -20,6 +22,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log("start disconnect ")
         onlineUsers = onlineUsers.filter(user => user.socketId !== socket.id)
+        console.log("online users ----> ", onlineUsers);
 
         io.emit("getOnlineUsers", onlineUsers)
     });

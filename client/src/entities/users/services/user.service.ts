@@ -69,12 +69,12 @@ export class UserService {
         contributorId: res.data.contributorId,
         role: res.data.role,
       });
-      this.isAuthSubject$.next(true);
+      this.isAuthSubject$.next(true);10
       this.socketService.emitEvent('addNewUser', res.data.id);
+      console.log('ADD NEW USER TO CHAT ID ->', res.data.id);
       if (firstInit) {
         this.router.navigate(['/home']);
       }
-      //TODO: ON LOGOUT we need to disconnect from the socket
     });
   }
 

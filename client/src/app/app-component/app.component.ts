@@ -19,6 +19,6 @@ export class AppComponent {
   }
   @HostListener('window:onbeforeunload', ['$event'])
   public cleanup(): void {
-    this.socketService.disconnect();
+    // this.socketService.disconnect();
   }
 }

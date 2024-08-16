@@ -18,6 +18,7 @@ import { IQueryParams } from '../../../entities/models/query-params.interface';
 import { IUserDetails } from '../../../entities/users/models/user-details.interface';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../shared/environments/environment.development';
+import { AuthService } from '../../../entities/users/services/auth.service';
 
 export interface GroupedChatMessage {
   senderId: number;
@@ -51,7 +52,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   });
   public navigateWithId: number | null = null;
   public currentChatUser: IUserDetails | null = null;
-  public socketOnlineUser!: Observable<any>;
+  public socketOnlineUser: Observable<any> = this.socketService.onlineUsers$;
   constructor(
     private readonly chatService: ChatService,
     private readonly cdRef: ChangeDetectorRef,
@@ -59,7 +60,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     private readonly userService: UserService,
     private readonly activeRouter: ActivatedRoute
   ) {
-    
+    this.fetchUserChats();
+
     this.activeRouter.params.subscribe((params) => {
       if (params['id']) {
         this.navigateWithId = params['id'];
@@ -68,13 +70,13 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
       }
     });
 
-    this.socketOnlineUser = this.socketService.onlineUsers$;
     this.socketOnlineUser.subscribe((y: any) => {
+      console.log("new online user")
       this.fetchUserChats();
     });
 
     this.socketService.socket.on('getMessage', (message: any) => {
-      if (this.currentChat.id !== message.chatId) return;
+      if (!this.currentChat || this.currentChat.id !== message.chatId) return;
       const groups = this.currentChatMessagesSubject$.value;
 
       let currentGroup2: GroupedChatMessage | null | undefined = groups.pop();
@@ -126,7 +128,6 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
   public ngOnInit(): void {
     this.checkScreenSize();
     document.querySelector('.main-page')?.classList.add('chat-active');
-    this.fetchUserChats();
   }
 
   private fetchUserChats(): void {
@@ -288,6 +289,8 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
             ...uniqueUsers,
           ];
         }
+
+        this.cdRef.detectChanges();
       });
 
       this.uniqueUserIds.push(...currentUniqueUserIds);

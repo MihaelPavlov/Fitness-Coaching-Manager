@@ -12,6 +12,7 @@ export class AppLayoutComponent {
   constructor(private userService: UserService) {}
 
   public ngOnInit(): void {
+    
     this.userService.fetchUserInfo();
   }
 }

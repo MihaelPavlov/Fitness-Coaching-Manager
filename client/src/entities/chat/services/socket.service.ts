@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SocketService {
-  public readonly socket: Socket;
+  public socket: Socket = io('http://localhost:3500');
   private onlineUsersSubject$: BehaviorSubject<any> = new BehaviorSubject<any>(
     []
   );
@@ -14,7 +14,14 @@ export class SocketService {
     this.onlineUsersSubject$.asObservable();
 
   constructor() {
-    this.socket = io('http://localhost:3500');
+    this.socket.connect();
+    this.socket.on('getOnlineUsers', (x) => {
+      this.onlineUsersSubject$.next(x);
+    });
+  }
+
+  connect(){
+    this.socket.connect();
     this.socket.on('getOnlineUsers', (x) => {
       this.onlineUsersSubject$.next(x);
     });

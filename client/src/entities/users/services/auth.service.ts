@@ -1,15 +1,20 @@
-import { map, Observable } from "rxjs";
-import { PATH } from "../../../shared/configs/path.config";
-import { RestApiService } from "../../../shared/services/rest-api.service";
-import { UserService } from "./user.service";
-import { Injectable } from "@angular/core";
-import { HttpHeaders } from "@angular/common/http";
+import { map, Observable } from 'rxjs';
+import { PATH } from '../../../shared/configs/path.config';
+import { RestApiService } from '../../../shared/services/rest-api.service';
+import { UserService } from './user.service';
+import { Injectable } from '@angular/core';
+import { HttpHeaders } from '@angular/common/http';
+import { SocketService } from '../../chat/services/socket.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private readonly apiService: RestApiService, private readonly userService: UserService) {}
+  constructor(
+    private readonly apiService: RestApiService,
+    private readonly userService: UserService,
+    private readonly sockerService: SocketService
+  ) {}
 
   public login(email: string, password: string): Observable<any> {
     return this.apiService.post(PATH.USERS.LOGIN, { email, password }).pipe(
@@ -18,7 +23,7 @@ export class AuthService {
           response.data.accessToken,
           response.data.refreshToken
         );
-
+        this.sockerService.connect()
         return response;
       })
     );
@@ -40,13 +45,14 @@ export class AuthService {
   }
 
   public logout(): Observable<any> {
+    this.sockerService.disconnect();
     return this.apiService.post(PATH.USERS.LOGOUT, {}).pipe(
       map((response: any) => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         return response;
       })
-    )
+    );
   }
 
   public createAuthHeaders(): HttpHeaders {
